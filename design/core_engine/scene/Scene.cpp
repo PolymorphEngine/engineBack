@@ -5,4 +5,14 @@
 ** header for Scene.c
 */
 
-#include "engine/scene/Scene.hpp"
+#include "Scene.hpp"
+
+void Polymorph::Scene::updateComponents()
+{
+    // TODO: determine if an order is needed to update Components
+    for (auto &c: _components)
+    {
+        if (c->gameObject->isActive() && c->enabled)
+            c->update();
+    }
+}

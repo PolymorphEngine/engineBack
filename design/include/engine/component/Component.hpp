@@ -31,6 +31,9 @@ namespace Polymorph
     public:
         Component(Entity entity, Engine game, XmlComponent data);
         Polymorph::Entity gameObject;
+
+        virtual void update() = 0;
+        virtual void start() = 0;
     };
 }
 

@@ -15,14 +15,21 @@
 namespace Polymorph
 {
     namespace Config{class XmlScene{};}
-    class Entity{};
-    class Component{};
+    class Entity{
+    public:
+        bool isActive();
+    };
+    class Component{
+    public:
+        bool enabled;
+        std::shared_ptr<Entity> gameObject;
+        virtual void update() = 0;
+    };
     class Engine{};
 
     class Scene
     {
     public:
-        Scene(Config::XmlScene data, Engine game);
         using SceneId = std::size_t;
         inline SceneId getSceneId()
         {
@@ -30,6 +37,8 @@ namespace Polymorph
             ++lastId;
             return lastId;
         }
+
+        Scene(Config::XmlScene data, Engine game);
 
     private:
         std::vector<std::unique_ptr<Entity>> _entities;
