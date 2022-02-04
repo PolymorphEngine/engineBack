@@ -15,24 +15,13 @@
 
 namespace Polymorph
 {
+    typedef size_t SceneId;
     namespace Config{class XmlEngine{};}
-    class Entity{};
-    class Component{};
-    class Scene{
-    public:
-        using SceneId = std::size_t;
-        void updateComponents();
-    };
-    class IPolymorphDisplay{
-    public:
-        virtual bool isRunning();
-        virtual void clearDisplay();
-        virtual void draw();
-    };
-    class PolymorphEvents{
-    public:
-       void storeEvents();
-    };
+    class Entity;
+    class Component;
+    class Scene;
+    class IPolymorphDisplay;
+    class PolymorphEvents;
 
     class Engine
     {
@@ -42,10 +31,10 @@ namespace Polymorph
     private:
         std::vector<std::unique_ptr<Scene>> _scenes;
         Config::XmlEngine _data;
-        std::shared_ptr<Scene> _actual;
-        Scene::SceneId _firstScene;
-        IPolymorphDisplay _display;
-        PolymorphEvents _event;
+        Scene& _actual;
+        SceneId _firstScene;
+        IPolymorphDisplay& _display;
+        PolymorphEvents& _event;
 
 
     public:
