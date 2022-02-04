@@ -5,9 +5,9 @@
 ** header for Component.c
 */
 
-#include "Component.hpp"
-#include "Entity.hpp"
-#include "XmlComponent.hpp"
+#include "engine/component/Component.hpp"
+#include "engine/entity/Entity.hpp"
+#include "engine/config/XmlComponent.hpp"
 
 Polymorph::Component::Component(Polymorph::Entity entity,
 Polymorph::Engine game,

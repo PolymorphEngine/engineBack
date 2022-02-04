@@ -8,9 +8,8 @@
 #ifndef ENGINE_XMLCOMPONENT_HPP
 #define ENGINE_XMLCOMPONENT_HPP
 
-namespace Polymorph
+namespace Polymorph::Config
 {
-
     class XmlComponent
     {
 
