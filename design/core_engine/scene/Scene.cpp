@@ -16,3 +16,18 @@ void Polymorph::Scene::updateComponents()
             c->update();
     }
 }
+
+void Polymorph::Scene::initScene()
+{
+    // TODO: determine if an order is needed to start Components
+    for (auto &c: _components)
+    {
+        if (c->gameObject->isActive() && c->enabled)
+            c->start();
+    }
+}
+
+void Polymorph::Scene::loadScene()
+{
+
+}

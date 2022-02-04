@@ -24,6 +24,7 @@ namespace Polymorph
         bool enabled;
         std::shared_ptr<Entity> gameObject;
         virtual void update() = 0;
+        virtual void start() = 0;
     };
     class Engine{};
 
@@ -48,6 +49,8 @@ namespace Polymorph
 
     public:
         void updateComponents();
+        void loadScene();
+        void initScene();
 
     };
 }
