@@ -5,13 +5,23 @@
 ** header for Component.c
 */
 
-#include "engine/component/Component.hpp"
-#include "engine/entity/Entity.hpp"
-#include "engine/config/XmlComponent.hpp"
 
-Polymorph::Component::Component(Polymorph::Entity entity,
-Polymorph::Engine game,
-Polymorph::XmlComponent data)
+#include "Component.hpp"
+
+void Polymorph::Component::setActive(bool active)
 {
-
+    gameObject.setActive(active);
 }
+
+template<typename T>
+Polymorph::safe_ptr<T> Polymorph::Component::GetComponent()
+{
+    return gameObject.GetComponent<T>();
+}
+
+template<typename T>
+Polymorph::safe_ptr<T> Polymorph::Component::AddComponent()
+{
+    return gameObject.AddComponent<T>();
+}
+

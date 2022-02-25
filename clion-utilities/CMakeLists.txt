@@ -4,18 +4,20 @@ project(Engine)
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(
-        PolymorphEngine/design/include
-        PolymorphEngine/design/include/engine
-        PolymorphEngine/design/include/engine/component
-        PolymorphEngine/design/include/engine/entity
-        PolymorphEngine/design/include/engine/config
-        PolymorphEngine/design/include/engine/scene
+        ../include
+        ../include/engine
+        ../include/engine/component
+        ../include/engine/entity
+        ../include/engine/config
+        ../include/engine/scene
+        ../include/engine/Utilities
+        ../include/engine/Utilities/Types
         )
 
-file(GLOB_RECURSE DesignSRC PolymorphEngine/design/*.cpp)
-file(GLOB_RECURSE DesignICL PolymorphEngine/design/*.hpp)
+file(GLOB_RECURSE DesignSRC ../design/*.cpp)
+file(GLOB_RECURSE DesignICL ../include/*.hpp)
 
-add_executable(Engine
+add_executable(EngineDesign
         ${DesignSRC}
         ${DesignICL}
-        PolymorphEngine/design/include/engine/IPolymorphDisplay.hpp PolymorphEngine/design/include/engine/IPolymorphEvent.hpp)
+        )
