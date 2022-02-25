@@ -10,13 +10,13 @@
 
 namespace Polymorph
 {
-    class Engine{};
-    class Entity{};
-    class Component{};
+    class Engine;
+    class Entity;
+    class Component;
     namespace Config
     {
-        class XmlEntity{};
-        class XmlComponent{};
+        class XmlEntity;
+        class XmlComponent;
     }
 }
 
