@@ -7,41 +7,56 @@
 
 #include "engine/config/XmlEntity.hpp"
 #include "default/TransformComponent.hpp"
+#include "Entity.hpp"
 
 namespace Polymorph
 {
-    std::shared_ptr<Entity> Polymorph::Config::XmlEntity::makeInstance(std::shared_ptr<Entity> &parent)
+    std::shared_ptr<Entity> Config::XmlEntity::makeInstance()
     {
-        std::shared_ptr<Entity> e(new Entity(*this, parent));
+        std::shared_ptr<Entity> e(new Entity(*this, this->_engine));
 
         for (auto &c: _components)
         {
             std::string t = c->getType();
             (*e).addComponent(t, *c);
         }
-        e->transform = e->GetComponent<TransformComponent>();
-        if (parent != nullptr)
-            e->transform->SetParent(parent->transform);
-
-        for (auto &child: _children)
-            std::shared_ptr<Entity> child_entity = child->makeInstance(e);
-
-
         return e;
     }
 
-    std::shared_ptr<Entity> Config::XmlEntity::makeInstance()
+    Config::XmlEntity::XmlEntity(std::shared_ptr<XmlNode> node,
+                                 std::shared_ptr<Engine> engine)
     {
-        std::shared_ptr<Entity> e(new Entity(*this));
+        this->_node = node;
+        this->_engine = engine;
+    }
 
-        for (auto &c: _components)
-        {
-            std::string t = c->getType();
-            (*e).addComponent(t, *c);
-        }
-        e->transform = e->GetComponent<TransformComponent>();
-        for (auto &child: _children)
-            std::shared_ptr<Entity> child_entity = child->makeInstance(e);
-        return e;
+    std::string &Config::XmlEntity::getName() const
+    {
+        //TODO: fetch name from conf
+        throw std::runtime_error("XmlEntity::getName(): Not yet implemented");
+    }
+
+    bool Config::XmlEntity::isActive() const
+    {
+        //TODO: fetch active state from conf
+        throw std::runtime_error("XmlEntity::isActive(): Not yet implemented");
+    }
+
+    std::string &Config::XmlEntity::getId() const
+    {
+        //TODO: fetch id from conf
+        throw std::runtime_error("XmlEntity::getId(): Not yet implemented");
+    }
+
+    std::vector<std::string> Config::XmlEntity::getTags() const
+    {
+        //TODO: fetch tags from conf
+        throw std::runtime_error("XmlEntity::getTags(): Not yet implemented");
+    }
+
+    std::string Config::XmlEntity::getLayer() const
+    {
+        //TODO: fetch layer from conf
+        throw std::runtime_error("XmlEntity::getLayer(): Not yet implemented");
     }
 }

@@ -9,26 +9,34 @@
 #define ENGINE_XMLENTITY_HPP
 
 #include "XmlComponent.hpp"
+#include <memory>
 
-namespace Polymorph::Config
+namespace Polymorph
 {
-    class XmlEntity
+    class Engine;
+    class Entity;
+    namespace Config
     {
-        public:
-            XmlEntity(XmlNode *node, XmlEntity *parent, Engine &engine);
-            std::string getName();
-            bool isActive();
-            std::vector<std::string> getTags();
-            std::string getLayer();
-            std::shared_ptr<Entity> makeInstance(std::shared_ptr<Entity> &parent);
-            std::shared_ptr<Entity> makeInstance();
 
-        private:
-            std::vector<std::shared_ptr<XmlComponent>> _components;
-            std::vector<std::shared_ptr<XmlEntity>> _children;
-            Engine &_engine;
-            XmlNode *node;
-    };
+        class XmlEntity
+        {
+            public:
+                XmlEntity(std::shared_ptr<XmlNode> node, std::shared_ptr<Engine> engine);
+                std::string &getName() const;
+                bool isActive() const;
+                std::string &getId() const;
+                [[nodiscard]] std::vector<std::string> getTags() const;
+                std::string getLayer() const;
+                std::shared_ptr<Entity> makeInstance();
+
+            private:
+                std::vector<std::shared_ptr<XmlComponent>> _components;
+                std::vector<std::shared_ptr<XmlEntity>> _children;
+                std::shared_ptr<Engine> _engine;
+                std::shared_ptr<XmlNode> _node;
+        };
+    }
+
 }
 
 

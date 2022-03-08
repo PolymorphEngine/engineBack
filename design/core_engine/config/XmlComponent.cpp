@@ -19,6 +19,7 @@ Polymorph::Config::XmlComponent::getVector3Property(std::string name)
                                vector->getFloatAttr("z")
                                );
    */
+    throw std::runtime_error("XmlComponent::getVector3Property(): Not yet implemented");
 }
 
 Polymorph::Vector2
@@ -32,6 +33,7 @@ Polymorph::Config::XmlComponent::getVector2Property(std::string name)
     return  Polymorph::Vector2(vector->getFloatAttr("x"),
                             vector->getFloatAttr("y"));
     */
+    throw std::runtime_error("XmlComponent::getVector2Property(): Not yet implemented");
 }
 
 Polymorph::Rect
@@ -45,6 +47,7 @@ Polymorph::Config::XmlComponent::getRectProperty(std::string name)
                             rect->getFloatAttr("width"),
                             rect->getFloatAttr("height"));
     */
+    throw std::runtime_error("XmlComponent::getRectProperty(): Not yet implemented");
 }
 
 std::string Polymorph::Config::XmlComponent::getStringProperty(std::string name)
@@ -54,6 +57,7 @@ std::string Polymorph::Config::XmlComponent::getStringProperty(std::string name)
 
     return str->getAttrValue("value");
      */
+    throw std::runtime_error("XmlComponent::getStringProperty(): Not yet implemented");
 }
 
 int Polymorph::Config::XmlComponent::getIntProperty(std::string name)
@@ -62,6 +66,7 @@ int Polymorph::Config::XmlComponent::getIntProperty(std::string name)
     XmlNode *integer = node->getChildWithNameAttr(name);
 
     return integer->getIntAtrr("value"); */
+    throw std::runtime_error("XmlComponent::getIntProperty(): Not yet implemented");
 }
 
 float Polymorph::Config::XmlComponent::getFloatProperty(std::string name)
@@ -69,6 +74,7 @@ float Polymorph::Config::XmlComponent::getFloatProperty(std::string name)
 /* XmlNode *floating = node->getChildWithNameAttr(name);
 
     return floating->getFloatAtrr("value") ; */
+    throw std::runtime_error("XmlComponent::getFloatProperty(): Not yet implemented");
 }
 
 bool Polymorph::Config::XmlComponent::getBoolProperty(std::string name)
@@ -76,6 +82,7 @@ bool Polymorph::Config::XmlComponent::getBoolProperty(std::string name)
 /*    XmlNode *boolean = node->getChildWithNameAttr(name);
 
     return boolean->getBoolAtrr("value"); */
+    throw std::runtime_error("XmlComponent::getBoolProperty(): Not yet implemented");
 }
 
 template<typename T>
@@ -83,14 +90,14 @@ T Polymorph::Config::XmlComponent::getTemplatedProperty(std::string name)
 {
     /*
     return ; */
+    throw std::runtime_error("XmlComponent::getTemplatedProperty(): Not yet implemented");
 }
 
 template<typename T>
 T Polymorph::Config::XmlComponent::getTemplatedProperty(XmlNode *node)
 {
-    /*
     T prop(node);
-    return prop; */
+    return prop;
 }
 
 template<typename T>
@@ -105,5 +112,18 @@ Polymorph::Config::XmlComponent::getListOfTemplatedProperty(std::string name)
         listProperty.push_back(getTemplatedProperty<T>(elem));
     return listProperty;
      */
+    throw std::runtime_error("XmlComponent::getListOfTemplatedProperty(): Not yet implemented");
+
+}
+
+std::string Polymorph::Config::XmlComponent::getType()
+{
+    return type;
+}
+
+bool Polymorph::Config::XmlComponent::isEnabled()
+{
+    //TODO: fetch enabled state from conf
+    throw std::runtime_error("XmlComponent::isEnabled(): Not yet implemented");
 }
 

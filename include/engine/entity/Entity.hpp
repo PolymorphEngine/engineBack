@@ -10,6 +10,9 @@
 
 
 #include <vector>
+#include <map>
+#include <unordered_map>
+
 #include "safe_ptr.hpp"
 
 namespace Polymorph
@@ -35,55 +38,69 @@ namespace Polymorph
     class Entity
     {
         public:
-            Entity(const Config::XmlEntity &data, Engine &game);
-            Entity(Config::XmlEntity &data, std::shared_ptr<Entity> &parent);
-            Entity(Config::XmlEntity &data);
+            Entity();
+            Entity(const Config::XmlEntity &data, std::shared_ptr<Engine> &game);
             std::shared_ptr<TransformComponent> transform;
             std::string name;
-            static Entity Empty;
+            ~Entity();
 
             void setActive(bool active);
             bool hasTag(const std::string &tag) const;
             void addTag(const std::string &tag);
             void deleteTag(const std::string &tag);
 
+            void Update();
+            void Draw();
+            void Awake();
+            void DrawChildren(TransformComponent &trm);
+            void referenceComponents();
+
 
             template <typename T>
-            std::shared_ptr<T> &GetComponent();
+            safe_ptr<T> GetComponent();
 
             void addComponent(std::string &component, Config::XmlComponent &config);
             template<typename T>
-            std::shared_ptr<T> &AddComponent();
+            safe_ptr<T> AddComponent();
 
+            template <typename T>
+            bool componentExist() const;
 
-            [[nodiscard]] bool componentExist(const std::string &type) const;
+            template <typename T>
+            bool DeleteComponent();
+            
+            std::string getName() const{return name;};
+            std::string &getId() {return _stringId;};
 
-            virtual bool deleteComponent(const std::string &type) const;
-
-            virtual void Destroy();
-
-            virtual std::string getName() const;
-            virtual std::string getId() const;
-            std::vector<std::shared_ptr<AComponentInitializer>> &getComponents();
-
-
-            bool operator==(const Entity &e) const
+            bool operator==(Entity &e)
             {
                 return (e.getId() == this->getId());
             }
-            bool operator!=(const Entity &e) const
+            bool operator!=(Entity &e)
             {
                 return (e.getId() != this->getId());
             }
+            
+            bool operator==(std::string &id)
+            {
+                return (this->getId() == id);
+            }
+            
+            bool operator!=(std::string &id)
+            {
+                return (this->getId() != id);
+            }
 
         private:
-            EntityId _id;
+            bool componentExist(std::string &type);
             bool _isPrefab;
+            bool _active;
             std::string _stringId;
             std::vector<std::string> _tags;
             std::string _layer;
-            Engine &_game;
-            std::vector<std::shared_ptr<AComponentInitializer>> _components;
+            std::shared_ptr<Engine> _game;
+            std::vector<std::string> _order;
+            std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
 
 
     };

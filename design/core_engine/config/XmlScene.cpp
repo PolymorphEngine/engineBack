@@ -6,26 +6,28 @@
 */
 
 #include "config/XmlScene.hpp"
+#include "config/XmlEntity.hpp"
 #include "factory/ComponentInitializer.hpp"
+#include "Entity.hpp"
 
 namespace Polymorph
 {
-    std::vector<std::shared_ptr<Entity>> Polymorph::Config::XmlScene::getEntities()
+    std::vector<std::shared_ptr<Entity>> Config::XmlScene::getEntities()
     {
         std::vector<std::shared_ptr<Entity>> entities;
         for (auto &i: _entities)
             entities.push_back(i->makeInstance());
-        bind_references(entities, _engine);
+        for (auto &e: entities)
+            e->referenceComponents();
         return entities;
     }
 
-
-    void Config::XmlScene::bind_references(std::vector<std::shared_ptr<Entity>> &entities, Engine &game)
+    void Config::XmlScene::bind_references(std::vector<std::shared_ptr<Entity>> &entities)
     {
-        for (auto &e: entities)
-        {
-            for (auto &c: e->getComponents())
-                c->reference();
-        }
+    }
+
+    std::string &Config::XmlScene::getId()
+    {
+        throw std::runtime_error("No yet implemented");
     }
 }

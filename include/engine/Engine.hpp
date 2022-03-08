@@ -41,7 +41,7 @@ namespace Polymorph
 
 
         public:
-            std::vector<std::string> &getExexOrder();
+            std::vector<std::string> &getExecOrder(){return _execOrder;};
             void run();
     };
 }

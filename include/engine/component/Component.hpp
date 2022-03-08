@@ -9,7 +9,6 @@
 #define ENGINE_COMPONENT_HPP
 
 #include "IComponent.hpp"
-#include "Entity.hpp"
 #include "safe_ptr.hpp"
 
 
@@ -23,42 +22,42 @@ namespace Polymorph
     class Component : public IComponent
     {
         public:
-            explicit Component(const std::string &type, Entity &game_object)
-            : _type(type), gameObject(game_object), transform(*game_object.transform), name(game_object.name)
-            {};
+            explicit Component(Entity &game_object);
+            Component(const std::string &type, Entity &game_object);
+
             TransformComponent &transform;
             Entity &gameObject;
-            bool enabled;
+            bool enabled = true;
 
-            virtual void Update();
-            virtual void OnAwake();
-            virtual void Start();
+            void Update()override;
+            void OnAwake()override;
+            void Start()override;
+            void Draw() override;
+            void SetAsStarted() final {started = true;};
+            void SetAsAwaked() final {awaked = true;};
             bool IsAwaked() const final {return awaked;}
             bool IsStarted() const final {return started;}
-            virtual std::string getType() const;
+            std::string getType() const final {return _type;}
 
         protected:
             std::string name;
             std::string _type;
-            bool awaked;
-            bool started;
+            bool awaked = false;
+            bool started = false;
 
             //  Entity Re-define
         public:
             void setActive(bool active) override;
-            virtual bool componentExist(const std::string &type) const;
-            virtual bool deleteComponent(const std::string &type);
-            virtual bool deleteComponent(IComponent &component);
 
             template <typename T>
             safe_ptr<T> GetComponent();
             template <typename T>
             safe_ptr<T> AddComponent();
-
-        protected:
-            virtual void Destroy();
-            virtual void Destroy(float delayInSeconds);
-
+            template <typename T>
+            bool DeleteComponent();
+            template <typename T>
+            bool ComponentExist();
+            
     };
 
 }

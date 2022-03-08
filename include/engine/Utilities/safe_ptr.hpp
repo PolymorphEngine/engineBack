@@ -17,6 +17,7 @@ namespace Polymorph
     {
         public:
             safe_ptr() : std::weak_ptr<T>(){};
+            explicit safe_ptr(std::shared_ptr<T> d) : std::weak_ptr<T>(d){};
 
             safe_ptr<T> &operator=(std::shared_ptr<T> &t)
             {

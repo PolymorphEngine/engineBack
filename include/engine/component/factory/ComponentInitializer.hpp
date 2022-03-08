@@ -9,10 +9,8 @@
 #define ENGINE_COMPONENTINITIALIZER_HPP
 
 #include "config/XmlComponent.hpp"
-    #ifndef CComponent
-        #define CComponent
-        #include "Component.hpp"
-    #endif //CComponent
+#include "config/XmlEntityRef.hpp"
+#include "Component.hpp"
 namespace Polymorph
 {
     class AComponentInitializer {

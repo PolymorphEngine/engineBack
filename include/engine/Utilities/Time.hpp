@@ -15,26 +15,18 @@ namespace Polymorph
     class Time
     {
         public:
-            static float deltaTime;
+            static inline float deltaTime = 0.0f;
     };
 
     class Timer
     {
         public:
+            Timer()= default;
+            explicit Timer(float delay);
             float delay = 0;
             float actual = 0;
-            void tick() {
-                actual += Time::deltaTime;
-            };
-            bool timeIsUp(bool isReset = true)
-            {
-                if (actual >= delay)
-                {
-                    if (isReset)
-                        actual = 0;
-                    return true;
-                }
-            };
+            void tick();
+            bool timeIsUp(bool isReset = true);;
     };
 
 }

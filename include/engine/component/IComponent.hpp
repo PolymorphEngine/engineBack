@@ -20,7 +20,10 @@ namespace Polymorph
             virtual void OnAwake() = 0;
             virtual void Start() = 0;
             virtual bool IsAwaked() const = 0;
+            virtual void SetAsStarted() = 0;
+            virtual void SetAsAwaked() = 0;
             virtual bool IsStarted() const = 0;
+            virtual void Draw() = 0;
             virtual std::string getType() const = 0;
 
         protected:
@@ -28,14 +31,7 @@ namespace Polymorph
         //  Entity Re-define
         public:
             virtual void setActive(bool active) = 0;
-            virtual bool componentExist(const std::string &type) const = 0;
-            virtual bool deleteComponent(const std::string &type) = 0;
-            virtual bool deleteComponent(IComponent &component) = 0;
-
-        protected:
-            virtual void Destroy() = 0;
-            virtual void Destroy(float delayInSeconds) = 0;
-
+            
     };
 }
 

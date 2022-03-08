@@ -9,6 +9,8 @@
 #define ENGINE_TRANSFORMINITIALIZER_HPP
 
 #include "factory/ComponentInitializer.hpp"
+#include "XmlComponent.hpp"
+#include "XmlEntityRef.hpp"
 #include "default/TransformComponent.hpp"
 
 namespace Polymorph
@@ -31,8 +33,12 @@ namespace Polymorph
                 return component;
             };
             void reference() final {
-                //TODO : setParent
-                //TODO : setChildren
+                TransformBase &trm = dynamic_cast<TransformBase&>(*component);
+                for (auto &ref: data.getListOfTemplatedProperty<Config::XmlEntityRef>("Children"))
+                {
+                    GameObject child = ref.getReference();
+                    (*child)->transform->SetParent(trm);
+                }
             }
 
     };

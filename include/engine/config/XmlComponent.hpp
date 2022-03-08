@@ -9,11 +9,14 @@
 #define ENGINE_XMLCOMPONENT_HPP
 
 #include <vector>
+#include <iostream>
+#include <memory>
 #include "Vector.hpp"
-#include "PolymorphXml.hpp"
+#include "Rect.hpp"
 
 namespace Polymorph::Config
 {
+    using XmlNode = void *;
     class XmlComponent
     {
         public:
@@ -48,7 +51,7 @@ namespace Polymorph::Config
 
         private:
             std::string type;
-            XmlNode *node;
+            std::shared_ptr<XmlNode> node;
     };
 }
 

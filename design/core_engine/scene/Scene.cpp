@@ -8,35 +8,27 @@
 #include "XmlScene.hpp"
 #include "Scene.hpp"
 #include "Engine.hpp"
+#include "Entity.hpp"
+#include "Time.hpp"
+#include "default/TransformComponent.hpp"
 
 namespace Polymorph
 {
-
+   
     void Scene::updateComponents()
     {
-        for (auto &it : _execMap)
+        
+        for (auto &e: _entities)
         {
-            for (auto &component : it.second) {
-                if (!(**component)->IsAwaked())
-                    (**component)->OnAwake();
-                if (!(**component)->enabled)
-                    return;
-                if (!(**component)->IsStarted())
-                    (**component)->Start();
-                (**component)->Update();
-            }
-        updateDestroyQueueList();
+            e->Update();
         }
-    }
 
-    void Scene::loadScene()
-    {
-        _entities.clear();
-        _execMap.clear();
-        _destroyQueueList.clear();
-
-        _entities = _data.getEntities();
-        _execMap = generateExecMap();
+        //TODO : sort ?
+        for (auto &e: _entities)
+        {
+            e->Draw();
+        }
+        updateDestroyQueueList();
     }
 
     void Scene::updateDestroyQueueList()
@@ -48,14 +40,7 @@ namespace Polymorph
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp())
-            {
-                Entity &it = Pop(destroyHolder.second);
-                if (it != Entity::Empty)
-                {
-                    it.Destroy();
-                    _destroyQueueList.erase(destroyHolder.first);
-                }
-            }
+                Pop(destroyHolder.second);
             else
                 nmap.emplace(destroyHolder);
         }
@@ -63,72 +48,99 @@ namespace Polymorph
         _destroyQueueList = nmap;
     }
 
-    Entity &Scene::find(const Entity &entity)
+    std::shared_ptr<Entity> &Scene::find(Entity &entity)
     {
         return findId(entity.getId());
     }
 
-
-    Entity &Scene::findId(const std::string &id)
+    std::shared_ptr<Entity> &Scene::findId(std::string &id)
     {
+        std::shared_ptr<Entity> nullReturn = nullptr;
         for (auto & entity : _entities) {
-            if (entity->getId() == id)
-                return *entity;
-            for (auto &child : *(entity->transform))
-            {
-                if ((*child).gameObject.getId() == id)
-                    return (*child).gameObject;
-            }
+            if (*entity == id)
+                return entity;
         }
+        return nullReturn;
     }
 
-    Entity &Scene::Pop(const Entity &entity)
+    Entity &Scene::Pop(Entity &entity)
     {
         return Pop(entity.getId());
     }
 
-    Entity &Scene::Pop(const std::string &id)
+    Entity &Scene::Pop(std::string &id)
     {
         auto pos = 0;
-        for (auto & entity : _entities)
+        auto nullreturn = Polymorph::Entity();
+        for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
         {
-            if (entity->getId() == id)
+            if ((**entity) == id)
             {
-                _entities.erase(_entities.begin() + pos);
-                return *entity;
+                _entities.erase(entity, entity + countChildren(entity, (*entity)->getId()) + 1);
+                return **entity;
             }
             pos++;
         }
-        return Entity::Empty;
+        return nullreturn;
     }
 
-    std::unordered_map<std::string, std::vector<ComponentFactory::Initializer>>
-    Scene::generateExecMap()
+    int Scene::countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id)
     {
-
-        auto types = _game.getExexOrder();
-        _execMap.clear();
-
-        for (auto & type : types) {
-            std::pair<std::string, std::vector<ComponentFactory::Initializer>> p;
-            p.first = type;
-            _execMap.insert(p);
-        }
-
-        for (auto &entity : _entities)
-            addToExecMap(entity->getComponents());
-
-    }
-
-    void Scene::addToExecMap(const std::vector<ComponentFactory::Initializer> &components)
-    {
-        for (auto &component: components)
+        auto count = (*entity)->transform->children.size();
+        
+        ++entity;
+        for (; entity != _entities.end() && (*entity)->getId() != parent_id;)
         {
-            std::string type = component->getType();
-            if (!_execMap.contains(type))
-                type = "Default";
-            auto &p = _execMap[type];
-            p.emplace_back(component);
+            if (!(*entity)->transform->children.empty())
+                count += countChildren(entity, (*entity)->getId());
+            else
+                ++entity;
         }
+        return count;
     }
+
+    GameObject Scene::find(const std::string &name)
+    {
+        for (auto &e : _entities)
+        {
+            if (e->name == name)
+                return GameObject(e);
+        }
+        return GameObject(nullptr);
+    }
+
+    void Scene::Destroy(Entity &entity)
+    {
+        Destroy(entity, 0);
+    }
+
+    void Scene::Destroy(Entity &entity, float delayInSeconds)
+    {
+        std::shared_ptr<Timer> timer (new Timer(delayInSeconds));
+        
+        _destroyQueueList.emplace(timer, entity);
+        
+    }
+
+    Scene::Scene(Config::XmlScene &data, Engine &game): _data(data), _game(game), id(data.getId())
+    {
+    }
+
+    void Scene::loadScene()
+    {
+        _destroyQueueList.clear();
+        _entities.clear();
+
+        _entities = _data.getEntities();
+
+        for (auto &e : _entities)
+            e->Awake();
+    }
+
+    void Scene::unloadScene()
+    {
+        _destroyQueueList.clear();
+        _entities.clear();
+    }
+
 }

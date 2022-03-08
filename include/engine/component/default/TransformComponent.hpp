@@ -18,12 +18,12 @@ namespace Polymorph
 {
     using TransformBase = std::shared_ptr<TransformComponent>;
     using Transform = safe_ptr<TransformComponent>;
+
     class TransformComponent : public Component
     {
         public:
 
-            explicit TransformComponent(Entity &gameObject) : Component("Transform", gameObject)
-            {}
+            explicit TransformComponent(Entity &gameObject);
 
             Vector3 position;
             Vector3 rotation;

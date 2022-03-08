@@ -14,7 +14,7 @@ namespace Polymorph
 
     void TransformComponent::SetParent(std::shared_ptr<TransformComponent> parent)
     {
-        if (this->parent != nullptr)
+        if (this->parent != nullptr && this->parent != parent)
             this->parent->RemoveChild(*this);
         this->parent = parent;
         if (parent == nullptr)
@@ -32,8 +32,9 @@ namespace Polymorph
     TransformBase &TransformComponent::RemoveChild(TransformComponent &remove)
     {
         int pos = 0;
+        TransformBase nullReturn = nullptr;
 
-        for (auto &child: children)
+        for (auto &child: *this)
         {
             if ((*child).gameObject.getId() == remove.gameObject.getId())
             {
@@ -44,6 +45,7 @@ namespace Polymorph
             }
             ++pos;
         }
+        return nullReturn;
     }
 
     void TransformComponent::Update()
@@ -57,8 +59,7 @@ namespace Polymorph
         if (parent == nullptr || index < 0 || index >= parent->children.size())
             return;
         TransformBase &self = parent->RemoveChild(*this);
-        std::vector<TransformBase> &cs = parent->children;
-        cs.insert(cs.begin() + index, self);
+        parent->children.insert(parent->children.begin() + index, self);
     }
 
     void TransformComponent::SetLastSibling()
@@ -72,6 +73,12 @@ namespace Polymorph
     void TransformComponent::SetFirstSibling()
     {
         SetSiblingIndex(0);
+    }
+
+    TransformComponent::TransformComponent(Entity &gameObject)
+            : Component("Transform", gameObject)
+    {
+
     }
 
 }

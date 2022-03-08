@@ -8,22 +8,33 @@
 #ifndef ENGINE_XMLSCENE_HPP
 #define ENGINE_XMLSCENE_HPP
 
-#include "XmlEntity.hpp"
+#include <memory>
+#include <vector>
 
-namespace Polymorph::Config
+namespace Polymorph
+
 {
+    class Engine;
+    class Entity;
 
-    class XmlScene {
-        public:
-            std::vector<std::shared_ptr<Entity>> getEntities();
-            void generate();
+    namespace Config
+    {
+        class XmlEntity;
+        class XmlScene {
+            public:
+                XmlScene(Engine &_engine);
+                std::vector<std::shared_ptr<Entity>> getEntities();
+                std::string &getId();
 
 
-        private:
-            static void bind_references(std::vector<std::shared_ptr<Entity>> &entities, Engine &game);
-            std::vector<std::shared_ptr<XmlEntity>> _entities;
-            Engine &_engine;
-    };
+            private:
+                static void bind_references(std::vector<std::shared_ptr<Entity>> &entities);
+                std::vector<std::shared_ptr<XmlEntity>> _entities;
+                Engine &_engine;
+
+        };
+    }
+
 }
 
 

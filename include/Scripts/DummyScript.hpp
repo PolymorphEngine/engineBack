@@ -9,6 +9,7 @@
 #define ENGINE_DUMMYSCRIPT_HPP
 
 #include "Rect.hpp"
+#include "Entity.hpp"
 #include "default/TransformComponent.hpp"
 #include "config/XmlComponent.hpp"
 #include "Component.hpp"
