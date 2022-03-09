@@ -5,8 +5,7 @@
 ** header for XmlEntity.c
 */
 
-#include "engine/config/XmlEntity.hpp"
-#include "default/TransformComponent.hpp"
+#include "Engine/config/XmlEntity.hpp"
 #include "Entity.hpp"
 
 namespace Polymorph

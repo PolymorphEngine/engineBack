@@ -8,8 +8,8 @@
 #ifndef ENGINE_XMLENTITY_HPP
 #define ENGINE_XMLENTITY_HPP
 
-#include "XmlComponent.hpp"
 #include <memory>
+#include "XmlComponent.hpp"
 
 namespace Polymorph
 {

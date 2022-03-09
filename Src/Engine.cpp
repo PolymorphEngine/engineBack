@@ -31,6 +31,8 @@ Polymorph::Engine::Engine(const std::string &filepath)
     //TODO: create Xml Interfaces
 
     //TODO: set current scene
+    if (_scenes.empty())
+        throw std::runtime_error("No scenes built");
     SceneManager::Current = *_scenes.begin();
     SceneManager::Game = game;
     Application::Game = game;
