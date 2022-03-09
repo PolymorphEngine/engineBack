@@ -8,7 +8,6 @@
 #include "default/TransformComponent.hpp"
 #include "Entity.hpp"
 
-
 namespace Polymorph
 {
 
@@ -19,7 +18,7 @@ namespace Polymorph
         this->parent = parent;
         if (parent == nullptr)
         {
-            //TODO: reset in scene
+            //TODO: Set index in scene at (next parent empty Entity index) - 1
         }
         SetLastSibling();
     }
@@ -29,10 +28,9 @@ namespace Polymorph
 
     }
 
-    TransformBase &TransformComponent::RemoveChild(TransformComponent &remove)
+    TransformBase TransformComponent::RemoveChild(TransformComponent &remove)
     {
         int pos = 0;
-        TransformBase nullReturn = nullptr;
 
         for (auto &child: *this)
         {
@@ -45,20 +43,20 @@ namespace Polymorph
             }
             ++pos;
         }
-        return nullReturn;
+        return nullptr;
     }
-
-    void TransformComponent::Update()
-    {
-    }
-
 
     void TransformComponent::SetSiblingIndex(int index)
     {
 
-        if (parent == nullptr || index < 0 || index >= parent->children.size())
+        if (parent == nullptr || index < 0)
             return;
-        TransformBase &self = parent->RemoveChild(*this);
+        if (index >= parent->children.size())
+            index = parent->children.size() - 1;
+
+        //TODO: Set index in scene !!!
+
+        TransformBase self = parent->RemoveChild(*this);
         parent->children.insert(parent->children.begin() + index, self);
     }
 
@@ -67,7 +65,7 @@ namespace Polymorph
         if (parent == nullptr)
             //TODO : Log "Tried to set sibling index on an object which hasn't a parent"
             return;
-        SetSiblingIndex((int)parent->children.size());
+        SetSiblingIndex((int)parent->children.size() - 1);
     }
 
     void TransformComponent::SetFirstSibling()
@@ -78,8 +76,7 @@ namespace Polymorph
     TransformComponent::TransformComponent(Entity &gameObject)
             : Component("Transform", gameObject)
     {
-
+        
     }
 
 }
-

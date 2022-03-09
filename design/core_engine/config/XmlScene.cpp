@@ -17,13 +17,7 @@ namespace Polymorph
         std::vector<std::shared_ptr<Entity>> entities;
         for (auto &i: _entities)
             entities.push_back(i->makeInstance());
-        for (auto &e: entities)
-            e->referenceComponents();
         return entities;
-    }
-
-    void Config::XmlScene::bind_references(std::vector<std::shared_ptr<Entity>> &entities)
-    {
     }
 
     std::string &Config::XmlScene::getId()

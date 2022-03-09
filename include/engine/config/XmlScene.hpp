@@ -28,7 +28,6 @@ namespace Polymorph
 
 
             private:
-                static void bind_references(std::vector<std::shared_ptr<Entity>> &entities);
                 std::vector<std::shared_ptr<XmlEntity>> _entities;
                 Engine &_engine;
 

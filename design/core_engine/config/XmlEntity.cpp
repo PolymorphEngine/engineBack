@@ -13,7 +13,8 @@ namespace Polymorph
 {
     std::shared_ptr<Entity> Config::XmlEntity::makeInstance()
     {
-        std::shared_ptr<Entity> e(new Entity(*this, this->_engine));
+        std::shared_ptr<Config::XmlEntity> conf = std::shared_ptr<Config::XmlEntity>(this);
+        std::shared_ptr<Entity> e(new Entity(conf, this->_engine));
 
         for (auto &c: _components)
         {

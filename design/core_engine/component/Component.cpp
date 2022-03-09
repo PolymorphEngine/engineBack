@@ -9,15 +9,10 @@
 #include "Component.hpp"
 #include "Entity.hpp"
 
-void Polymorph::Component::setActive(bool active)
-{
-    gameObject.setActive(active);
-}
 
 template<typename T>
 Polymorph::safe_ptr<T> Polymorph::Component::GetComponent()
 {
-    safe_ptr<T> obj;
     return gameObject.GetComponent<T>();
 }
 

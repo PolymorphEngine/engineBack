@@ -40,7 +40,7 @@ namespace Polymorph
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp())
-                Pop(destroyHolder.second);
+                Erase(destroyHolder.second);
             else
                 nmap.emplace(destroyHolder);
         }
@@ -48,40 +48,21 @@ namespace Polymorph
         _destroyQueueList = nmap;
     }
 
-    std::shared_ptr<Entity> &Scene::find(Entity &entity)
+    void Scene::Erase(Entity &entity)
     {
-        return findId(entity.getId());
+        return Erase(entity.getId());
     }
 
-    std::shared_ptr<Entity> &Scene::findId(std::string &id)
-    {
-        std::shared_ptr<Entity> nullReturn = nullptr;
-        for (auto & entity : _entities) {
-            if (*entity == id)
-                return entity;
-        }
-        return nullReturn;
-    }
-
-    Entity &Scene::Pop(Entity &entity)
-    {
-        return Pop(entity.getId());
-    }
-
-    Entity &Scene::Pop(std::string &id)
+    void Scene::Erase(std::string &id)
     {
         auto pos = 0;
         auto nullreturn = Polymorph::Entity();
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
         {
             if ((**entity) == id)
-            {
                 _entities.erase(entity, entity + countChildren(entity, (*entity)->getId()) + 1);
-                return **entity;
-            }
             pos++;
         }
-        return nullreturn;
     }
 
     int Scene::countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id)
@@ -122,7 +103,7 @@ namespace Polymorph
         
     }
 
-    Scene::Scene(Config::XmlScene &data, Engine &game): _data(data), _game(game), id(data.getId())
+    Scene::Scene(std::shared_ptr<Config::XmlScene> &data, std::shared_ptr<Engine> &game): _config_data(data), _game(game), _id(data->getId())
     {
     }
 
@@ -131,7 +112,7 @@ namespace Polymorph
         _destroyQueueList.clear();
         _entities.clear();
 
-        _entities = _data.getEntities();
+        _entities = _config_data->getEntities();
 
         for (auto &e : _entities)
             e->Awake();
@@ -141,6 +122,16 @@ namespace Polymorph
     {
         _destroyQueueList.clear();
         _entities.clear();
+    }
+
+    GameObject Scene::findById(const std::string &id)
+    {
+        for (auto &e : _entities)
+        {
+            if (e->getId() == id)
+                return GameObject(e);
+        }
+        return GameObject(nullptr);
     }
 
 }

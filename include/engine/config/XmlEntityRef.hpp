@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include "Entity.hpp"
-#include "XmlComponent.hpp"
 
 namespace Polymorph
 {

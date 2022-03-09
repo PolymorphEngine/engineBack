@@ -12,6 +12,9 @@
 
 namespace Polymorph
 {
+    /**
+     * @class A Sub class
+     */
     class IComponent
     {
         //  Component Specific
@@ -25,12 +28,6 @@ namespace Polymorph
             virtual bool IsStarted() const = 0;
             virtual void Draw() = 0;
             virtual std::string getType() const = 0;
-
-        protected:
-
-        //  Entity Re-define
-        public:
-            virtual void setActive(bool active) = 0;
             
     };
 }

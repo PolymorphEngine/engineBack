@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "safe_ptr.hpp"
+#include "XmlEntity.hpp"
 
 namespace Polymorph
 {
@@ -25,68 +26,175 @@ namespace Polymorph
         class XmlEntity;
         class XmlComponent;
     }
-
-    using EntityId = std::size_t;
-
-    inline EntityId getEntityId()
-    {
-        static size_t lastId = 0;
-        ++lastId;
-        return lastId;
-    }
-
+    
+    /**
+     * @class A container class which is defined by the components it holds.
+     */
     class Entity
     {
         public:
             Entity();
-            Entity(const Config::XmlEntity &data, std::shared_ptr<Engine> &game);
-            std::shared_ptr<TransformComponent> transform;
-            std::string name;
+            Entity(std::shared_ptr<Config::XmlEntity> &data, std::shared_ptr<Engine> &game);
             ~Entity();
+            
+            /**
+             * @property The unique mandatory component of an entity
+             *           it's like his identity in the world.
+             */
+            std::shared_ptr<TransformComponent> transform;
+            
+            /**
+             * @property The entity's name (not necessarily unique)
+             */
+            std::string name;
+            
+            /**
+             * @summary Check for game object state
+             * @returns The state of the game object
+             */
+            bool isActive() const;
 
+            /**
+             * @summary Changes the game object state
+             * @param active: the new state of the object
+             */
             void setActive(bool active);
+
+            /**
+             * @summary Check if the game object has the tag passed as parameter.
+             * @param tag: The tag to look for.
+             * @returns True if the game object has the tag, False otherwise.
+             */
             bool hasTag(const std::string &tag) const;
+
+
+            /**
+             * @summary Adds to the game object the tag passed as parameter.
+             * @param tag: The tag to add
+             */
             void addTag(const std::string &tag);
+
+            /**
+             * @summary Deletes from the game object the tag passed as parameter.
+             * @param tag: The tag to delete
+             */
             void deleteTag(const std::string &tag);
 
+            /**
+             * @summary Updates the game object by updating in the component execution order
+             *          all components.
+             */
             void Update();
+
+            /**
+             * @summary Looks for the drawable component of the entity,
+             *          then calls Draw() of children.
+             */
             void Draw();
-            void Awake();
+
+            /**
+             * @summary Draws the children
+             */
             void DrawChildren(TransformComponent &trm);
-            void referenceComponents();
+
+            /**
+             * @summary Awakes the entity by calling OnAwake() of the components
+             */
+            void Awake();
 
 
+            /**
+             * @summary Looks for a component by type
+             * @tparam T: The 'T' type of the component to look for.
+             * @warning The type 'T' must inherit from the Component class to be fetched
+             * @returns A safe pointer to the component 'T'
+             */
             template <typename T>
             safe_ptr<T> GetComponent();
 
             void addComponent(std::string &component, Config::XmlComponent &config);
+
+            /**
+             * @summary Adds a component to the entity
+             * @tparam T: The 'T' type of the component to add.
+             * @warning Does nothing if the component is already added
+             * @warning The type 'T' must have an initializer in the component factory to be added this way
+             * @warning The type 'T' must inherit from the Component class to be added
+             * @returns A safe pointer to the component 'T'
+             */
             template<typename T>
             safe_ptr<T> AddComponent();
 
+            /**
+             * @summary Checks if a component of type 'T' exist in the entity
+             * @tparam T: The 'T' type of the component to check for.
+             * @warning The type 'T' must inherit from the Component class to be checked
+             * @returns True if the component exist
+             */
             template <typename T>
             bool componentExist() const;
 
+            /**
+             * @summary Deletes the component of type 'T' from the entity
+             * @tparam T: The 'T' type of the component to delete.
+             * @warning The type 'T' must inherit from the Component class to be deleted
+             * @returns True if the component existed and was deleted successfully
+             */
             template <typename T>
             bool DeleteComponent();
-            
+
+            /**
+             * @summary A getter to fetch the entity's name
+             * @returns An std::string of the entity's name
+             */
             std::string getName() const{return name;};
+
+            /**
+             * @summary A getter to fetch the entity's unique id
+             * @returns An std::string of the entity's unique id
+             */
             std::string &getId() {return _stringId;};
 
-            bool operator==(Entity &e)
+            /**
+             * @summary Comparator operator that compares 2 entities based on unique id.
+             * @param entity: the entity to compare with.
+             * @returns True if the entities are the same otherwise false.
+             */
+            bool operator==(Entity &entity)
             {
-                return (e.getId() == this->getId());
+                return (entity.getId() == this->getId());
             }
-            bool operator!=(Entity &e)
+
+            /**
+             * @summary Comparator operator that compares 2 entities based on unique id.
+             * @param entity: the entity to compare with.
+             * @returns False if the entities are the same otherwise True.
+             */
+            bool operator!=(Entity &entity)
             {
-                return (e.getId() != this->getId());
+                return (entity.getId() != this->getId());
             }
-            
-            bool operator==(std::string &id)
+
+            /**
+             * @summary Comparator operator that compares an entity and an id based on
+             *          the entity's unique id.
+             * @param id: the id to compare with.
+             * @returns True if the entity's id is the same as the id passed
+             *          the same otherwise False.
+             */
+            bool operator==(const std::string &id)
             {
                 return (this->getId() == id);
             }
-            
-            bool operator!=(std::string &id)
+
+            /**
+             * @summary Comparator operator that compares an entity and an id based on
+             *          the entity's unique id.
+             * @param id: the id to compare with.
+             * @returns False if the entity's id is the same as the id passed
+             *          the same otherwise True.
+             */
+            bool operator!=(const std::string &id)
             {
                 return (this->getId() != id);
             }
@@ -102,14 +210,8 @@ namespace Polymorph
             std::vector<std::string> _order;
             std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
 
-
     };
     using GameObject = safe_ptr<Entity>;
-
-    // getComponent<MyScripType>();
-    // addComponent<MyScripType>();
-    // deleteComponent<MyScripType>();
-    // componentExist<MyScripType>();
 }
 
 

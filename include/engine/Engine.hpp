@@ -17,32 +17,45 @@
 
 namespace Polymorph
 {
-    typedef size_t SceneId;
     namespace Config{class XmlEngine{};}
     class Scene;
-    class IPolymorphDisplay;
 
+    /**
+     * @class Main container class that holds all game data such as :
+     *        Scenes, Prefabs, Configuration files, Settings
+     */
     class Engine
     {
     public:
-        Engine(const std::string &filepath = nullptr);
+        explicit Engine(const std::string &filepath);
 
     private:
-        std::vector<std::unique_ptr<Scene>> _scenes;
+        using ExitCode = int;
+        std::vector<std::shared_ptr<Scene>> _scenes;
         std::vector<Config::XmlEntity> _prefabs;
         std::vector<Config::XmlComponent> _defaultConfigs;
         std::vector<std::string> _tags;
         std::vector<std::string> _layers;
         std::vector<std::string> _execOrder;
         Config::XmlEngine _data;
-        Scene& _actual;
-        SceneId _firstScene;
-        IPolymorphDisplay& _display;
-
+        bool _exit = false;
+        ExitCode _exitCode = 0;
+        
 
         public:
+            /**
+             * @summary Getter that fetches the ordered vector of component types.
+             *          Order determines which component has to be updated before others.
+             * @returns A vector of std::string ordered based on execution order.
+             */
             std::vector<std::string> &getExecOrder(){return _execOrder;};
-            void run();
+
+            /**
+             * @summary Runs the game.
+             */
+            int run();
+            
+            void Exit(ExitCode code);
     };
 }
 

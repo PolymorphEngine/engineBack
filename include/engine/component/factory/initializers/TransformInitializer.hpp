@@ -34,11 +34,8 @@ namespace Polymorph
             };
             void reference() final {
                 TransformBase &trm = dynamic_cast<TransformBase&>(*component);
-                for (auto &ref: data.getListOfTemplatedProperty<Config::XmlEntityRef>("Children"))
-                {
-                    GameObject child = ref.getReference();
-                    (*child)->transform->SetParent(trm);
-                }
+                for (auto &ref: data.getEntityReferencePropertylList("Children"))
+                    (*ref)->transform->SetParent(trm);
             }
 
     };

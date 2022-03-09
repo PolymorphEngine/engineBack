@@ -28,44 +28,128 @@ namespace Polymorph
     class Entity;
     class Timer;
 
+    /**
+     * @class A container class that's store's all entities from a game scene
+     */
     class Scene
     {
         public:
-            using SceneId = std::size_t;
-            inline SceneId getSceneId()
-            {
-                static size_t lastId = 0;
-                ++lastId;
-                return lastId;
-            };
-
-            Scene(Config::XmlScene &data, Engine &game);
+            Scene(std::shared_ptr<Config::XmlScene> &data, std::shared_ptr<Engine> &game);
 
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
-            //std::unordered_map<std::string, std::vector<ComponentFactory::Initializer>> _execMap;
             std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
-            std::string &id;
-            Engine& _game;
-            Config::XmlScene &_data;
+            std::string &_id;
+            std::shared_ptr<Engine> _game;
+            std::shared_ptr<Config::XmlScene> _config_data;
 
         public:
+            /**
+             * @summary Loops trough entities twice:
+             *          Once to call Update
+             *          Then to call Draw
+             *          Finally updates the destroy queue
+             *          GameObject(nullptr) if not found.
+             */
             void updateComponents();
+
+            /**
+             * @summary Generates Entities and their Components from configuration files.
+             */
             void loadScene();
+            
+            /**
+             * @summary Erases all entities and their components from scene
+             */
             void unloadScene();
+
+            /**
+             * @summary Check for entities to erase based on their delay,
+             *          with their respective timer.
+             *          Erases them if time's up.
+             */
             void updateDestroyQueueList();
-            safe_ptr<Entity> find(const std::string &name);
-            std::shared_ptr<Entity> &find(Entity &entity);
-            std::shared_ptr<Entity> &findId(std::string &id);
+            
+            /**
+             * @summary Looks for the first occurrence of entity with the parameter name
+             * @param name: The name of the entity to find
+             * @return A safe_ptr to an Entity (alias GameObject type) 
+             *         GameObject(nullptr) if not found.
+             */
+            GameObject find(const std::string &name);
 
-            Entity &Pop(Entity &entity);
-            Entity &Pop(std::string &id);
-            int countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
+            /**
+             * @summary Looks for all occurrences of entities with the parameter name
+             * @param name: The name of the entities to find
+             * @return A vector of safe_ptr to entities (alias GameObject type) 
+             */
+            std::vector<GameObject> findAll(const std::string &name);
 
+
+            /**
+             * @summary Looks for the first occurrence of entity with has the tag
+             *          passed as parameter.
+             * @param tag: The filter tag
+             * @return A safe_ptr to an Entity (alias GameObject type). 
+             *         GameObject(nullptr) if not found.
+             */
+            GameObject findByTag(const std::string &tag);
+
+            
+            /**
+             * @summary Looks for all occurrences of entities filtered by the tag parameter
+             * @param tag: The filter tag
+             * @return A vector of safe_ptr to entities (alias GameObject type)
+             */
+             std::vector<GameObject> findAllByTag(const std::string &tag);
+
+
+            /**
+             * @summary Looks for an entity by it's unique id
+             *          passed as parameter.
+             * @param id: the unique id of the entity
+             * @return A safe_ptr to an Entity (alias GameObject type). 
+             *         GameObject(nullptr) if not found.
+             */
+            GameObject findById(const std::string &id);
+
+
+            /**
+             * @summary Erase an entity (and his children) from scene
+             * @param entity: the entity to erase
+             */
+            void Erase(Entity &entity);
+
+
+            /**
+              * @summary Erase an entity (and his children) from scene
+              * @param entity: the entity to erase
+              */
+            void Erase(std::string &id);
+
+            /**
+              * @summary Adds an entity to the destroy queue of the scene
+              * @param entity: the entity to push in queue
+              */
             void Destroy(Entity &entity);
+
+
+            /**
+              * @summary Adds an entity to the destroy queue of the scene
+              * @param entity: the entity to push in queue
+              * @param delayInSeconds: The delay in seconds before destroying it once in queue
+              */
             void Destroy(Entity &entity, float delayInSeconds);
-            // Statics
-            static Scene &Current;
+            
+
+        private:
+            /**
+              * @summary Counts all children in an entity
+              * @param entity: An iterator of the parent entity
+              * @param parent_id: The id of the parent entity
+              * @returns The total count of children and sub-children of an entity
+              */
+            int countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
 
     };
 }

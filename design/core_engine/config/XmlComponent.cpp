@@ -5,6 +5,8 @@
 ** header for XmlComponent.c
 */
 
+#include "XmlEntityRef.hpp"
+#include "XmlComponentRef.hpp"
 #include "XmlComponent.hpp"
 
 Polymorph::Vector3
@@ -94,13 +96,6 @@ T Polymorph::Config::XmlComponent::getTemplatedProperty(std::string name)
 }
 
 template<typename T>
-T Polymorph::Config::XmlComponent::getTemplatedProperty(XmlNode *node)
-{
-    T prop(node);
-    return prop;
-}
-
-template<typename T>
 std::vector<T>
 Polymorph::Config::XmlComponent::getListOfTemplatedProperty(std::string name)
 {
@@ -125,5 +120,30 @@ bool Polymorph::Config::XmlComponent::isEnabled()
 {
     //TODO: fetch enabled state from conf
     throw std::runtime_error("XmlComponent::isEnabled(): Not yet implemented");
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Config::XmlComponent::getEntityReferenceProperty(std::string name)
+{
+    XmlEntityRef ref = XmlEntityRef(*node, *scene);
+    
+    return ref.getReference();
+}
+
+std::vector<Polymorph::GameObject>
+Polymorph::Config::XmlComponent::getEntityReferencePropertylList(std::string
+name)
+{
+    //TODO : search list property
+    throw std::runtime_error("XmlComponent::getEntityReferencePropertyList(): Not yet implemented");
+}
+
+template<typename T>
+Polymorph::safe_ptr<T>
+Polymorph::Config::XmlComponent::getComponentReferenceProperty(std::string name)
+{
+    XmlComponentRef<T> ref = XmlComponentRef<T>(*node, *scene);
+    
+    return ref.getComponentReference();
 }
 

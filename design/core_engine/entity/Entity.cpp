@@ -11,16 +11,15 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 
-Polymorph::Entity::Entity(const Polymorph::Config::XmlEntity &data,
-std::shared_ptr<Engine> &game) : _game(game), _stringId(data.getId())
+Polymorph::Entity::Entity(std::shared_ptr<Config::XmlEntity> &data,
+std::shared_ptr<Engine> &game) : _game(game), _stringId(data->getId())
 {
-    name = data.getName();
-    _active = data.isActive();
+    name = data->getName();
+    _active = data->isActive();
     _order = _game->getExecOrder();
     for (auto &type: _order)
         _components[type];
     _isPrefab = false;
-    
 }
 
 
@@ -28,9 +27,6 @@ Polymorph::Entity::Entity() : _stringId ("")
 {
     _isPrefab = true;
 }
-
-
-
 
 void Polymorph::Entity::addComponent(std::string &component,
 Polymorph::Config::XmlComponent &config)
@@ -103,7 +99,6 @@ Polymorph::safe_ptr<T> Polymorph::Entity::GetComponent()
     return safe_ptr<T>();
 }
 
-
 void Polymorph::Entity::Update()
 {
     if (!_active)
@@ -144,22 +139,15 @@ void Polymorph::Entity::Draw()
 void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
 {
     using DrawableComponent = TransformComponent;
-
+    using Drawable = safe_ptr<DrawableComponent>;
     for (auto &child : trm)
     {
         //TODO: check independence before drawing ?
-        safe_ptr<DrawableComponent> drawable = child->GetComponent<DrawableComponent>();
+        Drawable drawable = child->gameObject.GetComponent<DrawableComponent>();
         if (!!drawable && (*drawable)->enabled)
             (*drawable)->Draw();
         DrawChildren(*child);
     }
-}
-
-void Polymorph::Entity::referenceComponents()
-{
-    for (auto &cl: _components)
-        for (auto &c: cl.second)
-            c->reference();
 }
 
 void Polymorph::Entity::setActive(bool active)
@@ -258,6 +246,7 @@ void Polymorph::Entity::Awake()
     for (auto &cl :_components)
         for (auto &c : cl.second)
         {
+            c->reference();
             (**c)->OnAwake();
             (**c)->SetAsAwaked();
         }

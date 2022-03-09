@@ -12,7 +12,7 @@ include_directories(
         ../include/engine/scene
         ../include/engine/Utilities
         ../include/engine/Utilities/Types
-        )
+)
 
 file(GLOB_RECURSE DesignSRC ../design/*.cpp)
 file(GLOB_RECURSE DesignICL ../include/*.hpp)

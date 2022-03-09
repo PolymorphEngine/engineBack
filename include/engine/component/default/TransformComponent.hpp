@@ -49,18 +49,15 @@ namespace Polymorph
 
             void SetParent(std::shared_ptr<TransformComponent> parent);
 
-            std::shared_ptr<TransformComponent> &RemoveChild(TransformComponent &child);
+            std::shared_ptr<TransformComponent> RemoveChild(TransformComponent &child);
             void SetSiblingIndex(int index);
             void SetLastSibling();
             void SetFirstSibling();
 
-            void Update() override;
         private:
             void UpdateChildren();
 
     };
-
-
 }
 
 #endif //ENGINE_TRANSFORMCOMPONENT_HPP
