@@ -24,34 +24,34 @@ namespace Polymorph
         public: // GameObject Section
             
             /**
-             * @summary Fetch all actual entities in scene
+             * @details Fetch all actual entities in scene
              * @returns A vector of references to the actual entities
              */
             static std::vector<GameObject> GetAll();
 
             /**
-             * @summary Finds the first occurrence of a game object in scene by name
+             * @details Finds the first occurrence of a game object in scene by name
              * @param name: The name of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
              */
             static GameObject Find(std::string name);
 
             /**
-             * @summary Finds all occurrences of game objects in scene by name
+             * @details Finds all occurrences of game objects in scene by name
              * @param name: The name of the game objects to find
              * @returns A vector of smart pointers (safe_ptr) of game objects found (empty vector if not found)
              */
             static std::vector<GameObject> FindAll(std::string name);
 
             /**
-             * @summary Finds the first occurrence of a game object in scene by tag
+             * @details Finds the first occurrence of a game object in scene by tag
              * @param tag: The tag of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
              */
             static GameObject FindByTag(std::string tag);
 
             /**
-             * @summary Finds all occurrences of game objects in scene by tag
+             * @details Finds all occurrences of game objects in scene by tag
              * @param tag: The tag which is used to filter game objects 
              * @returns A vector of smart pointers (safe_ptr) of game objects found (empty vector if not found)
              */
@@ -60,14 +60,14 @@ namespace Polymorph
 
 
             /**
-              * @summary Destroy's a game object from the scene
+              * @details Destroy's a game object from the scene
               * @param gameObject: The game object to destroy 
               */
             static void Destroy(GameObject gameObject);
 
 
             /**
-              * @summary Destroy's a game object from the scene
+              * @details Destroy's a game object from the scene
               * @param gameObject: The game object to destroy 
               * @param delay: The delay in seconds before destroying it
               */
@@ -75,14 +75,14 @@ namespace Polymorph
 
 
             /**
-             * @summary Instantiate a game object in scene (makes a clone of it)
+             * @details Instantiate a game object in scene (makes a clone of it)
              * @param gameObject: the game object to clone
              * @returns the instantiated game object
              */
             static GameObject Instantiate(GameObject gameObject);
 
             /**
-             * @summary Instantiate a game object in scene (makes a clone of it)
+             * @details Instantiate a game object in scene (makes a clone of it)
              * @param gameObject: the game object to clone
              * @param position: the position at which the game object is instantiated
              * @returns the instantiated game object
@@ -90,7 +90,7 @@ namespace Polymorph
             static GameObject Instantiate(GameObject gameObject, Vector3 position);
             
             /**
-             * @summary Instantiate a game object in scene (makes a clone of it)
+             * @details Instantiate a game object in scene (makes a clone of it)
              * @param gameObject: the game object to clone
              * @param parent: the parent transform on which the instantiated object will depend on
              * @returns the instantiated game object
@@ -98,7 +98,7 @@ namespace Polymorph
             static GameObject Instantiate(GameObject gameObject, Transform parent);
             
             /**
-             * @summary Instantiate a game object in scene (makes a clone of it)
+             * @details Instantiate a game object in scene (makes a clone of it)
              * @param gameObject: the game object to clone
              * @param parent: the parent transform on which the instantiated object will depend on
              * @param offset: the offset position from the parent object
@@ -112,7 +112,7 @@ namespace Polymorph
         public: // Scene Section
 
             /**
-             * @summary Loads the requested scene and replace the current scene by the
+             * @details Loads the requested scene and replace the current scene by the
              *          newly loaded one.
              * @param name: Name of the scene to load
              */
@@ -120,14 +120,14 @@ namespace Polymorph
 
 
             /**
-             * @summary Creates an empty scene (runtime only)
+             * @details Creates an empty scene (runtime only)
              * @param name: Name of the scene to load
              */
             static void CreateScene(std::string name);
 
 
             /**
-             * @summary Keep a reference to the requested game object to clone it when loading
+             * @details Keep a reference to the requested game object to clone it when loading
              *          a new scene
              * @useless Passing a prefab (which is always accessible in any scenes)
              * @param gameObject: The game object to keep upon loading

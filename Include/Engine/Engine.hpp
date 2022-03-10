@@ -44,14 +44,14 @@ namespace Polymorph
 
         public:
             /**
-             * @summary Getter that fetches the ordered vector of component types.
+             * @details Getter that fetches the ordered vector of component types.
              *          Order determines which component has to be updated before others.
              * @returns A vector of std::string ordered based on execution order.
              */
             std::vector<std::string> &getExecOrder(){return _execOrder;};
 
             /**
-             * @summary Runs the game.
+             * @details Runs the game.
              */
             int run();
             

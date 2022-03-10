@@ -49,19 +49,19 @@ namespace Polymorph
             std::string name;
             
             /**
-             * @summary Check for game object state
+             * @details Check for game object state
              * @returns The state of the game object
              */
             bool isActive() const;
 
             /**
-             * @summary Changes the game object state
+             * @details Changes the game object state
              * @param active: the new state of the object
              */
             void setActive(bool active);
 
             /**
-             * @summary Check if the game object has the tag passed as parameter.
+             * @details Check if the game object has the tag passed as parameter.
              * @param tag: The tag to look for.
              * @returns True if the game object has the tag, False otherwise.
              */
@@ -69,42 +69,42 @@ namespace Polymorph
 
 
             /**
-             * @summary Adds to the game object the tag passed as parameter.
+             * @details Adds to the game object the tag passed as parameter.
              * @param tag: The tag to add
              */
             void addTag(const std::string &tag);
 
             /**
-             * @summary Deletes from the game object the tag passed as parameter.
+             * @details Deletes from the game object the tag passed as parameter.
              * @param tag: The tag to delete
              */
             void deleteTag(const std::string &tag);
 
             /**
-             * @summary Updates the game object by updating in the component execution order
+             * @details Updates the game object by updating in the component execution order
              *          all components.
              */
             void Update();
 
             /**
-             * @summary Looks for the drawable component of the entity,
+             * @details Looks for the drawable component of the entity,
              *          then calls Draw() of children.
              */
             void Draw();
 
             /**
-             * @summary Draws the children
+             * @details Draws the children
              */
             void DrawChildren(TransformComponent &trm);
 
             /**
-             * @summary Awakes the entity by calling OnAwake() of the components
+             * @details Awakes the entity by calling OnAwake() of the components
              */
             void Awake();
 
 
             /**
-             * @summary Looks for a component by type
+             * @details Looks for a component by type
              * @tparam T: The 'T' type of the component to look for.
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A safe pointer to the component 'T'
@@ -115,7 +115,7 @@ namespace Polymorph
             void addComponent(std::string &component, Config::XmlComponent &config);
 
             /**
-             * @summary Adds a component to the entity
+             * @details Adds a component to the entity
              * @tparam T: The 'T' type of the component to add.
              * @warning Does nothing if the component is already added
              * @warning The type 'T' must have an initializer in the component factory to be added this way
@@ -126,7 +126,7 @@ namespace Polymorph
             safe_ptr<T> AddComponent();
 
             /**
-             * @summary Checks if a component of type 'T' exist in the entity
+             * @details Checks if a component of type 'T' exist in the entity
              * @tparam T: The 'T' type of the component to check for.
              * @warning The type 'T' must inherit from the Component class to be checked
              * @returns True if the component exist
@@ -135,7 +135,7 @@ namespace Polymorph
             bool componentExist() const;
 
             /**
-             * @summary Deletes the component of type 'T' from the entity
+             * @details Deletes the component of type 'T' from the entity
              * @tparam T: The 'T' type of the component to delete.
              * @warning The type 'T' must inherit from the Component class to be deleted
              * @returns True if the component existed and was deleted successfully
@@ -144,19 +144,19 @@ namespace Polymorph
             bool DeleteComponent();
 
             /**
-             * @summary A getter to fetch the entity's name
+             * @details A getter to fetch the entity's name
              * @returns An std::string of the entity's name
              */
             std::string getName() const{return name;};
 
             /**
-             * @summary A getter to fetch the entity's unique id
+             * @details A getter to fetch the entity's unique id
              * @returns An std::string of the entity's unique id
              */
             std::string &getId() {return _stringId;};
 
             /**
-             * @summary Comparator operator that compares 2 entities based on unique id.
+             * @details Comparator operator that compares 2 entities based on unique id.
              * @param entity: the entity to compare with.
              * @returns True if the entities are the same otherwise false.
              */
@@ -166,7 +166,7 @@ namespace Polymorph
             }
 
             /**
-             * @summary Comparator operator that compares 2 entities based on unique id.
+             * @details Comparator operator that compares 2 entities based on unique id.
              * @param entity: the entity to compare with.
              * @returns False if the entities are the same otherwise True.
              */
@@ -176,7 +176,7 @@ namespace Polymorph
             }
 
             /**
-             * @summary Comparator operator that compares an entity and an id based on
+             * @details Comparator operator that compares an entity and an id based on
              *          the entity's unique id.
              * @param id: the id to compare with.
              * @returns True if the entity's id is the same as the id passed
@@ -188,7 +188,7 @@ namespace Polymorph
             }
 
             /**
-             * @summary Comparator operator that compares an entity and an id based on
+             * @details Comparator operator that compares an entity and an id based on
              *          the entity's unique id.
              * @param id: the id to compare with.
              * @returns False if the entity's id is the same as the id passed

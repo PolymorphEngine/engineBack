@@ -45,7 +45,7 @@ namespace Polymorph
 
         public:
             /**
-             * @summary Loops trough entities twice:
+             * @details Loops trough entities twice:
              *          Once to call Update
              *          Then to call Draw
              *          Finally updates the destroy queue
@@ -54,24 +54,24 @@ namespace Polymorph
             void updateComponents();
 
             /**
-             * @summary Generates Entities and their Components from configuration files.
+             * @details Generates Entities and their Components from configuration files.
              */
             void loadScene();
             
             /**
-             * @summary Erases all entities and their components from scene
+             * @details Erases all entities and their components from scene
              */
             void unloadScene();
 
             /**
-             * @summary Check for entities to erase based on their delay,
+             * @details Check for entities to erase based on their delay,
              *          with their respective timer.
              *          Erases them if time's up.
              */
             void updateDestroyQueueList();
             
             /**
-             * @summary Looks for the first occurrence of entity with the parameter name
+             * @details Looks for the first occurrence of entity with the parameter name
              * @param name: The name of the entity to find
              * @return A safe_ptr to an Entity (alias GameObject type) 
              *         GameObject(nullptr) if not found.
@@ -79,7 +79,7 @@ namespace Polymorph
             GameObject find(const std::string &name);
 
             /**
-             * @summary Looks for all occurrences of entities with the parameter name
+             * @details Looks for all occurrences of entities with the parameter name
              * @param name: The name of the entities to find
              * @return A vector of safe_ptr to entities (alias GameObject type) 
              */
@@ -87,7 +87,7 @@ namespace Polymorph
 
 
             /**
-             * @summary Looks for the first occurrence of entity with has the tag
+             * @details Looks for the first occurrence of entity with has the tag
              *          passed as parameter.
              * @param tag: The filter tag
              * @return A safe_ptr to an Entity (alias GameObject type). 
@@ -97,7 +97,7 @@ namespace Polymorph
 
             
             /**
-             * @summary Looks for all occurrences of entities filtered by the tag parameter
+             * @details Looks for all occurrences of entities filtered by the tag parameter
              * @param tag: The filter tag
              * @return A vector of safe_ptr to entities (alias GameObject type)
              */
@@ -105,7 +105,7 @@ namespace Polymorph
 
 
             /**
-             * @summary Looks for an entity by it's unique id
+             * @details Looks for an entity by it's unique id
              *          passed as parameter.
              * @param id: the unique id of the entity
              * @return A safe_ptr to an Entity (alias GameObject type). 
@@ -115,27 +115,27 @@ namespace Polymorph
 
 
             /**
-             * @summary Erase an entity (and his children) from scene
+             * @details Erase an entity (and his children) from scene
              * @param entity: the entity to erase
              */
             void Erase(Entity &entity);
 
 
             /**
-              * @summary Erase an entity (and his children) from scene
+              * @details Erase an entity (and his children) from scene
               * @param entity: the entity to erase
               */
             void Erase(std::string &id);
 
             /**
-              * @summary Adds an entity to the destroy queue of the scene
+              * @details Adds an entity to the destroy queue of the scene
               * @param entity: the entity to push in queue
               */
             void Destroy(Entity &entity);
 
 
             /**
-              * @summary Adds an entity to the destroy queue of the scene
+              * @details Adds an entity to the destroy queue of the scene
               * @param entity: the entity to push in queue
               * @param delayInSeconds: The delay in seconds before destroying it once in queue
               */
@@ -144,7 +144,7 @@ namespace Polymorph
 
         private:
             /**
-              * @summary Counts all children in an entity
+              * @details Counts all children in an entity
               * @param entity: An iterator of the parent entity
               * @param parent_id: The id of the parent entity
               * @returns The total count of children and sub-children of an entity

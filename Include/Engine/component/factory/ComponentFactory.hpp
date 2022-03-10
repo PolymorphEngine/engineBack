@@ -38,12 +38,14 @@ namespace Polymorph
 
         private:
             static inline std::map<std::string,
-            std::function<Initializer(Config::XmlComponent &data, Entity &entity)>>
+            std::function<Initializer (Config::XmlComponent &data, Entity &entity) >>
             _buildables =
             {
                 // @INITIALIZERS: (add Component Initializers here)
                 // @TRANSFORM:
-                {"Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
+                {
+                    "Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}
+                },
             };
     };
 }

@@ -21,7 +21,7 @@ namespace Polymorph
         class XmlEntity
         {
             public:
-                XmlEntity(std::shared_ptr<XmlNode> node, std::shared_ptr<Engine> engine);
+                XmlEntity(std::shared_ptr<XmlNode> &node, std::shared_ptr<Engine> &engine);
                 std::string &getName() const;
                 bool isActive() const;
                 std::string &getId() const;
