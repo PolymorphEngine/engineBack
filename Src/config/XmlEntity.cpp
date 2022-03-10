@@ -24,8 +24,9 @@ namespace Polymorph
     }
 
     Config::XmlEntity::XmlEntity(std::shared_ptr<XmlNode> &node,
-    std::shared_ptr<Engine> &engine) : _engine(engine.get())
+    std::shared_ptr<Engine> &engine) 
     {
+        _engine = engine;
         this->_node = node;
     }
 
