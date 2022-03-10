@@ -4,18 +4,18 @@ project(Engine)
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(
-        Include
-        Include/Engine
-        Include/Engine/component
-        Include/Engine/entity
-        Include/Engine/config
-        Include/Engine/scene
-        Include/Engine/Utilities
-        Include/Engine/Utilities/Types
+        include
+        include/Engine
+        include/Engine/component
+        include/Engine/entity
+        include/Engine/config
+        include/Engine/scene
+        include/Engine/Utilities
+        include/Engine/Utilities/Types
 )
 
-file(GLOB_RECURSE SRC Src/*.cpp)
-file(GLOB_RECURSE ICL Include/*.hpp)
+file(GLOB_RECURSE SRC src/*.cpp)
+file(GLOB_RECURSE ICL include/*.hpp)
 
 add_executable(Engine
         ${SRC}
