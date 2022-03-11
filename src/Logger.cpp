@@ -109,7 +109,7 @@ void Logger::setLogDir(std::string logDir)
     _logDir = logDir;
 }
 
-void Logger::setLogInstance(std::string logInstance)
+void Logger::setLogInstanceName(std::string logInstanceName)
 {
-    _logInstance = logInstance +"_"+ _getTimeNow("%F_%X");
+    _logInstance = logInstanceName + "_" + _getTimeNow("%F_%X");
 }

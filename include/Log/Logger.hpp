@@ -27,7 +27,7 @@ class Logger
         };
         
         static void setLogDir(std::string logDir);
-        static void setLogInstance(std::string logInstance);
+        static void setLogInstanceName(std::string logInstanceName);
         static void initLogInstance(Mode mode = RELEASE_MODE);
         
         static void Log(std::string message, severity level = INFO);
@@ -46,7 +46,7 @@ class Logger
         static inline std::string _logDir = "Logs/";
         static inline std::string _logInstance = "";
         static inline std::string _engineLogFile = "engine.log";
-        static inline Mode m_mode;
+        static inline Mode m_mode = RELEASE_MODE;
 };
 
 
