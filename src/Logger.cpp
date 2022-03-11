@@ -14,7 +14,7 @@ void Logger::Log(std::string message, std::string specificFile,
 Logger::severity level)
 {
     if (_logInstance.empty())
-        _initLogInstance();
+        initLogInstance();
 
     _logFile(message, specificFile, level);
 }
@@ -22,16 +22,16 @@ Logger::severity level)
 void Logger::Log(std::string message, Logger::severity level)
 {
     if (_logInstance.empty())
-        _initLogInstance();
+        initLogInstance();
 
     _logFile(message, level);
 }
 
-void Logger::_initLogInstance(Mode mode)
+void Logger::initLogInstance(Mode mode)
 {
     m_mode = mode;
     
-    _logInstance += _getTimeNow("%F_%X");
+    _logInstance = _getTimeNow("%F_%X");
 }
 
 void Logger::_logFile(std::string message, Logger::severity level)
@@ -102,4 +102,14 @@ void Logger::_consoleLog(std::string message, Logger::severity level)
 
     std::cout << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
 
+}
+
+void Logger::setLogDir(std::string logDir)
+{
+    _logDir = logDir;
+}
+
+void Logger::setLogInstance(std::string logInstance)
+{
+    _logInstance = logInstance +"_"+ _getTimeNow("%F_%X");
 }
