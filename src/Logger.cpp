@@ -40,6 +40,7 @@ void Logger::_logFile(std::string message, Logger::severity level)
     
     if (m_mode == RELEASE_MODE && level == DEBUG)
         return;
+    //TODO: coloration ?
     file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
     file.close();
 }
