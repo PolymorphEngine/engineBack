@@ -1,0 +1,30 @@
+<root attr="issou" attr2="iss/>ou2">
+    <childToFind attr1="val"/>
+    <child attr1="val">
+        <childToFind attr1="val"/>
+    </child>
+    <child attr1="val">
+        <subChild>
+            <childToFind attr1="val"/>
+        </subChild>
+    </child>
+    <child attr1="val">
+        <subChild>
+            <subSubChild>
+                <childToFind attr1="val"/>
+            </subSubChild>
+        </subChild>
+    </child>
+    <child attr1="val">
+        <subChild>
+            <subSubChild>
+                <subSubSubChild>
+                    <childToFind attr1="val"/>
+                </subSubSubChild>
+            </subSubChild>
+        </subChild>
+    </child>
+    <child attr1="val"/>
+    <child attr1="val"/>
+    <child attr1="val"/>
+</root>
