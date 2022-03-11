@@ -34,7 +34,7 @@ class Logger
         
         
     private:
-        
+        static void _consoleLog(std::string message, severity level);
         static void _logFile(std::string message, severity level = INFO);
         static void _logFile(std::string message, std::string file, severity level = INFO);
         static void _initLogInstance(Mode mode = RELEASE_MODE);

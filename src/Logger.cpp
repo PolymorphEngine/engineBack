@@ -15,17 +15,20 @@ Logger::severity level)
 {
     if (_logInstance.empty())
         _initLogInstance();
+
+    _logFile(message, specificFile, level);
 }
 
 void Logger::Log(std::string message, Logger::severity level)
 {
     if (_logInstance.empty())
         _initLogInstance();
+
+    _logFile(message, level);
 }
 
 void Logger::_initLogInstance(Mode mode)
 {
-    char buffer [80];
     m_mode = mode;
     
     _logInstance += _getTimeNow("%F_%X");
@@ -33,13 +36,14 @@ void Logger::_initLogInstance(Mode mode)
 
 void Logger::_logFile(std::string message, Logger::severity level)
 {
+    if (m_mode == RELEASE_MODE && level == DEBUG)
+        return;
+    
     std::ofstream file(_logDir + _logInstance + "/"+ _engineLogFile);
     
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
-    
-    if (m_mode == RELEASE_MODE && level == DEBUG)
-        return;
+
     //TODO: coloration ?
     file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
     file.close();
@@ -72,4 +76,30 @@ std::string Logger::_severity_to_string(Logger::severity level)
             return "MAJOR";
     }
     return "";
+}
+
+void
+Logger::_logFile(std::string message, std::string filepath, Logger::severity level)
+{
+    if (m_mode == RELEASE_MODE && level == DEBUG)
+        return;
+
+    std::ofstream file(_logDir + _logInstance + "/"+ filepath);
+
+    if (!file.is_open())
+        throw std::runtime_error("Failed to open log file");
+
+    //TODO: coloration ?
+    file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
+    file.close();
+}
+
+void Logger::_consoleLog(std::string message, Logger::severity level)
+{
+    //TODO: colorize text
+    if (m_mode == RELEASE_MODE && level == DEBUG)
+        return;
+
+    std::cout << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
+
 }
