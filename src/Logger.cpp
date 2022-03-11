@@ -96,11 +96,10 @@ Logger::_logFile(std::string message, std::string filepath, Logger::severity lev
 
 void Logger::_consoleLog(std::string message, Logger::severity level)
 {
-    //TODO: colorize text
     if (m_mode == RELEASE_MODE && level == DEBUG)
         return;
-
-    std::cout << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
+    
+    std::cout << "["+_getTimeNow("%X") +"] : "+ _severity_to_color(level)+_severity_to_string(level)+" "+ message + RESET << std::endl;
 
 }
 
@@ -112,4 +111,19 @@ void Logger::setLogDir(std::string logDir)
 void Logger::setLogInstanceName(std::string logInstanceName)
 {
     _logInstance = logInstanceName + "_" + _getTimeNow("%F_%X");
+}
+
+std::string Logger::_severity_to_color(Logger::severity level)
+{
+    switch (level)
+    {
+        case DEBUG:
+            return GREEN;
+        case INFO:
+            return WHITE;
+        case MINOR:
+            return YELLOW;
+        case MAJOR:
+            return RED;
+    }
 }
