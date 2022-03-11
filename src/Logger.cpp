@@ -44,7 +44,6 @@ void Logger::_logFile(std::string message, Logger::severity level)
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
 
-    //TODO: coloration ?
     file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
     file.close();
 }
