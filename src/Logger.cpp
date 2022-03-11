@@ -14,29 +14,31 @@ void Logger::Log(std::string message, std::string specificFile,
 Logger::severity level)
 {
     if (_logInstance.empty())
-        initLogInstance();
+        InitLogInstance();
 
     _logFile(message, specificFile, level);
+    _consoleLog(message, level);
 }
 
 void Logger::Log(std::string message, Logger::severity level)
 {
     if (_logInstance.empty())
-        initLogInstance();
+        InitLogInstance();
 
     _logFile(message, level);
+    _consoleLog(message, level);
 }
 
-void Logger::initLogInstance(Mode mode)
+void Logger::InitLogInstance(Mode mode)
 {
-    m_mode = mode;
+    _mode = mode;
     
     _logInstance = _getTimeNow("%F_%X");
 }
 
 void Logger::_logFile(std::string message, Logger::severity level)
 {
-    if (m_mode == RELEASE_MODE && level == DEBUG)
+    if (_mode == RELEASE_MODE && level == DEBUG)
         return;
     
     std::ofstream file(_logDir + _logInstance + "/"+ _engineLogFile);
@@ -80,7 +82,7 @@ std::string Logger::_severity_to_string(Logger::severity level)
 void
 Logger::_logFile(std::string message, std::string filepath, Logger::severity level)
 {
-    if (m_mode == RELEASE_MODE && level == DEBUG)
+    if (_mode == RELEASE_MODE && level == DEBUG)
         return;
 
     std::ofstream file(_logDir + _logInstance + "/"+ filepath);
@@ -95,19 +97,19 @@ Logger::_logFile(std::string message, std::string filepath, Logger::severity lev
 
 void Logger::_consoleLog(std::string message, Logger::severity level)
 {
-    if (m_mode == RELEASE_MODE && level == DEBUG)
+    if (_mode == RELEASE_MODE && level == DEBUG)
         return;
     
     std::cout << "["+_getTimeNow("%X") +"] : "+ _severity_to_color(level)+_severity_to_string(level)+" "+ message + RESET << std::endl;
 
 }
 
-void Logger::setLogDir(std::string logDir)
+void Logger::SetLogDir(std::string logDir)
 {
     _logDir = logDir;
 }
 
-void Logger::setLogInstanceName(std::string logInstanceName)
+void Logger::SetLogInstanceName(std::string logInstanceName)
 {
     _logInstance = logInstanceName + "_" + _getTimeNow("%F_%X");
 }

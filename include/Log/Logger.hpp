@@ -35,28 +35,91 @@ class Logger
             RELEASE_MODE
         };
         
-        static void setLogDir(std::string logDir);
-        static void setLogInstanceName(std::string logInstanceName);
-        static void initLogInstance(Mode mode = RELEASE_MODE);
+        /**
+         * @details Overrides the default log directory of the Logger
+         * @param logDir new log directory
+         */
+        static void SetLogDir(std::string logDir);
+
+        /**
+         * @details Adds a custom instance name prefix to the instance log sub directory
+         * @param logInstanceName prefix name
+         */
+        static void SetLogInstanceName(std::string logInstanceName);
         
+        /**
+         * @details Inits the logger instance with a log subdirectory name by date time now and sets the program mode
+         * @param mode program logger mode (Release or Debug)
+         * @warning Default mode is RELEASE_MODE
+         */
+        static void InitLogInstance(Mode mode = RELEASE_MODE);
+
+        /**
+         * @details Logs a message to file and console depending on program mode and severity
+         * @param message the message to log
+         * @param level the severity of the log (optional)
+         */
         static void Log(std::string message, severity level = INFO);
+
+        /**
+         * @details Logs a message to file and console depending on program mode and severity
+         * @param message the message to log
+         * @param specificFile a custom file to log in (will be placed in the log dir into the instance subdir log)
+         * @param level the severity of the log (optional)
+         */
         static void Log(std::string message, std::string specificFile, severity level = INFO);
         
         
     private:
-        static void _consoleLog(std::string message, severity level);
-        static void _logFile(std::string message, severity level = INFO);
-        static void _logFile(std::string message, std::string file, severity level = INFO);
         
+        /**
+         * @details Logs a message and severity to console
+         * @param message the message to log
+         * @param level the severity of the log (optional)
+         */
+        static void _consoleLog(std::string message, severity level);
+
+        /**
+         * @details Logs a message and severity to default logfile instance
+         * @param message the message to log
+         * @param level the severity of the log (optional)
+         */
+        static void _logFile(std::string message, severity level);
+
+        /**
+         * @details Logs a message and severity to specified logfile
+         * @param message the message to log
+         * @param file the specific file to log in
+         * @param level the severity of the log (optional)
+         */
+        static void _logFile(std::string message, std::string file, severity level);
+
+        /**
+         * @details Gets and formats the actual date time to readable format
+         * @param flags format flags (refer to std::strftime documentation)
+         * @returns the formatted date time now string
+         */
         static std::string _getTimeNow(std::string flags);
-        static std::string _severity_to_string(severity );
-        static std::string _severity_to_color(severity );
+
+        /**
+         * @details Convert's the severity enumeration to string
+         * @param level severity enum
+         * @returns the string corresponding to the severity
+         */
+        static std::string _severity_to_string(severity level);
+
+        /**
+         * @details Convert's the severity enumeration to ANSI color string
+         * @param level severity enum
+         * @returns the color corresponding to the severity
+         */
+        static std::string _severity_to_color(severity level);
         
         
         static inline std::string _logDir = "Logs/";
         static inline std::string _logInstance = "";
         static inline std::string _engineLogFile = "engine.log";
-        static inline Mode m_mode = RELEASE_MODE;
+        static inline Mode _mode = RELEASE_MODE;
 };
 
 
