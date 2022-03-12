@@ -63,6 +63,8 @@ namespace Polymorph
             
             void Exit(ExitCode code);
             
+            std::string getProjectPath();
+            
         private:
             /**
              * @details Opens the project configuration 

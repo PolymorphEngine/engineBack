@@ -35,7 +35,6 @@ namespace Polymorph
     {
         public:
             Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
-
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
             std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
@@ -43,6 +42,9 @@ namespace Polymorph
             std::shared_ptr<Config::XmlScene> _config_data;
 
         public:
+            std::string name;
+            std::string id;
+            
             /**
              * @details Loops trough entities twice:
              *          Once to call Update
@@ -148,7 +150,7 @@ namespace Polymorph
               * @param parent_id: The id of the parent entity
               * @returns The total count of children and sub-children of an entity
               */
-            int countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
+            int _countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
 
     };
 }

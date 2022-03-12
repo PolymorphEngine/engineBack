@@ -135,3 +135,8 @@ void Polymorph::Engine::_initGameData()
         _scenes.push_back(std::make_shared<Polymorph::Scene>(scene, *this));
     
 }
+
+std::string Polymorph::Engine::getProjectPath()
+{
+    return _projectPath;
+}

@@ -60,12 +60,13 @@ namespace Polymorph
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
         {
             if ((**entity) == id)
-                _entities.erase(entity, entity + countChildren(entity, (*entity)->getId()) + 1);
+                _entities.erase(entity, entity +
+                        _countChildren(entity, (*entity)->getId()) + 1);
             pos++;
         }
     }
 
-    int Scene::countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id)
+    int Scene::_countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id)
     {
         auto count = (*entity)->transform->children.size();
         
@@ -73,7 +74,7 @@ namespace Polymorph
         for (; entity != _entities.end() && (*entity)->getId() != parent_id;)
         {
             if (!(*entity)->transform->children.empty())
-                count += countChildren(entity, (*entity)->getId());
+                count += _countChildren(entity, (*entity)->getId());
             else
                 ++entity;
         }
@@ -133,6 +134,8 @@ namespace Polymorph
     Scene::Scene(std::shared_ptr<myxmlpp::Node> &data,
     Engine &game): _game(game)
     {
+        _config_data = std::make_shared<Config::XmlScene>(data, game);
+        
         throw std::runtime_error("Not implemented yet");
     }
 

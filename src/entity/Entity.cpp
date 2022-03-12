@@ -11,22 +11,18 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 
-Polymorph::Entity::Entity(std::shared_ptr<Config::XmlEntity> &data,
-std::shared_ptr<Engine> &game) : _game(game), _stringId(data->getId())
+Polymorph::Entity::Entity(Config::XmlEntity &data,
+Engine &game) : _game(game), _stringId(data.getId())
 {
-    name = data->getName();
-    _active = data->isActive();
-    _order = _game->getExecOrder();
+    name = data.getName();
+    _active = data.isActive();
+    _order = _game.getExecOrder();
     for (auto &type: _order)
         _components[type];
     _isPrefab = false;
 }
 
 
-Polymorph::Entity::Entity() : _stringId ("")
-{
-    _isPrefab = true;
-}
 
 void Polymorph::Entity::addComponent(std::string &component,
 Polymorph::Config::XmlComponent &config)

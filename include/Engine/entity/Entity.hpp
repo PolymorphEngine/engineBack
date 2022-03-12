@@ -34,7 +34,7 @@ namespace Polymorph
     {
         public:
             Entity();
-            Entity(std::shared_ptr<Config::XmlEntity> &data, std::shared_ptr<Engine> &game);
+            Entity(Config::XmlEntity &data, Engine &game);
             ~Entity();
             
             /**
@@ -206,7 +206,7 @@ namespace Polymorph
             std::string _stringId;
             std::vector<std::string> _tags;
             std::string _layer;
-            std::shared_ptr<Engine> _game;
+            Engine &_game;
             std::vector<std::string> _order;
             std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
 

@@ -14,6 +14,7 @@
 #include "Vector.hpp"
 #include "Rect.hpp"
 #include "safe_ptr.hpp"
+#include "Node.hpp"
 
 namespace Polymorph
 {
@@ -22,7 +23,7 @@ namespace Polymorph
     class Entity;
     namespace Config
     {
-        using XmlNode = void *;
+        using XmlNode = myxmlpp::Node;
 
         /**
          * @class The class that interfaces a Component Xml Node and the actual Component
