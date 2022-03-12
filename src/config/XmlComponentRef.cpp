@@ -23,7 +23,7 @@ namespace Polymorph::Config
         GameObject entity = getReference();
         if (!entity)
             return safe_ptr<T>(nullptr);
-        return (*entity)->GetComponent<T>();
+        return entity->GetComponent<T>();
     }
 
 }

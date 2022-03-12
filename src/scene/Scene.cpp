@@ -103,10 +103,6 @@ namespace Polymorph
         
     }
 
-    Scene::Scene(std::shared_ptr<Config::XmlScene> &data, std::shared_ptr<Engine> &game): _config_data(data), _game(game), _id(data->getId())
-    {
-    }
-
     void Scene::loadScene()
     {
         _destroyQueueList.clear();
@@ -132,6 +128,12 @@ namespace Polymorph
                 return GameObject(e);
         }
         return GameObject(nullptr);
+    }
+
+    Scene::Scene(std::shared_ptr<myxmlpp::Node> &data,
+    Engine &game): _game(game)
+    {
+        throw std::runtime_error("Not implemented yet");
     }
 
 }

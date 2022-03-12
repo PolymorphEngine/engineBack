@@ -35,7 +35,7 @@ namespace Polymorph
             void reference() final {
                 TransformBase &trm = dynamic_cast<TransformBase&>(*component);
                 for (auto &ref: data.getEntityReferencePropertylList("Children"))
-                    (*ref)->transform->SetParent(trm);
+                    ref->transform->SetParent(trm);
             }
 
     };

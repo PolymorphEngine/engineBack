@@ -2,7 +2,10 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="Engine" targetName="Engine" />
+      <config projectName="Engine" targetName="unit-tests" />
+      <config projectName="Engine" targetName="myxmlpp" />
+      <config projectName="Engine" targetName="myxmlppexec" />
+      <config projectName="Engine" targetName="PolymorphEngine" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -12,9 +15,25 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f92aef5-3692-45b6-a1d2-9808187be18a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clion-utilities/CMakeLists.txt" beforeDir="false" />
+    <list default="true" id="4f92aef5-3692-45b6-a1d2-9808187be18a" name="Changes" comment="[add] documentation (and call to console log in Log">
+      <change afterPath="$PROJECT_DIR$/include/Engine/Exceptions/ExceptionLogger.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/Engine/Exceptions/configuration/ConfigurationException.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/Engine/Exceptions/configuration/MissingAttribute.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/Engine/Exceptions/configuration/MissingConfigFile.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/Engine/Exceptions/configuration/MissingNode.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/exeptions/ExceptionLogger.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/exeptions/configuration/ConfigurationException.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/exeptions/configuration/MissingAttribute.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/exeptions/configuration/MissingConfigFile.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/exeptions/configuration/MissingNode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Engine/component/factory/initializers/TransformInitializer.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/Engine/component/factory/initializers/TransformInitializer.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/Engine/scene/Scene.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/include/Engine/scene/Scene.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/XmlComponentRef.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/XmlComponentRef.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Entity.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Entity.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scene/Scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/scene/Scene.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +65,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="cmake.loaded.for.project" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
@@ -59,12 +80,15 @@
       <recent name="$PROJECT_DIR$/PolymorphEngine/clion-utilities" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/exeptions/configuration" />
+      <recent name="$PROJECT_DIR$/src/exeptions" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/PolymorphEngine" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Engine" TARGET_NAME="Engine" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Engine" RUN_TARGET_NAME="Engine">
+  <component name="RunManager" selected="CMake Application.PolymorphEngine">
+    <configuration name="PolymorphEngine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Engine" TARGET_NAME="PolymorphEngine" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -74,6 +98,27 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="myxmlpp" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Engine" TARGET_NAME="myxmlpp" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="myxmlppexec" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Engine" TARGET_NAME="myxmlppexec" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Engine" RUN_TARGET_NAME="myxmlppexec">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="unit-tests" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Engine" TARGET_NAME="unit-tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Engine" RUN_TARGET_NAME="unit-tests">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.PolymorphEngine" />
+      <item itemvalue="CMake Application.myxmlpp" />
+      <item itemvalue="CMake Application.myxmlppexec" />
+      <item itemvalue="CMake Application.unit-tests" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -85,8 +130,69 @@
       <updated>1643982815487</updated>
       <workItem from="1643982817097" duration="1418000" />
       <workItem from="1646948048252" duration="1028000" />
+      <workItem from="1647018870208" duration="17286000" />
     </task>
+    <task id="LOCAL-00001" summary="[add] _logFile implementation">
+      <created>1647032110411</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1647032110411</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[add] _logFile implementation">
+      <created>1647032158745</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1647032158745</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[add] _consoleLog implementation">
+      <created>1647033930892</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647033930892</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[add] setLogDir &amp;&amp; setLogInstance implementation">
+      <created>1647034530128</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647034530128</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[fix] members name">
+      <created>1647034650130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647034650130</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[add] console colorization based on severity">
+      <created>1647035173880</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647035173880</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[fix] removed todo">
+      <created>1647035251982</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647035251982</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[add] documentation (and call to console log in Log">
+      <created>1647037420867</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1647037420867</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -98,5 +204,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[add] _logFile implementation" />
+    <MESSAGE value="[add] _consoleLog implementation" />
+    <MESSAGE value="[add] setLogDir &amp;&amp; setLogInstance implementation" />
+    <MESSAGE value="[fix] members name" />
+    <MESSAGE value="[add] console colorization based on severity" />
+    <MESSAGE value="[fix] removed todo" />
+    <MESSAGE value="[add] documentation (and call to console log in Log" />
+    <option name="LAST_COMMIT_MESSAGE" value="[add] documentation (and call to console log in Log" />
   </component>
 </project>

@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include "factory/ComponentInitializer.hpp"
 #include "ref_ptr.hpp"
-
+#include "Node.hpp"
 
 
 namespace Polymorph
@@ -34,13 +34,12 @@ namespace Polymorph
     class Scene
     {
         public:
-            Scene(std::shared_ptr<Config::XmlScene> &data, std::shared_ptr<Engine> &game);
+            Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
 
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
             std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
-            std::string &_id;
-            std::shared_ptr<Engine> _game;
+            Engine &_game;
             std::shared_ptr<Config::XmlScene> _config_data;
 
         public:

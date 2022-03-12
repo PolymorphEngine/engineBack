@@ -131,8 +131,8 @@ void Polymorph::Entity::Draw()
     
     //TODO : Draw drawables (only one drawable per entity ??)
     safe_ptr<DrawableComponent> c = GetComponent<DrawableComponent>();
-    if (!!c && (*c)->enabled)
-        (*c)->Draw();
+    if (!!c && c->enabled)
+        c->Draw();
     DrawChildren(*transform);
 }
 
@@ -144,8 +144,8 @@ void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
     {
         //TODO: check independence before drawing ?
         Drawable drawable = child->gameObject.GetComponent<DrawableComponent>();
-        if (!!drawable && (*drawable)->enabled)
-            (*drawable)->Draw();
+        if (!!drawable && drawable->enabled)
+            drawable->Draw();
         DrawChildren(*child);
     }
 }
