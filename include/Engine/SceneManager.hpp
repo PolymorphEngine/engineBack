@@ -44,6 +44,12 @@ namespace Polymorph
             static std::vector<GameObject> FindAll(std::string name);
 
             /**
+             * @details Finds a game object in scene by its unique id
+             * @param id: The unique id of the game object to find
+             * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
+             */
+            static GameObject FindById(std::string id);
+            /**
              * @details Finds the first occurrence of a game object in scene by tag
              * @param tag: The tag of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)

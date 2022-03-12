@@ -33,6 +33,8 @@ namespace Polymorph
         class XmlComponent
         {
             public:
+                explicit XmlComponent(std::shared_ptr<XmlNode> node);
+                
                 /**
                  * @details Looks for the initial state of the component in the config
                  * @return the component enable state

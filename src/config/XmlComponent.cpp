@@ -125,7 +125,7 @@ bool Polymorph::Config::XmlComponent::isEnabled()
 Polymorph::safe_ptr<Polymorph::Entity>
 Polymorph::Config::XmlComponent::getEntityReferenceProperty(std::string name)
 {
-    XmlEntityRef ref = XmlEntityRef(*node, *scene);
+    XmlEntityRef ref = XmlEntityRef(*node);
     
     return ref.getReference();
 }
@@ -142,8 +142,13 @@ template<typename T>
 Polymorph::safe_ptr<T>
 Polymorph::Config::XmlComponent::getComponentReferenceProperty(std::string name)
 {
-    XmlComponentRef<T> ref = XmlComponentRef<T>(*node, *scene);
+    XmlComponentRef<T> ref = XmlComponentRef<T>(*node);
     
     return ref.getComponentReference();
+}
+
+Polymorph::Config::XmlComponent::XmlComponent(std::shared_ptr<XmlNode> node)
+{
+    this->node = node;
 }
 

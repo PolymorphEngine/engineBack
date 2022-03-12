@@ -17,7 +17,7 @@ namespace Polymorph::Config
     class XmlComponentRef : public XmlEntityRef
     {
         public:
-            XmlComponentRef(XmlNode &node, Scene &scene);
+            explicit XmlComponentRef(XmlNode &node);
             safe_ptr<T> getComponentReference();
 
     };

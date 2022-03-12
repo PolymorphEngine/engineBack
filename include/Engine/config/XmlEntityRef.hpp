@@ -20,13 +20,12 @@ namespace Polymorph
         class XmlEntityRef
         {
             public:
-                explicit XmlEntityRef(XmlNode &node, Scene &scene);
+                explicit XmlEntityRef(XmlNode &node);
                 GameObject getReference();
 
 
             private:
                 std::string _id;
-                Scene &_scene;
         };
     }
 }

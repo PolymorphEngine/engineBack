@@ -11,11 +11,8 @@ namespace Polymorph::Config
 {
 
     template<typename T>
-    XmlComponentRef<T>::XmlComponentRef(XmlNode &node, Scene &scene)
-            :XmlEntityRef(node, scene)
-    {
-        throw std::runtime_error("XmlComponentRef::Constructor(): Not yet implemented");
-    }
+    XmlComponentRef<T>::XmlComponentRef(XmlNode &node)
+            :XmlEntityRef(node){}
 
     template<typename T>
     safe_ptr<T> XmlComponentRef<T>::getComponentReference()

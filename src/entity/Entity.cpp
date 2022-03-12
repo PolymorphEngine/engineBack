@@ -41,7 +41,7 @@ Polymorph::safe_ptr<T> Polymorph::Entity::AddComponent()
 {
     std::shared_ptr<T> component(new T(*this));
 
-    Config::XmlComponent config;
+    Config::XmlComponent config(nullptr);
     //TODO fetch default Config for component
     std::string t = component->getType();
     component.reset();
@@ -49,10 +49,11 @@ Polymorph::safe_ptr<T> Polymorph::Entity::AddComponent()
         return safe_ptr<T>();
         //TODO: maybe throw ?
     ComponentFactory::Initializer c = ComponentFactory::create(t, config, *this);
-    c->build();
-    c->reference();
+    //c->build();
+    //c->reference();
     _components[c->getType()].push_back(c);
     (**c)->Start();
+    (**c)->SetAsStarted();
     return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
 }
 

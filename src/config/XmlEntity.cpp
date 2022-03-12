@@ -145,7 +145,7 @@ namespace Polymorph
         }
         for (auto &c: *components)
         {
-            _components.push_back(std::make_shared<Config::XmlComponent>());
+            _components.push_back(std::make_shared<Config::XmlComponent>(c));
         }
     }
 }
