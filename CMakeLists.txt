@@ -24,3 +24,11 @@ add_library(PolymorphEngine
         ${SRC}
         ${ICL}
         )
+
+add_executable(TestMain
+        ${SRC}
+        ${ICL}
+        SampleProject/test_main.cpp
+        )
+
+target_link_libraries(TestMain myxmlpp)
