@@ -34,7 +34,7 @@ namespace Polymorph
 
         for (auto &child: *this)
         {
-            if ((*child).gameObject.getId() == remove.gameObject.getId())
+            if (child->gameObject.getId() == remove.gameObject.getId())
             {
                 erase(pos);
                 remove.parent.reset();
@@ -58,8 +58,8 @@ namespace Polymorph
 
         //TODO: Set index in scene !!!
 
-        TransformBase self = parent->RemoveChild(*this);
-        parent->children.insert(parent->children.begin() + index, self);
+        parent->RemoveChild(*this);
+        parent->children.insert(parent->children.begin() + index, this->gameObject.transform);
     }
 
     void TransformComponent::SetLastSibling()
@@ -83,17 +83,7 @@ namespace Polymorph
 
     void TransformComponent::Start()
     {
-        Logger::Log("------------------------- Hi ------------------------------");
-        Logger::Log("Im the transform of object name: " + gameObject.name);
         
-        if (!children.empty())
-        {
-            Logger::Log("I have exactly : " + std::to_string(children.size()) + " children.");
-            Logger::Log("Here are their names:");
-            for (auto &child: children)
-                Logger::Log(child->gameObject.name);
-        }
-        Logger::Log("------------------------ Bye -----------------------------");
     }
 
 }
