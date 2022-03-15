@@ -87,7 +87,6 @@ namespace Polymorph
     void Scene::erase(std::string &id)
     {
         auto pos = 0;
-        auto nullreturn = Polymorph::Entity();
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
         {
             if ((**entity) == id)
@@ -154,9 +153,11 @@ namespace Polymorph
         _entities.clear();
 
         _entities = _config_data->getEntities();
-
+        
         for (auto &e : _entities)
             e->Awake();
+        for (auto &e: _entities)
+            e->start();
     }
 
     void Scene::unloadScene()
@@ -181,6 +182,13 @@ namespace Polymorph
                 return GameObject(e);
         }
         return GameObject(nullptr);
+    Scene::Scene(std::shared_ptr<myxmlpp::Node> &data,
+    Engine &game): _game(game)
+    {
+        _config_data = std::make_shared<Config::XmlScene>(data, game);
+        
+        id = _config_data->getId();
+        name = _config_data->getName();
     }
 
     std::vector<GameObject> Scene::findAllByTag(const std::string &tag) {

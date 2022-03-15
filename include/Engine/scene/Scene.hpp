@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include "factory/ComponentInitializer.hpp"
 #include "ref_ptr.hpp"
+#include "safe_ptr.hpp"
 #include "Node.hpp"
 
 
@@ -26,6 +27,7 @@ namespace Polymorph
 
     class Engine;
     class Entity;
+    using GameObject = safe_ptr<Entity>;
     class Timer;
 
     /**
@@ -46,7 +48,7 @@ namespace Polymorph
         public:
             std::string name;
             std::string id;
-
+            
             /**
              * @details Loops trough entities twice:
              *          Once to call Update

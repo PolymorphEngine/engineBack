@@ -9,9 +9,6 @@
 #define ENGINE_TRANSFORMINITIALIZER_HPP
 
 #include "factory/ComponentInitializer.hpp"
-#include "XmlComponent.hpp"
-#include "XmlEntityRef.hpp"
-#include "default/TransformComponent.hpp"
 
 namespace Polymorph
 {
@@ -19,24 +16,11 @@ namespace Polymorph
     {
         public:
 
-            TransformInitializer(Config::XmlComponent &data, Entity &entity)
-            : AComponentInitializer( "Transform", data, entity){
-                component = std::shared_ptr<Component>(new TransformComponent(entity));
-            };
+            TransformInitializer(Config::XmlComponent &data, Entity &entity);
 
-            std::shared_ptr<Component> &build() final
-            {
-                TransformBase &trm = dynamic_cast<TransformBase&>(*component);
-                trm->position = data.getVector3Property("position");
-                trm->rotation = data.getVector3Property("rotation");
-                trm->scale = data.getVector3Property("scale");
-                return component;
-            };
-            void reference() final {
-                TransformBase &trm = dynamic_cast<TransformBase&>(*component);
-                for (auto &ref: data.getEntityReferencePropertylList("Children"))
-                    ref->transform->SetParent(trm);
-            }
+            std::shared_ptr<Component> &build() final;
+            
+            void reference() final;
 
     };
 }

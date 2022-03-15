@@ -41,12 +41,12 @@ void Logger::_logFile(std::string message, Logger::severity level)
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
     
-    std::ofstream file(_logDir + _logInstance + "/"+ _engineLogFile);
+    std::fstream file(_logDir + "/"+ _logInstance + "_"+ _engineLogFile, std::ios_base::out|std::ios_base::app);
     
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
 
-    file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
+    file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" | "+ message << std::endl;
     file.close();
 }
 
@@ -90,7 +90,6 @@ Logger::_logFile(std::string message, std::string filepath, Logger::severity lev
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
 
-    //TODO: coloration ?
     file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
     file.close();
 }

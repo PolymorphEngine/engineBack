@@ -48,7 +48,7 @@ namespace Polymorph
 
         for (auto &child: *this)
         {
-            if ((*child).gameObject.getId() == remove.gameObject.getId())
+            if (child->gameObject.getId() == remove.gameObject.getId())
             {
                 erase(pos);
                 remove.parent.reset();
@@ -63,15 +63,17 @@ namespace Polymorph
     void TransformComponent::SetSiblingIndex(int index)
     {
 
-        if (parent == nullptr || index < 0)
+        if (parent == nullptr)
             return;
-        if (index >= parent->children.size())
+        if (index < 0)
+            index = 0;
+        if (index >= parent->children.size() && index != 0)
             index = parent->children.size() - 1;
 
         //TODO: Set index in scene !!!
 
-        TransformBase self = parent->RemoveChild(*this);
-        parent->children.insert(parent->children.begin() + index, self);
+        parent->RemoveChild(*this);
+        parent->children.insert(parent->children.begin() + index, this->gameObject.transform);
     }
 
     void TransformComponent::SetLastSibling()
@@ -91,6 +93,11 @@ namespace Polymorph
             : Component("Transform", gameObject)
     {
 
+    }
+
+    void TransformComponent::Start()
+    {
+        
     }
 
 }

@@ -10,6 +10,7 @@
 
 #include <memory>
 #include <vector>
+#include "Node.hpp"
 
 namespace Polymorph
 
@@ -22,14 +23,26 @@ namespace Polymorph
         class XmlEntity;
         class XmlScene {
             public:
-                XmlScene(Engine &_engine);
+                XmlScene(std::shared_ptr<myxmlpp::Node> &node, Engine &_engine);
                 std::vector<std::shared_ptr<Entity>> getEntities();
-                std::string &getId();
+                
+                std::string getId();
+                std::string getName();
+                bool isFirst();
 
 
             private:
                 std::vector<std::shared_ptr<XmlEntity>> _entities;
                 Engine &_engine;
+                std::shared_ptr<myxmlpp::Node> _projectNode;
+                std::shared_ptr<myxmlpp::Doc> _sceneDoc;
+                
+                std::string _name;
+                std::string _id;
+                std::string _path;
+                bool _first;
+                
+                void _loadEntities();
 
         };
     }

@@ -11,9 +11,12 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "Vector.hpp"
-#include "Rect.hpp"
 #include "safe_ptr.hpp"
+#include "Node.hpp"
+#include "SceneManager.hpp"
+#include "Log/Logger.hpp"
+#include "Entity.hpp"
+#include "Scene.hpp"
 
 namespace Polymorph
 {
@@ -22,17 +25,18 @@ namespace Polymorph
     class Entity;
     namespace Config
     {
-        using XmlNode = void *;
+        using XmlNode = myxmlpp::Node;
 
         /**
          * @class XmlComponent The class that interfaces a Component Xml Node
          * and the actual Component
          * inside the engine.
-         * @
          */
         class XmlComponent
         {
             public:
+                explicit XmlComponent(std::shared_ptr<XmlNode> node);
+                
                 /**
                  * @details Looks for the initial state of the component in the config
                  * @return the component enable state
@@ -44,114 +48,99 @@ namespace Polymorph
                  * @return The type of the component
                  */
                 std::string getType();
-
-                /**
-                 * @details Looks for a Vector3 property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An Vector3 property
-                 */
-                Vector3 getVector3Property(std::string name);
-
-
-                /**
-                 * @details Looks for a Vector2 property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An Vector2 property
-                 */
-                Vector2 getVector2Property(std::string name);
-
-                /**
-                 * @details Looks for a Rect property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An Rect property
-                 */
-                Rect getRectProperty(std::string name);
-
-
-                /**
-                 * @details Looks for a character string property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An std::string property
-                 */
-                std::string getStringProperty(std::string name);
-
-                /**
-                 * @details Looks for a integer property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An int property
-                 */
-                int getIntProperty(std::string name);
-
-                /**
-                 * @details Looks for a floating point property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An float property
-                 */
-                float getFloatProperty(std::string name);
-
-                /**
-                 * @details Looks for a boolean property in the component's config file
-                 * @param name: the name of the property to look for
-                 * @return An bool property
-                 */
-                bool getBoolProperty(std::string name);
-
-                /**
-                 * @details Looks for a component reference property in the component's config file,
-                 *          then with the data found it uses it to search the entity->component requested
-                 *          in the engine.
-                 * @tparam T: the T type of the component to look for
-                 * @param name: the name of the property to look for
-                 * @return A smart pointer (safe_ptr<T>) of the component property
-                 */
+                
+                
                 template<typename T>
-                safe_ptr<T> getComponentReferenceProperty(std::string name);
-
-                /**
-                 * @details Looks for an entity reference property in the component's config file,
-                 *          then with the data found it uses it to search the entity requested
-                 *          in the engine.
-                 * @param name: the name of the property to look for
-                 * @return An smart pointer (safe_ptr<T>) of the entity (alias GameObject) property
-                 */
-                safe_ptr<Entity> getEntityReferenceProperty(std::string name);
-
-                /**
-                 * @details Looks for an LIST of entity reference property in the component's config file,
-                 *          then with the data found it uses it to search the entities requested
-                 *          in the engine.
-                 * @param name: the name of the property to look for
-                 * @return An vector of smart pointer (safe_ptr<T>) of entities (alias GameObject)
-                 */
-                std::vector<safe_ptr<Entity>> getEntityReferencePropertylList(std::string name);
-
-                /**
-                * @details Looks for an custom property in the component's config file,
-                *          then with the data found it tries to build the custom object by passing
-                *          the data found to it's constructor
-                * @tparam T: the 'T' type of the object config to look for
-                * @warning Never try to call this with an object type that doesn't have a proper constructor !
-                * @param name: the name of the property to look for
-                * @return An instance of the custom object requested
-                */
+                void setProperty(std::string propertyName, T &toSet)
+                {
+                    
+                };
+                
                 template<typename T>
-                T getTemplatedProperty(std::string name);
+                void setProperty(std::string propertyName, std::vector<T> &toSet)
+                {
+                    
+                };
 
-                /**
-                 *
-                 * @details Looks for an custom property in the component's config file,
-                 *          then with the data found it tries to build the custom object by passing
-                 *          the data found to it's constructor
-                 * @tparam T: the 'T' type of the objects configs to look for
-                 * @warning Never try to call this with an object type that doesn't have a proper constructor !
-                 * @param name: the name of the property to look for
-                 * @return An list of instances of the custom objects requested
-                 */
                 template<typename T>
-                std::vector<T> getListOfTemplatedProperty(std::string name);
+                void setProperty(std::string propertyName, std::vector<safe_ptr<T>> &toSet)
+                {
+                    auto refProp = findProperty(propertyName);
+                    auto i = 0;
 
+                    if (refProp == nullptr)
+                        return;
+
+                    for (auto &elem : *refProp)
+                    {
+                        try
+                        {
+                            auto id = refProp->findAttribute("id")->getValue();
+                            auto gameObject = SceneManager::Current->findById(id);
+                            auto comp = gameObject->GetComponent<T>();
+
+                            if (!comp)
+                                throw;
+                            toSet.push_back(comp);
+                        }
+                        catch (...)
+                        {
+                            Logger::Log("Property Component ref nb :"+std::to_string(i)+", in list named '" +propertyName+ "': has no value", Logger::DEBUG);
+                        }
+                        ++i;
+                    }
+                };
+                void setProperty(std::string propertyName, std::vector<GameObject> &toSet)
+                {
+                    auto refProp = findProperty(propertyName);
+                    auto i = 0;
+
+                    if (refProp == nullptr)
+                        return;
+
+                    for (auto &elem : *refProp)
+                    {
+                        try
+                        {
+                            auto id = elem->findAttribute("id")->getValue();
+                            auto gameObject = SceneManager::Current->findById(id);
+                            toSet.push_back(gameObject);
+                        }
+                        catch (...)
+                        {
+                            Logger::Log("Property Component ref nb :"+std::to_string(i)+", in list named '" +propertyName+ "': has no value", Logger::DEBUG);
+                        }
+                        ++i;
+                    }
+                };
+
+                template<typename T>
+                void setProperty(std::string propertyName, safe_ptr<T> &toSet)
+                {
+                    auto refProp = findProperty(propertyName);
+
+                    if (refProp == nullptr)
+                        return;
+
+                    try
+                    {
+                        auto id = refProp->findAttribute("id")->getValue();
+                        auto gameObject = SceneManager::FindById(id);
+                        auto comp = gameObject->GetComponent<T>();
+
+                        if (!comp)
+                            throw;
+                        toSet = comp;
+                    }
+                    catch (...)
+                    {
+                        Logger::Log("Property gameObject ref named '" +propertyName+ "': has no value", Logger::DEBUG);
+                    }
+                }
             private:
-
+                
+                std::shared_ptr<XmlNode> findProperty(std::string name);
+                
                 std::string type;
                 std::shared_ptr<XmlNode> node;
                 std::shared_ptr<Scene> scene;
