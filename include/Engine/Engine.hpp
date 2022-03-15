@@ -22,7 +22,7 @@ namespace Polymorph
     class Scene;
 
     /**
-     * @class Main container class that holds all game data such as :
+     * @class Engine Main container class that holds all game data such as :
      *        Scenes, Prefabs, Configuration files, Settings
      */
     class Engine
@@ -61,22 +61,44 @@ namespace Polymorph
              * @details Runs the game.
              */
             int run();
-            
+
             void Exit(ExitCode code);
             
             std::string getProjectPath();
             
+
+            /**
+             * @details Find a scene by its name, returns the first matched
+             * @param name the name of the scene to find
+             * @return the required scene
+             */
+            std::shared_ptr<Scene> findSceneByName(const std::string& name);
+
+            /**
+             * @details Find a scene by its id, returns the first matched
+             * @param id the name of the scene to find
+             * @return the required scene
+             */
+            std::shared_ptr<Scene> findSceneById(std::string id);
+
+            /**
+             * Add the provided scene to the engine's scenes list
+             * @param scene the scene to add
+             */
+            void addScene(const std::shared_ptr<Scene>& scene);
+
+
         private:
             /**
-             * @details Opens the project configuration 
+             * @details Opens the project configuration
              */
             void _openProject();
 
             /**
-             * @details Inits the execution order informations of components at runtime 
+             * @details Inits the execution order informations of components at runtime
              */
             void _initExectutionOrder();
-            
+
             /**
              * @details Inits the layer types  for game objects
              */
@@ -101,7 +123,7 @@ namespace Polymorph
              * @details Inits the debug settings of the engine
              */
             void _initDebugSettings();
-            
+
             /**
              * @details Inits the game data
              */

@@ -7,17 +7,35 @@
 
 #include "XmlScene.hpp"
 #include "Scene.hpp"
+
+#include <utility>
 #include "Engine.hpp"
 #include "Entity.hpp"
 #include "Time.hpp"
 #include "default/TransformComponent.hpp"
+#include "uuid.hpp"
 
 namespace Polymorph
 {
-   
+
+    Scene::Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game)
+            : _game(game)
+    {
+        _config_data = std::make_shared<Config::XmlScene>(data, game);
+
+        id = _config_data->getId();
+        name = _config_data->getName();
+    }
+
+    Scene::Scene(std::string sceneName, Engine &game) : _game(game)
+    {
+        name = std::move(sceneName);
+        id = Polymorph::uuid::uuid();
+    }
+
     void Scene::updateComponents()
     {
-        
+
         for (auto &e: _entities)
         {
             e->Update();
@@ -40,7 +58,7 @@ namespace Polymorph
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp())
-                Erase(destroyHolder.second);
+                erase(destroyHolder.second);
             else
                 nmap.emplace(destroyHolder);
         }
@@ -48,12 +66,26 @@ namespace Polymorph
         _destroyQueueList = nmap;
     }
 
-    void Scene::Erase(Entity &entity)
+    std::vector<GameObject> Scene::getAll() const noexcept
     {
-        return Erase(entity.getId());
+        std::vector<GameObject> toRet;
+
+        for (auto &e: _entities) {
+            toRet.emplace_back(e);
+        }
+        return toRet;
     }
 
-    void Scene::Erase(std::string &id)
+    void Scene::addEntity(const std::shared_ptr<Entity>& entity) {
+        _entities.push_back(entity);
+    }
+
+    void Scene::erase(Entity &entity)
+    {
+        return erase(entity.getId());
+    }
+
+    void Scene::erase(std::string &id)
     {
         auto pos = 0;
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
@@ -65,10 +97,12 @@ namespace Polymorph
         }
     }
 
-    int Scene::_countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id)
+    int Scene::_countChildren(
+            std::vector<std::shared_ptr<Entity>>::iterator &entity,
+            std::string &parent_id)
     {
         auto count = (*entity)->transform->children.size();
-        
+
         ++entity;
         for (; entity != _entities.end() && (*entity)->getId() != parent_id;)
         {
@@ -80,27 +114,38 @@ namespace Polymorph
         return count;
     }
 
-    GameObject Scene::find(const std::string &name)
+    GameObject Scene::find(const std::string &needle)
     {
         for (auto &e : _entities)
         {
-            if (e->name == name)
+            if (e->name == needle)
                 return GameObject(e);
         }
         return GameObject(nullptr);
     }
 
-    void Scene::Destroy(Entity &entity)
+    std::vector<GameObject> Scene::findAll(const std::string &needle)
     {
-        Destroy(entity, 0);
+        std::vector<GameObject> toRet;
+
+        for (auto &e : _entities)
+        {
+            if (e->name == needle)
+                toRet.emplace_back(e);
+        }
+        return toRet;
     }
 
-    void Scene::Destroy(Entity &entity, float delayInSeconds)
+    void Scene::destroy(Entity &entity)
+    {
+        destroy(entity, 0);
+    }
+
+    void Scene::destroy(Entity &entity, float delayInSeconds)
     {
         std::shared_ptr<Timer> timer (new Timer(delayInSeconds));
-        
+
         _destroyQueueList.emplace(timer, entity);
-        
     }
 
     void Scene::loadScene()
@@ -109,7 +154,7 @@ namespace Polymorph
         _entities.clear();
 
         _entities = _config_data->getEntities();
-        
+
         for (auto &e : _entities)
             e->Awake();
         for (auto &e: _entities)
@@ -132,13 +177,22 @@ namespace Polymorph
         return GameObject(nullptr);
     }
 
-    Scene::Scene(std::shared_ptr<myxmlpp::Node> &data,
-    Engine &game): _game(game)
-    {
-        _config_data = std::make_shared<Config::XmlScene>(data, game);
-        
-        id = _config_data->getId();
-        name = _config_data->getName();
+    GameObject Scene::findByTag(const std::string &tag) {
+        for (auto &e: _entities) {
+            if (e->hasTag(tag))
+                return GameObject(e);
+        }
+        return GameObject(nullptr);
+    }
+
+    std::vector<GameObject> Scene::findAllByTag(const std::string &tag) {
+        std::vector<GameObject> toRet;
+
+        for (auto &e : _entities) {
+            if (e->hasTag(tag))
+                toRet.emplace_back(e);
+        }
+        return toRet;
     }
 
 }

@@ -75,12 +75,12 @@ void Polymorph::Engine::_openProject()
 void Polymorph::Engine::_initExectutionOrder()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
-    
-    try 
+
+    try
     {
         bool foundDefault = false;
         auto execOrder =settings->findChild("ComponentExecutionOrder");
-        
+
         for (auto &type : *execOrder)
         {
             auto t = type->findAttribute("value")->getValue();
@@ -136,13 +136,13 @@ void Polymorph::Engine::_initDebugSettings()
 void Polymorph::Engine::_initGameData()
 {
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
-    
+
     if (scenes->empty())
         throw ConfigurationException("No scenes found to build", Logger::MAJOR);
-    
+
     for (auto &scene : *scenes)
         _scenes.push_back(std::make_shared<Polymorph::Scene>(scene, *this));
-    
+
 }
 
 std::string Polymorph::Engine::getProjectPath()
@@ -153,4 +153,28 @@ std::string Polymorph::Engine::getProjectPath()
 Polymorph::Engine::~Engine()
 {
     std::cout << "Its a temporary leak ..." << std::endl;
+}
+
+std::shared_ptr<Polymorph::Scene>
+Polymorph::Engine::findSceneByName(const std::string& name)
+{
+    for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
+        if ((*it)->name == name)
+            return *it;
+    }
+    return nullptr;
+}
+
+std::shared_ptr<Polymorph::Scene>
+Polymorph::Engine::findSceneById(std::string id)
+{
+    for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
+        if ((*it)->id == id)
+            return *it;
+    }
+    return nullptr;
+}
+
+void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene) {
+    _scenes.push_back(scene);
 }

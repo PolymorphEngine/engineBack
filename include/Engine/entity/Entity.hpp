@@ -30,9 +30,10 @@ namespace Polymorph
         class XmlEntity;
         class XmlComponent;
     }
-    
+
     /**
-     * @class A container class which is defined by the components it holds.
+     * @class Entity a container class which is defined by the components it
+     * holds.
      */
     class Entity
     {
@@ -40,7 +41,7 @@ namespace Polymorph
             Entity();
             Entity(Config::XmlEntity &data, Engine &game);
             ~Entity();
-            
+
             /**
              * @property The unique mandatory component of an entity
              *           it's like his identity in the world.
@@ -51,7 +52,7 @@ namespace Polymorph
              * @property The entity's name (not necessarily unique)
              */
             std::string name;
-            
+
             /**
              * @details Check for game object state
              * @returns The state of the game object
@@ -231,6 +232,13 @@ namespace Polymorph
             std::string &getId() {return _stringId;};
 
             /**
+             * @details A getter to fetch the XmlEntity associated with the
+             * entity
+             * @returns The associated XmlEntity
+             */
+             Config::XmlEntity &getXmlConfig() const noexcept;
+
+            /**
              * @details Comparator operator that compares 2 entities based on unique id.
              * @param entity: the entity to compare with.
              * @returns True if the entities are the same otherwise false.
@@ -283,6 +291,7 @@ namespace Polymorph
             std::string _layer;
             Engine &_game;
             std::vector<std::string> _order;
+            Config::XmlEntity &_xml_config;
             std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
 
     };

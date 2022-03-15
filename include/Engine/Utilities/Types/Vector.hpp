@@ -21,7 +21,8 @@ namespace Polymorph
             Vector3(float x, float y, float z);
             
             Vector3(Vector3 &copy) = default;
-            Vector3(const Vector3 &copy) = delete;
+            Vector3 operator+(Vector3 &other) const;
+            Vector3 &operator+=(Vector3 &other);
             explicit Vector3(Vector2 &copy);
             
             Vector3();

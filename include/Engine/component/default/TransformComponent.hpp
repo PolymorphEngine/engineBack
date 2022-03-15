@@ -47,7 +47,7 @@ namespace Polymorph
                 return children.end();
             }
 
-            void SetParent(std::shared_ptr<TransformComponent> parent);
+            void SetParent(const std::shared_ptr<TransformComponent>& parent_ref);
 
             std::shared_ptr<TransformComponent> RemoveChild(TransformComponent &child);
             void SetSiblingIndex(int index);

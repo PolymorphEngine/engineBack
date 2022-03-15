@@ -33,6 +33,17 @@ namespace Polymorph
 
     }
 
+    Vector3 Vector3::operator+(Vector3 &other) const {
+        return {x + other.x, y + other.y, z + other.z};
+    }
+
+    Vector3 &Vector3::operator+=(Vector3 &other) {
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
+    }
+
     Vector2::Vector2(Vector3 &copy)
     {
         x = copy.x;
