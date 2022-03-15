@@ -185,3 +185,11 @@ void Polymorph::Engine::_initPhysicSettings()
 
     _physicsSettings = std::make_unique<Settings::PhysicsSettings>(node);
 }
+
+void Polymorph::Engine::_initAudioSettings()
+{
+    auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/AudioSettings");
+
+    _audioSettings = std::make_unique<Settings::AudioSettings>(node);
+}
+

@@ -15,6 +15,7 @@
 #include <vector>
 #include "XmlComponent.hpp"
 #include "PhysicsSettings.hpp"
+#include "AudioSettings.hpp"
 
 
 namespace Polymorph
@@ -51,6 +52,7 @@ namespace Polymorph
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
+            std::unique_ptr<Settings::AudioSettings> _audioSettings;
 
         public:
             /**
