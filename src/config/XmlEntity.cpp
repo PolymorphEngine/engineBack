@@ -5,11 +5,12 @@
 ** header for XmlEntity.c
 */
 
-#include "Engine/config/XmlEntity.hpp"
+#include "XmlEntity.hpp"
 #include "Entity.hpp"
 #include <myxmlpp.hpp>
 #include "Log/Logger.hpp"
 #include "Exceptions/configuration/ConfigurationException.hpp"
+#include "default/TransformComponent.hpp"
 
 namespace Polymorph
 {
@@ -22,8 +23,12 @@ namespace Polymorph
             std::string t = c->getType();
             (*e).addComponent(t, *c);
         }
-        if (!e->componentExist<TransformComponent>())
-            throw ConfigurationException("Entity has no TransformComponent !", Logger::MAJOR);
+        e->transform = *e->GetComponent<TransformComponent>();
+        if (!e->transform)
+        {
+            Logger::Log("Entity '" + e->getName() +"' has no transform. (set default Transform)" , Logger::MINOR);
+            e->transform = *(*e).AddComponent<TransformComponent>();
+        }
         return e;
     }
 
@@ -36,8 +41,8 @@ namespace Polymorph
         std::string name;
         try
         {
-            _fileName = _node->findAttribute("path")->getValue();
             name = _node->findAttribute("name")->getValue();
+            _fileName = _node->findAttribute("path")->getValue();
         }
         catch (myxmlpp::Exception &e)
         {
@@ -54,6 +59,7 @@ namespace Polymorph
         {
             throw ConfigurationException("Entity at path: '"+_path + "/" +_fileName+"': does not exist", Logger::MINOR);
         }
+        _loadComponents();
     }
 
     std::string Config::XmlEntity::getName() const
@@ -72,8 +78,15 @@ namespace Polymorph
 
     bool Config::XmlEntity::isActive() const
     {
-        //TODO: fetch active state from conf
-        throw std::runtime_error("XmlEntity::isActive(): Not yet implemented");
+        try
+        {
+            return _entity->getRoot()->findAttribute("active")->getValueBool("True", "False");
+        }
+        catch (myxmlpp::Exception &e)
+        {
+            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as no state (set to false by default)", Logger::DEBUG);
+            return false;
+        }
     }
 
     std::string Config::XmlEntity::getId() const

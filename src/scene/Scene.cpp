@@ -56,7 +56,6 @@ namespace Polymorph
     void Scene::Erase(std::string &id)
     {
         auto pos = 0;
-        auto nullreturn = Polymorph::Entity();
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
         {
             if ((**entity) == id)
@@ -110,9 +109,11 @@ namespace Polymorph
         _entities.clear();
 
         _entities = _config_data->getEntities();
-
+        
         for (auto &e : _entities)
             e->Awake();
+        for (auto &e: _entities)
+            e->start();
     }
 
     void Scene::unloadScene()
@@ -136,7 +137,8 @@ namespace Polymorph
     {
         _config_data = std::make_shared<Config::XmlScene>(data, game);
         
-        throw std::runtime_error("Not implemented yet");
+        id = _config_data->getId();
+        name = _config_data->getName();
     }
 
 }

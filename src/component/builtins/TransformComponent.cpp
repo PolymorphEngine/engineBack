@@ -49,9 +49,11 @@ namespace Polymorph
     void TransformComponent::SetSiblingIndex(int index)
     {
 
-        if (parent == nullptr || index < 0)
+        if (parent == nullptr)
             return;
-        if (index >= parent->children.size())
+        if (index < 0)
+            index = 0;
+        if (index >= parent->children.size() && index != 0)
             index = parent->children.size() - 1;
 
         //TODO: Set index in scene !!!
@@ -77,6 +79,21 @@ namespace Polymorph
             : Component("Transform", gameObject)
     {
         
+    }
+
+    void TransformComponent::Start()
+    {
+        Logger::Log("------------------------- Hi ------------------------------");
+        Logger::Log("Im the transform of object name: " + gameObject.name);
+        
+        if (!children.empty())
+        {
+            Logger::Log("I have exactly : " + std::to_string(children.size()) + " children.");
+            Logger::Log("Here are their names:");
+            for (auto &child: children)
+                Logger::Log(child->gameObject.name);
+        }
+        Logger::Log("------------------------ Bye -----------------------------");
     }
 
 }

@@ -6,10 +6,12 @@
 */
 
 #include "factory/ComponentFactory.hpp"
+#include "default/TransformComponent.hpp"
 #include "Entity.hpp"
 #include "Engine.hpp"
 #include "XmlEntity.hpp"
 #include "Component.hpp"
+#include "Log/Logger.hpp"
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : _game(game), _stringId(data.getId())
@@ -31,70 +33,15 @@ Polymorph::Config::XmlComponent &config)
         return;
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
+    if (i == nullptr)
+    {
+        Logger::Log("Unknown component to load at initialisation: '"+component+"'", Logger::DEBUG);
+        return;
+    }
     i->build();
     _components[i->getType()].push_back(i);
-    AddComponent<TransformComponent>();
 }
 
-template<typename T>
-Polymorph::safe_ptr<T> Polymorph::Entity::AddComponent()
-{
-    std::shared_ptr<T> component(new T(*this));
-
-    Config::XmlComponent config(nullptr);
-    //TODO fetch default Config for component
-    std::string t = component->getType();
-    component.reset();
-    if (componentExist(t))
-        return safe_ptr<T>();
-        //TODO: maybe throw ?
-    ComponentFactory::Initializer c = ComponentFactory::create(t, config, *this);
-    //c->build();
-    //c->reference();
-    _components[c->getType()].push_back(c);
-    (**c)->Start();
-    (**c)->SetAsStarted();
-    return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
-}
-
-template <typename T>
-bool Polymorph::Entity::componentExist() const
-{
-    std::shared_ptr<T> component(new T(*this));
-    std::string type = component->getType();
-    std::string def("Default");
-    if (!_components.contains(type))
-    {
-        for (auto &c :  _components.find(def)->second)
-        {
-            if (c->getType() == type)
-                return true;
-        }
-    }
-    else if (!_components.find(type)->second.empty())
-        return true;
-    return false;
-}
-
-template<typename T>
-Polymorph::safe_ptr<T> Polymorph::Entity::GetComponent()
-{
-    std::shared_ptr<T> component (new T(*this));
-
-    std::string t = component->getType();
-    component.reset();
-    if (!componentExist(t))
-        return safe_ptr<T>(nullptr);
-    if (!_components.contains(t))
-    {
-        for (auto &c : _components.find("Default")->second)
-            if (c->getType() == t)
-                return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
-    }
-    else
-        return safe_ptr<T>(std::dynamic_pointer_cast<T>( (*_components[t].begin())->get() ) );
-    return safe_ptr<T>();
-}
 
 void Polymorph::Entity::Update()
 {
@@ -137,6 +84,7 @@ void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
 {
     using DrawableComponent = TransformComponent;
     using Drawable = safe_ptr<DrawableComponent>;
+
     for (auto &child : trm)
     {
         //TODO: check independence before drawing ?
@@ -219,7 +167,6 @@ Polymorph::Entity::~Entity()
 {
     if (transform->parent != nullptr)
         transform->parent->RemoveChild(*transform);
-    
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)
@@ -246,5 +193,15 @@ void Polymorph::Entity::Awake()
             c->reference();
             (**c)->OnAwake();
             (**c)->SetAsAwaked();
+        }
+}
+
+void Polymorph::Entity::start()
+{
+    for (auto &cl :_components)
+        for (auto &c : cl.second)
+        {
+            (**c)->Start();
+            (**c)->SetAsStarted();
         }
 }

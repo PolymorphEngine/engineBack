@@ -14,13 +14,17 @@
 #include <unordered_map>
 
 #include "safe_ptr.hpp"
-#include "XmlEntity.hpp"
+#include "factory/ComponentInitializer.hpp"
+#include "Component.hpp"
+#include "Log/Logger.hpp"
+#include "factory/ComponentFactory.hpp"
 
 namespace Polymorph
 {
     class Component;
     class AComponentInitializer;
     class Engine;
+    
     class TransformComponent;
     namespace Config{
         class XmlEntity;
@@ -41,7 +45,7 @@ namespace Polymorph
              * @property The unique mandatory component of an entity
              *           it's like his identity in the world.
              */
-            std::shared_ptr<TransformComponent> transform;
+            std::shared_ptr<TransformComponent> transform = nullptr;
             
             /**
              * @property The entity's name (not necessarily unique)
@@ -85,6 +89,11 @@ namespace Polymorph
              *          all components.
              */
             void Update();
+            
+            /**
+             * @details Start the game object by starting the components
+             */
+            void start();
 
             /**
              * @details Looks for the drawable component of the entity,
@@ -110,7 +119,24 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template <typename T>
-            safe_ptr<T> GetComponent();
+            safe_ptr<T> GetComponent()
+            {
+                    std::shared_ptr<T> component (new T(*this));
+
+                    std::string t = component->getType();
+                    component.reset();
+                    if (!componentExist(t))
+                            return safe_ptr<T>(nullptr);
+                    if (!_components.contains(t))
+                    {
+                            for (auto &c : _components.find("Default")->second)
+                                    if (c->getType() == t)
+                                            return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
+                    }
+                    else
+                            return safe_ptr<T>(std::dynamic_pointer_cast<T>( (*_components[t].begin())->get() ) );
+                    return safe_ptr<T>();
+            }
 
             void addComponent(std::string &component, Config::XmlComponent &config);
 
@@ -123,16 +149,65 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template<typename T>
-            safe_ptr<T> AddComponent();
+            safe_ptr<T> AddComponent()
+            {
+                    std::shared_ptr<T> component(new T(*this));
+
+                    std::shared_ptr<Config::XmlComponent> config(nullptr);
+                    //TODO fetch default Config for component
+                    std::string t = component->getType();
+                    component.reset();
+                    if (componentExist(t))
+                            return safe_ptr<T>();
+                    //TODO: maybe throw ?
+                    std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, *config, *this);
+
+                    if (c == nullptr)
+                    {
+                            Logger::Log("Unknown component to add at runtime: '"+t+"' (this error maybe occurs because you need to add an initializer for the component in the factory)", Logger::MINOR);
+                            return safe_ptr<T>();
+                    }
+
+                    //c->build();
+                    //c->reference();
+                    _components[c->getType()].push_back(c);
+                    (**c)->OnAwake();
+                    (**c)->SetAsAwaked();
+                    if ((**c)->enabled)
+                    {
+                            (**c)->Start();
+                            (**c)->SetAsStarted();
+                    }
+                    return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
+            }
 
             /**
              * @details Checks if a component of type 'T' exist in the entity
              * @tparam T: The 'T' type of the component to check for.
              * @warning The type 'T' must inherit from the Component class to be checked
+             * @bug is not found by compiler !!!
              * @returns True if the component exist
              */
             template <typename T>
-            bool componentExist() const;
+            bool componentExist()
+            {
+                    std::shared_ptr<T> component(new T(*this));
+                    std::string type = component->getType();
+                    std::string def("Default");
+
+                    component.reset();
+                    if (!_components.contains(type))
+                    {
+                            for (auto &c :  _components.find(def)->second)
+                            {
+                                    if (c->getType() == type)
+                                            return true;
+                            }
+                    }
+                    else if (!_components.find(type)->second.empty())
+                            return true;
+                    return false;
+            }
 
             /**
              * @details Deletes the component of type 'T' from the entity

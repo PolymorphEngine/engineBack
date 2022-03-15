@@ -8,11 +8,20 @@
 #ifndef ENGINE_SCENEMANAGER_HPP
 #define ENGINE_SCENEMANAGER_HPP
 
-#include "default/TransformComponent.hpp"
-#include "Entity.hpp"
+#include <vector>
+#include <memory>
+#include "safe_ptr.hpp"
 
 namespace Polymorph
 {
+    class Entity;
+    class TransformComponent;
+    
+    using GameObject = safe_ptr<Entity>;
+    using Transform = safe_ptr<TransformComponent>;
+    class Vector3;
+    class Engine;
+    
     class Scene;
     /**
      * @class An utility class used to manipulate scenes

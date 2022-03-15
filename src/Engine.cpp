@@ -5,38 +5,41 @@
 ** header for Polymorph.c
 */
 
+#include "XmlEntity.hpp"
 #include "SceneManager.hpp"
-#include "Application.hpp"
 #include "Engine.hpp"
 #include "Scene.hpp"
 #include "Log/Logger.hpp"
+#include <myxmlpp.hpp>
 #include "Exceptions/configuration/ConfigurationException.hpp"
 #include "Exceptions/configuration/MissingAttribute.hpp"
 
 Polymorph::Engine::Engine(const std::string &filepath, const std::string &projectName)
 {
-    std::shared_ptr<Engine>game = std::shared_ptr<Engine>(this);
     _projectPath = filepath;
     _projectName = projectName;
 
-    Logger::SetLogDir(filepath);
-    //TODO: create Xml Interfaces
+    Logger::SetLogDir(filepath + "/Logs");
+    
     _openProject();
+    _initDebugSettings();
+    _initExectutionOrder();
+    _initLayers();
+    _initGameData();
 
 
-    //TODO: set current scene
     if (_scenes.empty())
         throw std::runtime_error("No scenes built");
     SceneManager::Current = *_scenes.begin();
-    SceneManager::Game = game;
-    Application::Game = game;
+    //SceneManager::Game = game;
+    //Application::Game = game;
 }
 
 int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
-    while (_exit)
+    while (!_exit)
         SceneManager::Current->updateComponents();
     return _exitCode;
 }
@@ -53,13 +56,19 @@ void Polymorph::Engine::_openProject()
 {
     try
     {
-        _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName);
+        _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName + ".pcf");
         std::shared_ptr<myxmlpp::Node> n = _projectConfig->getRoot();
         std::shared_ptr<myxmlpp::Node> settings = n->findChild("EngineSettings");
         std::shared_ptr<myxmlpp::Node> scenes = n->findChild("Scenes");
     }
-    catch (myxmlpp::Exception &e) {
+    catch (myxmlpp::NodeNotFoundException &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
+    }
+    catch (myxmlpp::AttributeNotFoundException &e) {
+        throw ConfigurationException(e.what(), Logger::MAJOR);
+    }
+    catch (myxmlpp::ParsingException &e) {
+        throw ConfigurationException(std::string(e.what()), Logger::MAJOR);
     }
 }
 
@@ -116,7 +125,7 @@ void Polymorph::Engine::_initDebugSettings()
     {
         auto debug = settings->findChild("Debug");
         
-        if (debug->findAttribute("enabled")->getValueBool())
+        if (debug->findAttribute("enabled")->getValueBool("True", "False"))
             Logger::InitLogInstance(Logger::DEBUG_MODE);
     }
     catch (myxmlpp::Exception &e) {
@@ -139,4 +148,9 @@ void Polymorph::Engine::_initGameData()
 std::string Polymorph::Engine::getProjectPath()
 {
     return _projectPath;
+}
+
+Polymorph::Engine::~Engine()
+{
+    std::cout << "Its a temporary leak ..." << std::endl;
 }

@@ -25,14 +25,14 @@ namespace Polymorph
                 return *this;
             }
 
-            std::shared_ptr<T> *operator*()
+            std::shared_ptr<T> operator*()
             {
                 return this->lock();
             }
 
             T *operator->()
             {
-                if (!this->expired() || this->lock().get() == nullptr)
+                if (this->expired() || this->lock() == nullptr)
                     throw std::runtime_error("Object reference not set to an instance");
                 return this->lock().get();
             }
@@ -40,7 +40,7 @@ namespace Polymorph
 
             bool operator!()
             {
-                return this->expired();
+                return this->expired() || this->lock() == nullptr;
             }
 
     };
