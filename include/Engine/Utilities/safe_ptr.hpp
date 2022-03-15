@@ -25,7 +25,7 @@ namespace Polymorph
                 return *this;
             }
 
-            std::shared_ptr<T> *operator*()
+            std::shared_ptr<T> operator*()
             {
                 return this->lock();
             }

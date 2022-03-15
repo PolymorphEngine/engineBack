@@ -11,8 +11,8 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 
-Polymorph::Entity::Entity(std::shared_ptr<Config::XmlEntity> &data,
-std::shared_ptr<Engine> &game) : _game(game), _stringId(data->getId())
+Polymorph::Entity::Entity(Config::XmlEntity &data,
+Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
 {
     name = data->getName();
     _active = data->isActive();
@@ -128,7 +128,7 @@ void Polymorph::Entity::Draw()
     //TODO :Add an option to draw child independently of parent ?
     if (!_active || transform->parent != nullptr)
         return;
-    
+
     //TODO : Draw drawables (only one drawable per entity ??)
     safe_ptr<DrawableComponent> c = GetComponent<DrawableComponent>();
     if (!!c && c->enabled)
@@ -222,7 +222,7 @@ Polymorph::Entity::~Entity()
 {
     if (transform->parent != nullptr)
         transform->parent->RemoveChild(*transform);
-    
+
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)
@@ -250,4 +250,8 @@ void Polymorph::Entity::Awake()
             (**c)->OnAwake();
             (**c)->SetAsAwaked();
         }
+}
+
+Polymorph::Config::XmlEntity &Polymorph::Entity::getXmlConfig() const noexcept {
+    return _xml_config;
 }

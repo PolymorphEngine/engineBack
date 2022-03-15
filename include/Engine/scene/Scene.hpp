@@ -35,6 +35,7 @@ namespace Polymorph
     {
         public:
             Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
+            explicit Scene(std::string sceneName, Engine &game);
 
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
@@ -43,6 +44,9 @@ namespace Polymorph
             std::shared_ptr<Config::XmlScene> _config_data;
 
         public:
+            std::string name;
+            std::string id;
+
             /**
              * @details Loops trough entities twice:
              *          Once to call Update
@@ -56,7 +60,7 @@ namespace Polymorph
              * @details Generates Entities and their Components from configuration files.
              */
             void loadScene();
-            
+
             /**
              * @details Erases all entities and their components from scene
              */
@@ -68,19 +72,25 @@ namespace Polymorph
              *          Erases them if time's up.
              */
             void updateDestroyQueueList();
-            
+
+            /**
+             * @details Get all entities of a list
+             * @returns An array of safe_ptr to the entities in the scene
+             */
+             std::vector<GameObject> getAll() const noexcept;
+
             /**
              * @details Looks for the first occurrence of entity with the parameter name
-             * @param name: The name of the entity to find
-             * @return A safe_ptr to an Entity (alias GameObject type) 
+             * @param needle: The name of the entity to find
+             * @return A safe_ptr to an Entity (alias GameObject type)
              *         GameObject(nullptr) if not found.
              */
-            GameObject find(const std::string &name);
+            GameObject find(const std::string &needle);
 
             /**
              * @details Looks for all occurrences of entities with the parameter name
              * @param name: The name of the entities to find
-             * @return A vector of safe_ptr to entities (alias GameObject type) 
+             * @return A vector of safe_ptr to entities (alias GameObject type)
              */
             std::vector<GameObject> findAll(const std::string &name);
 
@@ -89,12 +99,12 @@ namespace Polymorph
              * @details Looks for the first occurrence of entity with has the tag
              *          passed as parameter.
              * @param tag: The filter tag
-             * @return A safe_ptr to an Entity (alias GameObject type). 
+             * @return A safe_ptr to an Entity (alias GameObject type).
              *         GameObject(nullptr) if not found.
              */
             GameObject findByTag(const std::string &tag);
 
-            
+
             /**
              * @details Looks for all occurrences of entities filtered by the tag parameter
              * @param tag: The filter tag
@@ -107,30 +117,36 @@ namespace Polymorph
              * @details Looks for an entity by it's unique id
              *          passed as parameter.
              * @param id: the unique id of the entity
-             * @return A safe_ptr to an Entity (alias GameObject type). 
+             * @return A safe_ptr to an Entity (alias GameObject type).
              *         GameObject(nullptr) if not found.
              */
             GameObject findById(const std::string &id);
+
+            /**
+             * @details Add an entity to the entities list
+             * @param entity a shared_ptr to an entity to add in the list
+             */
+             void addEntity(const std::shared_ptr<Entity>& entity);
 
 
             /**
              * @details Erase an entity (and his children) from scene
              * @param entity: the entity to erase
              */
-            void Erase(Entity &entity);
+            void erase(Entity &entity);
 
 
             /**
               * @details Erase an entity (and his children) from scene
               * @param entity: the entity to erase
               */
-            void Erase(std::string &id);
+            void erase(std::string &id);
 
             /**
               * @details Adds an entity to the destroy queue of the scene
               * @param entity: the entity to push in queue
               */
-            void Destroy(Entity &entity);
+            void destroy(Entity &entity);
 
 
             /**
@@ -138,8 +154,8 @@ namespace Polymorph
               * @param entity: the entity to push in queue
               * @param delayInSeconds: The delay in seconds before destroying it once in queue
               */
-            void Destroy(Entity &entity, float delayInSeconds);
-            
+            void destroy(Entity &entity, float delayInSeconds);
+
 
         private:
             /**
@@ -148,7 +164,7 @@ namespace Polymorph
               * @param parent_id: The id of the parent entity
               * @returns The total count of children and sub-children of an entity
               */
-            int countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
+            int _countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
 
     };
 }

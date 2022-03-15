@@ -11,12 +11,12 @@
 namespace Polymorph
 {
 
-    void TransformComponent::SetParent(std::shared_ptr<TransformComponent> parent)
+    void TransformComponent::SetParent(const std::shared_ptr<TransformComponent>& parent_ref)
     {
-        if (this->parent != nullptr && this->parent != parent)
+        if (this->parent != nullptr && this->parent != parent_ref)
             this->parent->RemoveChild(*this);
-        this->parent = parent;
-        if (parent == nullptr)
+        this->parent = parent_ref;
+        if (parent_ref == nullptr)
         {
             //TODO: Set index in scene at (next parent empty Entity index) - 1
         }
@@ -76,7 +76,7 @@ namespace Polymorph
     TransformComponent::TransformComponent(Entity &gameObject)
             : Component("Transform", gameObject)
     {
-        
+
     }
 
 }
