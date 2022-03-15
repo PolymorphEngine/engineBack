@@ -28,7 +28,8 @@ namespace Polymorph
     }
 
     /**
-     * @class A container class which is defined by the components it holds.
+     * @class Entity a container class which is defined by the components it
+     * holds.
      */
     class Entity
     {

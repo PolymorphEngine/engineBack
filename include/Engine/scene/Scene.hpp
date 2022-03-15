@@ -29,7 +29,7 @@ namespace Polymorph
     class Timer;
 
     /**
-     * @class A container class that's store's all entities from a game scene
+     * @class Scene a container class that's store's all entities from a game scene
      */
     class Scene
     {

@@ -22,7 +22,7 @@ namespace Polymorph
     class Scene;
 
     /**
-     * @class Main container class that holds all game data such as :
+     * @class Engine Main container class that holds all game data such as :
      *        Scenes, Prefabs, Configuration files, Settings
      */
     class Engine

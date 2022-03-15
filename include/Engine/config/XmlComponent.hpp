@@ -17,7 +17,7 @@
 
 namespace Polymorph
 {
-    
+
     class Scene;
     class Entity;
     namespace Config
@@ -25,9 +25,10 @@ namespace Polymorph
         using XmlNode = void *;
 
         /**
-         * @class The class that interfaces a Component Xml Node and the actual Component
+         * @class XmlComponent The class that interfaces a Component Xml Node
+         * and the actual Component
          * inside the engine.
-         * @    
+         * @
          */
         class XmlComponent
         {
@@ -58,7 +59,7 @@ namespace Polymorph
                  * @return An Vector2 property
                  */
                 Vector2 getVector2Property(std::string name);
-                
+
                 /**
                  * @details Looks for a Rect property in the component's config file
                  * @param name: the name of the property to look for
@@ -87,14 +88,14 @@ namespace Polymorph
                  * @return An float property
                  */
                 float getFloatProperty(std::string name);
-                
+
                 /**
                  * @details Looks for a boolean property in the component's config file
                  * @param name: the name of the property to look for
                  * @return An bool property
                  */
                 bool getBoolProperty(std::string name);
-                
+
                 /**
                  * @details Looks for a component reference property in the component's config file,
                  *          then with the data found it uses it to search the entity->component requested
@@ -137,7 +138,7 @@ namespace Polymorph
                 T getTemplatedProperty(std::string name);
 
                 /**
-                 * 
+                 *
                  * @details Looks for an custom property in the component's config file,
                  *          then with the data found it tries to build the custom object by passing
                  *          the data found to it's constructor
@@ -150,7 +151,7 @@ namespace Polymorph
                 std::vector<T> getListOfTemplatedProperty(std::string name);
 
             private:
-                
+
                 std::string type;
                 std::shared_ptr<XmlNode> node;
                 std::shared_ptr<Scene> scene;
