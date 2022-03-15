@@ -20,7 +20,7 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     _projectName = projectName;
 
     Logger::SetLogDir(filepath + "/Logs");
-    
+
     _openProject();
     _initDebugSettings();
     _initExectutionOrder();
@@ -124,7 +124,7 @@ void Polymorph::Engine::_initDebugSettings()
     try
     {
         auto debug = settings->findChild("Debug");
-        
+
         if (debug->findAttribute("enabled")->getValueBool("True", "False"))
             Logger::InitLogInstance(Logger::DEBUG_MODE);
     }
@@ -177,4 +177,11 @@ Polymorph::Engine::findSceneById(std::string id)
 
 void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene) {
     _scenes.push_back(scene);
+}
+
+void Polymorph::Engine::_initPhysicSettings()
+{
+    auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/PhysicsSettings");
+
+    _physicsSettings = std::make_unique<Settings::PhysicsSettings>(node);
 }
