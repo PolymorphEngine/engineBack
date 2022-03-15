@@ -23,20 +23,6 @@ namespace Polymorph
         SetLastSibling();
     }
 
-    void TransformComponent::SetParent(
-            const std::shared_ptr<TransformComponent>& parent_ref,
-            Vector3 offset)
-    {
-        if (this->parent != nullptr && this->parent != parent_ref)
-            this->parent->RemoveChild(*this);
-        this->parent = parent_ref;
-        if (parent_ref == nullptr)
-        {
-            //TODO: Set index in scene at (next parent empty Entity index) - 1
-        }
-        SetLastSibling();
-    }
-
     void TransformComponent::UpdateChildren()
     {
 
@@ -97,7 +83,7 @@ namespace Polymorph
 
     void TransformComponent::Start()
     {
-        
+
     }
 
 }

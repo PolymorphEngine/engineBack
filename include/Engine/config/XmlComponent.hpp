@@ -36,7 +36,7 @@ namespace Polymorph
         {
             public:
                 explicit XmlComponent(std::shared_ptr<XmlNode> node);
-                
+
                 /**
                  * @details Looks for the initial state of the component in the config
                  * @return the component enable state
@@ -48,18 +48,18 @@ namespace Polymorph
                  * @return The type of the component
                  */
                 std::string getType();
-                
-                
+
+
                 template<typename T>
                 void setProperty(std::string propertyName, T &toSet)
                 {
-                    
+
                 };
-                
+
                 template<typename T>
                 void setProperty(std::string propertyName, std::vector<T> &toSet)
                 {
-                    
+
                 };
 
                 template<typename T>
@@ -125,7 +125,7 @@ namespace Polymorph
                     try
                     {
                         auto id = refProp->findAttribute("id")->getValue();
-                        auto gameObject = SceneManager::FindById(id);
+                        auto gameObject = SceneManager::findById(id);
                         auto comp = gameObject->GetComponent<T>();
 
                         if (!comp)
@@ -138,9 +138,9 @@ namespace Polymorph
                     }
                 }
             private:
-                
+
                 std::shared_ptr<XmlNode> findProperty(std::string name);
-                
+
                 std::string type;
                 std::shared_ptr<XmlNode> node;
                 std::shared_ptr<Scene> scene;

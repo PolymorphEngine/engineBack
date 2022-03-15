@@ -8,6 +8,9 @@
 #include "SceneManager.hpp"
 #include "Scene.hpp"
 #include "Engine.hpp"
+#include "XmlEntity.hpp"
+#include "Vector.hpp"
+#include "default/TransformComponent.hpp"
 
 std::vector<Polymorph::GameObject> Polymorph::SceneManager::getAll()
 {
@@ -57,7 +60,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance();
-    
+
     nEntity->Awake();
     Current->addEntity(nEntity);
     return GameObject(nEntity);
