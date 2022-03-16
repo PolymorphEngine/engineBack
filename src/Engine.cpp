@@ -141,11 +141,20 @@ void Polymorph::Engine::_initGameData()
         std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
         
         for (auto &prefab: *prefabs)
-            _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+        {
+            try
+            {
+                _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+            }
+            catch (...)
+            {
+                Logger::Log("Error loading prefab", Logger::MINOR);
+            }
+        }
     }
     catch (myxmlpp::Exception &e)
     {
-        
+        Logger::Log("Error loading prefabs data in main config file", Logger::MINOR);
     }
 
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
