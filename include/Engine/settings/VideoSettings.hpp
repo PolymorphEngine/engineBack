@@ -19,18 +19,20 @@ namespace Polymorph::Settings {
             VideoSettings(const std::shared_ptr<XmlNode> &node);
 
         private:
-            bool _defaultMode;
-            int _maxFps;
-            bool _fullscreen;
-            bool _resizable;
-            int _bitsPerPixel;
+            bool _defaultMode = false;
+            int _maxFps = 60;
+            bool _fullscreen = false;
+            bool _resizable = false;
+            int _bitsPerPixel = 32;
             Vector2 _resolution;
 
-            static bool _initBoolVal(const std::shared_ptr<XmlNode> &node,
-                              const std::string &attrName);
-            static int _initIntVal(const std::shared_ptr<XmlNode> &node,
-                            const std::string &attrName);
-            Vector2 _initResolution(const std::shared_ptr<XmlNode> &node) const;
+            const std::shared_ptr<XmlNode> &_node;
+
+            bool _initBoolVal(const std::string &attrName);
+            int _initIntVal(const std::string &attrName);
+            Vector2 _initResolution() const;
+            static void _saveToAttribute(const std::shared_ptr<XmlNode> &node, const std::string &attrName, float value);
+
 
 
         public:
@@ -45,6 +47,18 @@ namespace Polymorph::Settings {
             int getBitsPerPixel() const;
 
             Vector2 getResolution() const;
+
+            void setDefaultMode(bool mode);
+
+            void setMaxFps(int fps);
+
+            void setFullscreen(bool fullscreen);
+
+            void setResizable(bool resizable);
+
+            void setBitsPerPixel(int bitsPerPixel);
+
+            void setResolution(Vector2 resolution);
     };
 }
 

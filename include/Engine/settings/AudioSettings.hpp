@@ -19,14 +19,15 @@ namespace Polymorph::Settings {
              * node from the configuration file
              * @param node The AudioSettings node
              */
-            AudioSettings(std::shared_ptr<XmlNode> node);
+            AudioSettings(const std::shared_ptr<XmlNode> &node);
 
         private:
-            int _masterValue = 0;
+            const std::shared_ptr<XmlNode> &_node;
+            int _masterVolume = 0;
             int _musicVolume = 0;
             int _sfxVolume = 0;
 
-            int _getVolume(std::shared_ptr<XmlNode> node, const std::string &attrName);
+            int _getVolume(const std::string &attrName);
 
         public:
             /**
@@ -46,6 +47,12 @@ namespace Polymorph::Settings {
              * @return The sfx volume
              */
             int getSfxVolume();
+
+            void setMasterVolume(int vol);
+
+            void setMusicVolume(int vol);
+
+            void setSfxVolume(int vol);
     };
 }
 
