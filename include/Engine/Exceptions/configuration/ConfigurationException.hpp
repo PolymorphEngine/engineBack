@@ -14,9 +14,13 @@
 
 class ConfigurationException : public ExceptionLogger
 {
+///////////////////////////////// Constructors /////////////////////////////////
+
     public:
         explicit ConfigurationException(std::string message, Logger::severity level = Logger::severity::MAJOR);
-        
+
+///////////////////////////--------------------------///////////////////////////
+
 };
 
 

@@ -15,8 +15,17 @@ namespace Polymorph::Settings {
     using XmlNode = myxmlpp::Node;
 
     class VideoSettings {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
         public:
             VideoSettings(const std::shared_ptr<XmlNode> &node);
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Properties /////////////////////////////////
 
         private:
             bool _defaultMode = false;
@@ -28,12 +37,20 @@ namespace Polymorph::Settings {
 
             const std::shared_ptr<XmlNode> &_node;
 
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Methods /////////////////////////////////
+
+        private:
             bool _initBoolVal(const std::string &attrName);
+
             int _initIntVal(const std::string &attrName);
+
             Vector2 _initResolution() const;
+
             static void _saveToAttribute(const std::shared_ptr<XmlNode> &node, const std::string &attrName, float value);
-
-
 
         public:
             bool getDefaultMode() const;
@@ -59,6 +76,9 @@ namespace Polymorph::Settings {
             void setBitsPerPixel(int bitsPerPixel);
 
             void setResolution(Vector2 resolution);
+
+///////////////////////////--------------------------///////////////////////////
+
     };
 }
 

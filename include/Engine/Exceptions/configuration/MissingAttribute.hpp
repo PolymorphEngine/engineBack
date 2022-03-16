@@ -13,8 +13,13 @@
 
 class MissingAttribute : public ConfigurationException
 {
+///////////////////////////////// Constructors /////////////////////////////////
+
     public:
         explicit MissingAttribute(std::string attribute, std::string nodeName, Logger::severity level = Logger::MINOR);
+
+///////////////////////////--------------------------///////////////////////////
+
 };
 
 

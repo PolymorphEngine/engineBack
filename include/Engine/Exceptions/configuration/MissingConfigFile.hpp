@@ -13,8 +13,13 @@
 
 class MissingConfigFile : public ConfigurationException
 {
+///////////////////////////////// Constructors /////////////////////////////////
+
     public:
         explicit MissingConfigFile(std::string fileName);
+
+///////////////////////////--------------------------///////////////////////////
+
 };
 
 

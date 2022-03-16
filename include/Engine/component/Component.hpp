@@ -25,9 +25,20 @@ namespace Polymorph
      */
     class Component : public IComponent
     {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
         public:
             explicit Component(Entity &game_object);
             Component(const std::string &type, Entity &game_object);
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Properties /////////////////////////////////
+
+        public:
             /**
              * @property A reference to the unique transform component of the entity
              */
@@ -42,6 +53,21 @@ namespace Polymorph
              */
             bool enabled = true;
 
+        protected:
+            std::string name;
+            std::string _type;
+            bool awaked = false;
+            bool started = false;
+
+            //  Entity Re-define
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Methods /////////////////////////////////
+
+        public:
             /**
              * @details An overridable method that's called once per frame in the game loop.
              */
@@ -68,9 +94,13 @@ namespace Polymorph
             void Draw() override;
 
             void SetAsStarted() final {started = true;};
+
             void SetAsAwaked() final {awaked = true;};
+
             bool IsAwaked() const final {return awaked;}
+
             bool IsStarted() const final {return started;}
+
 
             /**
              * @details Getter that return's the type of the component.
@@ -78,14 +108,6 @@ namespace Polymorph
              */
             std::string getType() const final {return _type;}
 
-        protected:
-            std::string name;
-            std::string _type;
-            bool awaked = false;
-            bool started = false;
-
-            //  Entity Re-define
-        public:
             /**
              * @details Looks for a component by type
              * @tparam T: The 'T' type of the component to look for.
@@ -142,6 +164,9 @@ namespace Polymorph
              */
             template <typename T>
             bool DeleteComponent();
+
+///////////////////////////--------------------------///////////////////////////
+
     };
 
 }

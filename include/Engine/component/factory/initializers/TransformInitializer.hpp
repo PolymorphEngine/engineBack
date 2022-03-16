@@ -14,14 +14,22 @@ namespace Polymorph
 {
     class TransformInitializer : public AComponentInitializer
     {
-        public:
+///////////////////////////////// Constructors /////////////////////////////////
 
+        public:
             TransformInitializer(Config::XmlComponent &data, Entity &entity);
 
-            std::shared_ptr<Component> &build() final;
-            
-            void reference() final;
+///////////////////////////--------------------------///////////////////////////
 
+
+
+////////////////////////////////// Methods /////////////////////////////////////
+
+        public:
+            std::shared_ptr<Component> &build() final;
+
+            void reference() final;
+///////////////////////////--------------------------///////////////////////////
     };
 }
 
