@@ -11,6 +11,7 @@ include_directories(
         include/Engine/entity
         include/Engine/config
         include/Engine/scene
+        include/Engine/settings
         include/Engine/Utilities
         include/Engine/Utilities/Types
 )
