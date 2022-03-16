@@ -11,6 +11,7 @@
 #include <utility>
 #include "Engine.hpp"
 #include "Entity.hpp"
+#include "XmlEntity.hpp"
 #include "Time.hpp"
 #include "default/TransformComponent.hpp"
 #include "uuid.hpp"
@@ -173,6 +174,13 @@ namespace Polymorph
         {
             if (e->getId() == id)
                 return GameObject(e);
+        }
+        for (auto &e: _game.getPrefabs())
+        {
+            if (e.getId() == id)
+            {
+                return GameObject(e.makeInstance());
+            }
         }
         return GameObject(nullptr);
     }

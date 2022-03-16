@@ -24,6 +24,7 @@ namespace Polymorph
                 XmlEntity(std::shared_ptr<XmlNode> &node, Engine &engine, std::string projectPath);
                 std::string getName() const;
                 bool isActive() const;
+                bool isPrefab();
                 std::string getId() const;
                 [[nodiscard]] std::vector<std::string> getTags() const;
                 std::string getLayer() const;

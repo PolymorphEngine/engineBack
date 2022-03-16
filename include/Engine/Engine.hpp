@@ -66,6 +66,10 @@ namespace Polymorph
             
             std::string getProjectPath();
             
+            std::vector<Config::XmlEntity> getPrefabs();
+            
+            std::vector<Config::XmlComponent> getDefaultConfigs();
+            
 
             /**
              * @details Find a scene by its name, returns the first matched

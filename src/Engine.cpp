@@ -135,6 +135,19 @@ void Polymorph::Engine::_initDebugSettings()
 
 void Polymorph::Engine::_initGameData()
 {
+
+    try
+    {
+        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
+        
+        for (auto &prefab: *prefabs)
+            _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+    }
+    catch (myxmlpp::Exception &e)
+    {
+        
+    }
+
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
 
     if (scenes->empty())
@@ -177,4 +190,14 @@ Polymorph::Engine::findSceneById(std::string id)
 
 void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene) {
     _scenes.push_back(scene);
+}
+
+std::vector<Polymorph::Config::XmlEntity> Polymorph::Engine::getPrefabs()
+{
+    return _prefabs;
+}
+
+std::vector<Polymorph::Config::XmlComponent> Polymorph::Engine::getDefaultConfigs()
+{
+    return _defaultConfigs;
 }

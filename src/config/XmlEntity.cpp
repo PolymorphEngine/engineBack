@@ -161,4 +161,17 @@ namespace Polymorph
             _components.push_back(std::make_shared<Config::XmlComponent>(c));
         }
     }
+
+    bool Config::XmlEntity::isPrefab()
+    {
+        try
+        {
+            return _entity->getRoot()->findAttribute("prefab")->getValueBool("True", "False");
+        }
+        catch (myxmlpp::Exception &e)
+        {
+            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as corrupted prefab attribute, setting default prefab to false", Logger::DEBUG);
+            return false;
+        }
+    }
 }
