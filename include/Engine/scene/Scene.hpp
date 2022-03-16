@@ -60,8 +60,8 @@ namespace Polymorph
         public:
             /**
              * @details Loops trough entities twice:
-             *          Once to call Update
-             *          Then to call Draw
+             *          Once to call update
+             *          Then to call draw
              *          Finally updates the destroy queue
              *          GameObject(nullptr) if not found.
              */

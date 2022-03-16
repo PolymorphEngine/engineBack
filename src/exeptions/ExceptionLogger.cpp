@@ -15,6 +15,6 @@ ExceptionLogger::ExceptionLogger(std::string message, Logger::severity level)
 
 const char *ExceptionLogger::what() const noexcept
 {
-    Logger::Log(_message, _level);
+    Logger::log(_message, _level);
     return _message.c_str();
 }

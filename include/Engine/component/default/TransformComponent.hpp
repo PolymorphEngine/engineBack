@@ -102,20 +102,20 @@ namespace Polymorph
                 return children.end();
             }
 
-            void SetParent(const std::shared_ptr<TransformComponent>& parent_ref);
+            void setParent(const std::shared_ptr<TransformComponent>& parent_ref);
 
-            std::shared_ptr<TransformComponent> RemoveChild(TransformComponent &child);
+            std::shared_ptr<TransformComponent> removeChild(TransformComponent &child);
 
-            void SetSiblingIndex(int index);
+            void setSiblingIndex(int index);
 
-            void SetLastSibling();
+            void setLastSibling();
 
-            void SetFirstSibling();
+            void setFirstSibling();
 
-            void Start() override;
+            void start() override;
 
         private:
-            void UpdateChildren();
+            void updateChildren();
 ///////////////////////////--------------------------///////////////////////////
     };
 }

@@ -38,11 +38,11 @@ namespace Polymorph
     {
 
         for (auto &e: _entities)
-            e->Update();
+            e->update();
 
         //TODO : sort ?
         for (auto &e: _entities)
-            e->Draw();
+            e->draw();
         updateDestroyQueueList();
     }
 
@@ -149,7 +149,7 @@ namespace Polymorph
         _entities = _config_data->getEntities();
 
         for (auto &e : _entities)
-            e->Awake();
+            e->awake();
         for (auto &e: _entities)
             e->start();
     }

@@ -27,7 +27,8 @@ bool Polymorph::Settings::VideoSettings::_initBoolVal(
     try {
         return _node->findAttribute(attrName)->getValueBool();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Video setting is incomplete, cannot find \"" + attrName + "\" attribute", Logger::MINOR);
+        Logger::log("Video setting is incomplete, cannot find \"" + attrName +
+                    "\" attribute", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Video setting is malformed, \"" + attrName + "\" attribute has bad value");
     }
@@ -40,7 +41,8 @@ int Polymorph::Settings::VideoSettings::_initIntVal(
     try {
         return _node->findAttribute(attrName)->getValueInt();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Video setting is incomplete, cannot find \"" + attrName + "\" attribute", Logger::MINOR);
+        Logger::log("Video setting is incomplete, cannot find \"" + attrName +
+                    "\" attribute", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Video setting is malformed, \"" + attrName + "\" attribute has bad value");
     }
@@ -60,7 +62,9 @@ Polymorph::Vector2 Polymorph::Settings::VideoSettings::_initResolution() const
         if (!_fullscreen)
             throw ConfigurationException("Cannot find resolution configuration");
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Video setting is incomplete, cannot find \"Resolution\" attribute", Logger::MINOR);
+        Logger::log(
+                "Video setting is incomplete, cannot find \"Resolution\" attribute",
+                Logger::MINOR);
         return {};
     } catch (const myxmlpp::IllegalValueException &e) {
         if (!_fullscreen)

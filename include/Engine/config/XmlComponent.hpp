@@ -50,7 +50,7 @@ namespace Polymorph
                  * @property node which contains all data needed to load the binded component.
                  */
                 std::shared_ptr<XmlNode> node;
-                
+
                 /**
                  * @property the type of the component
                  */
@@ -61,7 +61,7 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
             public:
-                
+
                 /**
                  * @details Looks for the initial state of the component in the config
                  * @return the component enable state
@@ -81,8 +81,8 @@ namespace Polymorph
                 * @param propertyName the name of the property in config
                 * @param toSet the property to set
                 * @warning propertyName as to be the exact same as the literal property name in the component !
-                */       
-                
+                */
+
                 /**
                 * @defgroup SetPropertyList
                 * @details A set of functions that takes a property List as parameter and adds elements in it based on the configuration file
@@ -124,7 +124,7 @@ namespace Polymorph
                  */
                 void setProperty(std::string propertyName, std::string &toSet);
 
-                
+
                 /**
                  * @ingroup SetPropertyList
                  */
@@ -172,7 +172,7 @@ namespace Polymorph
 
                     toSet = T(property);
                 };
-                
+
                 /**
                  * @details sets a property List by its name, doesn't touch it if property is not found
                  * @tparam T the type of the properties Elements of the List to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object
@@ -192,7 +192,9 @@ namespace Polymorph
                         try {
                             toSet.emplace_back(element);
                         } catch (...) {
-                            Logger::Log("Property List of Templates named '" + propertyName + "': has no value", Logger::DEBUG);
+                            Logger::log("Property List of Templates named '" +
+                                        propertyName + "': has no value",
+                                        Logger::DEBUG);
                         }
                     }
                 };
@@ -212,19 +214,18 @@ namespace Polymorph
                     if (refProp == nullptr)
                         return;
 
-                    try
-                    {
+                    try {
                         auto id = refProp->findAttribute("id")->getValue();
                         auto gameObject = SceneManager::findById(id);
-                        auto comp = gameObject->GetComponent<T>();
+                        auto comp = gameObject->getComponent<T>();
 
                         if (!comp)
                             throw;
                         toSet = comp;
-                    }
-                    catch (...)
-                    {
-                        Logger::Log("Property gameObject ref named '" +propertyName+ "': has no value", Logger::DEBUG);
+                    } catch (...) {
+                        Logger::log("Property gameObject ref named '" +
+                                    propertyName + "': has no value",
+                                    Logger::DEBUG);
                     }
                 }
 
@@ -236,34 +237,32 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 template<typename T>
-                void setProperty(std::string propertyName, std::vector<safe_ptr<T>> &toSet)
-                {
+                void setProperty(std::string propertyName, std::vector<safe_ptr<T>> &toSet) {
                     auto refProp = _findProperty(propertyName);
                     auto i = 0;
 
                     if (refProp == nullptr)
                         return;
 
-                    for (auto &elem : *refProp)
-                    {
-                        try
-                        {
+                    for (auto &elem : *refProp) {
+                        try {
                             auto id = refProp->findAttribute("id")->getValue();
                             auto gameObject = SceneManager::Current->findById(id);
-                            auto comp = gameObject->GetComponent<T>();
+                            auto comp = gameObject->getComponent<T>();
 
                             if (!comp)
                                 throw;
                             toSet.push_back(comp);
-                        }
-                        catch (...)
-                        {
-                            Logger::Log("Property Component ref nb :"+std::to_string(i)+", in list named '" +propertyName+ "': has no value", Logger::DEBUG);
+                        } catch (...) {
+                            Logger::log("Property Component ref nb :" +
+                                        std::to_string(i) +
+                                        ", in list named '" + propertyName +
+                                        "': has no value", Logger::DEBUG);
                         }
                         ++i;
                     }
                 };
-                
+
                 /**
                  * @details sets a List of GameObject References by its property name, doesn't touch it if property is not found
                  * @param propertyName the name of the property List in config
@@ -271,7 +270,7 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 void setProperty(std::string propertyName, std::vector<GameObject> &toSet);
-                
+
             private:
                 /**
                  * @details Searches a property by its attribute 'name' in the component node

@@ -7,6 +7,7 @@
 
 #include "component/factory/ComponentInitializer.hpp"
 #include "XmlComponent.hpp"
+#include "Component.hpp"
 
 namespace Polymorph
 {

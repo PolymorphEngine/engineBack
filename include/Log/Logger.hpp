@@ -24,7 +24,7 @@ class Logger
         static inline std::string CYAN = "\033[0;36m";    // CYAN
         static inline std::string WHITE = "\033[0;37m";
         static inline std::string RESET = "\033[0m";
-        
+
         enum severity {
             DEBUG,
             INFO,
@@ -36,7 +36,7 @@ class Logger
             DEBUG_MODE,
             RELEASE_MODE
         };
-        
+
     private:
         static inline std::string _logDir = "Logs/";
         static inline std::string _logInstance = "";
@@ -52,27 +52,27 @@ class Logger
          * @details Overrides the default log directory of the Logger
          * @param logDir new log directory
          */
-        static void SetLogDir(std::string logDir);
+        static void setLogDir(std::string logDir);
 
         /**
          * @details Adds a custom instance name prefix to the instance log sub directory
          * @param logInstanceName prefix name
          */
-        static void SetLogInstanceName(std::string logInstanceName);
-        
+        static void setLogInstanceName(std::string logInstanceName);
+
         /**
          * @details Inits the logger instance with a log subdirectory name by date time now and sets the program mode
          * @param mode program logger mode (Release or Debug)
          * @warning Default mode is RELEASE_MODE
          */
-        static void InitLogInstance(Mode mode = RELEASE_MODE);
+        static void initLogInstance(Mode mode = RELEASE_MODE);
 
         /**
          * @details Logs a message to file and console depending on program mode and severity
          * @param message the message to log
          * @param level the severity of the log (optional)
          */
-        static void Log(std::string message, severity level = INFO);
+        static void log(std::string message, severity level = INFO);
 
         /**
          * @details Logs a message to file and console depending on program mode and severity
@@ -80,11 +80,11 @@ class Logger
          * @param specificFile a custom file to log in (will be placed in the log dir into the instance subdir log)
          * @param level the severity of the log (optional)
          */
-        static void Log(std::string message, std::string specificFile, severity level = INFO);
-        
-        
+        static void log(std::string message, std::string specificFile, severity level = INFO);
+
+
     private:
-        
+
         /**
          * @details Logs a message and severity to console
          * @param message the message to log

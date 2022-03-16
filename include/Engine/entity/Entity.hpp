@@ -15,7 +15,6 @@
 
 #include "safe_ptr.hpp"
 #include "factory/ComponentInitializer.hpp"
-#include "Component.hpp"
 #include "Engine.hpp"
 #include "Log/Logger.hpp"
 #include "factory/ComponentFactory.hpp"
@@ -25,7 +24,7 @@ namespace Polymorph
     class Component;
     class AComponentInitializer;
     class Engine;
-    
+
     class TransformComponent;
     namespace Config{
         class XmlEntity;
@@ -59,7 +58,7 @@ namespace Polymorph
              * @property The entity's name (not necessarily unique)
              */
             std::string name;
-            
+
         private:
             bool _isPrefab;
             bool _active;
@@ -72,7 +71,7 @@ namespace Polymorph
             std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
 //////////////////////--------------------------/////////////////////////
 
-        
+
 
 
 
@@ -115,29 +114,30 @@ namespace Polymorph
              * @details Updates the game object by updating in the component execution order
              *          all components.
              */
-            void Update();
-            
+            void update();
+
             /**
-             * @details Start the game object by starting the components
+             * @details start the game object by starting the components
              */
             void start();
 
             /**
              * @details Looks for the drawable component of the entity,
-             *          then calls Draw() of children.
+             *          then calls draw() of children.
              */
-            void Draw();
+            void draw();
 
             /**
              * @details Draws the children
              */
-            void DrawChildren(TransformComponent &trm);
+            void drawChildren(TransformComponent &trm);
 
             /**
-             * @details Awakes the entity by calling OnAwake() of the components
+             * @details Awakes the entity by calling onAwake() of the components
              */
-            void Awake();
+            void awake();
 
+            void addComponent(std::string &component, Config::XmlComponent &config);
 
             /**
              * @details Looks for a component by type
@@ -146,26 +146,7 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template <typename T>
-            safe_ptr<T> GetComponent()
-            {
-                    std::shared_ptr<T> component (new T(*this));
-
-                    std::string t = component->getType();
-                    component.reset();
-                    if (!componentExist(t))
-                            return safe_ptr<T>(nullptr);
-                    if (!_components.contains(t))
-                    {
-                            for (auto &c : _components.find("Default")->second)
-                                    if (c->getType() == t)
-                                            return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
-                    }
-                    else
-                            return safe_ptr<T>(std::dynamic_pointer_cast<T>( (*_components[t].begin())->get() ) );
-                    return safe_ptr<T>();
-            }
-
-            void addComponent(std::string &component, Config::XmlComponent &config);
+            safe_ptr<T> getComponent();
 
             /**
              * @details Adds a component to the entity
@@ -176,36 +157,7 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template<typename T>
-            safe_ptr<T> AddComponent()
-            {
-                    std::shared_ptr<T> component(new T(*this));
-
-                    std::string t = component->getType();
-                    component.reset();
-                    if (componentExist(t))
-                        return safe_ptr<T>();
-                    //TODO: maybe throw/Log ?
-                    Config::XmlComponent &config = _game.getDefaultConfig(t);
-                    std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, config, *this);
-
-                    if (c == nullptr)
-                    {
-                            Logger::Log("Unknown component to add at runtime: '"+t+"' (this error maybe occurs because you need to add an initializer for the component in the factory)", Logger::MINOR);
-                            return safe_ptr<T>();
-                    }
-
-                    c->build();
-                    c->reference();
-                    _components[c->getType()].push_back(c);
-                    (**c)->OnAwake();
-                    (**c)->SetAsAwaked();
-                    if ((**c)->enabled)
-                    {
-                            (**c)->Start();
-                            (**c)->SetAsStarted();
-                    }
-                    return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
-            }
+            safe_ptr<T> addComponent();
 
             /**
              * @details Checks if a component of type 'T' exist in the entity
@@ -215,25 +167,7 @@ namespace Polymorph
              * @returns True if the component exist
              */
             template <typename T>
-            bool componentExist()
-            {
-                    std::shared_ptr<T> component(new T(*this));
-                    std::string type = component->getType();
-                    std::string def("Default");
-
-                    component.reset();
-                    if (!_components.contains(type))
-                    {
-                            for (auto &c :  _components.find(def)->second)
-                            {
-                                    if (c->getType() == type)
-                                            return true;
-                            }
-                    }
-                    else if (!_components.find(type)->second.empty())
-                            return true;
-                    return false;
-            }
+            bool componentExist();
 
             /**
              * @details Deletes the component of type 'T' from the entity
@@ -242,7 +176,7 @@ namespace Polymorph
              * @returns True if the component existed and was deleted successfully
              */
             template <typename T>
-            bool DeleteComponent();
+            bool deleteComponent();
 
             /**
              * @details A getter to fetch the entity's name
@@ -306,7 +240,7 @@ namespace Polymorph
             {
                 return (this->getId() != id);
             }
-            
+
         private:
             bool componentExist(std::string &type);
 //////////////////////--------------------------/////////////////////////

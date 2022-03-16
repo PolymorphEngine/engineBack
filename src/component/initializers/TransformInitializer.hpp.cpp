@@ -35,11 +35,12 @@ namespace Polymorph
         auto trm = std::dynamic_pointer_cast<TransformComponent>(component);
         for (auto &ref: refs) {
             if (!ref)
-                Logger::Log("Ref child null", Logger::DEBUG);
+                Logger::log("Ref child null", Logger::DEBUG);
             else if (!ref->transform)
-                Logger::Log("Impossible has happened ... TRANSFORM IS NULL !!!", Logger::DEBUG);
+                Logger::log("Impossible has happened ... TRANSFORM IS NULL !!!",
+                            Logger::DEBUG);
             else
-                ref->transform->SetParent(trm);
+                ref->transform->setParent(trm);
         }
     }
 }

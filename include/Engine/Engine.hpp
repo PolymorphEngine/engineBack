@@ -74,16 +74,16 @@ namespace Polymorph
              */
             int run();
 
-            void Exit(ExitCode code);
+            void exit(ExitCode code);
 
             std::string getProjectPath();
-            
+
             std::vector<Config::XmlEntity> getPrefabs();
-            
+
             std::vector<Config::XmlComponent> getDefaultConfigs();
-            
+
             Config::XmlComponent &getDefaultConfig(std::string type);
-            
+
 
 
             /**

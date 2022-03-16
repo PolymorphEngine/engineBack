@@ -19,7 +19,7 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     _projectPath = filepath;
     _projectName = projectName;
 
-    Logger::SetLogDir(filepath + "/Logs");
+    Logger::setLogDir(filepath + "/Logs");
 
     _openProject();
     _initDebugSettings();
@@ -44,7 +44,7 @@ int Polymorph::Engine::run()
     return _exitCode;
 }
 
-void Polymorph::Engine::Exit(ExitCode code = 0)
+void Polymorph::Engine::exit(ExitCode code = 0)
 {
     _exitCode = code;
     _exit = true;
@@ -115,7 +115,7 @@ void Polymorph::Engine::_initDebugSettings()
         auto debug = settings->findChild("Debug");
 
         if (debug->findAttribute("enabled")->getValueBool("True", "False"))
-            Logger::InitLogInstance(Logger::DEBUG_MODE);
+            Logger::initLogInstance(Logger::DEBUG_MODE);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);
     }
@@ -131,11 +131,12 @@ void Polymorph::Engine::_initGameData()
             try {
                 _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
             } catch (...) {
-                Logger::Log("Error loading prefab", Logger::MINOR);
+                Logger::log("Error loading prefab", Logger::MINOR);
             }
         }
     } catch (myxmlpp::Exception &e) {
-        Logger::Log("Error loading prefabs data in main config file", Logger::MINOR);
+        Logger::log("Error loading prefabs data in main config file",
+                    Logger::MINOR);
     }
 
     try {
@@ -147,11 +148,12 @@ void Polymorph::Engine::_initGameData()
                 auto templateDoc = myxmlpp::Doc(path);
                 _defaultConfigs.emplace_back(Config::XmlComponent(templateDoc.getRoot()));
             } catch (...) {
-                Logger::Log("Error loading component template", Logger::MINOR);
+                Logger::log("Error loading component template", Logger::MINOR);
             }
         }
     } catch (myxmlpp::Exception &e) {
-        Logger::Log("Error loading templates data in main config file", Logger::MINOR);
+        Logger::log("Error loading templates data in main config file",
+                    Logger::MINOR);
     }
 
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");

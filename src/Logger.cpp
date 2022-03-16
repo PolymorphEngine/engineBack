@@ -10,26 +10,26 @@
 #include <fstream>
 #include "Log/Logger.hpp"
 
-void Logger::Log(std::string message, std::string specificFile,
-Logger::severity level)
+void Logger::log(std::string message, std::string specificFile,
+                 Logger::severity level)
 {
     if (_logInstance.empty())
-        InitLogInstance();
+        initLogInstance();
 
     _logFile(message, specificFile, level);
     _consoleLog(message, level);
 }
 
-void Logger::Log(std::string message, Logger::severity level)
+void Logger::log(std::string message, Logger::severity level)
 {
     if (_logInstance.empty())
-        InitLogInstance();
+        initLogInstance();
 
     _logFile(message, level);
     _consoleLog(message, level);
 }
 
-void Logger::InitLogInstance(Mode mode)
+void Logger::initLogInstance(Mode mode)
 {
     _mode = mode;
 
@@ -104,12 +104,12 @@ void Logger::_consoleLog(std::string message, Logger::severity level)
 
 }
 
-void Logger::SetLogDir(std::string logDir)
+void Logger::setLogDir(std::string logDir)
 {
     _logDir = logDir;
 }
 
-void Logger::SetLogInstanceName(std::string logInstanceName)
+void Logger::setLogInstanceName(std::string logInstanceName)
 {
     _logInstance = logInstanceName + "_" + _getTimeNow("%F_%X");
 }

@@ -7,7 +7,7 @@
 
 #include "factory/ComponentFactory.hpp"
 #include "default/TransformComponent.hpp"
-#include "Entity.hpp"
+#include "Entity_templated.hpp"
 #include "Engine.hpp"
 #include "XmlEntity.hpp"
 #include "Component.hpp"
@@ -35,7 +35,9 @@ Polymorph::Config::XmlComponent &config)
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
     if (i == nullptr) {
-        Logger::Log("Unknown component to load at initialisation: '"+component+"'", Logger::DEBUG);
+        Logger::log(
+                "Unknown component to load at initialisation: '" + component +
+                "'", Logger::DEBUG);
         return;
     }
     i->build();
@@ -43,27 +45,27 @@ Polymorph::Config::XmlComponent &config)
 }
 
 
-void Polymorph::Entity::Update()
+void Polymorph::Entity::update()
 {
     if (!_active)
         return;
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            if (!(**c)->IsAwaked()) {
-                (**c)->OnAwake();
-                (**c)->SetAsAwaked();
+            if (!(**c)->isAwaked()) {
+                (**c)->onAwake();
+                (**c)->setAsAwaked();
             }
             if (!(**c)->enabled)
                 continue;
-            if (!(**c)->IsStarted()) {
-                (**c)->Start();
-                (**c)->SetAsStarted();
+            if (!(**c)->isStarted()) {
+                (**c)->start();
+                (**c)->setAsStarted();
             }
-            (**c)->Update();
+            (**c)->update();
         }
 }
 
-void Polymorph::Entity::Draw()
+void Polymorph::Entity::draw()
 {
     using DrawableComponent = Component;
     //TODO :Add an option to draw child independently of parent ?
@@ -71,23 +73,23 @@ void Polymorph::Entity::Draw()
         return;
 
     //TODO : Draw drawables (only one drawable per entity ??)
-    safe_ptr<DrawableComponent> c = GetComponent<DrawableComponent>();
+    safe_ptr<DrawableComponent> c = getComponent<DrawableComponent>();
     if (!!c && c->enabled)
-        c->Draw();
-    DrawChildren(*transform);
+        c->draw();
+    drawChildren(*transform);
 }
 
-void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
+void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 {
     using DrawableComponent = TransformComponent;
     using Drawable = safe_ptr<DrawableComponent>;
 
     for (auto &child : trm) {
         //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject.GetComponent<DrawableComponent>();
+        Drawable drawable = child->gameObject.getComponent<DrawableComponent>();
         if (!!drawable && drawable->enabled)
-            drawable->Draw();
-        DrawChildren(*child);
+            drawable->draw();
+        drawChildren(*child);
     }
 }
 
@@ -126,7 +128,7 @@ void Polymorph::Entity::deleteTag(const std::string &tag)
 }
 
 template<typename T>
-bool Polymorph::Entity::DeleteComponent()
+bool Polymorph::Entity::deleteComponent()
 {
     std::shared_ptr<T> component (new T(*this));
 
@@ -154,7 +156,7 @@ bool Polymorph::Entity::DeleteComponent()
 Polymorph::Entity::~Entity()
 {
     if (transform->parent != nullptr)
-        transform->parent->RemoveChild(*transform);
+        transform->parent->removeChild(*transform);
 
 }
 
@@ -172,13 +174,13 @@ bool Polymorph::Entity::componentExist(std::string &type)
     return false;
 }
 
-void Polymorph::Entity::Awake()
+void Polymorph::Entity::awake()
 {
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             c->reference();
-            (**c)->OnAwake();
-            (**c)->SetAsAwaked();
+            (**c)->onAwake();
+            (**c)->setAsAwaked();
         }
 }
 
@@ -190,7 +192,7 @@ void Polymorph::Entity::start()
 {
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            (**c)->Start();
-            (**c)->SetAsStarted();
+            (**c)->start();
+            (**c)->setAsStarted();
         }
 }

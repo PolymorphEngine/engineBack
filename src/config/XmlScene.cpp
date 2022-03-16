@@ -68,13 +68,15 @@ namespace Polymorph
                 throw ConfigurationException( "Scene named '"+ _name +"' with id '" +_id+ "' (which is first scene to load) is empty: "
                 + std::string(e.what()), Logger::MAJOR);
             else {
-                Logger::Log("Scene named '"+ _name +"' with id '" +_id+ "' is empty: ", Logger::MINOR);
+                Logger::log("Scene named '" + _name + "' with id '" + _id +
+                            "' is empty: ", Logger::MINOR);
                 return;
             }
         }
 
         if (list->empty()) {
-            Logger::Log("Scene named '"+ _name +"' with id '" +_id+ "' is empty: ", Logger::MINOR);
+            Logger::log("Scene named '" + _name + "' with id '" + _id +
+                        "' is empty: ", Logger::MINOR);
             return;
         }
         for (auto &e: *list)

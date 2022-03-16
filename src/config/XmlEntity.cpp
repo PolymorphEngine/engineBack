@@ -6,7 +6,7 @@
 */
 
 #include "XmlEntity.hpp"
-#include "Entity.hpp"
+#include "Entity_templated.hpp"
 #include <myxmlpp.hpp>
 #include "Log/Logger.hpp"
 #include "Exceptions/configuration/ConfigurationException.hpp"
@@ -22,10 +22,12 @@ namespace Polymorph
             std::string t = c->getType();
             (*e).addComponent(t, *c);
         }
-        e->transform = *e->GetComponent<TransformComponent>();
+        e->transform = *e->getComponent<TransformComponent>();
         if (!e->transform) {
-            Logger::Log("Entity '" + e->getName() +"' has no transform. (set default Transform)" , Logger::MINOR);
-            e->transform = *(*e).AddComponent<TransformComponent>();
+            Logger::log("Entity '" + e->getName() +
+                        "' has no transform. (set default Transform)",
+                        Logger::MINOR);
+            e->transform = *(*e).addComponent<TransformComponent>();
         }
         return e;
     }
@@ -61,7 +63,8 @@ namespace Polymorph
             std::string name = _entity->getRoot()->findAttribute("name")->getValue();
             return name;
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as no name", Logger::DEBUG);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as no name", Logger::DEBUG);
             return "GameObject";
         }
     }
@@ -71,7 +74,9 @@ namespace Polymorph
         try {
             return _entity->getRoot()->findAttribute("active")->getValueBool("True", "False");
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as no state (set to false by default)", Logger::DEBUG);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as no state (set to false by default)",
+                        Logger::DEBUG);
             return false;
         }
     }
@@ -94,7 +99,8 @@ namespace Polymorph
         try {
             tags = _entity->getRoot()->findChild("Tags");
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as no tags", Logger::DEBUG);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as no tags", Logger::DEBUG);
             return {};
         }
 
@@ -102,7 +108,9 @@ namespace Polymorph
             try {
                 tags_list.push_back(tag->findAttribute("tag")->getValue());
             } catch (myxmlpp::Exception &e) {
-                Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as corrupted tag (" + e.baseWhat()+ ")", Logger::DEBUG);
+                Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                            "': as corrupted tag (" + e.baseWhat() + ")",
+                            Logger::DEBUG);
             }
         }
         return tags_list;
@@ -113,7 +121,9 @@ namespace Polymorph
         try {
             return _entity->getRoot()->findChild("Layer")->findAttribute("layer")->getValue();
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as corrupted layer, setting default layer", Logger::DEBUG);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as corrupted layer, setting default layer",
+                        Logger::DEBUG);
             return "Default";
         }
     }
@@ -125,7 +135,8 @@ namespace Polymorph
         try {
             components = _entity->getRoot()->findChild("Components");
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as no components", Logger::MINOR);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as no components", Logger::MINOR);
             return;
         }
         for (auto &c: *components)
@@ -137,7 +148,9 @@ namespace Polymorph
         try {
             return _entity->getRoot()->findAttribute("prefab")->getValueBool("True", "False");
         } catch (myxmlpp::Exception &e) {
-            Logger::Log("Entity at path: '"+_path + "/" +_fileName+"': as corrupted prefab attribute, setting default prefab to false", Logger::DEBUG);
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as corrupted prefab attribute, setting default prefab to false",
+                        Logger::DEBUG);
             return false;
         }
     }

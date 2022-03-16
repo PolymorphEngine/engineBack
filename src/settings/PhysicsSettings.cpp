@@ -26,10 +26,10 @@ void Polymorph::Settings::PhysicsSettings::_init2DGravity()
         _2DGravity.x = gravNode->findAttribute("x")->getValueFloat();
         _2DGravity.y = gravNode->findAttribute("y")->getValueFloat();
     } catch (const myxmlpp::NodeNotFoundException &e) {
-        Logger::Log("Gravity2D setting not found", Logger::DEBUG);
+        Logger::log("Gravity2D setting not found", Logger::DEBUG);
         _createDefault2DGrav();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Gravity2D setting is incomplete", Logger::MINOR);
+        Logger::log("Gravity2D setting is incomplete", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Gravity2D setting is malformed");
     }
@@ -44,10 +44,10 @@ void Polymorph::Settings::PhysicsSettings::_init3DGravity()
         _3DGravity.y = gravNode->findAttribute("y")->getValueFloat();
         _3DGravity.z = gravNode->findAttribute("z")->getValueFloat();
     } catch (const myxmlpp::NodeNotFoundException &e) {
-        Logger::Log("Gravity3D setting not found", Logger::DEBUG);
+        Logger::log("Gravity3D setting not found", Logger::DEBUG);
         _createDefault3DGrav();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Gravity3D setting is incomplete", Logger::MINOR);
+        Logger::log("Gravity3D setting is incomplete", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Gravity3D setting is malformed");
     }

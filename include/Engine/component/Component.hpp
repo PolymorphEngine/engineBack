@@ -9,6 +9,7 @@
 #define ENGINE_COMPONENT_HPP
 
 #include "IComponent.hpp"
+#include "Entity.hpp"
 #include "safe_ptr.hpp"
 
 
@@ -71,35 +72,35 @@ namespace Polymorph
             /**
              * @details An overridable method that's called once per frame in the game loop.
              */
-            void Update()override;
+            void update()override;
 
             /**
              * @details An overridable method that's called once in the lifetime of the component.
              *          It is called before the games start (or upon component creation at runtime).
              * @warning Is called even if the enable state of the component is set to false on creation.
              */
-            void OnAwake()override;
+            void onAwake()override;
 
             /**
              * @details An overridable method that's called once in the lifetime of the component,
-             *          It is called before the Update method (or upon component creation at runtime).
+             *          It is called before the update method (or upon component creation at runtime).
              * @warning Is called ONLY when the enabled state of the component is passed to true.
              */
-            void Start()override;
+            void start()override;
 
             /**
              * @details An overridable method that draws the component if its an drawable only.
              *          Called once per frame.
              */
-            void Draw() override;
+            void draw() override;
 
-            void SetAsStarted() final {started = true;};
+            void setAsStarted() final { started = true;};
 
-            void SetAsAwaked() final {awaked = true;};
+            void setAsAwaked() final { awaked = true;};
 
-            bool IsAwaked() const final {return awaked;}
+            bool isAwaked() const final {return awaked;}
 
-            bool IsStarted() const final {return started;}
+            bool isStarted() const final {return started;}
 
 
             /**
@@ -114,8 +115,11 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A safe pointer to the component 'T'
              */
-            template <typename T>
-            safe_ptr<T> GetComponent();
+            template<typename T>
+            safe_ptr<T> getComponent()
+            {
+                return gameObject.getComponent<T>();
+            }
 
             /**
              * @details Looks for a component by type in parent's
@@ -124,7 +128,7 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template <typename T>
-            safe_ptr<T> GetComponentInParent();
+            safe_ptr<T> getComponentInParent();
 
             /**
              * @details Looks for a component by type in children
@@ -134,7 +138,7 @@ namespace Polymorph
              * @returns A safe pointer to the component 'T'
              */
             template <typename T>
-            safe_ptr<T> GetComponentInChildren();
+            safe_ptr<T> getComponentInChildren();
 
             /**
              * @details Adds a component to the entity
@@ -144,8 +148,11 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be added
              * @returns A safe pointer to the component 'T'
              */
-            template <typename T>
-            safe_ptr<T> AddComponent();
+            template<typename T>
+            safe_ptr<T> addComponent()
+            {
+                return gameObject.addComponent<T>();
+            }
 
             /**
              * @details Checks if a component of type 'T' exist in the entity
@@ -153,8 +160,11 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be checked
              * @returns True if the component exist
              */
-            template <typename T>
-            bool ComponentExist();
+            template<typename T>
+            bool componentExist()
+            {
+                return gameObject.componentExist<T>();
+            }
 
             /**
              * @details Deletes the component of type 'T' from the entity
@@ -162,8 +172,11 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be deleted
              * @returns True if the component existed and was deleted successfully
              */
-            template <typename T>
-            bool DeleteComponent();
+            template<typename T>
+            bool deleteComponent()
+            {
+                return gameObject.deleteComponent<T>();
+            }
 
 ///////////////////////////--------------------------///////////////////////////
 
