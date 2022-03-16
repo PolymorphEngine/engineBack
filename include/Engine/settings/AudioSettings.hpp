@@ -16,7 +16,7 @@ namespace Polymorph::Settings {
     {
 
 ///////////////////////////////// Constructors /////////////////////////////////
-
+        public:
             /**
              * Construct an AudioSettings by passing the AudioSettings XML
              * node from the configuration file

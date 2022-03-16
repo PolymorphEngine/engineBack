@@ -32,7 +32,7 @@ void Logger::Log(std::string message, Logger::severity level)
 void Logger::InitLogInstance(Mode mode)
 {
     _mode = mode;
-    
+
     _logInstance = _getTimeNow("%F_%X");
 }
 
@@ -40,9 +40,9 @@ void Logger::_logFile(std::string message, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
-    
+
     std::fstream file(_logDir + "/"+ _logInstance + "_"+ _engineLogFile, std::ios_base::out|std::ios_base::app);
-    
+
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
 
@@ -55,6 +55,7 @@ std::string Logger::_getTimeNow(std::string flags)
     char buffer[80];
     time_t rawtime;
     struct tm * timeinfo;
+
     time (&rawtime);
     timeinfo = localtime (&rawtime);
     std::strftime(buffer, 80, flags.c_str(), timeinfo);
@@ -98,7 +99,7 @@ void Logger::_consoleLog(std::string message, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
-    
+
     std::cout << "["+_getTimeNow("%X") +"] : "+ _severity_to_color(level)+_severity_to_string(level)+" "+ message + RESET << std::endl;
 
 }
@@ -115,8 +116,7 @@ void Logger::SetLogInstanceName(std::string logInstanceName)
 
 std::string Logger::_severity_to_color(Logger::severity level)
 {
-    switch (level)
-    {
+    switch (level) {
         case DEBUG:
             return GREEN;
         case INFO:

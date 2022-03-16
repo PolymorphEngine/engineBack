@@ -38,15 +38,11 @@ namespace Polymorph
     {
 
         for (auto &e: _entities)
-        {
             e->Update();
-        }
 
         //TODO : sort ?
         for (auto &e: _entities)
-        {
             e->Draw();
-        }
         updateDestroyQueueList();
     }
 
@@ -54,8 +50,7 @@ namespace Polymorph
     {
         std::map<std::shared_ptr<Timer>, Entity &> nmap;
 
-        for (auto &destroyHolder : _destroyQueueList)
-        {
+        for (auto &destroyHolder : _destroyQueueList) {
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp())
@@ -77,7 +72,8 @@ namespace Polymorph
         return toRet;
     }
 
-    void Scene::addEntity(const std::shared_ptr<Entity>& entity) {
+    void Scene::addEntity(const std::shared_ptr<Entity>& entity)
+    {
         _entities.push_back(entity);
     }
 
@@ -89,8 +85,7 @@ namespace Polymorph
     void Scene::_erase(std::string &id)
     {
         auto pos = 0;
-        for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)
-        {
+        for (auto entity = _entities.begin(); entity != _entities.end(); ++entity) {
             if ((**entity) == id)
                 _entities.erase(entity, entity +
                         _countChildren(entity, (*entity)->getId()) + 1);
@@ -105,8 +100,7 @@ namespace Polymorph
         auto count = (*entity)->transform->children.size();
 
         ++entity;
-        for (; entity != _entities.end() && (*entity)->getId() != parent_id;)
-        {
+        for (; entity != _entities.end() && (*entity)->getId() != parent_id;) {
             if (!(*entity)->transform->children.empty())
                 count += _countChildren(entity, (*entity)->getId());
             else
@@ -117,8 +111,7 @@ namespace Polymorph
 
     GameObject Scene::find(const std::string &needle)
     {
-        for (auto &e : _entities)
-        {
+        for (auto &e : _entities) {
             if (e->name == needle)
                 return GameObject(e);
         }
@@ -129,8 +122,7 @@ namespace Polymorph
     {
         std::vector<GameObject> toRet;
 
-        for (auto &e : _entities)
-        {
+        for (auto &e : _entities) {
             if (e->name == needle)
                 toRet.emplace_back(e);
         }
@@ -170,17 +162,13 @@ namespace Polymorph
 
     GameObject Scene::findById(const std::string &id)
     {
-        for (auto &e : _entities)
-        {
+        for (auto &e : _entities) {
             if (e->getId() == id)
                 return GameObject(e);
         }
-        for (auto &e: _game.getPrefabs())
-        {
+        for (auto &e: _game.getPrefabs()) {
             if (e.getId() == id)
-            {
                 return GameObject(e.makeInstance());
-            }
         }
         return GameObject(nullptr);
     }

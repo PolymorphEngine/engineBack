@@ -20,21 +20,19 @@ namespace Polymorph
                                Engine &engine) : _engine(engine)
     {
         _projectNode = node;
-        
-        try
-        {
+
+        try {
             _name = _projectNode->findAttribute("name")->getValue();
             _id = _projectNode->findAttribute("id")->getValue();
             _path =engine.getProjectPath() + "/" + _projectNode->findAttribute("path")->getValue();
             _sceneDoc = std::make_shared<myxmlpp::Doc>(_path + "/" + _name + ".pcf.scene");
             _first = _sceneDoc->getRoot()->findAttribute("first")->getValueBool("True", "False");
-        }
-        catch (myxmlpp::Exception &e) {
+        } catch (myxmlpp::Exception &e) {
             throw ConfigurationException( e.what(), Logger::MAJOR);
         }
         _loadEntities();
     }
-    
+
     std::vector<std::shared_ptr<Entity>> Config::XmlScene::getEntities()
     {
         std::vector<std::shared_ptr<Entity>> entities;
@@ -60,15 +58,12 @@ namespace Polymorph
 
     void Config::XmlScene::_loadEntities()
     {
-        
+
         std::shared_ptr<myxmlpp::Node> list;
-        
-        try
-        {
+
+        try {
             list = _sceneDoc->getRoot()->findChild("Entities");
-        }
-        catch (myxmlpp::Exception &e)
-        {
+        } catch (myxmlpp::Exception &e) {
             if (_first)
                 throw ConfigurationException( "Scene named '"+ _name +"' with id '" +_id+ "' (which is first scene to load) is empty: "
                 + std::string(e.what()), Logger::MAJOR);
@@ -77,14 +72,12 @@ namespace Polymorph
                 return;
             }
         }
-        
+
         if (list->empty()) {
             Logger::Log("Scene named '"+ _name +"' with id '" +_id+ "' is empty: ", Logger::MINOR);
             return;
         }
         for (auto &e: *list)
-        {
             _entities.push_back(std::make_shared<Config::XmlEntity>(e, _engine, _path));
-        }
     }
 }

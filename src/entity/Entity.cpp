@@ -34,8 +34,7 @@ Polymorph::Config::XmlComponent &config)
         return;
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
-    if (i == nullptr)
-    {
+    if (i == nullptr) {
         Logger::Log("Unknown component to load at initialisation: '"+component+"'", Logger::DEBUG);
         return;
     }
@@ -49,17 +48,14 @@ void Polymorph::Entity::Update()
     if (!_active)
         return;
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
-            if (!(**c)->IsAwaked())
-            {
+        for (auto &c : cl.second) {
+            if (!(**c)->IsAwaked()) {
                 (**c)->OnAwake();
                 (**c)->SetAsAwaked();
             }
             if (!(**c)->enabled)
                 continue;
-            if (!(**c)->IsStarted())
-            {
+            if (!(**c)->IsStarted()) {
                 (**c)->Start();
                 (**c)->SetAsStarted();
             }
@@ -86,8 +82,7 @@ void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
     using DrawableComponent = TransformComponent;
     using Drawable = safe_ptr<DrawableComponent>;
 
-    for (auto &child : trm)
-    {
+    for (auto &child : trm) {
         //TODO: check independence before drawing ?
         Drawable drawable = child->gameObject.GetComponent<DrawableComponent>();
         if (!!drawable && drawable->enabled)
@@ -98,8 +93,7 @@ void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
 
 void Polymorph::Entity::setActive(bool active)
 {
-    if (this->_active != active)
-    {
+    if (this->_active != active) {
         //TODO : change children state
     }
     this->_active = active;
@@ -123,10 +117,8 @@ void Polymorph::Entity::addTag(const std::string &tag)
 
 void Polymorph::Entity::deleteTag(const std::string &tag)
 {
-    for (auto _tag = _tags.begin(); _tag  != _tags.end(); ++ _tag )
-    {
-        if (tag == *_tag)
-        {
+    for (auto _tag = _tags.begin(); _tag  != _tags.end(); ++ _tag ) {
+        if (tag == *_tag) {
             _tags.erase(_tag);
             return;
         }
@@ -142,22 +134,17 @@ bool Polymorph::Entity::DeleteComponent()
     component.reset();
     if (!componentExist(t))
         return false;
-    if (!_components.contains(t))
-    {
+    if (!_components.contains(t)) {
         auto i = 0;
         auto & defaultList =_components.find("Default")->second;
-        for (auto &c : defaultList)
-        {
-            if (c->getType() == t)
-            {
+        for (auto &c : defaultList) {
+            if (c->getType() == t) {
                 defaultList.erase(defaultList.begin() + i);
                 return false;
             }
             ++i;
         }
-    }
-    else
-    {
+    } else {
         _components[t].clear();
         return true;
     }
@@ -174,10 +161,8 @@ Polymorph::Entity::~Entity()
 bool Polymorph::Entity::componentExist(std::string &type)
 {
     std::string def("Default");
-    if (!_components.contains(type))
-    {
-        for (auto &c :  _components.find(def)->second)
-        {
+    if (!_components.contains(type)) {
+        for (auto &c :  _components.find(def)->second) {
             if (c->getType() == type)
                 return true;
         }
@@ -190,8 +175,7 @@ bool Polymorph::Entity::componentExist(std::string &type)
 void Polymorph::Entity::Awake()
 {
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
+        for (auto &c : cl.second) {
             c->reference();
             (**c)->OnAwake();
             (**c)->SetAsAwaked();
@@ -205,8 +189,7 @@ Polymorph::Config::XmlEntity &Polymorph::Entity::getXmlConfig() const noexcept {
 void Polymorph::Entity::start()
 {
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
+        for (auto &c : cl.second) {
             (**c)->Start();
             (**c)->SetAsStarted();
         }

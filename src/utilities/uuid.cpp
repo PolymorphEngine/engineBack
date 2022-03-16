@@ -8,7 +8,8 @@
 
 #include "uuid.hpp"
 
-std::string Polymorph::uuid::uuid() {
+std::string Polymorph::uuid::uuid()
+{
     std::stringstream ss;
     ss << std::hex;
     for (int i = 0; i < 10; i++)

@@ -8,6 +8,4 @@
 #include "Engine/Exceptions/configuration/MissingConfigFile.hpp"
 
 MissingConfigFile::MissingConfigFile(std::string fileName) : ConfigurationException("Missing file :"+fileName, Logger::MAJOR)
-{
-
-}
+{}

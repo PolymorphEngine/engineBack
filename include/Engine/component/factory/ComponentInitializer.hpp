@@ -30,14 +30,18 @@ namespace Polymorph
 
 
 ///////////////////////////////// Properties ///////////////////////////////////
+
         protected:
             std::shared_ptr<Component> component;
             Config::XmlComponent &data;
             std::string type;
-            virtual std::shared_ptr<Component> &build() = 0;
-            virtual void reference() = 0;
+
 
         public:
+            virtual std::shared_ptr<Component> &build() = 0;
+
+            virtual void reference() = 0;
+
             std::shared_ptr<Component> &get()
             {
                 return component;

@@ -115,7 +115,8 @@ void Polymorph::Settings::PhysicsSettings::setGravity3D(float newZGrav)
     }
 }
 
-void Polymorph::Settings::PhysicsSettings::_createDefault2DGrav() {
+void Polymorph::Settings::PhysicsSettings::_createDefault2DGrav()
+{
     auto grav = std::make_shared<XmlNode>(*_node);
     grav->setTag("Gravity2D");
     grav->addAttribute("x", "0");
@@ -123,7 +124,8 @@ void Polymorph::Settings::PhysicsSettings::_createDefault2DGrav() {
     _node->addChild(grav);
 }
 
-void Polymorph::Settings::PhysicsSettings::_createDefault3DGrav() {
+void Polymorph::Settings::PhysicsSettings::_createDefault3DGrav()
+{
     auto grav = std::make_shared<XmlNode>(*_node);
     grav->setTag("Gravity3D");
     grav->addAttribute("x", "0");
