@@ -16,38 +16,58 @@ namespace Polymorph
 
     class Vector3
     {
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            Vector3(float x, float y);
-            Vector3(float x, float y, float z);
-
-            Vector3(const Vector3 &copy) = default;
-            Vector3 operator+(Vector3 &other) const;
-            Vector3 &operator+=(Vector3 &other);
-            explicit Vector3(const Vector2 &copy);
-
             Vector3();
             ~Vector3() = default;
+            Vector3(float x, float y);
+            Vector3(float x, float y, float z);
+            Vector3(const Vector3 &copy) = default;
+            explicit Vector3(const Vector2 &copy);
+//////////////////////--------------------------/////////////////////////
 
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
             float x;
             float y;
             float z;
             static Vector3 Zero;
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
+            Vector3 operator+(Vector3 &other) const;
+            Vector3 &operator+=(Vector3 &other);
+//////////////////////--------------------------/////////////////////////
+
     };
 
 
 
     class Vector2
     {
+
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Vector2(float x, float y);
             Vector2(const Vector2 &copy) = default;
             explicit Vector2(const Vector3 &copy);
             Vector2();
             ~Vector2() = default;
+//////////////////////--------------------------/////////////////////////
 
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
             float x;
             float y;
             static Vector2 Zero;
+//////////////////////--------------------------/////////////////////////
+
     };
 }
 

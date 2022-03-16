@@ -37,18 +37,15 @@ namespace Polymorph
          */
         class XmlComponent
         {
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             public:
                 explicit XmlComponent(const std::shared_ptr<XmlNode> &node);
+//////////////////////--------------------------/////////////////////////
 
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
             private:
-                
-                /**
-                 * @details Searches a property by its attribute 'name' in the component node
-                 * @param name the value of the attribute called 'name' in the property node to find
-                 * @return the node found (nullptr if not found)
-                 */
-                std::shared_ptr<XmlNode> _findProperty(std::string name);
-                
                 /**
                  * @property node which contains all data needed to load the binded component.
                  */
@@ -58,9 +55,11 @@ namespace Polymorph
                  * @property the type of the component
                  */
                 std::string type;
-                
-            
-                
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
             public:
                 
                 /**
@@ -272,6 +271,16 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 void setProperty(std::string propertyName, std::vector<GameObject> &toSet);
+                
+            private:
+                /**
+                 * @details Searches a property by its attribute 'name' in the component node
+                 * @param name the value of the attribute called 'name' in the property node to find
+                 * @return the node found (nullptr if not found)
+                 */
+                std::shared_ptr<XmlNode> _findProperty(std::string name);
+//////////////////////--------------------------/////////////////////////
+
         };
     }
 }

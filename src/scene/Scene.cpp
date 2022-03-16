@@ -59,7 +59,7 @@ namespace Polymorph
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp())
-                erase(destroyHolder.second);
+                _erase(destroyHolder.second);
             else
                 nmap.emplace(destroyHolder);
         }
@@ -81,12 +81,12 @@ namespace Polymorph
         _entities.push_back(entity);
     }
 
-    void Scene::erase(Entity &entity)
+    void Scene::_erase(Entity &entity)
     {
-        return erase(entity.getId());
+        return _erase(entity.getId());
     }
 
-    void Scene::erase(std::string &id)
+    void Scene::_erase(std::string &id)
     {
         auto pos = 0;
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity)

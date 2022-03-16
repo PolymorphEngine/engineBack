@@ -12,6 +12,8 @@
 
 class Logger
 {
+
+///////////////////////////// PROPERTIES ////////////////////////////////
     public:
         static inline std::string BLACK = "\033[0;30m";   // BLACK
         static inline std::string RED = "\033[0;31m";     // RED
@@ -22,7 +24,7 @@ class Logger
         static inline std::string CYAN = "\033[0;36m";    // CYAN
         static inline std::string WHITE = "\033[0;37m";
         static inline std::string RESET = "\033[0m";
-
+        
         enum severity {
             DEBUG,
             INFO,
@@ -35,6 +37,17 @@ class Logger
             RELEASE_MODE
         };
         
+    private:
+        static inline std::string _logDir = "Logs/";
+        static inline std::string _logInstance = "";
+        static inline std::string _engineLogFile = "engine.log";
+        static inline Mode _mode = RELEASE_MODE;
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
+    public:
         /**
          * @details Overrides the default log directory of the Logger
          * @param logDir new log directory
@@ -114,12 +127,8 @@ class Logger
          * @returns the color corresponding to the severity
          */
         static std::string _severity_to_color(severity level);
-        
-        
-        static inline std::string _logDir = "Logs/";
-        static inline std::string _logInstance = "";
-        static inline std::string _engineLogFile = "engine.log";
-        static inline Mode _mode = RELEASE_MODE;
+//////////////////////--------------------------/////////////////////////
+
 };
 
 

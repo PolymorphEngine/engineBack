@@ -38,21 +38,46 @@ namespace Polymorph
      */
     class Entity
     {
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            Entity();
             Entity(Config::XmlEntity &data, Engine &game);
             ~Entity();
 
+//////////////////////--------------------------/////////////////////////
+
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
             /**
              * @property The unique mandatory component of an entity
              *           it's like his identity in the world.
              */
             std::shared_ptr<TransformComponent> transform = nullptr;
-            
+
             /**
              * @property The entity's name (not necessarily unique)
              */
             std::string name;
+            
+        private:
+            bool _isPrefab;
+            bool _active;
+            std::string _stringId;
+            std::vector<std::string> _tags;
+            std::string _layer;
+            Engine &_game;
+            std::vector<std::string> _order;
+            Config::XmlEntity &_xml_config;
+            std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
+//////////////////////--------------------------/////////////////////////
+
+        
+
+
+
+/////////////////////////////// METHODS ////////////////////////////////////
+        public:
 
             /**
              * @details Check for game object state
@@ -281,18 +306,12 @@ namespace Polymorph
             {
                 return (this->getId() != id);
             }
-
+            
         private:
             bool componentExist(std::string &type);
-            bool _isPrefab;
-            bool _active;
-            std::string _stringId;
-            std::vector<std::string> _tags;
-            std::string _layer;
-            Engine &_game;
-            std::vector<std::string> _order;
-            Config::XmlEntity &_xml_config;
-            std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
+//////////////////////--------------------------/////////////////////////
+
+
 
     };
     using GameObject = safe_ptr<Entity>;

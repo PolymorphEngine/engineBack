@@ -18,6 +18,7 @@ Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
 {
     name = data.getName();
     _active = data.isActive();
+    _tags = data.getTags();
     _order = _game.getExecOrder();
     for (auto &type: _order)
         _components[type];

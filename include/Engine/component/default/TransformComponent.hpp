@@ -10,7 +10,6 @@
 
 #include <vector>
 #include "Component.hpp"
-#include "ref_ptr.hpp"
 #include "safe_ptr.hpp"
 #include "Vector.hpp"
 
