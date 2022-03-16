@@ -22,13 +22,25 @@ namespace Polymorph
     class Vector3;
     class Engine;
     class Scene;
+    
     /**
-     * @class An utility class used to manipulate scenes
+     * @class SceneManager An utility class used to manipulate scenes
      * @category GameObject : static functions used to browse game objects in current scene
      * @category Scene : static functions used to manipulate different scenes
      */
     class SceneManager
     {
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public: // Properties
+            static inline std::shared_ptr<Scene> Current = nullptr;
+            static inline std::shared_ptr<Engine> Game = nullptr;
+            static inline std::vector<std::shared_ptr<Entity>> KeepOnLoad;
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
         public: // GameObject Section
 
             /**
@@ -149,11 +161,8 @@ namespace Polymorph
             static void dontDestroyOnLoad(GameObject gameObject);
 
         //  End of Scene Section
+//////////////////////--------------------------/////////////////////////
 
-        public: // Properties
-            static inline std::shared_ptr<Scene> Current = nullptr;
-            static inline std::shared_ptr<Engine> Game = nullptr;
-            static inline std::vector<std::shared_ptr<Entity>> KeepOnLoad;
     };
 }
 #endif //ENGINE_SCENEMANAGER_HPP

@@ -19,7 +19,7 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     _projectPath = filepath;
     _projectName = projectName;
 
-    Logger::SetLogDir(filepath + "/Logs");
+    Logger::setLogDir(filepath + "/Logs");
 
     _openProject();
     _initDebugSettings();
@@ -44,7 +44,7 @@ int Polymorph::Engine::run()
     return _exitCode;
 }
 
-void Polymorph::Engine::Exit(ExitCode code = 0)
+void Polymorph::Engine::exit(ExitCode code = 0)
 {
     _exitCode = code;
     _exit = true;
@@ -54,20 +54,16 @@ void Polymorph::Engine::Exit(ExitCode code = 0)
 
 void Polymorph::Engine::_openProject()
 {
-    try
-    {
+    try {
         _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName + ".pcf");
         std::shared_ptr<myxmlpp::Node> n = _projectConfig->getRoot();
         std::shared_ptr<myxmlpp::Node> settings = n->findChild("EngineSettings");
         std::shared_ptr<myxmlpp::Node> scenes = n->findChild("Scenes");
-    }
-    catch (myxmlpp::NodeNotFoundException &e) {
+    } catch (myxmlpp::NodeNotFoundException &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
-    }
-    catch (myxmlpp::AttributeNotFoundException &e) {
+    } catch (myxmlpp::AttributeNotFoundException &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
-    }
-    catch (myxmlpp::ParsingException &e) {
+    } catch (myxmlpp::ParsingException &e) {
         throw ConfigurationException(std::string(e.what()), Logger::MAJOR);
     }
 }
@@ -76,13 +72,11 @@ void Polymorph::Engine::_initExectutionOrder()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
-    try
-    {
+    try {
         bool foundDefault = false;
         auto execOrder =settings->findChild("ComponentExecutionOrder");
 
-        for (auto &type : *execOrder)
-        {
+        for (auto &type : *execOrder) {
             auto t = type->findAttribute("value")->getValue();
             if (t == "Default")
                 foundDefault = true;
@@ -90,8 +84,7 @@ void Polymorph::Engine::_initExectutionOrder()
         }
         if (!foundDefault)
             throw MissingAttribute("Default", "ComponentExecLayer", Logger::MAJOR);
-    }
-    catch (myxmlpp::Exception &e) {
+    } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
     }
 }
@@ -101,17 +94,14 @@ void Polymorph::Engine::_initLayers()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
-    try
-    {
+    try {
         auto execOrder = settings->findChild("Layers");
 
-        for (auto &type : *execOrder)
-        {
+        for (auto &type : *execOrder) {
             auto t = type->findAttribute("value")->getValue();
             _layers.push_back(t);
         }
-    }
-    catch (myxmlpp::Exception &e) {
+    } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
     }
 }
@@ -121,14 +111,12 @@ void Polymorph::Engine::_initDebugSettings()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
-    try
-    {
+    try {
         auto debug = settings->findChild("Debug");
 
         if (debug->findAttribute("enabled")->getValueBool("True", "False"))
-            Logger::InitLogInstance(Logger::DEBUG_MODE);
-    }
-    catch (myxmlpp::Exception &e) {
+            Logger::initLogInstance(Logger::DEBUG_MODE);
+    } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);
     }
 }
@@ -136,48 +124,36 @@ void Polymorph::Engine::_initDebugSettings()
 void Polymorph::Engine::_initGameData()
 {
 
-    try
-    {
+    try {
         std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
 
-        for (auto &prefab: *prefabs)
-        {
-            try
-            {
+        for (auto &prefab: *prefabs) {
+            try {
                 _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
-            }
-            catch (...)
-            {
-                Logger::Log("Error loading prefab", Logger::MINOR);
+            } catch (...) {
+                Logger::log("Error loading prefab", Logger::MINOR);
             }
         }
-    }
-    catch (myxmlpp::Exception &e)
-    {
-        Logger::Log("Error loading prefabs data in main config file", Logger::MINOR);
+    } catch (myxmlpp::Exception &e) {
+        Logger::log("Error loading prefabs data in main config file",
+                    Logger::MINOR);
     }
 
-    try
-    {
+    try {
         std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Templates");
 
-        for (auto &prefab: *prefabs)
-        {
-            try
-            {
+        for (auto &prefab: *prefabs) {
+            try {
                 auto path = _projectPath + "/" + prefab->findAttribute("path")->getValue();
                 auto templateDoc = myxmlpp::Doc(path);
                 _defaultConfigs.emplace_back(Config::XmlComponent(templateDoc.getRoot()));
-            }
-            catch (...)
-            {
-                Logger::Log("Error loading component template", Logger::MINOR);
+            } catch (...) {
+                Logger::log("Error loading component template", Logger::MINOR);
             }
         }
-    }
-    catch (myxmlpp::Exception &e)
-    {
-        Logger::Log("Error loading templates data in main config file", Logger::MINOR);
+    } catch (myxmlpp::Exception &e) {
+        Logger::log("Error loading templates data in main config file",
+                    Logger::MINOR);
     }
 
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
@@ -220,7 +196,8 @@ Polymorph::Engine::findSceneById(std::string id)
     return nullptr;
 }
 
-void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene) {
+void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene)
+{
     _scenes.push_back(scene);
 }
 
@@ -258,8 +235,7 @@ std::vector<Polymorph::Config::XmlComponent> Polymorph::Engine::getDefaultConfig
 
 Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string type)
 {
-    for (auto &c: _defaultConfigs)
-    {
+    for (auto &c: _defaultConfigs) {
         if (c.getType() == type)
             return c;
     }

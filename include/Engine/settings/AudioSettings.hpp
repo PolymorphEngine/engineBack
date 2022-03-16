@@ -12,7 +12,10 @@
 
 namespace Polymorph::Settings {
     using XmlNode = myxmlpp::Node;
-    class AudioSettings {
+    class AudioSettings
+    {
+
+///////////////////////////////// Constructors /////////////////////////////////
         public:
             /**
              * Construct an AudioSettings by passing the AudioSettings XML
@@ -21,12 +24,26 @@ namespace Polymorph::Settings {
              */
             AudioSettings(const std::shared_ptr<XmlNode> &node);
 
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Properties /////////////////////////////////
+
         private:
             const std::shared_ptr<XmlNode> &_node;
+
             int _masterVolume = 0;
             int _musicVolume = 0;
             int _sfxVolume = 0;
 
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Methods /////////////////////////////////
+
+        private:
             int _getVolume(const std::string &attrName);
 
         public:
@@ -53,6 +70,9 @@ namespace Polymorph::Settings {
             void setMusicVolume(int vol);
 
             void setSfxVolume(int vol);
+
+///////////////////////////--------------------------///////////////////////////
+
     };
 }
 

@@ -7,14 +7,13 @@
 
 #include "component/factory/ComponentInitializer.hpp"
 #include "XmlComponent.hpp"
+#include "Component.hpp"
 
 namespace Polymorph
 {
     AComponentInitializer::AComponentInitializer(const std::string &type, Config::XmlComponent &data,
     Entity &entity) : data(data), type(type)
-    {
-        
-    }
+    {}
 
     void AComponentInitializer::_init()
     {

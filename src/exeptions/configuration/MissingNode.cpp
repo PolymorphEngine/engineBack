@@ -9,6 +9,4 @@
 
 MissingNode::MissingNode(std::string nodeName, Logger::severity level)
 : ConfigurationException("Missing node named: \'"+nodeName+"\'", level)
-{
-    
-}
+{}

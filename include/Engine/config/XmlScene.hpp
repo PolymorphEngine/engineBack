@@ -21,28 +21,40 @@ namespace Polymorph
     namespace Config
     {
         class XmlEntity;
-        class XmlScene {
+        class XmlScene 
+        {
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             public:
                 XmlScene(std::shared_ptr<myxmlpp::Node> &node, Engine &_engine);
-                std::vector<std::shared_ptr<Entity>> getEntities();
-                
-                std::string getId();
-                std::string getName();
-                bool isFirst();
+//////////////////////--------------------------/////////////////////////
 
 
+
+///////////////////////////// PROPERTIES ////////////////////////////////
             private:
                 std::vector<std::shared_ptr<XmlEntity>> _entities;
                 Engine &_engine;
                 std::shared_ptr<myxmlpp::Node> _projectNode;
                 std::shared_ptr<myxmlpp::Doc> _sceneDoc;
-                
+
                 std::string _name;
                 std::string _id;
                 std::string _path;
                 bool _first;
-                
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
+           public:
+                std::string getId();
+                std::string getName();
+                bool isFirst();
+                std::vector<std::shared_ptr<Entity>> getEntities();
+
+            private:
                 void _loadEntities();
+//////////////////////--------------------------/////////////////////////
 
         };
     }

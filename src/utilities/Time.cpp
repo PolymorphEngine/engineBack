@@ -18,8 +18,7 @@ namespace Polymorph
 
     bool Timer::timeIsUp(bool isReset)
     {
-        if (actual >= delay)
-        {
+        if (actual >= delay) {
             if (isReset)
                 actual = 0;
             return true;

@@ -14,15 +14,25 @@
 namespace Polymorph
 {
     using ExitCode = int;
-    
+
     class Application
     {
+
+///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            static void Quit(ExitCode code);
-            
             static inline std::string assetsPath = "";
-            
+
             static inline std::shared_ptr<Engine> Game = nullptr;
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
+        public:
+            static void quit(ExitCode code);
+//////////////////////--------------------------/////////////////////////
+
+
     };
 }
 

@@ -28,17 +28,20 @@ namespace Polymorph
     {
         public:
             using Initializer = std::shared_ptr<AComponentInitializer>;
+///////////////////////////////// Constructors /////////////////////////////////
 
-            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity)
-            {
-                if (!_buildables.contains(type))
-                    return nullptr;
-                return _buildables[type](data, entity);
-            };
+        public:
+            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity);
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Properties ///////////////////////////////////
 
         private:
             static inline std::map<std::string,
-            std::function<Initializer (Config::XmlComponent &data, Entity &entity) >>
+            std::function<Initializer (Config::XmlComponent &data, Entity &entity)>>
             _buildables =
             {
                 // @INITIALIZERS: (add Component Initializers here)
@@ -47,6 +50,8 @@ namespace Polymorph
                     "Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}
                 },
             };
+///////////////////////////--------------------------///////////////////////////
+
     };
 }
 

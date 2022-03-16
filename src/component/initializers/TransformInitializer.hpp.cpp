@@ -13,10 +13,11 @@
 namespace Polymorph
 {
     TransformInitializer::TransformInitializer(Config::XmlComponent &data, Entity &entity)
-        : AComponentInitializer( "Transform", data, entity){
+        : AComponentInitializer( "Transform", data, entity)
+    {
         component = std::shared_ptr<Component>(new TransformComponent(entity));
     }
-    
+
     std::shared_ptr<Component> &TransformInitializer::build()
     {
         auto trm = std::dynamic_pointer_cast<TransformComponent>(component);
@@ -24,22 +25,22 @@ namespace Polymorph
         data.setProperty("scale", trm->position);
         data.setProperty("rotation", trm->position);
         return component;
-    };
-    
-    void TransformInitializer::reference(){
+    }
+
+    void TransformInitializer::reference()
+    {
         std::vector<GameObject> refs;
         data.setProperty("children", refs);
 
         auto trm = std::dynamic_pointer_cast<TransformComponent>(component);
-            for (auto &ref: refs)
-            {
-                if (!ref)
-                    Logger::Log("Ref child null");
-                else if (!ref->transform) {
-                    Logger::Log("Impossible has happened ... TRANSFORM IS NULL !!!");
-                }
-                else
-                    ref->transform->SetParent(trm);
-            }
+        for (auto &ref: refs) {
+            if (!ref)
+                Logger::log("Ref child null", Logger::DEBUG);
+            else if (!ref->transform)
+                Logger::log("Impossible has happened ... TRANSFORM IS NULL !!!",
+                            Logger::DEBUG);
+            else
+                ref->transform->setParent(trm);
+        }
     }
 }

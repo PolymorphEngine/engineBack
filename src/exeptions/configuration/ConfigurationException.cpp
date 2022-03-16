@@ -9,6 +9,4 @@
 
 ConfigurationException::ConfigurationException(std::string message,
 Logger::severity level) : ExceptionLogger("[Corrupted files] " + message, level)
-{
-    
-}
+{}

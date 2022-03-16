@@ -7,7 +7,7 @@
 
 #include "factory/ComponentFactory.hpp"
 #include "default/TransformComponent.hpp"
-#include "Entity.hpp"
+#include "Entity_templated.hpp"
 #include "Engine.hpp"
 #include "XmlEntity.hpp"
 #include "Component.hpp"
@@ -18,6 +18,7 @@ Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
 {
     name = data.getName();
     _active = data.isActive();
+    _tags = data.getTags();
     _order = _game.getExecOrder();
     for (auto &type: _order)
         _components[type];
@@ -33,9 +34,10 @@ Polymorph::Config::XmlComponent &config)
         return;
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
-    if (i == nullptr)
-    {
-        Logger::Log("Unknown component to load at initialisation: '"+component+"'", Logger::DEBUG);
+    if (i == nullptr) {
+        Logger::log(
+                "Unknown component to load at initialisation: '" + component +
+                "'", Logger::DEBUG);
         return;
     }
     i->build();
@@ -43,30 +45,27 @@ Polymorph::Config::XmlComponent &config)
 }
 
 
-void Polymorph::Entity::Update()
+void Polymorph::Entity::update()
 {
     if (!_active)
         return;
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
-            if (!(**c)->IsAwaked())
-            {
-                (**c)->OnAwake();
-                (**c)->SetAsAwaked();
+        for (auto &c : cl.second) {
+            if (!(**c)->isAwaked()) {
+                (**c)->onAwake();
+                (**c)->setAsAwaked();
             }
             if (!(**c)->enabled)
                 continue;
-            if (!(**c)->IsStarted())
-            {
-                (**c)->Start();
-                (**c)->SetAsStarted();
+            if (!(**c)->isStarted()) {
+                (**c)->start();
+                (**c)->setAsStarted();
             }
-            (**c)->Update();
+            (**c)->update();
         }
 }
 
-void Polymorph::Entity::Draw()
+void Polymorph::Entity::draw()
 {
     using DrawableComponent = Component;
     //TODO :Add an option to draw child independently of parent ?
@@ -74,31 +73,29 @@ void Polymorph::Entity::Draw()
         return;
 
     //TODO : Draw drawables (only one drawable per entity ??)
-    safe_ptr<DrawableComponent> c = GetComponent<DrawableComponent>();
+    safe_ptr<DrawableComponent> c = getComponent<DrawableComponent>();
     if (!!c && c->enabled)
-        c->Draw();
-    DrawChildren(*transform);
+        c->draw();
+    drawChildren(*transform);
 }
 
-void Polymorph::Entity::DrawChildren(Polymorph::TransformComponent &trm)
+void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 {
     using DrawableComponent = TransformComponent;
     using Drawable = safe_ptr<DrawableComponent>;
 
-    for (auto &child : trm)
-    {
+    for (auto &child : trm) {
         //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject.GetComponent<DrawableComponent>();
+        Drawable drawable = child->gameObject.getComponent<DrawableComponent>();
         if (!!drawable && drawable->enabled)
-            drawable->Draw();
-        DrawChildren(*child);
+            drawable->draw();
+        drawChildren(*child);
     }
 }
 
 void Polymorph::Entity::setActive(bool active)
 {
-    if (this->_active != active)
-    {
+    if (this->_active != active) {
         //TODO : change children state
     }
     this->_active = active;
@@ -122,10 +119,8 @@ void Polymorph::Entity::addTag(const std::string &tag)
 
 void Polymorph::Entity::deleteTag(const std::string &tag)
 {
-    for (auto _tag = _tags.begin(); _tag  != _tags.end(); ++ _tag )
-    {
-        if (tag == *_tag)
-        {
+    for (auto _tag = _tags.begin(); _tag  != _tags.end(); ++ _tag ) {
+        if (tag == *_tag) {
             _tags.erase(_tag);
             return;
         }
@@ -133,7 +128,7 @@ void Polymorph::Entity::deleteTag(const std::string &tag)
 }
 
 template<typename T>
-bool Polymorph::Entity::DeleteComponent()
+bool Polymorph::Entity::deleteComponent()
 {
     std::shared_ptr<T> component (new T(*this));
 
@@ -141,22 +136,17 @@ bool Polymorph::Entity::DeleteComponent()
     component.reset();
     if (!componentExist(t))
         return false;
-    if (!_components.contains(t))
-    {
+    if (!_components.contains(t)) {
         auto i = 0;
         auto & defaultList =_components.find("Default")->second;
-        for (auto &c : defaultList)
-        {
-            if (c->getType() == t)
-            {
+        for (auto &c : defaultList) {
+            if (c->getType() == t) {
                 defaultList.erase(defaultList.begin() + i);
                 return false;
             }
             ++i;
         }
-    }
-    else
-    {
+    } else {
         _components[t].clear();
         return true;
     }
@@ -166,17 +156,15 @@ bool Polymorph::Entity::DeleteComponent()
 Polymorph::Entity::~Entity()
 {
     if (transform->parent != nullptr)
-        transform->parent->RemoveChild(*transform);
+        transform->parent->removeChild(*transform);
 
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)
 {
     std::string def("Default");
-    if (!_components.contains(type))
-    {
-        for (auto &c :  _components.find(def)->second)
-        {
+    if (!_components.contains(type)) {
+        for (auto &c :  _components.find(def)->second) {
             if (c->getType() == type)
                 return true;
         }
@@ -186,14 +174,13 @@ bool Polymorph::Entity::componentExist(std::string &type)
     return false;
 }
 
-void Polymorph::Entity::Awake()
+void Polymorph::Entity::awake()
 {
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
+        for (auto &c : cl.second) {
             c->reference();
-            (**c)->OnAwake();
-            (**c)->SetAsAwaked();
+            (**c)->onAwake();
+            (**c)->setAsAwaked();
         }
 }
 
@@ -204,9 +191,8 @@ Polymorph::Config::XmlEntity &Polymorph::Entity::getXmlConfig() const noexcept {
 void Polymorph::Entity::start()
 {
     for (auto &cl :_components)
-        for (auto &c : cl.second)
-        {
-            (**c)->Start();
-            (**c)->SetAsStarted();
+        for (auto &c : cl.second) {
+            (**c)->start();
+            (**c)->setAsStarted();
         }
 }

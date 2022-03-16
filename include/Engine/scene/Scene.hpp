@@ -14,7 +14,6 @@
 #include <map>
 #include <unordered_map>
 #include "factory/ComponentInitializer.hpp"
-#include "ref_ptr.hpp"
 #include "safe_ptr.hpp"
 #include "Node.hpp"
 
@@ -35,24 +34,34 @@ namespace Polymorph
      */
     class Scene
     {
+
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
             explicit Scene(std::string sceneName, Engine &game);
+//////////////////////--------------------------/////////////////////////
 
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
+            std::string name;
+            std::string id;
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
             std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
             Engine &_game;
             std::shared_ptr<Config::XmlScene> _config_data;
+//////////////////////--------------------------/////////////////////////
 
+
+
+/////////////////////////////// METHODS /////////////////////////////////
         public:
-            std::string name;
-            std::string id;
-            
             /**
              * @details Loops trough entities twice:
-             *          Once to call Update
-             *          Then to call Draw
+             *          Once to call update
+             *          Then to call draw
              *          Finally updates the destroy queue
              *          GameObject(nullptr) if not found.
              */
@@ -69,7 +78,7 @@ namespace Polymorph
             void unloadScene();
 
             /**
-             * @details Check for entities to erase based on their delay,
+             * @details Check for entities to _erase based on their delay,
              *          with their respective timer.
              *          Erases them if time's up.
              */
@@ -132,19 +141,6 @@ namespace Polymorph
 
 
             /**
-             * @details Erase an entity (and his children) from scene
-             * @param entity: the entity to erase
-             */
-            void erase(Entity &entity);
-
-
-            /**
-              * @details Erase an entity (and his children) from scene
-              * @param entity: the entity to erase
-              */
-            void erase(std::string &id);
-
-            /**
               * @details Adds an entity to the destroy queue of the scene
               * @param entity: the entity to push in queue
               */
@@ -161,12 +157,25 @@ namespace Polymorph
 
         private:
             /**
+             * @details Erase an entity (and his children) from scene
+             * @param entity: the entity to _erase
+             */
+            void _erase(Entity &entity);
+
+            /**
+              * @details Erase an entity (and his children) from scene
+              * @param entity: the entity to _erase
+              */
+            void _erase(std::string &id);
+
+            /**
               * @details Counts all children in an entity
               * @param entity: An iterator of the parent entity
               * @param parent_id: The id of the parent entity
               * @returns The total count of children and sub-children of an entity
               */
             int _countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
+//////////////////////--------------------------/////////////////////////
 
     };
 }

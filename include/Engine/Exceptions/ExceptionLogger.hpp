@@ -13,13 +13,33 @@
 
 class ExceptionLogger : public std::exception
 {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
     public:
         explicit ExceptionLogger(std::string message, Logger::severity level = Logger::severity::MAJOR);
-        const char *what() const noexcept override;
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Properties /////////////////////////////////
 
     private:
         std::string _message;
         Logger::severity _level;
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+///////////////////////////////// Methods /////////////////////////////////
+
+    public:
+        const char *what() const noexcept override;
+
+///////////////////////////--------------------------///////////////////////////
+
 };
 
 

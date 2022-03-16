@@ -19,14 +19,14 @@ namespace Polymorph
     {
         //  Component Specific
         public:
-            virtual void Update() = 0;
-            virtual void OnAwake() = 0;
-            virtual void Start() = 0;
-            virtual bool IsAwaked() const = 0;
-            virtual void SetAsStarted() = 0;
-            virtual void SetAsAwaked() = 0;
-            virtual bool IsStarted() const = 0;
-            virtual void Draw() = 0;
+            virtual void update() = 0;
+            virtual void onAwake() = 0;
+            virtual void start() = 0;
+            virtual bool isAwaked() const = 0;
+            virtual void setAsStarted() = 0;
+            virtual void setAsAwaked() = 0;
+            virtual bool isStarted() const = 0;
+            virtual void draw() = 0;
             virtual std::string getType() const = 0;
 
     };

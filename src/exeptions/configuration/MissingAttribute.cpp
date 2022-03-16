@@ -9,6 +9,4 @@
 
 MissingAttribute::MissingAttribute(std::string attribute, std::string nodeName, Logger::severity level)
         : ConfigurationException("Missing attribute named: \'"+attribute+"\' in node named \'"+nodeName+"\'", level)
-{
-
-}
+{}

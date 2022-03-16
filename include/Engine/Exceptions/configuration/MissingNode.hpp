@@ -13,8 +13,13 @@
 
 class MissingNode : public ConfigurationException
 {
+///////////////////////////////// Constructors /////////////////////////////////
+
     public:
         explicit MissingNode(std::string nodeName, Logger::severity level = Logger::MINOR);
+
+///////////////////////////--------------------------///////////////////////////
+
 };
 
 

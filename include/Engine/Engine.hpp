@@ -20,8 +20,9 @@
 
 namespace Polymorph
 {
-    namespace Config{class XmlEngine{};class XmlEntity;class XmlComponent;}
+    namespace Config{class XmlEntity;class XmlComponent;}
     class Scene;
+    using ExitCode = int;
 
     /**
      * @class Engine Main container class that holds all game data such as :
@@ -30,20 +31,21 @@ namespace Polymorph
     class Engine
     {
         public:
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             explicit Engine(const std::string &filepath, const std::string &projectName);
             ~Engine();
+//////////////////////--------------------------/////////////////////////
 
+
+
+///////////////////////////// PROPERTIES ////////////////////////////////
         private:
-            using ExitCode = int;
             std::vector<std::shared_ptr<Scene>> _scenes;
-
-
             std::vector<Config::XmlEntity> _prefabs;
             std::vector<Config::XmlComponent> _defaultConfigs;
 
             std::vector<std::string> _layers;
             std::vector<std::string> _execOrder;
-            Config::XmlEngine _data;
             bool _exit = false;
             ExitCode _exitCode = 0;
 
@@ -54,7 +56,11 @@ namespace Polymorph
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
             std::unique_ptr<Settings::VideoSettings> _videoSettings;
+//////////////////////--------------------------/////////////////////////
 
+
+
+/////////////////////////////// METHODS /////////////////////////////////
         public:
             /**
              * @details Getter that fetches the ordered vector of component types.
@@ -68,16 +74,16 @@ namespace Polymorph
              */
             int run();
 
-            void Exit(ExitCode code);
+            void exit(ExitCode code);
 
             std::string getProjectPath();
-            
+
             std::vector<Config::XmlEntity> getPrefabs();
-            
+
             std::vector<Config::XmlComponent> getDefaultConfigs();
-            
+
             Config::XmlComponent &getDefaultConfig(std::string type);
-            
+
 
 
             /**
@@ -141,6 +147,8 @@ namespace Polymorph
              * @details Inits the game data
              */
             void _initGameData();
+//////////////////////--------------------------/////////////////////////
+
     };
 }
 
