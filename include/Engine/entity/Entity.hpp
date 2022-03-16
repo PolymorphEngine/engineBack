@@ -16,6 +16,7 @@
 #include "safe_ptr.hpp"
 #include "factory/ComponentInitializer.hpp"
 #include "Component.hpp"
+#include "Engine.hpp"
 #include "Log/Logger.hpp"
 #include "factory/ComponentFactory.hpp"
 
@@ -154,14 +155,13 @@ namespace Polymorph
             {
                     std::shared_ptr<T> component(new T(*this));
 
-                    std::shared_ptr<Config::XmlComponent> config(nullptr);
-                    //TODO fetch default Config for component
                     std::string t = component->getType();
                     component.reset();
                     if (componentExist(t))
-                            return safe_ptr<T>();
-                    //TODO: maybe throw ?
-                    std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, *config, *this);
+                        return safe_ptr<T>();
+                    //TODO: maybe throw/Log ?
+                    Config::XmlComponent &config = _game.getDefaultConfig(t);
+                    std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, config, *this);
 
                     if (c == nullptr)
                     {
@@ -169,8 +169,8 @@ namespace Polymorph
                             return safe_ptr<T>();
                     }
 
-                    //c->build();
-                    //c->reference();
+                    c->build();
+                    c->reference();
                     _components[c->getType()].push_back(c);
                     (**c)->OnAwake();
                     (**c)->SetAsAwaked();

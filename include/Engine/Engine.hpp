@@ -13,7 +13,6 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include <vector>
-#include "XmlComponent.hpp"
 
 
 namespace Polymorph
@@ -69,6 +68,8 @@ namespace Polymorph
             std::vector<Config::XmlEntity> getPrefabs();
             
             std::vector<Config::XmlComponent> getDefaultConfigs();
+            
+            Config::XmlComponent &getDefaultConfig(std::string type);
             
 
             /**

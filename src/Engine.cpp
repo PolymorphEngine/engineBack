@@ -157,6 +157,29 @@ void Polymorph::Engine::_initGameData()
         Logger::Log("Error loading prefabs data in main config file", Logger::MINOR);
     }
 
+    try
+    {
+        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Templates");
+        
+        for (auto &prefab: *prefabs)
+        {
+            try
+            {
+                auto path = _projectPath + "/" + prefab->findAttribute("path")->getValue();
+                auto templateDoc = myxmlpp::Doc(path);
+                _defaultConfigs.emplace_back(Config::XmlComponent(templateDoc.getRoot()));
+            }
+            catch (...)
+            {
+                Logger::Log("Error loading component template", Logger::MINOR);
+            }
+        }
+    }
+    catch (myxmlpp::Exception &e)
+    {
+        Logger::Log("Error loading templates data in main config file", Logger::MINOR);
+    }
+
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
 
     if (scenes->empty())
@@ -209,4 +232,14 @@ std::vector<Polymorph::Config::XmlEntity> Polymorph::Engine::getPrefabs()
 std::vector<Polymorph::Config::XmlComponent> Polymorph::Engine::getDefaultConfigs()
 {
     return _defaultConfigs;
+}
+
+Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string type)
+{
+    for (auto &c: _defaultConfigs)
+    {
+        if (c.getType() == type)
+            return c;
+    }
+    throw ExceptionLogger("Tried to get a default config of an unknown component type", Logger::MAJOR);
 }
