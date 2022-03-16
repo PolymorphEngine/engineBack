@@ -15,6 +15,7 @@
 #include <vector>
 #include "PhysicsSettings.hpp"
 #include "AudioSettings.hpp"
+#include "VideoSettings.hpp"
 
 
 namespace Polymorph
@@ -52,6 +53,7 @@ namespace Polymorph
 
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
+            std::unique_ptr<Settings::VideoSettings> _videoSettings;
 
         public:
             /**

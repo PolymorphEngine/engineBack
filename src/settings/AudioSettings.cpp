@@ -28,9 +28,9 @@ Polymorph::Settings::AudioSettings::_getVolume(std::shared_ptr<XmlNode> node,
             throw std::runtime_error("Invalid value"); //TODO throw appropriate exception
         return val;
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::Log("Audio setting is incomplete, cannot find \" + attrName + \" attribute", Logger::MINOR);
+        Logger::Log("Audio setting is incomplete, cannot find \"" + attrName + "\" attribute", Logger::MINOR);
     } catch (...) {
-        Logger::Log("Audio setting is malformated, \" + attrName + \" attribute has bad value", Logger::MINOR); //TODO use appropriate level
+        Logger::Log("Audio setting is malformated, \"" + attrName + "\" attribute has bad value", Logger::MINOR); //TODO use appropriate level
     }
 }
 

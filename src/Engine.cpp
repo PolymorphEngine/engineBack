@@ -139,7 +139,7 @@ void Polymorph::Engine::_initGameData()
     try
     {
         std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
-        
+
         for (auto &prefab: *prefabs)
         {
             try
@@ -160,7 +160,7 @@ void Polymorph::Engine::_initGameData()
     try
     {
         std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Templates");
-        
+
         for (auto &prefab: *prefabs)
         {
             try
@@ -236,6 +236,13 @@ void Polymorph::Engine::_initAudioSettings()
     auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/AudioSettings");
 
     _audioSettings = std::make_unique<Settings::AudioSettings>(node);
+}
+
+void Polymorph::Engine::_initVideoSettings()
+{
+    auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/VideoSettings");
+
+    _videoSettings = std::make_unique<Settings::VideoSettings>(node);
 }
 
 

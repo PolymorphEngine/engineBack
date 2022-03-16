@@ -9,7 +9,7 @@
 
 namespace Polymorph
 {
-    Vector3::Vector3(Vector2 &copy)
+    Vector3::Vector3(const Vector2 &copy)
     {
         x = copy.x;
         y = copy.y;
@@ -44,7 +44,7 @@ namespace Polymorph
         return *this;
     }
 
-    Vector2::Vector2(Vector3 &copy)
+    Vector2::Vector2(const Vector3 &copy)
     {
         x = copy.x;
         y = copy.y;
