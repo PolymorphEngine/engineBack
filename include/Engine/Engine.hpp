@@ -20,7 +20,7 @@
 
 namespace Polymorph
 {
-    namespace Config{class XmlEngine{};class XmlEntity;}
+    namespace Config{class XmlEngine{};class XmlEntity;class XmlComponent;}
     class Scene;
 
     /**
