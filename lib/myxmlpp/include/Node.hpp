@@ -94,7 +94,7 @@ namespace myxmlpp {
                                       std::string &str,
                                       std::string *remaining = nullptr);
             /**
-             * @summary This method build a string which contains the necessary
+             * @details This method build a string which contains the necessary
              * indent to format a node in a file during writing
              * @param indent the number of tab to return
              * @return the indentation helper string
@@ -102,14 +102,14 @@ namespace myxmlpp {
             static std::string  _strIdent(std::size_t indent);
 
             /**
-             * @summary This method will return all the attributes serialized
+             * @details This method will return all the attributes serialized
              * in a minimized way (no necessary spaces between attributes)
              * @return the serialized attributes
              */
             std::string _dumpAttrs() const noexcept;
 
             /**
-             * @summary This method will return all the attributes serialized
+             * @details This method will return all the attributes serialized
              * with correct spacing formatting
              * @return the serialized attributes
              */
@@ -158,13 +158,13 @@ namespace myxmlpp {
             explicit Node(Node *parent, std::string& str);
 
             /**
-             * @summary This method will return the serialized node minimized
+             * @details This method will return the serialized node minimized
              * @return the serialized node
              */
             std::string asString(bool includeChildren = true) const noexcept;
 
             /**
-             * @summary This method will return the serialized node with
+             * @details This method will return the serialized node with
              * indentation formatting
              *
              * @return the serialized node
@@ -243,6 +243,21 @@ namespace myxmlpp {
             std::shared_ptr<Attribute>
             popAttribute(const std::string& key) noexcept;
 
+            using NodeIterator = std::vector<std::shared_ptr<Node>>::iterator;
+            /**
+             * @details Treat a node as an iterator to his children (begin)
+             * @returns First iterator of children
+             */
+            NodeIterator begin() noexcept
+            {
+                return _children.begin();
+            }
+
+            NodeIterator end() noexcept
+            {
+                return _children.end();
+            }
+            
             /**
              * Method to find a child node by its tag.
              * This method will return the first matched node

@@ -13,7 +13,7 @@
 namespace Polymorph
 {
     /**
-     * @class A Sub class
+     * @class IComponent interface class for all components
      */
     class IComponent
     {
@@ -28,7 +28,7 @@ namespace Polymorph
             virtual bool IsStarted() const = 0;
             virtual void Draw() = 0;
             virtual std::string getType() const = 0;
-            
+
     };
 }
 

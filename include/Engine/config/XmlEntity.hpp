@@ -21,10 +21,11 @@ namespace Polymorph
         class XmlEntity
         {
             public:
-                XmlEntity(std::shared_ptr<XmlNode> &node, std::shared_ptr<Engine> &engine);
-                std::string &getName() const;
+                XmlEntity(std::shared_ptr<XmlNode> &node, Engine &engine, std::string projectPath);
+                std::string getName() const;
                 bool isActive() const;
-                std::string &getId() const;
+                bool isPrefab();
+                std::string getId() const;
                 [[nodiscard]] std::vector<std::string> getTags() const;
                 std::string getLayer() const;
                 std::shared_ptr<Entity> makeInstance();
@@ -32,8 +33,13 @@ namespace Polymorph
             private:
                 std::vector<std::shared_ptr<XmlComponent>> _components;
                 std::vector<std::shared_ptr<XmlEntity>> _children;
-                std::shared_ptr<Engine> _engine;
+                Engine &_engine;
                 std::shared_ptr<XmlNode> _node;
+                std::string _path;
+                std::string _fileName;
+                std::shared_ptr<myxmlpp::Doc> _entity;
+                
+                void _loadComponents();
         };
     }
 

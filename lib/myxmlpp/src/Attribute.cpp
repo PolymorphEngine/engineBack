@@ -83,7 +83,7 @@ namespace myxmlpp {
         else if (_value == falseElement)
             return false;
         else
-            throw IllegalValueException("Float", _key,
+            throw IllegalValueException("Bool", _key,
                                         MYXMLPP_ERROR_LOCATION,
                                         _value);
     }

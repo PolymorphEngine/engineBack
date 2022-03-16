@@ -5,145 +5,403 @@
 ** header for XmlComponent.c
 */
 
-#include "XmlEntityRef.hpp"
-#include "XmlComponentRef.hpp"
+
 #include "XmlComponent.hpp"
+#include "Log/Logger.hpp"
+#include "Vector.hpp"
+#include "Rect.hpp"
+#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "SceneManager.hpp"
+#include <myxmlpp.hpp>
 
-Polymorph::Vector3
-Polymorph::Config::XmlComponent::getVector3Property(std::string name)
-{
-    /*
-    XmlNode *vectorProp = node->getChildWithNameAttr(name);
-    XmlNode *vector = vectorProp->getChild("Vector");
-
-    return  Polymorph::Vector3(vector->getFloatAttr("x"),
-                               vector->getFloatAttr("y"),
-                               vector->getFloatAttr("z")
-                               );
-   */
-    throw std::runtime_error("XmlComponent::getVector3Property(): Not yet implemented");
-}
-
-Polymorph::Vector2
-Polymorph::Config::XmlComponent::getVector2Property(std::string name)
-{
-    /*
-    XmlNode *vectorProp = node->getChildWithNameAttr(name);
-    XmlNode *vector = vectorProp->getChild("Vector");
-
-
-    return  Polymorph::Vector2(vector->getFloatAttr("x"),
-                            vector->getFloatAttr("y"));
-    */
-    throw std::runtime_error("XmlComponent::getVector2Property(): Not yet implemented");
-}
-
-Polymorph::Rect
-Polymorph::Config::XmlComponent::getRectProperty(std::string name)
-{
-    /*
-    XmlNode *rect = node->getChildWithNameAttr(name);
-
-    return  Polymorph::Rect(rect->getFloatAttr("x"),
-                            rect->getFloatAttr("y"),
-                            rect->getFloatAttr("width"),
-                            rect->getFloatAttr("height"));
-    */
-    throw std::runtime_error("XmlComponent::getRectProperty(): Not yet implemented");
-}
-
-std::string Polymorph::Config::XmlComponent::getStringProperty(std::string name)
-{
-    /*
-    XmlNode *str = node->getChildWithNameAttr(name);
-
-    return str->getAttrValue("value");
-     */
-    throw std::runtime_error("XmlComponent::getStringProperty(): Not yet implemented");
-}
-
-int Polymorph::Config::XmlComponent::getIntProperty(std::string name)
-{
-    /*
-    XmlNode *integer = node->getChildWithNameAttr(name);
-
-    return integer->getIntAtrr("value"); */
-    throw std::runtime_error("XmlComponent::getIntProperty(): Not yet implemented");
-}
-
-float Polymorph::Config::XmlComponent::getFloatProperty(std::string name)
-{
-/* XmlNode *floating = node->getChildWithNameAttr(name);
-
-    return floating->getFloatAtrr("value") ; */
-    throw std::runtime_error("XmlComponent::getFloatProperty(): Not yet implemented");
-}
-
-bool Polymorph::Config::XmlComponent::getBoolProperty(std::string name)
-{
-/*    XmlNode *boolean = node->getChildWithNameAttr(name);
-
-    return boolean->getBoolAtrr("value"); */
-    throw std::runtime_error("XmlComponent::getBoolProperty(): Not yet implemented");
-}
-
-template<typename T>
-T Polymorph::Config::XmlComponent::getTemplatedProperty(std::string name)
-{
-    /*
-    return ; */
-    throw std::runtime_error("XmlComponent::getTemplatedProperty(): Not yet implemented");
-}
-
-template<typename T>
-std::vector<T>
-Polymorph::Config::XmlComponent::getListOfTemplatedProperty(std::string name)
-{
-    /*
-    XmlNode *list = node->getChildWithNameAttr(name);
-
-    std::vector<T> listProperty;
-    for (auto &elem: list)
-        listProperty.push_back(getTemplatedProperty<T>(elem));
-    return listProperty;
-     */
-    throw std::runtime_error("XmlComponent::getListOfTemplatedProperty(): Not yet implemented");
-
-}
 
 std::string Polymorph::Config::XmlComponent::getType()
 {
-    return type;
+    try
+    {
+        type = node->findAttribute("type")->getValue();
+        return type;
+    }
+    catch(myxmlpp::Exception &e)
+    {
+        throw ConfigurationException("No Component type found in configuration !\n"+e.baseWhat(), Logger::MAJOR);
+    }
 }
 
 bool Polymorph::Config::XmlComponent::isEnabled()
 {
-    //TODO: fetch enabled state from conf
-    throw std::runtime_error("XmlComponent::isEnabled(): Not yet implemented");
+    try
+    {
+        return node->findAttribute("enabled")->getValueBool();
+    }
+    catch(myxmlpp::Exception &e)
+    {
+        Logger::Log("No state property found for component '"+type+"': set to false by default", Logger::DEBUG);
+        return false;
+    }
 }
 
-Polymorph::safe_ptr<Polymorph::Entity>
-Polymorph::Config::XmlComponent::getEntityReferenceProperty(std::string name)
+
+
+Polymorph::Config::XmlComponent::XmlComponent(std::shared_ptr<XmlNode> node)
 {
-    XmlEntityRef ref = XmlEntityRef(*node, *scene);
+    this->node = node;
+}
+
+std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::findProperty(std::string name)
+{
+    for (auto &property: *node)
+    {
+        try
+        {
+            auto attr = property->findAttribute("name");
+            if (attr->getValue() == name)
+                return property;
+        }
+        catch (...) {}
+    }
+    Logger::Log("Property name '"+name+"': not found.", Logger::DEBUG);
+    return nullptr;
+}
+
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, int &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    try
+    {
+        toSet = propNode->findAttribute("value")->getValueInt();
+    } catch (...) {
+        Logger::Log("Property named '" +propertyName+ "': has no value", Logger::DEBUG);
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, float &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    try
+    {
+        toSet = propNode->findAttribute("value")->getValueFloat();
+    } catch (...) {
+        Logger::Log("Property named '" +propertyName+ "': has no value", Logger::DEBUG);
+    }
+}
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, bool &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    try
+    {
+        toSet = propNode->findAttribute("value")->getValueBool();
+    } catch (...) {
+        Logger::Log("Property named '" +propertyName+ "': has no value", Logger::DEBUG);
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::string &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    try
+    {
+        toSet = propNode->findAttribute("value")->getValue();
+    } catch (...) {
+        Logger::Log("Property named '" +propertyName+ "': has no value", Logger::DEBUG);
+    }
+}
+
+
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector3 &toSet)
+{
+    std::shared_ptr<XmlNode> vectorProp = findProperty(propertyName);
+    std::shared_ptr<XmlNode> vector;
+
+    if (vectorProp == nullptr)
+        return;
+
+    try {
+        vector = vectorProp->findChild("Vector");
+    } catch (...) {
+        Logger::Log("Incomplete Vector2 property named '" +propertyName + "': not found", Logger::DEBUG);
+    }
     
-    return ref.getReference();
-}
-
-std::vector<Polymorph::GameObject>
-Polymorph::Config::XmlComponent::getEntityReferencePropertylList(std::string
-name)
-{
-    //TODO : search list property
-    throw std::runtime_error("XmlComponent::getEntityReferencePropertyList(): Not yet implemented");
-}
-
-template<typename T>
-Polymorph::safe_ptr<T>
-Polymorph::Config::XmlComponent::getComponentReferenceProperty(std::string name)
-{
-    XmlComponentRef<T> ref = XmlComponentRef<T>(*node, *scene);
+    try {
+        toSet.x = vector->findAttribute("x")->getValueFloat();
+    } catch (...) {
+        Logger::Log("x value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
     
-    return ref.getComponentReference();
+    try {
+        toSet.y = vector->findAttribute("y")->getValueFloat();
+    } catch (...) {
+        Logger::Log("y value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+    
+    try {
+        toSet.z = vector->findAttribute("z")->getValueFloat();
+    } catch (...) {
+        Logger::Log("z value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
 }
 
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector2 &toSet)
+{
+    std::shared_ptr<XmlNode> vectorProp = findProperty(propertyName);
+    std::shared_ptr<XmlNode> vector;
+
+    if (vectorProp == nullptr)
+        return;
+    
+    try {
+        vector = vectorProp->findChild("Vector");
+    } catch (...) {
+        Logger::Log("Incomplete Vector2 property named '" +propertyName + "': not found", Logger::DEBUG);
+    }
+
+    try {
+        toSet.x = vector->findAttribute("x")->getValueFloat();
+    } catch (...) {
+        Logger::Log("x value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+
+    try {
+        toSet.y = vector->findAttribute("y")->getValueFloat();
+    } catch (...) {
+        Logger::Log("y value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+}
+
+
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Rect &toSet)
+{
+    std::shared_ptr<XmlNode> rectProp = findProperty(propertyName);
+    std::shared_ptr<XmlNode> rect;
+
+    if (rectProp == nullptr)
+        return;
+
+    try {
+        rect = rectProp->findChild("Rect");
+    } catch (...) {
+        Logger::Log("Incomplete Rect property named '" +propertyName + "': not found", Logger::DEBUG);
+        return;
+    }
+
+    try {
+        toSet.x = rect->findAttribute("x")->getValueFloat();
+    } catch (...) {
+        Logger::Log("x value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+    
+    try
+    {
+        toSet.y = rect->findAttribute("y")->getValueFloat();
+    } catch (...) {
+        Logger::Log("y value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+    
+    try {
+        toSet.width = rect->findAttribute("width")->getValueFloat();
+    } catch (...) {
+        Logger::Log("width value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+    
+    try {
+        toSet.height = rect->findAttribute("height")->getValueFloat();
+    } catch (...) {
+        Logger::Log("height value of vector property named '" +propertyName+ "': not found", Logger::DEBUG);
+    }
+}
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<int> &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    for (auto &element : *propNode) {
+        try {
+            toSet.push_back(element->findAttribute("value")->getValueInt());
+        } catch (...) {
+            Logger::Log("Property Int List named '" + propertyName + "': has no value", Logger::DEBUG);
+        }
+    }
+}
+
+
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<float> &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    for (auto &element : *propNode) {
+        try {
+            toSet.push_back(element->findAttribute("value")->getValueFloat());
+        } catch (...) {
+            Logger::Log("Property Float List named '" + propertyName + "': has no value", Logger::DEBUG);
+        }
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<bool> &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    for (auto &element : *propNode) {
+        try {
+            toSet.push_back(element->findAttribute("value")->getValueBool());
+        } catch (...) {
+            Logger::Log("Property Bool List named '" + propertyName + "': has no value", Logger::DEBUG);
+        }
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<std::string> &toSet)
+{
+    auto propNode = findProperty(propertyName);
+
+    if (propNode == nullptr)
+        return;
+
+    for (auto &element : *propNode) {
+        try {
+            toSet.push_back(element->findAttribute("value")->getValue());
+        } catch (...) {
+            Logger::Log("Property String List named '" + propertyName + "': has no value", Logger::DEBUG);
+        }
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<Vector3> &toSet)
+{
+    auto vectorProp = findProperty(propertyName);
+    std::shared_ptr<XmlNode> vector;
+    size_t count = 0;
+    Vector3 tmp;
+    
+    if (vectorProp == nullptr)
+        return;
+
+    for (auto &element : *vectorProp) {
+        tmp = Vector3();
+        try {
+            vector = element->findChild("Vector");
+        } catch (...) {
+            Logger::Log("Incomplete Vector3 property named '" + propertyName + "' at index" + std::to_string(count) + ": not found", Logger::DEBUG);
+            continue;
+        }
+
+        try {
+            tmp.x = vector->findAttribute("x")->getValueFloat();
+        } catch (...) {
+            Logger::Log("x value of vector property named '" + propertyName + "' at index" + std::to_string(count) + ": not found", Logger::DEBUG);
+        }
+
+        try {
+            tmp.y = vector->findAttribute("y")->getValueFloat();
+        } catch (...) {
+            Logger::Log("y value of vector property named '" + propertyName + "' at index" + std::to_string(count) + ": not found", Logger::DEBUG);
+        }
+
+        try {
+            tmp.z = vector->findAttribute("z")->getValueFloat();
+        } catch (...) {
+            Logger::Log("z value of vector property named '" + propertyName + "' at index" + std::to_string(count) + ": not found", Logger::DEBUG);
+        }
+        
+        toSet[count] = tmp;
+        count += 1;
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, GameObject &toSet)
+{
+    auto refProp = findProperty(propertyName);
+
+    if (refProp == nullptr)
+        return;
+
+    try
+    {
+        auto id = refProp->findAttribute("id")->getValue();
+        //TODO: CALL SCENE MANAGER
+//        toSet = SceneManager::FindById(id);
+    }
+    catch (...)
+    {
+        Logger::Log("Property gameObject ref named '" +propertyName+ "': has no value", Logger::DEBUG);
+    }
+}
+
+template<>
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<GameObject> &toSet)
+{
+    auto refProp = findProperty(propertyName);
+    auto i = 0;
+    
+    if (refProp == nullptr)
+        return;
+
+    for (auto &elem : *refProp)
+    {
+        try
+        {
+            auto id = refProp->findAttribute("id")->getValue();
+            //TODO: CALL SCENE MANAGER
+            /*auto gameObject = SceneManager::FindById(id);
+
+            if (!gameObject)
+                throw;
+            toSet.push_back(gameObject); */
+        }
+        catch (...)
+        {
+            Logger::Log("Property gameObject ref nb: "+std::to_string(i)+", in list named '" +propertyName+ "': has no value", Logger::DEBUG);
+        }
+        ++i;
+    }
+}

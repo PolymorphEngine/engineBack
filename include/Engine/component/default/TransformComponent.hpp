@@ -28,7 +28,7 @@ namespace Polymorph
             Vector3 position;
             Vector3 rotation;
             Vector3 scale;
-            TransformBase parent;
+            TransformBase parent = nullptr;
             std::vector<TransformBase> children;
 
             typedef std::vector<std::shared_ptr<TransformComponent>>::iterator iterator;
@@ -47,13 +47,15 @@ namespace Polymorph
                 return children.end();
             }
 
-            void SetParent(std::shared_ptr<TransformComponent> parent);
+            void SetParent(const std::shared_ptr<TransformComponent>& parent_ref);
 
             std::shared_ptr<TransformComponent> RemoveChild(TransformComponent &child);
             void SetSiblingIndex(int index);
             void SetLastSibling();
             void SetFirstSibling();
-
+            
+            void Start() override;
+            
         private:
             void UpdateChildren();
 

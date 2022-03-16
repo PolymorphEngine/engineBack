@@ -19,7 +19,6 @@
 #include "exceptions/NodeNotFoundException.hpp"
 #include "exceptions/NoFileException.hpp"
 #include "exceptions/ParsingException.hpp"
-#include "exceptions/ParsingException.hpp"
 #include "exceptions/PermissionDeniedException.hpp"
 
 #endif //MYXMLPP_MYXMLPP_HPP

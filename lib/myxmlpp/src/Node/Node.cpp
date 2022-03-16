@@ -41,6 +41,8 @@ myxmlpp::Node::Node(myxmlpp::Node *parent,
     std::string remaining = str;
 
     _parseNodeString(str, remaining);
-    if (!remaining.empty())
-        throw myxmlpp::ParsingException(remaining, MYXMLPP_ERROR_LOCATION, "non matching characters in file");
+    if (!remaining.empty() && remaining != "\xEF\xBB\xBF")
+    {
+        throw myxmlpp::ParsingException(std::string(remaining), MYXMLPP_ERROR_LOCATION, "non matching characters in file");
+    }
 }

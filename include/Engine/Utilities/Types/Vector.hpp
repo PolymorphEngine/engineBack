@@ -12,14 +12,20 @@
 namespace Polymorph
 {
     class Vector2;
+    class Vector3;
+
     class Vector3
     {
         public:
-            Vector3(float x, float y): x(x), y(y), z(0){};
-            Vector3(float x, float y, float z): x(x), y(y), z(z){};
-            Vector3(Vector3 &copy) = default;
-            explicit Vector3(Vector2 &copy);
-            Vector3(): x(0), y(0), z(0){};
+            Vector3(float x, float y);
+            Vector3(float x, float y, float z);
+
+            Vector3(const Vector3 &copy) = default;
+            Vector3 operator+(Vector3 &other) const;
+            Vector3 &operator+=(Vector3 &other);
+            explicit Vector3(const Vector2 &copy);
+
+            Vector3();
             ~Vector3() = default;
 
             float x;
@@ -33,10 +39,10 @@ namespace Polymorph
     class Vector2
     {
         public:
-            Vector2(float x, float y): x(x), y(y){};
-            Vector2(Vector2 &copy) = default;
-            explicit Vector2(Vector3 &copy);
-            Vector2(): x(0), y(0){};
+            Vector2(float x, float y);
+            Vector2(const Vector2 &copy) = default;
+            explicit Vector2(const Vector3 &copy);
+            Vector2();
             ~Vector2() = default;
 
             float x;

@@ -20,7 +20,8 @@ namespace Polymorph
 
     class Entity;
     /**
-     * @class A class that is used to define any behavior for an entity in the game
+     * @class Component a class that is used to define any behavior for an
+     * entity in the game
      */
     class Component : public IComponent
     {
@@ -70,11 +71,11 @@ namespace Polymorph
             void SetAsAwaked() final {awaked = true;};
             bool IsAwaked() const final {return awaked;}
             bool IsStarted() const final {return started;}
-            
+
             /**
              * @details Getter that return's the type of the component.
              * @return the type of the component as std::string.
-             */ 
+             */
             std::string getType() const final {return _type;}
 
         protected:
@@ -93,7 +94,7 @@ namespace Polymorph
              */
             template <typename T>
             safe_ptr<T> GetComponent();
-            
+
             /**
              * @details Looks for a component by type in parent's
              * @tparam T: The 'T' type of the component to look for.
@@ -102,7 +103,7 @@ namespace Polymorph
              */
             template <typename T>
             safe_ptr<T> GetComponentInParent();
-            
+
             /**
              * @details Looks for a component by type in children
              * @tparam T: The 'T' type of the component to look for.
@@ -112,7 +113,7 @@ namespace Polymorph
              */
             template <typename T>
             safe_ptr<T> GetComponentInChildren();
-            
+
             /**
              * @details Adds a component to the entity
              * @tparam T: The 'T' type of the component to add.
