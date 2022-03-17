@@ -8,9 +8,12 @@
 #ifndef ENGINE_ICOLLIDER2DHANDLER_HPP
 #define ENGINE_ICOLLIDER2DHANDLER_HPP
 
+#include "default/Colliders/Collider2d.hpp"
+
 namespace Polymorph
 {
-    class Collider2d;
+    class Collider2dComponent;
+    
     
     class ICollider2dHandler
     {

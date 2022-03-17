@@ -7,6 +7,7 @@
 
 #include "default/Colliders/Collider2d.hpp"
 #include "interfaces/ICollider2dHandler.hpp"
+#include "Entity_templated.hpp"
 
 using namespace Polymorph;
 
