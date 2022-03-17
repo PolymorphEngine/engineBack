@@ -16,6 +16,11 @@
     using Collider2dBase = std::shared_ptr<Collider2dComponent>;
     using Collider2d = safe_ptr<Collider2dComponent>;
     
+    /**
+     * @class Collider2dComponent
+     * @details An abstract component that is used to make new collider shapes (box, circle ...)
+     * @warning Do not try to use this as a component ! (AddComponent)
+     */
     class Collider2dComponent : public Component
     {
         public:
@@ -49,8 +54,15 @@
 
 ////////////////////////////////// Methods /////////////////////////////////////
         private:
+            /**
+             * As to check collision with any collider shape implementation (box, circle ...)
+             * @param collider the collider with the collision is checked
+             * @return true if collision occurs
+             */
             virtual bool checkCollision(Collider2d &collider) = 0;
+
             void update() override;
+
             void _broadCastCollisionStay(Collider2d &collider);
             void _broadCastCollisionEnter(Collider2d &collider);
             void _broadCastCollisionExit(Collider2d &collider);
