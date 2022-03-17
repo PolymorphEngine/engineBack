@@ -149,6 +149,15 @@ namespace Polymorph
             safe_ptr<T> getComponent();
 
             /**
+             * @details Looks for all components of type T
+             * @tparam T: The 'T' type of the components to look for.
+             * @warning The type 'T' must inherit from the Component class to be fetched
+             * @returns A vector of safe pointer to the components of type 'T'
+             */
+            template <typename T>
+            std::vector<safe_ptr<T>> getComponents();
+            
+            /**
              * @details Adds a component to the entity
              * @tparam T: The 'T' type of the component to add.
              * @warning Does nothing if the component is already added

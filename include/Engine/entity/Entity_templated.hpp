@@ -19,24 +19,38 @@
 #include "factory/ComponentFactory.hpp"
 #include "Entity.hpp"
 #include "Component.hpp"
+#include "interfaces/ICollider2dHandler.hpp"
 
 
 template <typename T>
 Polymorph::safe_ptr<T> Polymorph::Entity::getComponent()
 {
-    std::shared_ptr<T> component (new T(*this));
+    for (auto &ci: _components) {
+        for (auto &c: ci.second) {
+            auto toAdd = std::dynamic_pointer_cast<T>((*c).get());
+            if (toAdd != nullptr) {
+                return safe_ptr<T>(toAdd);
+            }
+        }
+    }
+    return safe_ptr<T>(nullptr);
+}
 
-    std::string t = component->getType();
-    component.reset();
-    if (!componentExist(t))
-        return safe_ptr<T>(nullptr);
-    if (!_components.contains(t)) {
-        for (auto &c : _components.find("Default")->second)
-            if (c->getType() == t)
-                return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
-    } else
-        return safe_ptr<T>(std::dynamic_pointer_cast<T>( (*_components[t].begin())->get() ) );
-    return safe_ptr<T>();
+template<typename T>
+std::vector<Polymorph::safe_ptr<T>> Polymorph::Entity::getComponents()
+{
+    std::vector<safe_ptr<T>> toReturn;
+    
+    for (auto &ci: _components) {
+        for (auto &c: ci.second) {
+            auto toAdd = std::dynamic_pointer_cast<T>((*c).get());
+            if (toAdd != nullptr) {
+                toReturn.push_back(safe_ptr<T>(toAdd));
+            }
+        }
+    }
+    
+    return toReturn;
 }
 
 template<typename T>
