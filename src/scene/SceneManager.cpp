@@ -75,7 +75,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 
     nEntity->awake();
     //TODO maybe call transform method
-    nEntity->transform->position = position;
+    nEntity->transform->setPosition(position);
     Current->addEntity(nEntity);
     return GameObject(nEntity);
 }
@@ -103,7 +103,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 
     nEntity->awake();
     nEntity->transform->setParent(*parent);
-    nEntity->transform->position = parent->position + offset;
+    nEntity->transform->setPosition(parent->getPosition() + offset);
     Current->addEntity(nEntity);
     return GameObject(nEntity);
 }

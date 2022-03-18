@@ -97,11 +97,11 @@ namespace Polymorph
             std::vector<std::shared_ptr<Entity>>::iterator &entity,
             std::string &parent_id)
     {
-        auto count = (*entity)->transform->children.size();
+        auto count = (*entity)->transform->nbChildren();
 
         ++entity;
         for (; entity != _entities.end() && (*entity)->getId() != parent_id;) {
-            if (!(*entity)->transform->children.empty())
+            if (!(*entity)->transform->noChild())
                 count += _countChildren(entity, (*entity)->getId());
             else
                 ++entity;

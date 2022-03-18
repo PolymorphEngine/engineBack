@@ -24,6 +24,7 @@ namespace Polymorph
      */
     class TransformComponent : public Component
     {
+        friend class TransformInitializer;
         using iterator = std::vector<std::shared_ptr<TransformComponent>>::iterator;
 
 ///////////////////////////////// Constructors /////////////////////////////////
@@ -40,31 +41,31 @@ namespace Polymorph
 
 ///////////////////////////////// Properties ///////////////////////////////////
 
-        public:
+        private:
             /**
              * Position of the entity
              */
-            Vector3 position;
+            Vector3 _position;
 
             /**
              * Rotation of the entity
              */
-            Vector3 rotation;
+            Vector2 _rotation;
 
             /**
              * Scale of drawable components in the entity
              */
-            Vector3 scale;
+            Vector3 _scale;
 
             /**
              * A reference to the parent entity's transform (in the case the entity has a parent)
              */
-            TransformBase parent = nullptr;
+            TransformBase _parent = nullptr;
 
             /**
              * The list of all references to children's entities transforms
              */
-            std::vector<TransformBase> children;
+            std::vector<TransformBase> _children;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -80,7 +81,7 @@ namespace Polymorph
              */
             iterator begin()
             {
-                return children.begin();
+                return _children.begin();
             }
 
             /**
@@ -89,7 +90,7 @@ namespace Polymorph
              */
             void erase(int pos)
             {
-                children.erase(children.begin() + pos);
+                _children.erase(_children.begin() + pos);
             }
 
             /**
@@ -99,8 +100,48 @@ namespace Polymorph
              */
             iterator end()
             {
-                return children.end();
+                return _children.end();
             }
+
+            Transform parent();
+
+            std::size_t nbChildren();
+
+            bool noChild();
+
+            const Vector3 &getPosition() const;
+
+            void setPosition(const Vector3 &position);
+
+            void setPositionX(const float posX);
+
+            void setPositionY(const float posY);
+
+            void setPositionZ(const float posZ);
+
+            void move(const Vector3 &delta);
+
+//TODO do this later
+/*
+            const Vector2 &getRotation() const;
+
+            void setRotation(const Vector2 &rotation);
+
+            void setRotationX(float rotationX);
+
+            void setRotationY(float rotationY);
+
+
+            const Vector3 &getScale() const;
+
+            void setScale(const Vector3 &scale);
+
+            void setScaleX(float scaleX);
+
+            void setScaleY(float scaleY);
+
+            void setScaleZ(float scaleZ);
+*/
 
             void setParent(const std::shared_ptr<TransformComponent>& parent_ref);
 
@@ -114,8 +155,15 @@ namespace Polymorph
 
             void start() override;
 
+            void update() override;
+
         private:
-            void updateChildren();
+            void _moveChildren(const Vector3 &delta);
+            //TODO implement this
+            /*
+            void _rotateChildren(const Vector2 &delta);
+            void _scaleChildren(const Vector3 &delta);
+             */
 ///////////////////////////--------------------------///////////////////////////
     };
 }
