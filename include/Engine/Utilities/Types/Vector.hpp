@@ -40,6 +40,7 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
             Vector3 operator+(Vector3 &other) const;
+            Vector3 operator+(Vector2 &other) const;
             Vector3 &operator+=(Vector3 &other);
 //////////////////////--------------------------/////////////////////////
 
@@ -66,6 +67,13 @@ namespace Polymorph
             float x;
             float y;
             static Vector2 Zero;
+//////////////////////--------------------------/////////////////////////
+
+
+
+/////////////////////////////// METHODS /////////////////////////////////
+            Vector2 distance(const Vector2 &other) const;
+            Vector2 operator+(Vector2 &other) const;
 //////////////////////--------------------------/////////////////////////
 
     };

@@ -40,6 +40,10 @@ namespace Polymorph
         return *this;
     }
 
+    Vector3 Vector3::operator+(Vector2 &other) const {
+      return {x + other.x, y + other.y, z};
+    }
+
     Vector2::Vector2(const Vector3 &copy)
     {
         x = copy.x;
@@ -53,5 +57,15 @@ namespace Polymorph
     {
         x = 0;
         y = 0;
+    }
+
+    Vector2 Vector2::operator+(Vector2 &other) const
+    {
+        return {x + other.x, y + other.y};
+    }
+
+    Vector2 Vector2::distance(const Vector2 &other) const
+    {
+        return {x - other.x, y - other.y};
     }
 }
