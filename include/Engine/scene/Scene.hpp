@@ -27,6 +27,7 @@ namespace Polymorph
     class Engine;
     class Entity;
     using GameObject = safe_ptr<Entity>;
+    using EntityIterator = std::vector<std::shared_ptr<Entity>>::iterator;
     class Timer;
 
     /**
@@ -134,10 +135,26 @@ namespace Polymorph
             GameObject findById(const std::string &id);
 
             /**
+             * @details Looks for an entity by it's unique id
+             *          passed as parameter.
+             * @param id: the unique id of the entity
+             * @return A iterator to an Entity (alias GameObject type).
+             *         end() if not found.
+             */
+            EntityIterator findItById(const std::string &id);
+
+            /**
              * @details Add an entity to the entities list
              * @param entity a shared_ptr to an entity to add in the list
              */
              void addEntity(const std::shared_ptr<Entity>& entity);
+
+            /**
+            * @details Add an entity to the entities list at the desired index
+            * @param entity a shared_ptr to an entity to add in the list
+            * @param idx the desired index
+            */
+            void addEntityAtIdx(const std::shared_ptr<Entity>& entity, std::size_t idx);
 
 
             /**
@@ -153,6 +170,17 @@ namespace Polymorph
               * @param delayInSeconds: The delay in seconds before destroying it once in queue
               */
             void destroy(Entity &entity, float delayInSeconds);
+
+            /**
+             * @details Remove an entity iterator
+             * @param it: entity iterator to remove
+             */
+            std::shared_ptr<Entity> pop(EntityIterator it);
+
+            /**
+             * @return number of parent entity in the scene
+             */
+            std::size_t countParents();
 
 
         private:
