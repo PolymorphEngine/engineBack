@@ -14,10 +14,23 @@ namespace Polymorph
 {
 
     class ColliderCircle2dComponent : public Collider2dComponent {
-        private:
 
+///////////////////////////////// Properties ///////////////////////////////////
 
         public:
+            float radius;
+
+///////////////////////////--------------------------///////////////////////////
+
+
+
+////////////////////////////////// Methods /////////////////////////////////////
+
+        private:
+            bool checkCollision(Collider2dComponent &other) override;
+
+///////////////////////////--------------------------///////////////////////////
+
 
     };
 
