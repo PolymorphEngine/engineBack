@@ -26,28 +26,31 @@
         public:
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            Collider2dComponent(Entity &gameObject, std::string type);
+            Collider2dComponent(Entity &gameObject, std::string &type);
+            ~Collider2dComponent();
+
 ///////////////////////////--------------------------///////////////////////////
 
 
 
 ///////////////////////////////// Properties ///////////////////////////////////
+        public:
+            Vector2 offset;
         private:
-             /**
-              * @property all colliders which collided with the object during this frame
-              */
-             std::map<std::string, bool> _encountered;
+            /**
+             * @property all colliders encountered at runtime
+             */
+            std::map<std::string, bool> _encountered;
             
-            bool _computer = false;
-             /**
-              * @property all colliders which didn't collided with the object during this frame
-              */
-            std::vector<Collider2d> not_encountered;
-
+            /**
+             * @property the iterator where is placed the instance of the collider
+             */
+            std::vector<Collider2dComponent *>::iterator _colliderIdx;
+             
              /**
               * @property all colliders instantiated in the game
               */
-            static inline std::vector<Collider2d> _allColliders = {};
+            static inline std::vector<Collider2dComponent *> _allColliders = {};
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -59,14 +62,18 @@
              * @param collider the collider with the collision is checked
              * @return true if collision occurs
              */
-            virtual bool checkCollision(Collider2d &collider) = 0;
+            virtual bool checkCollision(Collider2dComponent &collider) = 0;
 
             void update() override;
 
-            void _broadCastCollisionStay(Collider2d &collider);
-            void _broadCastCollisionEnter(Collider2d &collider);
-            void _broadCastCollisionExit(Collider2d &collider);
-            void _checkCollisionToBroadCast(Collider2d &collider);
+            /**
+             * @details BroadCasting collision event functions
+             */
+            void _checkCollisionToBroadCast(Collider2dComponent &collider);
+
+            void _broadCastCollisionStay(Collider2dComponent &collider);
+            void _broadCastCollisionEnter(Collider2dComponent &collider);
+            void _broadCastCollisionExit(Collider2dComponent &collider);
 ///////////////////////////--------------------------///////////////////////////
 
      };

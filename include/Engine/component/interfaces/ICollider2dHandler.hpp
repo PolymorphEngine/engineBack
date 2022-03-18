@@ -18,9 +18,9 @@ namespace Polymorph
     class ICollider2dHandler
     {
         public:
-            virtual void onCollisionEnter(Collider2d &collider) = 0;
-            virtual void onCollisionExit(Collider2d &collider) = 0;
-            virtual void onCollisionStay(Collider2d &collider) = 0;
+            virtual void onCollisionEnter(Collider2dComponent &collider) = 0;
+            virtual void onCollisionExit(Collider2dComponent &collider) = 0;
+            virtual void onCollisionStay(Collider2dComponent &collider) = 0;
     };
 }
 
