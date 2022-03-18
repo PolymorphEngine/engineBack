@@ -132,8 +132,21 @@ Polymorph::SceneManager::dontDestroyOnLoad(Polymorph::GameObject gameObject)
     KeepOnLoad.push_back(gameObject.lock());
 }
 
+void Polymorph::SceneManager::setAtFront(Polymorph::GameObject gameObject)
+{
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
 
+    Current->addEntityAtIdx(entity, 0);
+}
 
+void Polymorph::SceneManager::setAtIdx(Polymorph::GameObject gameObject,
+                                       std::size_t idx)
+{
 
+}
 
+void Polymorph::SceneManager::setAtBack(Polymorph::GameObject gameObject)
+{
 
+}

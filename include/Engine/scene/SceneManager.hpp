@@ -22,7 +22,7 @@ namespace Polymorph
     class Vector3;
     class Engine;
     class Scene;
-    
+
     /**
      * @class SceneManager An utility class used to manipulate scenes
      * @category GameObject : static functions used to browse game objects in current scene
@@ -131,6 +131,25 @@ namespace Polymorph
              * @returns the instantiated game object
              */
             static GameObject instantiate(GameObject gameObject, Transform parent, Vector3 offset);
+
+            /**
+             * @details Set the position of a parent entity at the front of the scene entities list
+             * @param gameObject the game object to move at front
+             */
+            static void setAtFront(GameObject gameObject);
+
+            /**
+             * @details Set the position of a parent entity a the desired index in the scene entities list
+             * @param gameObjectthe game object to move
+             * @param idx the index to move the game object at
+             */
+            static void setAtIdx(GameObject gameObject, std::size_t idx);
+
+            /**
+             * @details Set the position of a parent entity at the back of the scene entities list
+             * @param gameObject: the game object to move to back
+             */
+            static void setAtBack(GameObject gameObject);
 
         // End of GameObject Section
 
