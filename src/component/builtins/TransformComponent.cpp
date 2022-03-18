@@ -107,7 +107,7 @@ namespace Polymorph
 
     void TransformComponent::setPosition(const Vector3 &position)
     {
-        Vector3 diff = _position - position;
+        Vector3 diff = position - _position;
 
         _position = position;
         _moveChildren(diff);
