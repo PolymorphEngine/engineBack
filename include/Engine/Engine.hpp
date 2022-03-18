@@ -16,6 +16,7 @@
 #include "PhysicsSettings.hpp"
 #include "AudioSettings.hpp"
 #include "VideoSettings.hpp"
+#include "Time.hpp"
 
 
 namespace Polymorph
@@ -52,6 +53,8 @@ namespace Polymorph
             std::string _projectPath;
             std::string _projectName;
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
+
+            Time _time;
 
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
