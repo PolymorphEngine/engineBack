@@ -143,10 +143,17 @@ void Polymorph::SceneManager::setAtFront(Polymorph::GameObject gameObject)
 void Polymorph::SceneManager::setAtIdx(Polymorph::GameObject gameObject,
                                        std::size_t idx)
 {
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
 
+    Current->addEntityAtIdx(entity, idx);
 }
 
 void Polymorph::SceneManager::setAtBack(Polymorph::GameObject gameObject)
 {
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
+    auto nb = Current->countParents();
 
+    Current->addEntityAtIdx(entity, nb);
 }
