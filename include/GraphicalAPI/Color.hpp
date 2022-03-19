@@ -17,8 +17,8 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
             Color() = default;
-            explicit Color(int hexa);
-            explicit Color(const myxmlpp::Node &data);
+
+            explicit Color(std::shared_ptr<myxmlpp::Node> &data);
             explicit Color(unsigned char r, unsigned char g, unsigned char b);
             ~Color() = default;
 ///////////////////////////--------------------------///////////////////////////
@@ -42,6 +42,7 @@ namespace Polymorph
 ///////////////////////////--------------------------///////////////////////////
 
     };
+
 }
 
 #endif //ENGINE_COLOR_HPP
