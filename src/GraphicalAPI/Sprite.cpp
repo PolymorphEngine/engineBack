@@ -65,7 +65,8 @@ void Polymorph::Sprite::_loadModule()
 
 Polymorph::Sprite::Sprite(std::string filePath)
 {
-    filePath = filePath;
+    _sprites.push_back(this);
+    _filePath = filePath;
     
     _loadModule();
 }
@@ -83,10 +84,12 @@ Polymorph::Sprite::~Sprite()
         }
     }
     _unloadModule();
+    _sprites.erase(std::find(_sprites.begin(), _sprites.end(), this));
 }
 
 Polymorph::Sprite::Sprite()
 {
+    _sprites.push_back(this);
     if (!create || !destroy)
     {
         try {
@@ -172,6 +175,8 @@ void Polymorph::Sprite::setColor(Polymorph::Color color)
 
 Polymorph::Sprite::Sprite(std::shared_ptr<myxmlpp::Node> &data)
 {
+    _sprites.push_back(this);
+
     if (!create || !destroy)
     {
         try {
@@ -187,7 +192,6 @@ Polymorph::Sprite::Sprite(std::shared_ptr<myxmlpp::Node> &data)
     Config::XmlComponent::setPropertyFromAttr("filepath", _filePath, data);
     Config::XmlComponent::setProperty("crop", _crop, data);
     Config::XmlComponent::setProperty("color", _color, data);
-
     if (_spriteModule)
         try {
             _spriteModule->setSprite(_filePath);
