@@ -16,6 +16,7 @@
 #include "Vector.hpp"
 #include "Rect.hpp"
 #include "Color.hpp"
+#include "XmlComponent.hpp"
 
 namespace Polymorph
 {
@@ -26,19 +27,18 @@ namespace Polymorph
         public:
             Sprite();
             explicit Sprite(std::string filePath);
-            explicit Sprite(const myxmlpp::Node &data);
+            explicit Sprite(std::shared_ptr<myxmlpp::Node> &data);
             ~Sprite();
 ///////////////////////////--------------------------///////////////////////////
 
 
 
 ///////////////////////////////// Properties ///////////////////////////////////
-        public:
-            std::string filePath;
-            Rect crop;
-            Color color;
-            
         private:
+            std::string _filePath;
+            Rect _crop;
+            Color _color;
+            
             arcade::ISpriteModule *_spriteModule;
 
             static inline std::vector<Sprite *> _sprites;

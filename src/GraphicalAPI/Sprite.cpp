@@ -27,6 +27,8 @@ void Polymorph::Sprite::unloadModules()
 {
     for (auto &s: _sprites)
         s->_unloadModule();
+    create = nullptr;
+    destroy = nullptr;
 }
 
 void Polymorph::Sprite::_unloadModule()
@@ -57,8 +59,8 @@ void Polymorph::Sprite::_loadModule()
         return;
     }
     _spriteModule = create();
-    setSprite(filePath);
-    setColor(color);
+    setSprite(_filePath);
+    setCrop(_crop);
 }
 
 Polymorph::Sprite::Sprite(std::string filePath)
@@ -105,7 +107,7 @@ arcade::ISpriteModule *Polymorph::Sprite::getSprite()
 
 void Polymorph::Sprite::setSprite(std::string newFilePath)
 {
-    filePath = newFilePath;
+    _filePath = newFilePath;
     if (_spriteModule)
         try {
             _spriteModule->setSprite(newFilePath);
@@ -142,7 +144,7 @@ void Polymorph::Sprite::moveSprite(Polymorph::Vector2 move)
 
 void Polymorph::Sprite::setCrop(Polymorph::Rect crop)
 {
-    this->crop = crop;
+    _crop = crop;
     
     if (_spriteModule)
         try {
@@ -156,13 +158,41 @@ void Polymorph::Sprite::setCrop(Polymorph::Rect crop)
 
 void Polymorph::Sprite::setColor(Polymorph::Color color)
 {
-    this->color = color;
+    _color = color;
 
     if (_spriteModule)
         try {
-            _spriteModule->setColor(this->color.r, this->color.g, this->color.b);
+            _spriteModule->setColor(this->_color.r, this->_color.g, this->_color.b);
         } catch (std::exception &e) {
             throw GraphicalException("Sprite setColor exception: " + std::string(e.what()), Logger::DEBUG);
+        }
+    else
+        Logger::log("No Sprite Object loaded", Logger::DEBUG);
+}
+
+Polymorph::Sprite::Sprite(std::shared_ptr<myxmlpp::Node> &data)
+{
+    if (!create || !destroy)
+    {
+        try {
+            create = DynamicLibLoader::loadSymbol<loader>("createSprite");
+            destroy = DynamicLibLoader::loadSymbol<unloader>("destroySprite");
+        } catch(const GraphicalException &e) {
+            e.what();
+            throw GraphicalException("Error loading sprite module symbols", Logger::MINOR);
+        }
+    }
+    _spriteModule = create();
+
+    Config::XmlComponent::setPropertyFromAttr("filepath", _filePath, data);
+    Config::XmlComponent::setProperty("crop", _crop, data);
+    Config::XmlComponent::setProperty("color", _color, data);
+
+    if (_spriteModule)
+        try {
+            _spriteModule->setSprite(_filePath);
+        } catch (std::exception &e) {
+            throw GraphicalException("Sprite setSprite exception: " + std::string(e.what()), Logger::DEBUG);
         }
     else
         Logger::log("No Sprite Object loaded", Logger::DEBUG);
