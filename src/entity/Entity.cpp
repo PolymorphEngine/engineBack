@@ -69,7 +69,7 @@ void Polymorph::Entity::draw()
 {
     using DrawableComponent = Component;
     //TODO :Add an option to draw child independently of parent ?
-    if (!_active || transform->parent != nullptr)
+    if (!_active)
         return;
 
     //TODO : Draw drawables (only one drawable per entity ??)
@@ -155,9 +155,8 @@ bool Polymorph::Entity::deleteComponent()
 
 Polymorph::Entity::~Entity()
 {
-    if (transform->parent != nullptr)
-        transform->parent->removeChild(*transform);
-
+    if (!!transform->parent())
+        transform->parent()->removeChild(*transform);
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)

@@ -75,7 +75,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 
     nEntity->awake();
     //TODO maybe call transform method
-    nEntity->transform->position = position;
+    nEntity->transform->setPosition(position);
     Current->addEntity(nEntity);
     return GameObject(nEntity);
 }
@@ -103,7 +103,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 
     nEntity->awake();
     nEntity->transform->setParent(*parent);
-    nEntity->transform->position = parent->position + offset;
+    nEntity->transform->setPosition(parent->getPosition() + offset);
     Current->addEntity(nEntity);
     return GameObject(nEntity);
 }
@@ -132,8 +132,28 @@ Polymorph::SceneManager::dontDestroyOnLoad(Polymorph::GameObject gameObject)
     KeepOnLoad.push_back(gameObject.lock());
 }
 
+void Polymorph::SceneManager::setAtFront(Polymorph::GameObject gameObject)
+{
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
 
+    Current->addEntityAtIdx(entity, 0);
+}
 
+void Polymorph::SceneManager::setAtIdx(Polymorph::GameObject gameObject,
+                                       std::size_t idx)
+{
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
 
+    Current->addEntityAtIdx(entity, idx);
+}
 
+void Polymorph::SceneManager::setAtBack(Polymorph::GameObject gameObject)
+{
+    auto it = Current->findItById(gameObject->getId());
+    auto entity = Current->pop(it);
+    auto nb = Current->countParents();
 
+    Current->addEntityAtIdx(entity, nb);
+}

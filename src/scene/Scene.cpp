@@ -97,11 +97,11 @@ namespace Polymorph
             std::vector<std::shared_ptr<Entity>>::iterator &entity,
             std::string &parent_id)
     {
-        auto count = (*entity)->transform->children.size();
+        auto count = (*entity)->transform->nbChildren();
 
         ++entity;
         for (; entity != _entities.end() && (*entity)->getId() != parent_id;) {
-            if (!(*entity)->transform->children.empty())
+            if (!(*entity)->transform->noChild())
                 count += _countChildren(entity, (*entity)->getId());
             else
                 ++entity;
@@ -173,6 +173,15 @@ namespace Polymorph
         return GameObject(nullptr);
     }
 
+    EntityIterator Scene::findItById(const std::string &id)
+    {
+        for (auto it = _entities.begin(); it != _entities.end(); ++it) {
+            if ((*it)->getId() == id)
+                return it;
+        }
+        return _entities.end();
+    }
+
     GameObject Scene::findByTag(const std::string &tag) {
         for (auto &e: _entities) {
             if (e->hasTag(tag))
@@ -189,6 +198,31 @@ namespace Polymorph
                 toRet.emplace_back(e);
         }
         return toRet;
+    }
+
+    std::shared_ptr<Entity> Scene::pop(EntityIterator it)
+    {
+        auto entity = *it;
+
+        _entities.erase(it);
+        return entity;
+    }
+
+    std::size_t Scene::countParents()
+    {
+        std::size_t toRet = 0;
+
+        for (auto &e : _entities) {
+            if (!(e->transform->parent()))
+                ++toRet;
+        }
+        return toRet;
+    }
+
+    void Scene::addEntityAtIdx(const std::shared_ptr<Entity> &entity,
+                               std::size_t idx)
+    {
+        _entities.insert(_entities.begin() + idx, entity);
     }
 
 }
