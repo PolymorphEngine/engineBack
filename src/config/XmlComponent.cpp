@@ -10,7 +10,7 @@
 #include "Log/Logger.hpp"
 #include "Vector.hpp"
 #include "Rect.hpp"
-#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 #include "SceneManager.hpp"
 #include <myxmlpp.hpp>
 

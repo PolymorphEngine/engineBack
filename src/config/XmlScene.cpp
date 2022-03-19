@@ -12,7 +12,7 @@
 #include "Engine.hpp"
 #include "exceptions/Exception.hpp"
 #include "Log/Logger.hpp"
-#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 
 namespace Polymorph
 {

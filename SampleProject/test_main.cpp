@@ -6,7 +6,7 @@
 */
 
 #include "../include/Engine/Engine.hpp"
-#include "../include/Engine/Exceptions/configuration/ConfigurationException.hpp"
+#include "ConfigurationException.hpp"
 
 int main()
 {

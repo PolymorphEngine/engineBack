@@ -16,11 +16,13 @@
 #include "PhysicsSettings.hpp"
 #include "AudioSettings.hpp"
 #include "VideoSettings.hpp"
+#include "GraphicalAPI/DynamicLoader.hpp"
 
 
 namespace Polymorph
 {
     namespace Config{class XmlEntity;class XmlComponent;}
+    class Display;
     class Scene;
     using ExitCode = int;
 
@@ -32,7 +34,7 @@ namespace Polymorph
     {
         public:
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-            explicit Engine(const std::string &filepath, const std::string &projectName);
+            explicit Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath = "");
             ~Engine();
 //////////////////////--------------------------/////////////////////////
 
@@ -55,7 +57,12 @@ namespace Polymorph
 
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
-            std::unique_ptr<Settings::VideoSettings> _videoSettings;
+            std::shared_ptr<Settings::VideoSettings> _videoSettings;
+            std::unique_ptr<Display> _display;
+            
+            std::unique_ptr<DynamicLibLoader> _graphicalLoader;
+            std::unique_ptr<DynamicLibLoader> _scriptFactoryLoader;
+            
 //////////////////////--------------------------/////////////////////////
 
 

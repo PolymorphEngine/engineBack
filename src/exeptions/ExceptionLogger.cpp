@@ -5,7 +5,7 @@
 ** header for ExceptionLogger.c
 */
 
-#include "Engine/Exceptions/ExceptionLogger.hpp"
+#include "ExceptionLogger.hpp"
 
 ExceptionLogger::ExceptionLogger(std::string message, Logger::severity level)
 {

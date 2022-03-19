@@ -88,11 +88,6 @@ namespace Polymorph
              */
             void start() override;
 
-            /**
-             * @details An overridable method that draws the component if its an drawable only.
-             *          Called once per frame.
-             */
-            void draw() override;
 
             void setAsStarted() final { started = true;};
 

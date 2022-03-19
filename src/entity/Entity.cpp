@@ -12,6 +12,9 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 #include "Log/Logger.hpp"
+#include "default/drawables/DrawableComponent.hpp"
+#include "Entity.hpp"
+
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
@@ -67,22 +70,16 @@ void Polymorph::Entity::update()
 
 void Polymorph::Entity::draw()
 {
-    using DrawableComponent = Component;
     //TODO :Add an option to draw child independently of parent ?
-    if (!_active)
-        return;
 
-    //TODO : Draw drawables (only one drawable per entity ??)
-    safe_ptr<DrawableComponent> c = getComponent<DrawableComponent>();
+    Drawable c = getComponent<DrawableComponent>();
+
     if (!!c && c->enabled)
         c->draw();
-    drawChildren(*transform);
 }
 
 void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 {
-    using DrawableComponent = TransformComponent;
-    using Drawable = safe_ptr<DrawableComponent>;
 
     for (auto &child : trm) {
         //TODO: check independence before drawing ?
@@ -194,4 +191,9 @@ void Polymorph::Entity::start()
             (**c)->start();
             (**c)->setAsStarted();
         }
+}
+
+bool Polymorph::Entity::isActive() const
+{
+    return _active;
 }

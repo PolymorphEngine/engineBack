@@ -31,8 +31,3 @@ void Polymorph::Component::start()
 {
 
 }
-
-void Polymorph::Component::draw()
-{
-
-}

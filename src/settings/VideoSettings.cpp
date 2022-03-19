@@ -8,7 +8,7 @@
 
 #include "VideoSettings.hpp"
 #include "Log/Logger.hpp"
-#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 
 Polymorph::Settings::VideoSettings::VideoSettings(
         const std::shared_ptr<XmlNode> &node): _node(node)
