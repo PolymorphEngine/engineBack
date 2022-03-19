@@ -770,3 +770,67 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
         ++i;
     }
 }
+
+
+void Polymorph::Config::XmlComponent::setPropertyFromAttr(std::string propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data)
+{
+    auto &propNode = data;
+
+
+    if (propNode == nullptr)
+        return;
+
+    try {
+        toSet = propNode->findAttribute(propertyName)->getValueInt();
+    } catch (...) {
+        Logger::log("Property named '" + propertyName + "': has no value",
+                    Logger::DEBUG);
+    }
+}
+
+void Polymorph::Config::XmlComponent::setPropertyFromAttr(std::string propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data)
+{
+    auto &propNode = data;
+
+    if (propNode == nullptr)
+        return;
+
+    try {
+        toSet = propNode->findAttribute(propertyName)->getValueFloat();
+    } catch (...) {
+        Logger::log("Property named '" + propertyName + "': has no value",
+                    Logger::DEBUG);
+    }
+}
+
+
+void Polymorph::Config::XmlComponent::setPropertyFromAttr(std::string propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data)
+{
+    auto &propNode = data;
+
+    if (propNode == nullptr)
+        return;
+
+    try {
+        toSet = propNode->findAttribute(propertyName)->getValueBool();
+    } catch (...) {
+        Logger::log("Property named '" + propertyName + "': has no value",
+                    Logger::DEBUG);
+    }
+}
+
+void Polymorph::Config::XmlComponent::setPropertyFromAttr(std::string propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data)
+{
+    auto &propNode = data;
+
+
+    if (propNode == nullptr)
+        return;
+
+    try {
+        toSet = propNode->findAttribute(propertyName)->getValue();
+    } catch (...) {
+        Logger::log("Property named '" + propertyName + "': has no value",
+                    Logger::DEBUG);
+    }
+}
