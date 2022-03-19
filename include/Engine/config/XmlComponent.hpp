@@ -271,6 +271,137 @@ namespace Polymorph
                  */
                 void setProperty(std::string propertyName, std::vector<GameObject> &toSet);
 
+
+                
+                
+//////////////////////------------STATICS-----------------/////////////////////////
+
+                /**
+                 * @defgroup SetPropertySimple
+                 * @details A set of functions that takes a property as parameter and set its value with the configuration file
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+
+                /**
+                * @defgroup SetPropertyList
+                * @details A set of functions that takes a property List as parameter and adds elements in it based on the configuration file
+                * @param propertyName the name of the property in config
+                * @param toSet the List property to set
+                * @warning propertyName as to be the exact same as the literal property name in the component !
+                */
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, GameObject &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Vector3 &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Vector2 &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Rect &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data);
+
+                
+                
+
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Vector3> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Vector2> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Rect> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<int> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<float> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<bool> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<std::string> &toSet, std::shared_ptr<myxmlpp::Node> &data);
+
+                static void setProperty(std::string propertyName, std::vector<GameObject> &toSet, std::shared_ptr<XmlNode> &data);
+
+                /**
+                 * @details , doesn't touch it if property is not found
+                 * @tparam T the type of the property to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+                template<typename T>
+                static void setProperty(std::string propertyName, T &toSet, std::shared_ptr<myxmlpp::Node> &data)
+                {
+                    std::shared_ptr<XmlNode> property = _findProperty(propertyName, data);
+
+                    if (property == nullptr)
+                        return;
+
+                    toSet = T(property);
+                };
+
+                /**
+                 * @details sets a property List by its name, doesn't touch it if property is not found
+                 * @tparam T the type of the properties Elements of the List to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property List to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+                template<typename T>
+                static void setProperty(std::string propertyName, std::vector<T> &toSet, std::shared_ptr<myxmlpp::Node> &data)
+                {
+                    auto propNode = _findProperty(propertyName, data);
+
+                    if (propNode == nullptr)
+                        return;
+
+                    for (auto &element : *propNode) {
+                        try {
+                            toSet.emplace_back(element);
+                        } catch (...) {
+                            Logger::log("Property List of Templates named '" +
+                                        propertyName + "': has no value",
+                                        Logger::DEBUG);
+                        }
+                    }
+                };
             private:
                 /**
                  * @details Searches a property by its attribute 'name' in the component node
@@ -278,6 +409,7 @@ namespace Polymorph
                  * @return the node found (nullptr if not found)
                  */
                 std::shared_ptr<XmlNode> _findProperty(std::string name);
+                static std::shared_ptr<XmlNode> _findProperty(std::string name, std::shared_ptr<myxmlpp::Node> &data);
 //////////////////////--------------------------/////////////////////////
 
         };
