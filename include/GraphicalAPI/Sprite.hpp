@@ -54,12 +54,12 @@ namespace Polymorph
             void moveSprite(Vector2 move);
             void setCrop(Rect crop);
             void setColor(Color color);
-            
-            
+
+
             static void loadModules();
             static void unloadModules();
-            
-            
+
+
         private:
             void _loadModule();
             void _unloadModule();
@@ -69,7 +69,7 @@ namespace Polymorph
             static inline unloader destroy = nullptr;
 ///////////////////////////--------------------------///////////////////////////
 
-            
+
     };
 }
 
