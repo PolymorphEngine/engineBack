@@ -17,11 +17,12 @@ namespace Polymorph
     
     class SpriteRendererComponent;
     using SpriteRenderer = safe_ptr<SpriteRendererComponent>;
+    using SpriteRendererBase = std::shared_ptr<SpriteRendererComponent>;
     
     class SpriteRendererComponent : public DrawableComponent
     {
         public:
-            SpriteRendererComponent(Entity &gameObject);
+            explicit SpriteRendererComponent(Entity &gameObject);
             
             
         public:

@@ -6,7 +6,6 @@
 */
 
 #include "GraphicalAPI/Color.hpp"
-#include "Log/Logger.hpp"
 #include "XmlComponent.hpp"
 
 
@@ -14,16 +13,16 @@ Polymorph::Color::Color(std::shared_ptr<myxmlpp::Node> &data)
 {
     int _tmp = -1;
 
-    Config::XmlComponent::setPropertyFromAttr("r", _tmp, data);
-    if (_tmp != -1)
+    Config::XmlComponent::setProperty("r", _tmp, data);
+    if (_tmp > -1)
         r = _tmp;
     _tmp = -1;
-    Config::XmlComponent::setPropertyFromAttr("g", _tmp, data);
-    if (_tmp != -1)
+    Config::XmlComponent::setProperty("g", _tmp, data);
+    if (_tmp > -1)
         g = _tmp;
     _tmp = -1;
-    Config::XmlComponent::setPropertyFromAttr("b", _tmp, data);
-    if (_tmp != -1)
+    Config::XmlComponent::setProperty("b", _tmp, data);
+    if (_tmp > -1)
         b = _tmp;
 
 }

@@ -20,4 +20,10 @@ namespace Polymorph
         sprite->setPosition(Vector2(transform.getPosition()) + offset);
         Display::draw(*sprite);
     }
+
+    SpriteRendererComponent::SpriteRendererComponent(Entity &gameObject)
+            : DrawableComponent("SpriteRenderer", gameObject)
+    {
+
+    }
 }

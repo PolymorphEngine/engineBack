@@ -23,11 +23,11 @@ namespace Polymorph
         _title = title;
         _instance = this;
         try {
-            create = DynamicLibLoader::loadSymbol<loader>("createSprite");
-            destroy = DynamicLibLoader::loadSymbol<unloader>("destroySprite");
-        } catch(const GraphicalException &e) {
+            create = DynamicLibLoader::loadSymbol<loader>("createDisplay");
+            destroy = DynamicLibLoader::loadSymbol<unloader>("destroyDisplay");
+        } catch(const std::exception &e) {
             e.what();
-            throw GraphicalException("Error loading sprite module symbols", Logger::MINOR);
+            throw GraphicalException("Error loading Display module symbols", Logger::MINOR);
         }
         _displayModule = create();
         auto res = settings->getResolution();
@@ -64,7 +64,7 @@ namespace Polymorph
                 destroy = DynamicLibLoader::loadSymbol<unloader>("destroySprite");
             } catch(const GraphicalException &e) {
                 e.what();
-                throw GraphicalException("Error loading sprite module symbols", Logger::MINOR);
+                throw GraphicalException("Error loading sprite module symbols", Logger::MAJOR);
             }
         }
         _instance->_loadModule();
@@ -80,6 +80,8 @@ namespace Polymorph
 
     void Display::draw(Sprite &sprite)
     {
+        if (!_instance->_displayModule || !sprite.getSprite())
+            return;
         _instance->_displayModule->draw(sprite.getSprite());
     }
 
@@ -91,26 +93,37 @@ namespace Polymorph
 
     void Display::clearWindow()
     {
+        if (!_displayModule)
+            return;
         _displayModule->clearWindow();
     }
 
     void Display::displayWindow()
     {
+        if (!_displayModule)
+            return;
         _displayModule->displayWindow();
     }
 
     void Display::close()
     {
+        if (!_displayModule)
+            return;
         _displayModule->closeWindow();
     }
 
     bool Display::isOpen()
     {
+
+        if (!_displayModule)
+            return true;
         return _displayModule->isOpen();
     }
 
     void Display::fetchEvents()
     {
+        if (!_displayModule)
+            return;
         _displayModule->fetchInputs();
     }
 

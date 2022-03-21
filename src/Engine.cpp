@@ -13,6 +13,7 @@
 #include <myxmlpp.hpp>
 #include "ConfigurationException.hpp"
 #include "GraphicalAPI/Display.hpp"
+#include "GraphicalException.hpp"
 
 Polymorph::Engine::Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath)
 {
@@ -20,13 +21,22 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     _projectName = projectName;
 
     
-    _graphicalLoader = std::make_unique<DynamicLibLoader>();
-    _graphicalLoader->loadHandler(libPath);
+    try
+    {
+        _graphicalLoader = std::make_unique<DynamicLibLoader>();
+        _graphicalLoader->loadHandler(libPath);
+    } catch (std::exception &e) {
+        e.what();
+    }
     Logger::setLogDir(filepath + "/Logs");
     _openProject();
     _initDebugSettings();
     _initVideoSettings();
-    _display = std::make_unique<Display>(_videoSettings, projectName);
+    try {
+        _display = std::make_unique<Display>(_videoSettings, projectName);
+    } catch (GraphicalException &e) {
+        e.what();
+    }
 
     _initExectutionOrder();
     _initLayers();
@@ -44,12 +54,17 @@ int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
-    while (!_exit && _display->isOpen())
+    while (!_exit && (_display && _display->isOpen())
+    || !_display && !_exit)
     {
-        _display->fetchEvents();
-        _display->clearWindow();
+        if (_display) {
+            _display->fetchEvents();
+            _display->clearWindow();
+        }
         SceneManager::Current->updateComponents();
-        _display->displayWindow();
+        if (_display) {
+            _display->displayWindow();
+        }
     }
     return _exitCode;
 }

@@ -36,8 +36,8 @@ namespace Polymorph
 ///////////////////////////////// Properties ///////////////////////////////////
         private:
             std::string _filePath;
-            Rect _crop;
-            Color _color;
+            Rect _crop = {-1, -1, -1, -1};
+            Color _color {0, 0, 0};
             
             arcade::ISpriteModule *_spriteModule;
 

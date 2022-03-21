@@ -151,7 +151,8 @@ void Polymorph::Sprite::setCrop(Polymorph::Rect crop)
     
     if (_spriteModule)
         try {
-            _spriteModule->setCrop(crop.x, crop.y, crop.width, crop.height);
+            if (_crop.x > -1 && _crop.y > -1 && _crop.width > 0 && _crop.height > 0)
+                _spriteModule->setCrop(_crop.x, _crop.y, _crop.width, _crop.height);
         } catch (std::exception &e) {
             throw GraphicalException("Sprite Crop exception: " + std::string(e.what()), Logger::DEBUG);
         }
@@ -189,12 +190,15 @@ Polymorph::Sprite::Sprite(std::shared_ptr<myxmlpp::Node> &data)
     }
     _spriteModule = create();
 
-    Config::XmlComponent::setPropertyFromAttr("filepath", _filePath, data);
+    Config::XmlComponent::setProperty("filepath", _filePath, data);
     Config::XmlComponent::setProperty("crop", _crop, data);
     Config::XmlComponent::setProperty("color", _color, data);
+    
     if (_spriteModule)
         try {
             _spriteModule->setSprite(_filePath);
+            if (_crop.x != -1 && _crop.y != -1 && _crop.width != -1 && _crop.height != -1)
+                _spriteModule->setCrop(_crop.x, _crop.y, _crop.width, _crop.height);
         } catch (std::exception &e) {
             throw GraphicalException("Sprite setSprite exception: " + std::string(e.what()), Logger::DEBUG);
         }
