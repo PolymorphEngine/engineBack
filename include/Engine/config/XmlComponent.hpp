@@ -381,20 +381,6 @@ namespace Polymorph
                 static void setProperty(std::string propertyName, std::vector<GameObject> &toSet, std::shared_ptr<XmlNode> &data, Logger::severity level = Logger::DEBUG);
 
 
-                static void setPropertyFromAttr(std::string propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
-                /**
-                 * @ingroup SetPropertyFromAttr
-                 */
-                static void setPropertyFromAttr(std::string propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
-                /**
-                 * @ingroup SetPropertySimple
-                 */
-                static void setPropertyFromAttr(std::string propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
-                /**
-                 * @ingroup SetPropertySimple
-                 */
-                static void setPropertyFromAttr(std::string propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
-
                 /**
                  * @details , doesn't touch it if property is not found
                  * @tparam T the type of the property to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object

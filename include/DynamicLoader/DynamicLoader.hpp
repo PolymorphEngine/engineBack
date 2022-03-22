@@ -19,7 +19,6 @@ class DynamicLibLoader
         ~DynamicLibLoader();
 
     protected:
-        unsigned int id;
         void *_handler = nullptr;
     
     
@@ -46,12 +45,6 @@ class DynamicLibLoader
                 throw std::runtime_error("Failed to find symbol named: "+ name);
             return reinterpret_cast<T>(symbol);
         }
-        static unsigned int getId() {
-            static unsigned int lastId = 0;
-            ++lastId;
-            return lastId;
-        };
-        
 };
 
 
