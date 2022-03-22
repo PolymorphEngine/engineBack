@@ -430,6 +430,38 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
     }
 }
 
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Sprite &toSet, Logger::severity level)
+{
+    auto data = _findProperty(propertyName, level);
+    
+    try {
+        toSet = GraphicalAPI::createSprite(data);
+    } catch (...) {
+        if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': has missing value", level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "': has missing value", Logger::MAJOR);
+    }
+}
+
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Text &toSet, Logger::severity level)
+{
+    auto data = _findProperty(propertyName, level);
+    
+    try {
+        toSet = GraphicalAPI::createText(data);
+    } catch (...) {
+        if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': has missing value", level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "': has missing value", Logger::MAJOR);
+    }
+}
+
 void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, GameObject &toSet, Logger::severity level)
 {
     auto refProp = _findProperty(propertyName, level);

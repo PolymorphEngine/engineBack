@@ -16,13 +16,14 @@
 #include "PhysicsSettings.hpp"
 #include "AudioSettings.hpp"
 #include "VideoSettings.hpp"
-#include "GraphicalAPI/DynamicLoader.hpp"
+#include "DynamicLoader/DynamicLoader.hpp"
+#include "GraphicalAPI/GraphicalAPI.hpp"
 
 
 namespace Polymorph
 {
     namespace Config{class XmlEntity;class XmlComponent;}
-    class Display;
+    class DisplayModule;
     class Scene;
     using ExitCode = int;
 
@@ -58,9 +59,9 @@ namespace Polymorph
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
-            std::unique_ptr<Display> _display;
+            Display _display;
             
-            std::unique_ptr<DynamicLibLoader> _graphicalLoader;
+            std::unique_ptr<GraphicalAPI> _graphicalApi;
             std::unique_ptr<DynamicLibLoader> _scriptFactoryLoader;
             
 //////////////////////--------------------------/////////////////////////

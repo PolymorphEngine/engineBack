@@ -12,24 +12,27 @@
 #include <string>
 #include "myxmlpp.hpp"
 #include "GraphicalAPI/ArcadeInterfaces/ITextModule.hpp"
+#include "GraphicalAPI.hpp"
 #include "Color.hpp"
 #include "Vector.hpp"
 #include "Rect.hpp"
 
 namespace Polymorph
 {
-    class Text
+    class TextModule
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit Text(std::string fontPath, std::string text);
+            explicit TextModule(std::string fontPath, std::string , unsigned int size);
 
-            explicit Text(std::shared_ptr<myxmlpp::Node> &data);
+            explicit TextModule(std::shared_ptr<myxmlpp::Node> &data);
 
-            ~Text();
-
+            ~TextModule();
+            TextModule &operator=(const std::string &newText);
+            TextModule &operator+=(const std::string &newText);
+            std::string operator+(const std::string &newText);
 
 //////////////////////--------------------------/////////////////////////
 
@@ -46,8 +49,6 @@ namespace Polymorph
             std::string _str;
             int _fontSize = -1;
 
-            static inline std::vector<Text *> _texts;
-
 //////////////////////--------------------------/////////////////////////
 
 
@@ -63,18 +64,12 @@ namespace Polymorph
             void setColor(Color color);
 
 
-            static void loadModules();
-            static void unloadModules();
 
         private:
             void _loadModule();
-            void _unloadModule();
-            using loader = arcade::ITextModule *(*)();
-            using unloader = void (*)(arcade::ITextModule *module);
-            static inline loader create = nullptr;
-            static inline unloader destroy = nullptr;
+
 
 //////////////////////--------------------------/////////////////////////
-
+        friend GraphicalAPI;
     };
 }

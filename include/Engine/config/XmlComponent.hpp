@@ -11,8 +11,8 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <myxmlpp.hpp>
 #include "safe_ptr.hpp"
-#include "Node.hpp"
 #include "SceneManager.hpp"
 #include "Log/Logger.hpp"
 #include "Entity.hpp"
@@ -124,6 +124,16 @@ namespace Polymorph
                  * @ingroup SetPropertySimple
                  */
                 void setProperty(std::string propertyName, std::string &toSet, Logger::severity level = Logger::DEBUG);
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                void setProperty(std::string propertyName, Sprite &toSet, Logger::severity level = Logger::DEBUG);
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                void setProperty(std::string propertyName, Text &toSet, Logger::severity level = Logger::DEBUG);
 
 
                 /**

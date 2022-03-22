@@ -5,24 +5,26 @@
 ** header for DynamicLoader.c
 */
 
-#include "GraphicalAPI/DynamicLoader.hpp"
+#include "DynamicLoader/DynamicLoader.hpp"
 #include "GraphicalException.hpp"
+
 
 DynamicLibLoader::~DynamicLibLoader()
 {
-    if (handler != nullptr)
-        dlclose(handler);
+    if (_handler != nullptr)
+        dlclose(_handler);
 }
 
 void DynamicLibLoader::loadHandler(std::string libPath)
 {
 
     //TODO: check close error ?
-    if (handler != nullptr)
-        dlclose(handler);
-    
-    handler = dlopen(libPath.c_str(), RTLD_LAZY);
+    if (_handler != nullptr)
+        dlclose(_handler);
 
-    if (handler == nullptr)
+    _handler = dlopen(libPath.c_str(), RTLD_LAZY);
+
+    if (_handler == nullptr)
         throw GraphicalException("Failed to dl open library at path: " + libPath);
 }
+

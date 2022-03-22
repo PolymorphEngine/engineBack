@@ -10,33 +10,48 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 #include <dlfcn.h>
 
 class DynamicLibLoader
 {
     public:
         ~DynamicLibLoader();
-        
-        
+
+    protected:
+        unsigned int id;
+        void *_handler = nullptr;
+    
+    
+    public:
         /**
          * @details Close the previous opened library (if one is open) and opens the one passed as parameter
          * @param libPath 
          */
         void loadHandler(std::string libPath);
         
-        template<typename T>
+
+    protected:
+        template<typename T, typename API>
         static T loadSymbol(std::string name)
         {
+            auto handler = API::getHandler();
+            
             if (handler == nullptr)
                 return nullptr;
+            
             void *symbol = dlsym(handler, name.c_str());
 
             if (symbol == nullptr)
                 throw std::runtime_error("Failed to find symbol named: "+ name);
             return reinterpret_cast<T>(symbol);
         }
-    private:
-        static inline void *handler = nullptr;
+        static unsigned int getId() {
+            static unsigned int lastId = 0;
+            ++lastId;
+            return lastId;
+        };
+        
 };
 
 

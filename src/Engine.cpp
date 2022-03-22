@@ -12,8 +12,9 @@
 #include "Log/Logger.hpp"
 #include <myxmlpp.hpp>
 #include "ConfigurationException.hpp"
-#include "GraphicalAPI/Display.hpp"
+#include "GraphicalAPI/DisplayModule.hpp"
 #include "GraphicalException.hpp"
+#include "DynamicLoader/DynamicLoader.hpp"
 
 Polymorph::Engine::Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath)
 {
@@ -21,19 +22,16 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     _projectName = projectName;
 
     
-    try
-    {
-        _graphicalLoader = std::make_unique<DynamicLibLoader>();
-        _graphicalLoader->loadHandler(libPath);
-    } catch (std::exception &e) {
-        e.what();
-    }
+
     Logger::setLogDir(filepath + "/Logs");
     _openProject();
     _initDebugSettings();
     _initVideoSettings();
-    try {
-        _display = std::make_unique<Display>(_videoSettings, projectName);
+    try
+    {
+        _graphicalApi = std::make_unique<GraphicalAPI>(libPath);
+        _graphicalApi->reloadAPI(libPath);
+        _display = _graphicalApi->createDisplay(_videoSettings, projectName);
     } catch (GraphicalException &e) {
         e.what();
     }
@@ -46,23 +44,22 @@ Polymorph::Engine::Engine(const std::string &filepath, const std::string &projec
     if (_scenes.empty())
         throw std::runtime_error("No scenes built");
     SceneManager::Current = *_scenes.begin();
-    //SceneManager::Game = game;
-    //Application::Game = game;
 }
 
 int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
-    while (!_exit && (_display && _display->isOpen())
+    while (!_exit && (_display->isOpen())
     || !_display && !_exit)
     {
-        if (_display) {
+        GraphicalAPI::CurrentDisplay = (*_display).get();
+        if (!!_display) {
             _display->fetchEvents();
             _display->clearWindow();
         }
         SceneManager::Current->updateComponents();
-        if (_display) {
+        if (!!_display) {
             _display->displayWindow();
         }
     }

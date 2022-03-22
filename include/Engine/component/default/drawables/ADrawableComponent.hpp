@@ -5,21 +5,21 @@
 ** header for DrawableComponent.c
 */
 
-#ifndef ENGINE_DRAWABLECOMPONENT_HPP
-#define ENGINE_DRAWABLECOMPONENT_HPP
+#ifndef ENGINE_ADRAWABLECOMPONENT_HPP
+#define ENGINE_ADRAWABLECOMPONENT_HPP
 
 #include "Component.hpp"
 
 namespace Polymorph
 {
-    class DrawableComponent;
-    using Drawable = safe_ptr<DrawableComponent>;
+    class ADrawableComponent;
+    using Drawable = safe_ptr<ADrawableComponent>;
 
-    class DrawableComponent : public Component
+    class ADrawableComponent : public Component
     {
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            DrawableComponent(std::string type, Entity &gameObject);
+            ADrawableComponent(std::string type, Entity &gameObject);
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -65,4 +65,4 @@ namespace Polymorph
     
 }
 
-#endif //ENGINE_DRAWABLECOMPONENT_HPP
+#endif //ENGINE_ADRAWABLECOMPONENT_HPP

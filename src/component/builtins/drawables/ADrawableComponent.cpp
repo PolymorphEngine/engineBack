@@ -5,11 +5,11 @@
 ** DrawableComponent.cpp
 */
 
-#include "default/drawables/DrawableComponent.hpp"
+#include "default/drawables/ADrawableComponent.hpp"
 
 namespace Polymorph
 {
-    DrawableComponent::DrawableComponent(std::string type, Entity &gameObject)
+    ADrawableComponent::ADrawableComponent(std::string type, Entity &gameObject)
     : Component(type, gameObject)
     {
         

@@ -8,7 +8,7 @@
 #include "factory/ComponentFactory.hpp"
 #include "default/drawables/SpriteRendererComponent.hpp"
 #include "XmlComponent.hpp"
-#include "GraphicalAPI/Sprite.hpp"
+#include "GraphicalAPI/SpriteModule.hpp"
 
 using namespace Polymorph;
 
@@ -22,7 +22,7 @@ std::shared_ptr<Component> &SpriteRendererInitializer::build()
 {
     auto trm = std::dynamic_pointer_cast<SpriteRendererComponent>(component);
     data.setProperty("offset", trm->offset);
-    data.setProperty("sprite", *trm->sprite);
+    data.setProperty("sprite", trm->sprite);
     return component;
 }
 

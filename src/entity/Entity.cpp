@@ -12,7 +12,7 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 #include "Log/Logger.hpp"
-#include "default/drawables/DrawableComponent.hpp"
+#include "default/drawables/ADrawableComponent.hpp"
 #include "Entity.hpp"
 
 
@@ -72,7 +72,7 @@ void Polymorph::Entity::draw()
 {
     //TODO :Add an option to draw child independently of parent ?
 
-    Drawable c = getComponent<DrawableComponent>();
+    Drawable c = getComponent<ADrawableComponent>();
 
     if (!!c && c->enabled)
         c->draw();
@@ -83,7 +83,7 @@ void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 
     for (auto &child : trm) {
         //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject.getComponent<DrawableComponent>();
+        Drawable drawable = child->gameObject.getComponent<ADrawableComponent>();
         if (!!drawable && drawable->enabled)
             drawable->draw();
         drawChildren(*child);

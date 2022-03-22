@@ -5,8 +5,8 @@
 ** header for Display.c
 */
 
-#ifndef ENGINE_DISPLAY_HPP
-#define ENGINE_DISPLAY_HPP
+#ifndef ENGINE_DISPLAYMODULE_HPP
+#define ENGINE_DISPLAYMODULE_HPP
 
 
 #include <iostream>
@@ -19,15 +19,17 @@
 namespace Polymorph
 {
     namespace Settings{class VideoSettings;}
-    class Sprite;
+    class SpriteModule;
+    class TextModule;
+    class GraphicalAPI;
     
-    class Display
+    class DisplayModule
     {
 
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            Display(const std::shared_ptr<Settings::VideoSettings> &settings, std::string title);
-            ~Display();
+            DisplayModule(const std::shared_ptr<Settings::VideoSettings> &settings, std::string title);
+            ~DisplayModule();
             
 ///////////////////////////--------------------------///////////////////////////
 
@@ -40,7 +42,6 @@ namespace Polymorph
             std::string _title;
             arcade::IDisplayModule *_displayModule;
             std::shared_ptr<Settings::VideoSettings> _settings;
-            static inline Display * _instance = nullptr;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -54,27 +55,22 @@ namespace Polymorph
             bool isOpen();
             void fetchEvents();
             
-            static void setResolution(Vector2 newResolution);
-            static Vector2 getResolution();
-            static void setMaxFps(int fps);
-            static void setFullScreen(bool fullScreen);
-            static bool isTextMode();
+            void setResolution(Vector2 newResolution);
+            Vector2 getResolution();
+            void setMaxFps(int fps);
+            void setFullScreen(bool fullScreen);
+            bool isTextMode();
 
-            static void draw(Sprite &sprite);
+            void draw(SpriteModule &sprite);
+            void draw(TextModule &sprite);
 
-            static void loadModule();
-            static void unloadModule();
             
         private:
             void _loadModule();
-            void _unloadModule();
-            using loader = arcade::IDisplayModule *(*)();
-            using unloader = void (*)(arcade::IDisplayModule *module);
-            static inline loader create = nullptr;
-            static inline unloader destroy = nullptr;
-///////////////////////////--------------------------///////////////////////////
 
+///////////////////////////--------------------------///////////////////////////
+        friend GraphicalAPI;
     };
 }
 
-#endif //ENGINE_DISPLAY_HPP
+#endif //ENGINE_DISPLAYMODULE_HPP

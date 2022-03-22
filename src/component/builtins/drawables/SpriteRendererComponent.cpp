@@ -7,8 +7,8 @@
 
 #include "default/drawables/SpriteRendererComponent.hpp"
 #include "default/TransformComponent.hpp"
-#include "GraphicalAPI/Sprite.hpp"
-#include "GraphicalAPI/Display.hpp"
+#include "GraphicalAPI/SpriteModule.hpp"
+#include "GraphicalAPI/DisplayModule.hpp"
 
 namespace Polymorph
 {
@@ -18,11 +18,11 @@ namespace Polymorph
         if (!sprite)
             return;
         sprite->setPosition(Vector2(transform.getPosition()) + offset);
-        Display::draw(*sprite);
+        GraphicalAPI::CurrentDisplay->draw(**sprite);
     }
 
     SpriteRendererComponent::SpriteRendererComponent(Entity &gameObject)
-            : DrawableComponent("SpriteRenderer", gameObject)
+            : ADrawableComponent("SpriteRenderer", gameObject)
     {
 
     }

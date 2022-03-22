@@ -9,24 +9,24 @@
 #define ENGINE_SPRITERENDERERCOMPONENT_HPP
 
 
-#include "DrawableComponent.hpp"
+#include "ADrawableComponent.hpp"
 
 namespace Polymorph
 {
-    class Sprite;
+    class SpriteModule;
     
     class SpriteRendererComponent;
     using SpriteRenderer = safe_ptr<SpriteRendererComponent>;
     using SpriteRendererBase = std::shared_ptr<SpriteRendererComponent>;
     
-    class SpriteRendererComponent : public DrawableComponent
+    class SpriteRendererComponent : public ADrawableComponent
     {
         public:
             explicit SpriteRendererComponent(Entity &gameObject);
             
             
         public:
-            std::shared_ptr<Sprite> sprite = nullptr;
+            Sprite sprite;
             
             
             

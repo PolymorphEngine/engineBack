@@ -21,6 +21,7 @@
 // @COMPONENTS: (add components include here)
 #include "factory/initializers/TransformInitializer.hpp"
 #include "factory/initializers/SpriteRendererInitializer.hpp"
+#include "factory/initializers/TextRendererInitializer.hpp"
 
 
 namespace Polymorph
@@ -50,6 +51,7 @@ namespace Polymorph
                 {
                         {"Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
                         {"SpriteRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new SpriteRendererInitializer(data, entity));}},
+                        {"TextRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TextRendererInitializer(data, entity));}},
                 },
             };
 ///////////////////////////--------------------------///////////////////////////

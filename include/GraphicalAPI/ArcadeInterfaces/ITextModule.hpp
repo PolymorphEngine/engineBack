@@ -42,5 +42,5 @@ namespace arcade
 
             // MUST: Set the text size
             virtual void setSize(int size) = 0;
-    }
+    };
 }

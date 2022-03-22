@@ -5,8 +5,8 @@
 ** header for Sprite.c
 */
 
-#ifndef ENGINE_SPRITE_HPP
-#define ENGINE_SPRITE_HPP
+#ifndef ENGINE_SPRITEMODULE_HPP
+#define ENGINE_SPRITEMODULE_HPP
 
 #include <iostream>
 #include <memory>
@@ -16,19 +16,19 @@
 #include "Vector.hpp"
 #include "Rect.hpp"
 #include "Color.hpp"
-#include "XmlComponent.hpp"
 
 namespace Polymorph
 {
-    class Sprite
+    class GraphicalAPI;
+    class SpriteModule
     {
 
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            Sprite();
-            explicit Sprite(std::string filePath);
-            explicit Sprite(std::shared_ptr<myxmlpp::Node> &data);
-            ~Sprite();
+            SpriteModule() = default;
+            explicit SpriteModule(std::string filePath);
+            explicit SpriteModule(std::shared_ptr<myxmlpp::Node> &data);
+            ~SpriteModule();
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -39,9 +39,9 @@ namespace Polymorph
             Rect _crop = {-1, -1, -1, -1};
             Color _color {0, 0, 0};
             
-            arcade::ISpriteModule *_spriteModule;
+            arcade::ISpriteModule *_spriteModule = nullptr;
 
-            static inline std::vector<Sprite *> _sprites;
+            static inline std::vector<SpriteModule *> _sprites;
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -56,21 +56,15 @@ namespace Polymorph
             void setColor(Color color);
 
 
-            static void loadModules();
-            static void unloadModules();
 
 
         private:
             void _loadModule();
-            void _unloadModule();
-            using loader = arcade::ISpriteModule *(*)();
-            using unloader = void (*)(arcade::ISpriteModule *module);
-            static inline loader create = nullptr;
-            static inline unloader destroy = nullptr;
 ///////////////////////////--------------------------///////////////////////////
 
+        friend GraphicalAPI;
 
     };
 }
 
-#endif //ENGINE_SPRITE_HPP
+#endif //ENGINE_SPRITEMODULE_HPP
