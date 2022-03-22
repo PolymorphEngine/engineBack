@@ -106,4 +106,9 @@ namespace Polymorph
         y -= other.y;
         return *this;
     }
+
+    Vector2 Vector2::delta(const Vector2 &other) const
+    {
+        return other - *this;
+    }
 }

@@ -76,6 +76,7 @@ namespace Polymorph
 
 
 /////////////////////////////// METHODS /////////////////////////////////
+            Vector2 delta(const Vector2 &other) const;
             Vector2 operator+(const Vector2 &other) const;
             Vector2 &operator+=(const Vector2 &other);
             Vector2 operator-(const Vector2 &other) const;
