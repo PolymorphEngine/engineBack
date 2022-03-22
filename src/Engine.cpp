@@ -50,8 +50,8 @@ int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
-    while (!_exit && (_display->isOpen())
-    || !_display && !_exit)
+    while ((!_exit && (!!_display && _display->isOpen()))
+    || (!_display && !_exit))
     {
         GraphicalAPI::CurrentDisplay = (*_display).get();
         if (!!_display) {

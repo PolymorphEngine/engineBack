@@ -21,8 +21,8 @@ bool ColliderRect2dComponent::checkCollision(Collider2dComponent &other)
     auto boxShape = dynamic_cast<ColliderRect2dComponent *>(&other);
 
     if (circleShape) {
-        return true;
-    } else if (boxShape) {
+        return false;
+       } else if (boxShape) {
         return Rect::intersect(tmpPosition, size, otherPosition, boxShape->size);
     }
     throw ExceptionLogger("ColliderBox2dComponent::checkCollision: unknown collider type");
