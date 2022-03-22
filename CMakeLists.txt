@@ -7,7 +7,11 @@ include_directories(
         include
         lib/myxmlpp/include
         include/Engine
+        include/Exceptions
         include/Engine/component
+        include/Engine/component/default
+        include/Engine/component/default/drawables
+        include/Engine/component/default/colliders
         include/Engine/entity
         include/Engine/config
         include/Engine/scene
@@ -32,4 +36,4 @@ add_executable(TestMain
         SampleProject/test_main.cpp
         )
 
-target_link_libraries(TestMain myxmlpp)
+target_link_libraries(TestMain myxmlpp dl)

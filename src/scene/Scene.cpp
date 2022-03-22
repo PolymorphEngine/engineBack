@@ -36,13 +36,14 @@ namespace Polymorph
 
     void Scene::updateComponents()
     {
-
         for (auto &e: _entities)
-            e->update();
+            if (e->isActive())
+                e->update();
 
         //TODO : sort ?
         for (auto &e: _entities)
-            e->draw();
+            if (e->isActive())
+                e->draw();
         updateDestroyQueueList();
     }
 

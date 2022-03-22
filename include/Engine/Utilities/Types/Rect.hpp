@@ -44,6 +44,18 @@ namespace Polymorph
             static Rect Zero;
 //////////////////////--------------------------/////////////////////////
 
+
+
+////////////////////////////////// Methods /////////////////////////////////////
+
+        public:
+            static bool intersect(const Rect &rect1, const Rect &rect2);
+            static bool intersect(const Vector2 &position, const Vector2 &size, const Rect &rect);
+            static bool intersect(const Rect &rect, const Vector2 &position, const Vector2 &size);
+            static bool intersect(const Vector2 &position1, const Vector2 &size1, const Vector2 &position2, const Vector2 &size2);
+
+//////////////////////--------------------------/////////////////////////
+
     };
 }
 

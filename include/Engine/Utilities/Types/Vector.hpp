@@ -39,6 +39,7 @@ namespace Polymorph
 
 
 /////////////////////////////// METHODS /////////////////////////////////
+            Vector3 operator+(Vector2 &other) const;
             Vector3 operator+(const Vector3 &other) const;
             Vector3 &operator+=(const Vector3 &other);
             Vector3 operator-(const Vector3 &other) const;
@@ -75,6 +76,7 @@ namespace Polymorph
 
 
 /////////////////////////////// METHODS /////////////////////////////////
+            Vector2 delta(const Vector2 &other) const;
             Vector2 operator+(const Vector2 &other) const;
             Vector2 &operator+=(const Vector2 &other);
             Vector2 operator-(const Vector2 &other) const;

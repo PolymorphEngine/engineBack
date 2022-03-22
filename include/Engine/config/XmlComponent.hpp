@@ -11,12 +11,13 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <myxmlpp.hpp>
 #include "safe_ptr.hpp"
-#include "Node.hpp"
 #include "SceneManager.hpp"
 #include "Log/Logger.hpp"
 #include "Entity.hpp"
 #include "Scene.hpp"
+#include "ConfigurationException.hpp"
 
 namespace Polymorph
 {
@@ -94,65 +95,75 @@ namespace Polymorph
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, GameObject &toSet);
+                void setProperty(std::string propertyName, GameObject &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, Vector3 &toSet);
+                void setProperty(std::string propertyName, Vector3 &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, Vector2 &toSet);
+                void setProperty(std::string propertyName, Vector2 &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, Rect &toSet);
+                void setProperty(std::string propertyName, Rect &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, int &toSet);
+                void setProperty(std::string propertyName, int &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, float &toSet);
+                void setProperty(std::string propertyName, float &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, bool &toSet);
+                void setProperty(std::string propertyName, bool &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertySimple
                  */
-                void setProperty(std::string propertyName, std::string &toSet);
+                void setProperty(std::string propertyName, std::string &toSet, Logger::severity level = Logger::DEBUG);
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                void setProperty(std::string propertyName, Sprite &toSet, Logger::severity level = Logger::DEBUG);
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                void setProperty(std::string propertyName, Text &toSet, Logger::severity level = Logger::DEBUG);
 
 
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<Vector3> &toSet);
+                void setProperty(std::string propertyName, std::vector<Vector3> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<Vector2> &toSet);
+                void setProperty(std::string propertyName, std::vector<Vector2> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<Rect> &toSet);
+                void setProperty(std::string propertyName, std::vector<Rect> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<int> &toSet);
+                void setProperty(std::string propertyName, std::vector<int> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<float> &toSet);
+                void setProperty(std::string propertyName, std::vector<float> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<bool> &toSet);
+                void setProperty(std::string propertyName, std::vector<bool> &toSet, Logger::severity level = Logger::DEBUG);
                 /**
                  * @ingroup SetPropertyList
                  */
-                void setProperty(std::string propertyName, std::vector<std::string> &toSet);
+                void setProperty(std::string propertyName, std::vector<std::string> &toSet, Logger::severity level = Logger::DEBUG);
 
 
                 /**
@@ -163,9 +174,9 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 template<typename T>
-                void setProperty(std::string propertyName, T &toSet)
+                void setProperty(std::string propertyName, T &toSet, Logger::severity level = Logger::DEBUG)
                 {
-                    std::shared_ptr<XmlNode> property = _findProperty(propertyName);
+                    std::shared_ptr<XmlNode> property = _findProperty(propertyName, level);
 
                     if (property == nullptr)
                         return;
@@ -181,10 +192,11 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 template<typename T>
-                void setProperty(std::string propertyName, std::vector<T> &toSet)
+                void setProperty(std::string propertyName, std::vector<T> &toSet, Logger::severity level = Logger::DEBUG)
                 {
-                    auto propNode = _findProperty(propertyName);
-
+                    auto propNode = _findProperty(propertyName, level);
+                    auto i = 0;
+                    
                     if (propNode == nullptr)
                         return;
 
@@ -192,10 +204,15 @@ namespace Polymorph
                         try {
                             toSet.emplace_back(element);
                         } catch (...) {
-                            Logger::log("Property List of Templates named '" +
-                                        propertyName + "': has no value",
-                                        Logger::DEBUG);
+                            if (level != Logger::MAJOR)
+                                Logger::log("Property List of Templates named '" +
+                                            propertyName + "': Element nb "+std::to_string(i)+" has no value",
+                                        level);
+                            else
+                                throw ConfigurationException("Property List of Templates named '" +
+                                                             propertyName + "': Element nb "+std::to_string(i)+" has no value", Logger::MAJOR);
                         }
+                        ++i;
                     }
                 };
 
@@ -207,9 +224,9 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 template<typename T>
-                void setProperty(std::string propertyName, safe_ptr<T> &toSet)
+                void setProperty(std::string propertyName, safe_ptr<T> &toSet, Logger::severity level = Logger::DEBUG)
                 {
-                    auto refProp = _findProperty(propertyName);
+                    auto refProp = _findProperty(propertyName, level);
 
                     if (refProp == nullptr)
                         return;
@@ -223,9 +240,12 @@ namespace Polymorph
                             throw;
                         toSet = comp;
                     } catch (...) {
-                        Logger::log("Property gameObject ref named '" +
-                                    propertyName + "': has no value",
-                                    Logger::DEBUG);
+                        if (level != Logger::MAJOR)
+                            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': ComponentRef named '" + propertyName +
+                                        "': has missing value or not found", level);
+                        else
+                            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': ComponentRef named '" + propertyName +
+                                                         "': has missing value or not found", Logger::MAJOR);
                     }
                 }
 
@@ -237,8 +257,8 @@ namespace Polymorph
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
                 template<typename T>
-                void setProperty(std::string propertyName, std::vector<safe_ptr<T>> &toSet) {
-                    auto refProp = _findProperty(propertyName);
+                void setProperty(std::string propertyName, std::vector<safe_ptr<T>> &toSet, Logger::severity level = Logger::DEBUG) {
+                    auto refProp = _findProperty(propertyName, level);
                     auto i = 0;
 
                     if (refProp == nullptr)
@@ -269,15 +289,149 @@ namespace Polymorph
                  * @param toSet the GameObject Reference List to set
                  * @warning propertyName as to be the exact same as the literal property name in the component !
                  */
-                void setProperty(std::string propertyName, std::vector<GameObject> &toSet);
+                void setProperty(std::string propertyName, std::vector<GameObject> &toSet, Logger::severity level = Logger::DEBUG);
 
+
+                
+                
+//////////////////////------------STATICS-----------------/////////////////////////
+
+                /**
+                 * @defgroup Static_SetPropertySimple
+                 * @details A set of functions that takes a property as parameter and set its value with the configuration file
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+
+                /**
+                * @defgroup Static_SetPropertyList
+                * @details A set of functions that takes a property List as parameter and adds elements in it based on the configuration file
+                * @param propertyName the name of the property in config
+                * @param toSet the List property to set
+                * @param data the node of the templated property property to set
+                * @warning propertyName as to be the exact same as the literal property name in the component !
+                */
+
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, GameObject &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Vector3 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Vector2 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, Rect &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertySimple
+                 */
+                static void setProperty(std::string propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+
+                
+                
+
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Vector3> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Vector2> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<Rect> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<int> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<float> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<bool> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+                /**
+                 * @ingroup SetPropertyList
+                 */
+                static void setProperty(std::string propertyName, std::vector<std::string> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
+
+                static void setProperty(std::string propertyName, std::vector<GameObject> &toSet, std::shared_ptr<XmlNode> &data, Logger::severity level = Logger::DEBUG);
+
+
+                /**
+                 * @details , doesn't touch it if property is not found
+                 * @tparam T the type of the property to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+                template<typename T>
+                static void setProperty(std::string propertyName, T &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG)
+                {
+                    std::shared_ptr<XmlNode> property = _findProperty(propertyName, data, level);
+
+                    if (property == nullptr)
+                        return;
+
+                    toSet = T(property);
+                };
+
+                /**
+                 * @details sets a property List by its name, doesn't touch it if property is not found
+                 * @tparam T the type of the properties Elements of the List to set, it's type can be an unknown type class as long as its constructor can take an xml node to construct the object
+                 * @param propertyName the name of the property in config
+                 * @param toSet the property List to set
+                 * @warning propertyName as to be the exact same as the literal property name in the component !
+                 */
+                template<typename T>
+                static void setProperty(std::string propertyName, std::vector<T> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG)
+                {
+                    auto propNode = _findProperty(propertyName, data, level);
+
+                    if (propNode == nullptr)
+                        return;
+
+                    for (auto &element : *propNode) {
+                        try {
+                            toSet.emplace_back(element);
+                        } catch (...) {
+                            Logger::log("Property List of Templates named '" +
+                                        propertyName + "': has no value",
+                                        Logger::DEBUG);
+                        }
+                    }
+                };
             private:
                 /**
                  * @details Searches a property by its attribute 'name' in the component node
                  * @param name the value of the attribute called 'name' in the property node to find
                  * @return the node found (nullptr if not found)
                  */
-                std::shared_ptr<XmlNode> _findProperty(std::string name);
+                std::shared_ptr<XmlNode> _findProperty(std::string name, Logger::severity level = Logger::DEBUG);
+                static std::shared_ptr<XmlNode> _findProperty(std::string name, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level = Logger::DEBUG);
 //////////////////////--------------------------/////////////////////////
 
         };

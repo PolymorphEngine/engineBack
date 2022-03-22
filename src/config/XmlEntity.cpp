@@ -9,7 +9,7 @@
 #include "Entity_templated.hpp"
 #include <myxmlpp.hpp>
 #include "Log/Logger.hpp"
-#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 #include "default/TransformComponent.hpp"
 
 namespace Polymorph
