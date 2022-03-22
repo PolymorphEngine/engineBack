@@ -11,6 +11,17 @@ namespace Polymorph
 {
 
 
+    Time::Time() : _lastTime(Clock::now()) {};
+
+    void Time::computeDeltaTime()
+    {
+        auto now = Clock::now();
+        std::chrono::duration<double> diff = now - _lastTime;
+
+        deltaTime = diff.count();
+        _lastTime = now;
+    }
+
     void Timer::tick()
     {
             actual += Time::deltaTime;
@@ -26,7 +37,7 @@ namespace Polymorph
         return false;
     }
 
-    Timer::Timer(float delay)
+    Timer::Timer(double delay)
     {
         this->delay = delay;
     }

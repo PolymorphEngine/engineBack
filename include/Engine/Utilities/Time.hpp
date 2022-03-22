@@ -9,15 +9,29 @@
 #define ENGINE_TIME_HPP
 
 #include <iostream>
+#include <chrono>
 
 namespace Polymorph
 {
     class Time
     {
+        using Clock = std::chrono::steady_clock;
+        using Duration = std::chrono::time_point<Clock>;
 
+///////////////////////////////// Constructors /////////////////////////////////
+
+        public:
+            /**
+             * @details Create a Time clock by initializing internal properties
+             */
+            explicit Time();
+///////////////////////////--------------------------///////////////////////////
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            static inline float deltaTime = 0.0f;
+            static inline double deltaTime = 0.0f;
+
+        private:
+            Duration _lastTime;
 //////////////////////--------------------------/////////////////////////
 
 
@@ -29,22 +43,22 @@ namespace Polymorph
 
     };
 
-    
-    
+
+
     class Timer
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            Timer()= default;
-            explicit Timer(float delay);
+            Timer() = default;
+            explicit Timer(double delay);
 //////////////////////--------------------------/////////////////////////
 
 
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            float delay = 0;
-            float actual = 0;
+            double delay = 0;
+            double actual = 0;
 //////////////////////--------------------------/////////////////////////
 
 
