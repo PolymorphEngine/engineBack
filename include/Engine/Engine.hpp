@@ -21,6 +21,7 @@
 #include "GraphicalAPI/GraphicalAPI.hpp"
 
 
+
 namespace Polymorph
 {
     namespace Config{class XmlEntity;class XmlComponent;}
