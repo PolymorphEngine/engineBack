@@ -86,13 +86,8 @@ namespace Polymorph
              *          It is called before the update method (or upon component creation at runtime).
              * @warning Is called ONLY when the enabled state of the component is passed to true.
              */
-            void start()override;
+            void start() override;
 
-            /**
-             * @details An overridable method that draws the component if its an drawable only.
-             *          Called once per frame.
-             */
-            void draw() override;
 
             void setAsStarted() final { started = true;};
 

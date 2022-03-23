@@ -8,7 +8,7 @@
 
 #include "PhysicsSettings.hpp"
 #include "Log/Logger.hpp"
-#include "Exceptions/configuration/ConfigurationException.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 
 Polymorph::Settings::PhysicsSettings::PhysicsSettings(
         const std::shared_ptr<XmlNode>& node)

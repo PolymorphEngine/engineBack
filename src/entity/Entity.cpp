@@ -12,6 +12,10 @@
 #include "XmlEntity.hpp"
 #include "Component.hpp"
 #include "Log/Logger.hpp"
+#include "default/drawables/ADrawableComponent.hpp"
+#include "Entity.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
+
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
@@ -34,6 +38,10 @@ Polymorph::Config::XmlComponent &config)
         return;
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
+
+    if (i == nullptr)
+        i = ScriptingApi::create(component, config, *this);
+
     if (i == nullptr) {
         Logger::log(
                 "Unknown component to load at initialisation: '" + component +
@@ -67,26 +75,20 @@ void Polymorph::Entity::update()
 
 void Polymorph::Entity::draw()
 {
-    using DrawableComponent = Component;
     //TODO :Add an option to draw child independently of parent ?
-    if (!_active || transform->parent != nullptr)
-        return;
 
-    //TODO : Draw drawables (only one drawable per entity ??)
-    safe_ptr<DrawableComponent> c = getComponent<DrawableComponent>();
+    Drawable c = getComponent<ADrawableComponent>();
+
     if (!!c && c->enabled)
         c->draw();
-    drawChildren(*transform);
 }
 
 void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 {
-    using DrawableComponent = TransformComponent;
-    using Drawable = safe_ptr<DrawableComponent>;
 
     for (auto &child : trm) {
         //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject.getComponent<DrawableComponent>();
+        Drawable drawable = child->gameObject.getComponent<ADrawableComponent>();
         if (!!drawable && drawable->enabled)
             drawable->draw();
         drawChildren(*child);
@@ -155,9 +157,8 @@ bool Polymorph::Entity::deleteComponent()
 
 Polymorph::Entity::~Entity()
 {
-    if (transform->parent != nullptr)
-        transform->parent->removeChild(*transform);
-
+    if (!!transform->parent())
+        transform->parent()->removeChild(*transform);
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)
@@ -195,4 +196,9 @@ void Polymorph::Entity::start()
             (**c)->start();
             (**c)->setAsStarted();
         }
+}
+
+bool Polymorph::Entity::isActive() const
+{
+    return _active;
 }

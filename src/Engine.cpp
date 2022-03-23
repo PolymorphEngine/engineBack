@@ -11,36 +11,49 @@
 #include "Scene.hpp"
 #include "Log/Logger.hpp"
 #include <myxmlpp.hpp>
-#include "Exceptions/configuration/ConfigurationException.hpp"
-#include "Exceptions/configuration/MissingAttribute.hpp"
+#include <utility>
+#include "ConfigurationException.hpp"
+#include "GraphicalException.hpp"
 
-Polymorph::Engine::Engine(const std::string &filepath, const std::string &projectName)
+Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName): _projectPath(projectPath), _projectName(std::move(projectName))
 {
-    _projectPath = filepath;
-    _projectName = projectName;
-
-    Logger::setLogDir(filepath + "/Logs");
-
+    Logger::setLogDir(projectPath + "/Logs");
     _openProject();
     _initDebugSettings();
+    
+    _initVideoSettings();
+    _initAudioSettings();
+    _initPhysicSettings();
+    
     _initExectutionOrder();
     _initLayers();
-    _initGameData();
-
-
-    if (_scenes.empty())
-        throw std::runtime_error("No scenes built");
-    SceneManager::Current = *_scenes.begin();
-    //SceneManager::Game = game;
-    //Application::Game = game;
+    
 }
 
 int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
-    while (!_exit)
+    _time = Time();
+    while ((!_exit && (!!_display && _display->isOpen()))
+    || (!_display && !_exit))
+    {
+        if (!!_display)
+            GraphicalAPI::CurrentDisplay = (*_display).get();
+        
+        _time.computeDeltaTime();
+        
+        if (!!_display) {
+            _display->fetchEvents();
+            _display->clearWindow();
+        }
+        
         SceneManager::Current->updateComponents();
+        
+        if (!!_display) {
+            _display->displayWindow();
+        }
+    }
     return _exitCode;
 }
 
@@ -83,7 +96,7 @@ void Polymorph::Engine::_initExectutionOrder()
             _execOrder.push_back(t);
         }
         if (!foundDefault)
-            throw MissingAttribute("Default", "ComponentExecLayer", Logger::MAJOR);
+            throw ConfigurationException("Default layer order missing !", Logger::MAJOR);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MAJOR);
     }
@@ -219,7 +232,7 @@ void Polymorph::Engine::_initVideoSettings()
 {
     auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/VideoSettings");
 
-    _videoSettings = std::make_unique<Settings::VideoSettings>(node);
+    _videoSettings = std::make_shared<Settings::VideoSettings>(node);
 }
 
 
@@ -239,5 +252,42 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string
         if (c.getType() == type)
             return c;
     }
-    throw ExceptionLogger("Tried to get a default config of an unknown component type", Logger::MAJOR);
+    Logger::log("No default config available for type '"+type+"'.", Logger::DEBUG);
+    return *Config::XmlComponent::Empty;
+}
+
+void Polymorph::Engine::loadGraphicalAPI(std::string graphicalLibPath)
+{
+    try
+    {
+        _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
+        _graphicalApi->reloadAPI(graphicalLibPath);
+        _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
+    } catch (GraphicalException &e) {
+        e.what();
+    } catch (std::exception &e) {
+        Logger::log("[Graphical API] " + std::string(e.what()), Logger::MAJOR);
+    }
+
+}
+
+void Polymorph::Engine::loadScriptingAPI(std::string scriptFactoryPath)
+{
+    try
+    {
+        _scriptingApi = std::make_unique<ScriptingApi>(scriptFactoryPath);
+    } catch (ExceptionLogger &e) {
+        e.what();
+    } catch (std::exception &e) {
+        Logger::log("Unknown error: " + std::string(e.what()), Logger::MAJOR);
+    }
+}
+
+void Polymorph::Engine::loadEngine()
+{
+    _initGameData();
+
+    if (_scenes.empty())
+        throw std::runtime_error("No scenes built");
+    SceneManager::Current = *_scenes.begin();
 }

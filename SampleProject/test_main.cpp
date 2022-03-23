@@ -6,7 +6,7 @@
 */
 
 #include "../include/Engine/Engine.hpp"
-#include "../include/Engine/Exceptions/configuration/ConfigurationException.hpp"
+#include "ConfigurationException.hpp"
 
 int main()
 {
@@ -17,6 +17,9 @@ int main()
     try
     {
         Polymorph::Engine e = Polymorph::Engine(path, name);
+        e.loadGraphicalAPI("./lib/libarcade_sfml.so");
+        e.loadScriptingAPI(path + "/" +name + ".so");
+        e.loadEngine();
         e.run();
         e;
     }

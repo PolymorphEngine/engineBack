@@ -26,7 +26,6 @@ namespace Polymorph
             virtual void setAsStarted() = 0;
             virtual void setAsAwaked() = 0;
             virtual bool isStarted() const = 0;
-            virtual void draw() = 0;
             virtual std::string getType() const = 0;
 
     };

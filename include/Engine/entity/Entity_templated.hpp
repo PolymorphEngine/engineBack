@@ -19,7 +19,9 @@
 #include "factory/ComponentFactory.hpp"
 #include "Entity.hpp"
 #include "Component.hpp"
+#include "XmlComponent.hpp"
 #include "interfaces/ICollider2dHandler.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 template <typename T>
@@ -64,17 +66,22 @@ Polymorph::safe_ptr<T> Polymorph::Entity::addComponent()
         return safe_ptr<T>();
     //TODO: maybe throw/Log ?
     Config::XmlComponent &config = _game.getDefaultConfig(t);
+    
     std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, config, *this);
+    if (c == nullptr)
+        c = ScriptingApi::create(t, config, *this);
 
     if (c == nullptr) {
         Logger::log("Unknown component to add at runtime: '" + t +
-                    "' (this error maybe occurs because you need to add an initializer for the component in the factory)",
+                    "'\n\t(this error maybe occurs because you need to add an initializer for the component in the factory)",
                     Logger::MINOR);
-        return safe_ptr<T>();
+        return safe_ptr<T>(nullptr);
     }
-
-    c->build();
-    c->reference();
+    
+    if (config.getType() != "Empty") {
+        c->build();
+        c->reference();
+    }
     _components[c->getType()].push_back(c);
     (**c)->onAwake();
     (**c)->setAsAwaked();
@@ -89,18 +96,13 @@ Polymorph::safe_ptr<T> Polymorph::Entity::addComponent()
 template <typename T>
 bool Polymorph::Entity::componentExist()
 {
-    std::shared_ptr<T> component(new T(*this));
-    std::string type = component->getType();
-    std::string def("Default");
-
-    component.reset();
-    if (!_components.contains(type)) {
-        for (auto &c :  _components.find(def)->second) {
-            if (c->getType() == type)
+    for (auto &ci: _components) {
+        for (auto &c: ci.second)
+        {
+            if (std::dynamic_pointer_cast<T>((*c).get() ) != nullptr)
                 return true;
         }
-    } else if (!_components.find(type)->second.empty())
-        return true;
+    }
     return false;
 }
 

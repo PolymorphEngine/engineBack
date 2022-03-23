@@ -16,11 +16,16 @@
 #include "PhysicsSettings.hpp"
 #include "AudioSettings.hpp"
 #include "VideoSettings.hpp"
+#include "Time.hpp"
+#include "DynamicLoader/DynamicLoader.hpp"
+#include "GraphicalAPI/GraphicalAPI.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 namespace Polymorph
 {
     namespace Config{class XmlEntity;class XmlComponent;}
+    class DisplayModule;
     class Scene;
     using ExitCode = int;
 
@@ -32,7 +37,12 @@ namespace Polymorph
     {
         public:
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-            explicit Engine(const std::string &filepath, const std::string &projectName);
+            /**
+             * Creates an instance of engine by passing the project path containing all resources needed to load it such as config and assets
+             * @param projectPath path containing resources to load
+             * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
+             */
+            explicit Engine(const std::string &projectPath, std::string projectName);
             ~Engine();
 //////////////////////--------------------------/////////////////////////
 
@@ -46,16 +56,24 @@ namespace Polymorph
 
             std::vector<std::string> _layers;
             std::vector<std::string> _execOrder;
-            bool _exit = false;
-            ExitCode _exitCode = 0;
+            
+            static inline bool _exit = false;
+            static inline ExitCode _exitCode = 0;
 
             std::string _projectPath;
             std::string _projectName;
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
+            Time _time;
+
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
-            std::unique_ptr<Settings::VideoSettings> _videoSettings;
+            std::shared_ptr<Settings::VideoSettings> _videoSettings;
+            Display _display;
+            
+            std::unique_ptr<GraphicalAPI> _graphicalApi;
+            std::unique_ptr<ScriptingApi> _scriptingApi;
+        
 //////////////////////--------------------------/////////////////////////
 
 
@@ -73,8 +91,28 @@ namespace Polymorph
              * @details Runs the game.
              */
             int run();
+            
+            /**
+             * Loads a script factory from the filepath to an shared library ('.so')
+             * @param scriptFactoryPath the path to the shared library
+             * @warning the path must be relative to the executable
+             */
+            void loadScriptingAPI(std::string scriptFactoryPath);
+            
 
-            void exit(ExitCode code);
+            /**
+             * Loads a graphical api from the filepath to an shared library ('.so')
+             * @param graphicalLibPath the path to the shared library
+             * @warning the path must be relative to the executable
+             */
+            void loadGraphicalAPI(std::string graphicalLibPath);
+            
+            /**
+             * Loads the game configuration and inits all gameObjects/Components/Scenes
+             */
+            void loadEngine();
+            
+            static void exit(ExitCode code);
 
             std::string getProjectPath();
 

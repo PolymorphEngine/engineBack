@@ -29,14 +29,35 @@ namespace Polymorph
     Vector3::Vector3(float x, float y) : x(x), y(y), z(z)
     {}
 
-    Vector3 Vector3::operator+(Vector3 &other) const {
+    Vector3 Vector3::operator+(const Vector3 &other) const {
         return {x + other.x, y + other.y, z + other.z};
     }
 
-    Vector3 &Vector3::operator+=(Vector3 &other) {
+    Vector3 &Vector3::operator+=(const Vector3 &other) {
         x += other.x;
         y += other.y;
         z += other.z;
+        return *this;
+    }
+
+    bool Vector3::operator==(const Vector3 &other) const {
+        if (this->x != other.x || this->y != other.y || this->z != other.z)
+            return false;
+        return true;
+    }
+
+    bool Vector3::operator!=(const Vector3 &other) const {
+        return !(*this == other);
+    }
+
+    Vector3 Vector3::operator-(const Vector3 &other) const {
+        return {x - other.x, y - other.y, z - other.z};
+    }
+
+    Vector3 &Vector3::operator-=(const Vector3 &other) {
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
         return *this;
     }
 
@@ -59,13 +80,35 @@ namespace Polymorph
         y = 0;
     }
 
-    Vector2 Vector2::operator+(Vector2 &other) const
+    Vector2 Vector2::operator+(const Vector2 &other) const
     {
         return {x + other.x, y + other.y};
     }
 
-    Vector2 Vector2::distance(const Vector2 &other) const
+    Vector2 &Vector2::operator+=(const Vector2 &other)
     {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
+
+    bool Vector2::operator==(const Vector2 &other) const
+    {
+        return false;
+    }
+
+    Vector2 Vector2::operator-(const Vector2 &other) const {
         return {x - other.x, y - other.y};
+    }
+
+    Vector2 &Vector2::operator-=(const Vector2 &other) {
+        x -= other.x;
+        y -= other.y;
+        return *this;
+    }
+
+    Vector2 Vector2::delta(const Vector2 &other) const
+    {
+        return other - *this;
     }
 }
