@@ -11,24 +11,20 @@
 #include "Scene.hpp"
 #include "Log/Logger.hpp"
 #include <myxmlpp.hpp>
+#include <utility>
 #include "ConfigurationException.hpp"
-#include "GraphicalAPI/DisplayModule.hpp"
 #include "GraphicalException.hpp"
-#include "DynamicLoader/DynamicLoader.hpp"
 
-Polymorph::Engine::Engine(const std::string &projectPath, const std::string &projectName)
+Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName): _projectPath(projectPath), _projectName(std::move(projectName))
 {
-    _projectPath = projectPath;
-    _projectName = projectName;
-
-    
-
     Logger::setLogDir(projectPath + "/Logs");
     _openProject();
     _initDebugSettings();
+    
     _initVideoSettings();
     _initAudioSettings();
     _initPhysicSettings();
+    
     _initExectutionOrder();
     _initLayers();
     
@@ -280,7 +276,7 @@ void Polymorph::Engine::loadScriptingAPI(std::string scriptFactoryPath)
     try
     {
         _scriptingApi = std::make_unique<ScriptingApi>(scriptFactoryPath);
-    } catch (GraphicalException &e) {
+    } catch (ExceptionLogger &e) {
         e.what();
     } catch (std::exception &e) {
         Logger::log("Unknown error: " + std::string(e.what()), Logger::MAJOR);
