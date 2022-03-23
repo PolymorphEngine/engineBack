@@ -56,8 +56,9 @@ namespace Polymorph
 
             std::vector<std::string> _layers;
             std::vector<std::string> _execOrder;
-            bool _exit = false;
-            ExitCode _exitCode = 0;
+            
+            static inline bool _exit = false;
+            static inline ExitCode _exitCode = 0;
 
             std::string _projectPath;
             std::string _projectName;
@@ -97,7 +98,7 @@ namespace Polymorph
              * @warning the path must be relative to the executable
              */
             void loadScriptingAPI(std::string scriptFactoryPath);
-
+            
 
             /**
              * Loads a graphical api from the filepath to an shared library ('.so')
@@ -111,7 +112,7 @@ namespace Polymorph
              */
             void loadEngine();
             
-            void exit(ExitCode code);
+            static void exit(ExitCode code);
 
             std::string getProjectPath();
 
