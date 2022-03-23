@@ -8,6 +8,6 @@
 #pragma once
 
 #include "../ScriptingAPI/IScriptFactory.hpp"
-#include "../ComponentsFactory/ComponentInitializer.hpp"
+#include "../ComponentsFactory/AComponentInitializer.hpp"
 #include "../ComponentsFactory/ComponentFactory.hpp"
 

@@ -272,18 +272,21 @@ void Polymorph::Engine::_initPrefabs()
             try {
                 _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
             } catch (myxmlpp::Exception &e) {
-                Logger::log("[Configuration] Error loading prefab.\n" + e.baseWhat(), Logger::MINOR);
-            }
-            catch (std::exception &e) {
+                Logger::log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
+            } catch (ExceptionLogger &e) {
+                e.what();
+            } catch (std::exception &e) {
                 Logger::log("[Unknown] Error loading prefab\n" + std::string(e.what()), Logger::MINOR);
             }
         }
     } catch (myxmlpp::NodeNotFoundException &e) {
-        Logger::log("[Configuration] Error loading prefabs: no prefabs to load.\n" + e.baseWhat(),
+        Logger::log("[Configuration] Error loading prefabs: no prefabs to load." + e.baseWhat(),
                     Logger::MINOR);
     }catch (myxmlpp::Exception &e) {
         Logger::log("[Configuration] Error loading prefabs: " + e.baseWhat(),
                     Logger::MINOR);
+    } catch (ExceptionLogger &e) {
+        e.what();
     } catch (std::exception &e) {
         Logger::log("[Unknown] Error loading prefabs data in main config file.\n" + std::string(e.what()),
                     Logger::MINOR);
@@ -305,20 +308,24 @@ void Polymorph::Engine::_initTemplates()
                 auto templateDoc = myxmlpp::Doc(path);
                 _defaultConfigs.emplace_back(
                         Config::XmlComponent(templateDoc.getRoot()));
-                }catch (myxmlpp::Exception &e) {
+                } catch (myxmlpp::Exception &e) {
                     Logger::log("[Configuration] Error template: " + e.baseWhat(),
                                 Logger::MINOR);
+                } catch (ExceptionLogger &e) {
+                    e.what();
                 } catch (std::exception &e) {
                     Logger::log("[Unknown] Error loading template: \n" + std::string(e.what()),
                                 Logger::MINOR);
                 }
         }
     } catch (myxmlpp::NodeNotFoundException &e) {
-        Logger::log("[Configuration] Error loading components templates: no templates to load.\n" + e.baseWhat(),
+        Logger::log("[Configuration] Error loading components templates: no templates to load." + e.baseWhat(),
                     Logger::MINOR);
-    }catch (myxmlpp::Exception &e) {
+    } catch (myxmlpp::Exception &e) {
         Logger::log("[Configuration] Error loading components templates: " + e.baseWhat(),
                     Logger::MINOR);
+    } catch (ExceptionLogger &e) {
+        e.what();
     } catch (std::exception &e) {
         Logger::log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
                     Logger::MINOR);

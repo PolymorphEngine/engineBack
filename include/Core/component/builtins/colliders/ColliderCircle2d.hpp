@@ -1,24 +1,32 @@
 /*
 ** EPITECH PROJECT, 2020
-** ColliderCircle2dComponent.hpp
+** Collider2d.hpp
 ** File description:
-** header for ColliderCircle2dComponent.c
+** header for Collider2d.c
 */
 
-#ifndef ENGINE_COLLIDERCIRCLE2D_HPP
-#define ENGINE_COLLIDERCIRCLE2D_HPP
+#ifndef ENGINE_COLLIDER2CIRCLE_HPP
+#define ENGINE_COLLIDER2CIRCLE_HPP
 
-#include "component/base/Collider2d.hpp"
+#include "component/base/ACollider2d.hpp"
 
 namespace Polymorph
-{
+ {
 
-    class ColliderCircle2dComponent : public Collider2dComponent {
+    class ColliderCircle2dComponent : public ACollider2dComponent
+    {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
+        public:
+            explicit ColliderCircle2dComponent(Entity &entity);
+
+///////////////////////////--------------------------///////////////////////////
 
 ///////////////////////////////// Properties ///////////////////////////////////
 
         public:
-            float radius;
+            float radius = 0.0f;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -27,13 +35,11 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         private:
-            bool checkCollision(Collider2dComponent &other) override;
+            bool checkCollision(ACollider2dComponent &other) override;
 
 ///////////////////////////--------------------------///////////////////////////
 
-
     };
+ }
 
-}
-
-#endif //ENGINE_COLLIDERCIRCLE2D_HPP
+#endif //ENGINE_COLLIDER2CIRCLE_HPP

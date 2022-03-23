@@ -5,8 +5,8 @@
 ** header for IComponentInitializer.c
 */
 
-#ifndef ENGINE_COMPONENTINITIALIZER_HPP
-#define ENGINE_COMPONENTINITIALIZER_HPP
+#ifndef ENGINE_ACOMPONENTINITIALIZER_HPP
+#define ENGINE_ACOMPONENTINITIALIZER_HPP
 
 #include <iostream>
 #include <memory>
@@ -64,4 +64,4 @@ namespace Polymorph
 
 
 }
-#endif //ENGINE_COMPONENTINITIALIZER_HPP
+#endif //ENGINE_ACOMPONENTINITIALIZER_HPP

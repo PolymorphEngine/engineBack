@@ -12,6 +12,7 @@
 
 namespace Polymorph
 {
+    class Rect;
 
     class Circle
     {
@@ -41,6 +42,15 @@ namespace Polymorph
             static bool intersect(const Circle &circle, const Vector2 &center, float radius);
             static bool intersect(const Vector2 &center, float radius, const Circle &circle);
             static bool intersect(const Vector2 &center1, float radius1, const Vector2 &center2, float radius2);
+
+            static bool intersect(const Rect &rect, const Circle &circle);
+            static bool intersect(const Vector2 &position, const Vector2 &size, const Circle &circle);
+            static bool intersect(const Vector2 &position, const Vector2 &size, const Vector2 &center, float radius);
+            static bool intersect(const Rect &rect, const Vector2 &center, float radius);
+            static bool intersect(const Circle &circle, const Rect &rect);
+            static bool intersect(const Circle &circle, const Vector2 &position, const Vector2 &size);
+            static bool intersect(const Vector2 &center, float radius, const Vector2 &position, const Vector2 &size);
+            static bool intersect(const Vector2 &center, float radius, const Rect &rect);
 //////////////////////--------------------------/////////////////////////
 
     };

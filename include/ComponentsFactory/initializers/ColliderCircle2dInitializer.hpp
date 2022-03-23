@@ -1,23 +1,23 @@
 /*
 ** EPITECH PROJECT, 2020
-** TransformInitializer.hpp.h
+** ColliderCircle2dInitializer.hpp
 ** File description:
-** header for TransformInitializer.c
+** header for ColliderCircle2dInitializer.c
 */
 
-#ifndef ENGINE_TRANSFORMINITIALIZER_HPP
-#define ENGINE_TRANSFORMINITIALIZER_HPP
+#ifndef ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP
+#define ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP
 
 #include "ComponentsFactory/AComponentInitializer.hpp"
 
 namespace Polymorph
 {
-    class TransformInitializer : public AComponentInitializer
+    class ColliderCircle2dInitializer : public AComponentInitializer
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            TransformInitializer(Config::XmlComponent &data, Entity &entity);
+            ColliderCircle2dInitializer(Config::XmlComponent &data, Entity &entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -28,9 +28,12 @@ namespace Polymorph
         public:
             std::shared_ptr<Component> &build() final;
 
-            void reference() final;
+            void reference() final {};
+
 ///////////////////////////--------------------------///////////////////////////
+
     };
 }
 
-#endif //ENGINE_TRANSFORMINITIALIZER_HPP
+
+#endif //ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP

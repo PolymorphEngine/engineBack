@@ -8,17 +8,25 @@
 #ifndef ENGINE_COLLIDER2RECT_HPP
 #define ENGINE_COLLIDER2RECT_HPP
 
-#include "component/base/Collider2d.hpp"
+#include "component/base/ACollider2d.hpp"
 
 namespace Polymorph
  {
 
-    class ColliderRect2dComponent : public Collider2dComponent {
+    class ColliderRect2dComponent : public ACollider2dComponent
+    {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
+        public:
+            explicit ColliderRect2dComponent(Entity &entity);
+
+///////////////////////////--------------------------///////////////////////////
 
 ///////////////////////////////// Properties ///////////////////////////////////
 
         public:
-            Vector2 size;
+            Vector2 size = {0, 0};
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -27,7 +35,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         private:
-            bool checkCollision(Collider2dComponent &other) override;
+            bool checkCollision(ACollider2dComponent &other) override;
 
 ///////////////////////////--------------------------///////////////////////////
 

@@ -8,7 +8,7 @@
 #ifndef ENGINE_TEXTRENDERERINITIALIZER_HPP
 #define ENGINE_TEXTRENDERERINITIALIZER_HPP
 
-#include "ComponentsFactory/ComponentInitializer.hpp"
+#include "ComponentsFactory/AComponentInitializer.hpp"
 
 namespace Polymorph
 {

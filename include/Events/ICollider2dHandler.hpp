@@ -10,15 +10,15 @@
 
 namespace Polymorph
 {
-    class Collider2dComponent;
-    
-    
+    class ACollider2dComponent;
+
+
     class ICollider2dHandler
     {
         public:
-            virtual void onCollisionEnter(Collider2dComponent &collider) = 0;
-            virtual void onCollisionExit(Collider2dComponent &collider) = 0;
-            virtual void onCollisionStay(Collider2dComponent &collider) = 0;
+            virtual void onCollisionEnter(ACollider2dComponent &collider) = 0;
+            virtual void onCollisionExit(ACollider2dComponent &collider) = 0;
+            virtual void onCollisionStay(ACollider2dComponent &collider) = 0;
     };
 }
 

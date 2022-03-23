@@ -22,7 +22,8 @@
 #include "ComponentsFactory/initializers/TransformInitializer.hpp"
 #include "ComponentsFactory/initializers/SpriteRendererInitializer.hpp"
 #include "ComponentsFactory/initializers/TextRendererInitializer.hpp"
-
+#include "ComponentsFactory/initializers/ColliderCircle2dInitializer.hpp"
+#include "ComponentsFactory/initializers/ColliderRect2dInitializer.hpp"
 
 namespace Polymorph
 {
@@ -51,6 +52,8 @@ namespace Polymorph
                 // @TRANSFORM:
                 {
                         {"Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
+                        {"ColliderCircle2d", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new ColliderCircle2dInitializer(data, entity));}},
+                        {"ColliderRect2d", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new ColliderRect2dInitializer(data, entity));}},
                         {"SpriteRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new SpriteRendererInitializer(data, entity));}},
                         {"TextRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TextRendererInitializer(data, entity));}},
                 },
