@@ -40,7 +40,7 @@ namespace Polymorph
 
         private:
             std::string _title;
-            arcade::IDisplayModule *_displayModule;
+            arcade::IDisplayModule *_displayModule = nullptr;
             std::shared_ptr<Settings::VideoSettings> _settings;
 
 ///////////////////////////--------------------------///////////////////////////

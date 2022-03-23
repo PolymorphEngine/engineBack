@@ -42,9 +42,9 @@ namespace Polymorph
             static bool isKeyUp(arcade::KeyCode code);
             static bool isKeyHold(arcade::KeyCode code);
             
-            static bool isMouseButtonDown(unsigned int buttonNb);
-            static bool isMouseButtonUp(unsigned int buttonNb);
-            static bool isMouseButtonHold(unsigned int buttonNb);
+            static bool isMouseButtonDown(arcade::KeyCode buttonNb);
+            static bool isMouseButtonUp(arcade::KeyCode buttonNb);
+            static bool isMouseButtonHold(arcade::KeyCode buttonNb);
     
         private:
     

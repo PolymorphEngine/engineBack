@@ -10,18 +10,14 @@
 
 bool Polymorph::Input::isKeyHold(arcade::KeyCode code)
 {
-    GraphicalAPI::CurrentDisplay->isKeyPressed(code);
-    return false;
+    return GraphicalAPI::CurrentDisplay->isKeyPressed(code);
 }
 
-bool Polymorph::Input::isMouseButtonHold(unsigned int buttonNb)
+bool Polymorph::Input::isMouseButtonHold(arcade::KeyCode buttonNb)
 {
-    if (buttonNb == 0 || buttonNb > 3)
+    if (buttonNb < arcade::MouseButton1 || buttonNb > arcade::MouseButton3)
         return false;
-    auto c = static_cast<arcade::KeyCode>(arcade::KeyCount + buttonNb);
-    
-    GraphicalAPI::CurrentDisplay->isKeyPressed(c);
-    return false;
+    return GraphicalAPI::CurrentDisplay->isKeyPressed(buttonNb);
 }
 
 bool Polymorph::Input::isKeyUp(arcade::KeyCode code)
@@ -36,13 +32,13 @@ bool Polymorph::Input::isKeyDown(arcade::KeyCode code)
     return false;
 }
 
-bool Polymorph::Input::isMouseButtonDown(unsigned int buttonNb)
+bool Polymorph::Input::isMouseButtonDown(arcade::KeyCode buttonNb)
 {
     Logger::log("[Input] isMouseButtonDown: not implemented yet (false by default)");
     return false;
 }
 
-bool Polymorph::Input::isMouseButtonUp(unsigned int buttonNb)
+bool Polymorph::Input::isMouseButtonUp(arcade::KeyCode buttonNb)
 {
     Logger::log("[Input] isMouseButtonUp: not implemented yet (false by default)");
     return false;
