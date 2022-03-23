@@ -1,23 +1,23 @@
 /*
 ** EPITECH PROJECT, 2020
-** SpriteRendererInitializer.hpp
+** ColliderCircle2dInitializer.hpp
 ** File description:
-** header for SpriteRendererInitializer.c
+** header for ColliderCircle2dInitializer.c
 */
 
-#ifndef ENGINE_SPRITERENDERERINITIALIZER_HPP
-#define ENGINE_SPRITERENDERERINITIALIZER_HPP
+#ifndef ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP
+#define ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP
 
 #include "factory/ComponentInitializer.hpp"
 
 namespace Polymorph
 {
-    class SpriteRendererInitializer : public AComponentInitializer
+    class ColliderCircle2dInitializer : public AComponentInitializer
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            SpriteRendererInitializer(Config::XmlComponent &data, Entity &entity);
+            ColliderCircle2dInitializer(Config::XmlComponent &data, Entity &entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -28,12 +28,12 @@ namespace Polymorph
         public:
             std::shared_ptr<Component> &build() final;
 
-            void reference() final;
+            void reference() final {};
 
 ///////////////////////////--------------------------///////////////////////////
+
     };
-
-
 }
 
-#endif //ENGINE_SPRITERENDERERINITIALIZER_HPP
+
+#endif //ENGINE_COLLIDERCIRCLE2DINITIALIZER_HPP

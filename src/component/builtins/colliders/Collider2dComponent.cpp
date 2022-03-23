@@ -71,7 +71,7 @@ void Collider2dComponent::_checkCollisionToBroadCast(Collider2dComponent &collid
     }
 }
 
-Collider2dComponent::Collider2dComponent(Entity &gameObject, std::string &type)
+Collider2dComponent::Collider2dComponent(Entity &gameObject, std::string type)
 :Component(type, gameObject)
 {
     _allColliders.push_back(this);

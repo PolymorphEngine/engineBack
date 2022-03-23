@@ -21,9 +21,11 @@ namespace Polymorph
     std::shared_ptr<Component> &TransformInitializer::build()
     {
         auto trm = std::dynamic_pointer_cast<TransformComponent>(component);
+
         data.setProperty("position", trm->_position);
         data.setProperty("scale", trm->_scale);
         data.setProperty("rotation", trm->_rotation);
+
         return component;
     }
 

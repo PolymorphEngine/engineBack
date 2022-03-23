@@ -1,23 +1,23 @@
 /*
 ** EPITECH PROJECT, 2020
-** SpriteRendererInitializer.hpp
+** ColliderRect2dInitializer.hpp
 ** File description:
-** header for SpriteRendererInitializer.c
+** header for ColliderRect2dInitializer.c
 */
 
-#ifndef ENGINE_SPRITERENDERERINITIALIZER_HPP
-#define ENGINE_SPRITERENDERERINITIALIZER_HPP
+#ifndef ENGINE_COLLIDERRECT2DINITIALIZER_HPP
+#define ENGINE_COLLIDERRECT2DINITIALIZER_HPP
 
 #include "factory/ComponentInitializer.hpp"
 
 namespace Polymorph
 {
-    class SpriteRendererInitializer : public AComponentInitializer
+    class ColliderRect2dInitializer : public AComponentInitializer
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            SpriteRendererInitializer(Config::XmlComponent &data, Entity &entity);
+            ColliderRect2dInitializer(Config::XmlComponent &data, Entity &entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -28,12 +28,11 @@ namespace Polymorph
         public:
             std::shared_ptr<Component> &build() final;
 
-            void reference() final;
+            void reference() final {};
 
 ///////////////////////////--------------------------///////////////////////////
+
     };
-
-
 }
 
-#endif //ENGINE_SPRITERENDERERINITIALIZER_HPP
+#endif //ENGINE_COLLIDERRECT2DINITIALIZER_HPP

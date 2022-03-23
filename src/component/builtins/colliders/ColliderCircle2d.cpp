@@ -23,7 +23,13 @@ bool ColliderCircle2dComponent::checkCollision(Collider2dComponent &other)
     if (circleShape) {
         return Circle::intersect(tmpPosition, radius, otherPosition, circleShape->radius);
     } else if (boxShape) {
-        return false;
+        return Circle::intersect(tmpPosition, radius, otherPosition, boxShape->size);
     }
     throw ExceptionLogger("ColliderBox2dComponent::checkCollision: unknown collider type");
+}
+
+ColliderCircle2dComponent::ColliderCircle2dComponent(Entity &gameObject)
+        : Collider2dComponent(gameObject, "ColliderCircle2d")
+{
+
 }

@@ -9,16 +9,26 @@
 #define ENGINE_COLLIDERCIRCLE2D_HPP
 
 #include "Collider2d.hpp"
+#include "Component.hpp"
 
 namespace Polymorph
 {
 
-    class ColliderCircle2dComponent : public Collider2dComponent {
+    class ColliderCircle2dComponent : public Collider2dComponent
+    {
+///////////////////////////////// Constructors /////////////////////////////////
+
+    public:
+        explicit ColliderCircle2dComponent(Entity &gameObject);
+
+///////////////////////////--------------------------///////////////////////////
+
+
 
 ///////////////////////////////// Properties ///////////////////////////////////
 
         public:
-            float radius;
+            float radius = 0.0;
 
 ///////////////////////////--------------------------///////////////////////////
 

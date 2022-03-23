@@ -23,10 +23,10 @@
      */
     class Collider2dComponent : public Component
     {
-        public:
+
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            Collider2dComponent(Entity &gameObject, std::string &type);
+            Collider2dComponent(Entity &gameObject, std::string type);
             ~Collider2dComponent();
 
 ///////////////////////////--------------------------///////////////////////////
@@ -35,7 +35,7 @@
 
 ///////////////////////////////// Properties ///////////////////////////////////
         public:
-            Vector2 offset;
+            Vector2 offset = {0, 0};
         private:
             /**
              * @property all colliders encountered at runtime

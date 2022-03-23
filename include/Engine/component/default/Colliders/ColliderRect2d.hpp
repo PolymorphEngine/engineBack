@@ -13,12 +13,20 @@
 namespace Polymorph
  {
 
-    class ColliderRect2dComponent : public Collider2dComponent {
+    class ColliderRect2dComponent : public Collider2dComponent
+    {
+
+///////////////////////////////// Constructors /////////////////////////////////
+
+        public:
+            explicit ColliderRect2dComponent(Entity &entity);
+
+///////////////////////////--------------------------///////////////////////////
 
 ///////////////////////////////// Properties ///////////////////////////////////
 
         public:
-            Vector2 size;
+            Vector2 size = {0, 0};
 
 ///////////////////////////--------------------------///////////////////////////
 
