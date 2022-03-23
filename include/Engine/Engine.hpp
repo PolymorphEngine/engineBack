@@ -19,7 +19,7 @@
 #include "Time.hpp"
 #include "DynamicLoader/DynamicLoader.hpp"
 #include "GraphicalAPI/GraphicalAPI.hpp"
-
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 namespace Polymorph
@@ -37,7 +37,12 @@ namespace Polymorph
     {
         public:
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-            explicit Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath = "");
+            /**
+             * Creates an instance of engine by passing the project path containing all resources needed to load it such as config and assets
+             * @param projectPath path containing resources to load
+             * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
+             */
+            explicit Engine(const std::string &projectPath, std::string projectName);
             ~Engine();
 //////////////////////--------------------------/////////////////////////
 
@@ -66,8 +71,8 @@ namespace Polymorph
             Display _display;
             
             std::unique_ptr<GraphicalAPI> _graphicalApi;
-            std::unique_ptr<DynamicLibLoader> _scriptFactoryLoader;
-            
+            std::unique_ptr<ScriptingApi> _scriptingApi;
+        
 //////////////////////--------------------------/////////////////////////
 
 
@@ -85,7 +90,27 @@ namespace Polymorph
              * @details Runs the game.
              */
             int run();
+            
+            /**
+             * Loads a script factory from the filepath to an shared library ('.so')
+             * @param scriptFactoryPath the path to the shared library
+             * @warning the path must be relative to the executable
+             */
+            void loadScriptingAPI(std::string scriptFactoryPath);
 
+
+            /**
+             * Loads a graphical api from the filepath to an shared library ('.so')
+             * @param graphicalLibPath the path to the shared library
+             * @warning the path must be relative to the executable
+             */
+            void loadGraphicalAPI(std::string graphicalLibPath);
+            
+            /**
+             * Loads the game configuration and inits all gameObjects/Components/Scenes
+             */
+            void loadEngine();
+            
             void exit(ExitCode code);
 
             std::string getProjectPath();
