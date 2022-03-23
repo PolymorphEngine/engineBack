@@ -86,6 +86,7 @@ namespace Polymorph
             
             static void reloadAPI(std::string newHandler);
             static void *getHandler();
+            static std::string getHandlerPath() const;
             
         private:
             static void _unloadModules();
