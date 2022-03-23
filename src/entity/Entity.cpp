@@ -14,6 +14,7 @@
 #include "Log/Logger.hpp"
 #include "default/drawables/ADrawableComponent.hpp"
 #include "Entity.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
@@ -37,6 +38,10 @@ Polymorph::Config::XmlComponent &config)
         return;
     //TODO : throw ?
     ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
+
+    if (i == nullptr)
+        i = ScriptingApi::create(component, config, *this);
+
     if (i == nullptr) {
         Logger::log(
                 "Unknown component to load at initialisation: '" + component +

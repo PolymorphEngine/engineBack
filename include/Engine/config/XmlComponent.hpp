@@ -40,22 +40,24 @@ namespace Polymorph
         {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             public:
-                explicit XmlComponent(const std::shared_ptr<XmlNode> &node);
+                explicit XmlComponent(const std::shared_ptr<XmlNode> &node = nullptr);
 //////////////////////--------------------------/////////////////////////
 
 
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
+            public:
+                const static inline std::shared_ptr<XmlComponent> Empty = std::make_shared<XmlComponent>(nullptr);
             private:
                 /**
                  * @property node which contains all data needed to load the binded component.
                  */
-                std::shared_ptr<XmlNode> node;
+                std::shared_ptr<XmlNode> node = nullptr;
 
                 /**
                  * @property the type of the component
                  */
-                std::string type;
+                std::string type = "Empty";
 //////////////////////--------------------------/////////////////////////
 
 

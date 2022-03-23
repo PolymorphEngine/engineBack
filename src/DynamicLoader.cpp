@@ -25,6 +25,6 @@ void DynamicLibLoader::loadHandler(std::string libPath)
     _handler = dlopen(libPath.c_str(), RTLD_LAZY);
 
     if (_handler == nullptr)
-        throw GraphicalException("Failed to dl open library at path: " + libPath);
+        throw ExceptionLogger("Failed to dl open library at path: " + libPath);
 }
 
