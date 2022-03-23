@@ -261,5 +261,6 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string
         if (c.getType() == type)
             return c;
     }
-    throw ExceptionLogger("Tried to get a default config of an unknown component type", Logger::MAJOR);
+    Logger::log("No default config available for type '"+type+"'.", Logger::DEBUG);
+    return *Config::XmlComponent::Empty;
 }
