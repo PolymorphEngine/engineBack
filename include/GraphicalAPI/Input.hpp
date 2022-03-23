@@ -8,39 +8,50 @@
 
 #pragma once
 
+#include "GraphicalAPI.hpp"
 
-class Input
+
+namespace Polymorph
 {
-
+    
+    class Input
+    {
+    
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-    public:
-        Input();
-
-        ~Input();
-
+        public:
+    
 //////////////////////--------------------------/////////////////////////
-
-
-
+    
+    
+    
 ///////////////////////////// PROPERTIES ////////////////////////////////
-    public:
-
-
-    private:
-
+        public:
+    
+        private:
+            std::map<arcade::KeyCode, bool> _pressedKeys;
+            std::map<arcade::KeyCode, bool> _releasedKeys;
+            std::map<arcade::KeyCode, bool> _holdedKeys;
+    
 //////////////////////--------------------------/////////////////////////
-
-
-
+    
+    
+    
 /////////////////////////////// METHODS /////////////////////////////////
-    public:
-
-
-    private:
-
+        public:
+            static bool isKeyDown(arcade::KeyCode code);
+            static bool isKeyUp(arcade::KeyCode code);
+            static bool isKeyHold(arcade::KeyCode code);
+            
+            static bool isMouseButtonDown(unsigned int buttonNb);
+            static bool isMouseButtonUp(unsigned int buttonNb);
+            static bool isMouseButtonHold(unsigned int buttonNb);
+    
+        private:
+    
 //////////////////////--------------------------/////////////////////////
-
-};
+    
+    };
+}
 
 
 

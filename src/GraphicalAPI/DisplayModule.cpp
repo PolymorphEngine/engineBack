@@ -129,4 +129,11 @@ namespace Polymorph
         _displayModule->setFullScreen(_settings->getFullscreen());
         
     }
+
+    bool DisplayModule::isKeyPressed(arcade::KeyCode code)
+    {
+        if (!_displayModule)
+            return false;
+        return _displayModule->isKeyPressed(code);
+    }
 }

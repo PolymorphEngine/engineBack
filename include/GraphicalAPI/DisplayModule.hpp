@@ -56,6 +56,7 @@ namespace Polymorph
             void fetchEvents();
             
             void setResolution(Vector2 newResolution);
+            bool isKeyPressed(arcade::KeyCode code);
             Vector2 getResolution();
             void setMaxFps(int fps);
             void setFullScreen(bool fullScreen);
