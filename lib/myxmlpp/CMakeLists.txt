@@ -14,11 +14,11 @@ include_directories(include/exceptions)
 
 add_library(myxmlpp ${SRCS} ${INCS})
 
-add_executable(myxmlppexec tests/test.cpp)
+add_executable(myxmlppexec EXCLUDE_FROM_ALL tests/test.cpp)
 target_link_directories(myxmlppexec PUBLIC myxmlpp)
 target_link_libraries(myxmlppexec myxmlpp)
 
-add_executable(unit-tests ${UNIT_TESTS_SRCS})
+add_executable(unit-tests EXCLUDE_FROM_ALL ${UNIT_TESTS_SRCS})
 target_link_libraries(unit-tests criterion)
 target_link_directories(unit-tests PUBLIC myxmlpp)
 target_link_libraries(unit-tests myxmlpp)
