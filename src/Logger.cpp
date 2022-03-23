@@ -91,7 +91,7 @@ Logger::_logFile(std::string message, std::string filepath, Logger::severity lev
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
 
-    file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" "+ message << std::endl;
+    file << _getTimeNow("%X") +" : "+ _severity_to_string(level)+" | "+ message << std::endl;
     file.close();
 }
 
@@ -100,7 +100,7 @@ void Logger::_consoleLog(std::string message, Logger::severity level)
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
 
-    std::cout << "["+_getTimeNow("%X") +"] : "+ _severity_to_color(level)+_severity_to_string(level)+" "+ message + RESET << std::endl;
+    std::cout << "["+_getTimeNow("%X") +"] : "+ _severity_to_color(level)+_severity_to_string(level)+" | "+ message + RESET << std::endl;
 
 }
 

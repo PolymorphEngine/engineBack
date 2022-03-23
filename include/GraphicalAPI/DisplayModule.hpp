@@ -40,7 +40,7 @@ namespace Polymorph
 
         private:
             std::string _title;
-            arcade::IDisplayModule *_displayModule;
+            arcade::IDisplayModule *_displayModule = nullptr;
             std::shared_ptr<Settings::VideoSettings> _settings;
 
 ///////////////////////////--------------------------///////////////////////////
@@ -56,6 +56,7 @@ namespace Polymorph
             void fetchEvents();
             
             void setResolution(Vector2 newResolution);
+            bool isKeyPressed(arcade::KeyCode code);
             Vector2 getResolution();
             void setMaxFps(int fps);
             void setFullScreen(bool fullScreen);

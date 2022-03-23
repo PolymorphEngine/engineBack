@@ -84,7 +84,7 @@ void Polymorph::GraphicalAPI::reloadAPI(std::string newHandler)
     _instance->_c_sprite = loadSymbol<SpriteLoader, GraphicalAPI>("createSprite");
     _instance->_c_display = loadSymbol<DisplayLoader, GraphicalAPI>("createDisplay");
 
-    _instance->_d_display = loadSymbol<DisplayUnloader, GraphicalAPI>("destroyDisplay");
+    _instance->_d_display = loadSymbol<DisplayUnloader, GraphicalAPI>("deleteDisplay");
     _instance->_d_sprite = loadSymbol<SpriteUnloader, GraphicalAPI>("destroySprite");
     _instance->_d_text = loadSymbol<TextUnloader, GraphicalAPI>("destroyText");
 

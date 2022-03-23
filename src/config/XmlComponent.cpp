@@ -17,6 +17,8 @@
 
 std::string Polymorph::Config::XmlComponent::getType()
 {
+    if (this == Empty.get())
+        return "Empty";
     try {
         type = node->findAttribute("type")->getValue();
         return type;
