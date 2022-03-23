@@ -12,6 +12,8 @@
 Polymorph::GraphicalAPI::GraphicalAPI(std::string handlerPath)
 {
     _handlerPath = handlerPath;
+    if (_instance != nullptr)
+        throw GraphicalException("Cannot create several Graphical API instance at once.", Logger::MAJOR);
     _instance = this;
 }
 
