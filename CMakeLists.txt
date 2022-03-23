@@ -21,6 +21,7 @@ include_directories(
 )
 
 add_subdirectory(lib/myxmlpp)
+set_target_properties(myxmlpp PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 file(GLOB_RECURSE SRC src/*.cpp)
 file(GLOB_RECURSE ICL include/*.hpp)
@@ -28,12 +29,13 @@ file(GLOB_RECURSE ICL include/*.hpp)
 add_library(PolymorphEngine
         ${SRC}
         ${ICL}
-        )
+)
+target_link_libraries(PolymorphEngine myxmlpp dl)
+target_link_options(PolymorphEngine PUBLIC "-Wl,--no-undefined")
+set_target_properties(PolymorphEngine PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-add_executable(TestMain
-        ${SRC}
-        ${ICL}
+add_executable(TestMain EXCLUDE_FROM_ALL
         SampleProject/test_main.cpp
-        )
+)
 
-target_link_libraries(TestMain myxmlpp dl)
+target_link_libraries(TestMain PolymorphEngine)
