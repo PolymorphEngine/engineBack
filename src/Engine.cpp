@@ -16,49 +16,44 @@
 #include "GraphicalException.hpp"
 #include "DynamicLoader/DynamicLoader.hpp"
 
-Polymorph::Engine::Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath)
+Polymorph::Engine::Engine(const std::string &projectPath, const std::string &projectName)
 {
-    _projectPath = filepath;
+    _projectPath = projectPath;
     _projectName = projectName;
 
     
 
-    Logger::setLogDir(filepath + "/Logs");
+    Logger::setLogDir(projectPath + "/Logs");
     _openProject();
     _initDebugSettings();
     _initVideoSettings();
-    try
-    {
-        _graphicalApi = std::make_unique<GraphicalAPI>(libPath);
-        _graphicalApi->reloadAPI(libPath);
-        _display = _graphicalApi->createDisplay(_videoSettings, projectName);
-    } catch (GraphicalException &e) {
-        e.what();
-    }
-
+    _initAudioSettings();
+    _initPhysicSettings();
     _initExectutionOrder();
     _initLayers();
-    _initGameData();
-
-
-    if (_scenes.empty())
-        throw std::runtime_error("No scenes built");
-    SceneManager::Current = *_scenes.begin();
+    
 }
 
 int Polymorph::Engine::run()
 {
     SceneManager::Current->loadScene();
 
+    _time = Time();
     while ((!_exit && (!!_display && _display->isOpen()))
     || (!_display && !_exit))
     {
-        GraphicalAPI::CurrentDisplay = (*_display).get();
+        if (!!_display)
+            GraphicalAPI::CurrentDisplay = (*_display).get();
+        
+        _time.computeDeltaTime();
+        
         if (!!_display) {
             _display->fetchEvents();
             _display->clearWindow();
         }
+        
         SceneManager::Current->updateComponents();
+        
         if (!!_display) {
             _display->displayWindow();
         }
@@ -263,4 +258,40 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string
     }
     Logger::log("No default config available for type '"+type+"'.", Logger::DEBUG);
     return *Config::XmlComponent::Empty;
+}
+
+void Polymorph::Engine::loadGraphicalAPI(std::string graphicalLibPath)
+{
+    try
+    {
+        _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
+        _graphicalApi->reloadAPI(graphicalLibPath);
+        _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
+    } catch (GraphicalException &e) {
+        e.what();
+    } catch (std::exception &e) {
+        Logger::log("[Graphical API] " + std::string(e.what()), Logger::MAJOR);
+    }
+
+}
+
+void Polymorph::Engine::loadScriptingAPI(std::string scriptFactoryPath)
+{
+    try
+    {
+        _scriptingApi = std::make_unique<ScriptingApi>(scriptFactoryPath);
+    } catch (GraphicalException &e) {
+        e.what();
+    } catch (std::exception &e) {
+        Logger::log("Unknown error: " + std::string(e.what()), Logger::MAJOR);
+    }
+}
+
+void Polymorph::Engine::loadEngine()
+{
+    _initGameData();
+
+    if (_scenes.empty())
+        throw std::runtime_error("No scenes built");
+    SceneManager::Current = *_scenes.begin();
 }

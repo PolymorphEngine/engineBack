@@ -19,7 +19,7 @@
 #include "Time.hpp"
 #include "DynamicLoader/DynamicLoader.hpp"
 #include "GraphicalAPI/GraphicalAPI.hpp"
-
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 namespace Polymorph
@@ -37,7 +37,7 @@ namespace Polymorph
     {
         public:
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-            explicit Engine(const std::string &filepath, const std::string &projectName, const std::string &libPath = "");
+            explicit Engine(const std::string &projectPath, const std::string &projectName);
             ~Engine();
 //////////////////////--------------------------/////////////////////////
 
@@ -66,8 +66,8 @@ namespace Polymorph
             Display _display;
             
             std::unique_ptr<GraphicalAPI> _graphicalApi;
-            std::unique_ptr<DynamicLibLoader> _scriptFactoryLoader;
-            
+            std::unique_ptr<ScriptingApi> _scriptingApi;
+        
 //////////////////////--------------------------/////////////////////////
 
 
@@ -85,7 +85,11 @@ namespace Polymorph
              * @details Runs the game.
              */
             int run();
-
+            
+            void loadScriptingAPI(std::string scriptFactoryPath);
+            void loadGraphicalAPI(std::string graphicalLibPath);
+            void loadEngine();
+            
             void exit(ExitCode code);
 
             std::string getProjectPath();
