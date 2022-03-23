@@ -1,23 +1,24 @@
-cmake_minimum_required(VERSION 3.19)
-project(Engine)
+cmake_minimum_required(VERSION 3.17)
+project(myxmlpp)
 
 set(CMAKE_CXX_STANDARD 20)
+set(LIBRARY_OUTPUT_PATH  ../)
+set(EXECUTABLE_OUTPUT_PATH  ../)
 
-include_directories(
-        include
-        include/Engine
-        include/Engine/component
-        include/Engine/entity
-        include/Engine/config
-        include/Engine/scene
-        include/Engine/Utilities
-        include/Engine/Utilities/Types
-)
+file(GLOB_RECURSE SRCS src/*.cpp)
+file(GLOB_RECURSE UNIT_TESTS_SRCS tests/unit-testing/*.cpp)
+file(GLOB_RECURSE INCS myxmlpp/*.hpp)
 
-file(GLOB_RECURSE SRC src/*.cpp)
-file(GLOB_RECURSE ICL include/*.hpp)
+include_directories(include)
+include_directories(include/exceptions)
 
-add_executable(Engine
-        ${SRC}
-        ${ICL}
-        )
+add_library(myxmlpp ${SRCS} ${INCS})
+
+add_executable(myxmlppexec EXCLUDE_FROM_ALL tests/test.cpp)
+target_link_directories(myxmlppexec PUBLIC myxmlpp)
+target_link_libraries(myxmlppexec myxmlpp)
+
+add_executable(unit-tests EXCLUDE_FROM_ALL ${UNIT_TESTS_SRCS})
+target_link_libraries(unit-tests criterion)
+target_link_directories(unit-tests PUBLIC myxmlpp)
+target_link_libraries(unit-tests myxmlpp)

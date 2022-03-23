@@ -1,8 +1,7 @@
-****PolymorphEngine :****
+#myxmlpp (myxml++)
+myxmlpp is a simple XML lib in C++ for the sake of the PolymorphEngine project.
 
-- It's awesome !
-- It's Polymorphic !
-- It's Versatile !
-- It's User Friendly !
----
-    C++ Back End Scripting / Engine
+It includes a lot of methods to perform actions on each XML node.
+
+##Usage
+See the documentation at https://polymorphengine.github.io/myxmlpp
