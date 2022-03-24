@@ -9,11 +9,16 @@
 #pragma once
 
 #include "DynamicLoader/DynamicLoader.hpp"
-#include "ScriptFactory.hpp"
-#include "factory/ComponentInitializer.hpp"
+
 
 namespace Polymorph
 {
+    namespace Config{class XmlComponent;}
+
+    class IScriptFactory;
+    class AComponentInitializer;
+    class Entity;
+    
     
     class ScriptingApi : public DynamicLibLoader
     {

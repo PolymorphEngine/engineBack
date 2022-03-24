@@ -1,0 +1,13 @@
+/*
+** EPITECH PROJECT, 2020
+** Settings.hpp
+** File description:
+** header for Settings.c
+*/
+
+#pragma once
+
+#include "../GraphicalAPI/GraphicalAPI.hpp"
+#include "../Core/settings/AudioSettings.hpp"
+#include "../Core/settings/VideoSettings.hpp"
+#include "../Core/settings/PhysicsSettings.hpp"
