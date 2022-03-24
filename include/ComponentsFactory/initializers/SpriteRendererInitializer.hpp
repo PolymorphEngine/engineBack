@@ -8,7 +8,7 @@
 #ifndef ENGINE_SPRITERENDERERINITIALIZER_HPP
 #define ENGINE_SPRITERENDERERINITIALIZER_HPP
 
-#include "ComponentsFactory/ComponentInitializer.hpp"
+#include "ComponentsFactory/AComponentInitializer.hpp"
 
 namespace Polymorph
 {
@@ -29,6 +29,7 @@ namespace Polymorph
             std::shared_ptr<Component> &build() final;
 
             void reference() final;
+
 ///////////////////////////--------------------------///////////////////////////
     };
 

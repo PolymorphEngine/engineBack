@@ -12,7 +12,7 @@
 
 using namespace Polymorph;
 
-bool ColliderCircle2dComponent::checkCollision(Collider2dComponent &other)
+bool ColliderCircle2dComponent::checkCollision(ACollider2dComponent &other)
 {
     auto tmpPosition = Vector2(transform.getPosition()) + offset;
     auto otherPosition = Vector2(other.transform.getPosition()) + other.offset;
@@ -22,7 +22,13 @@ bool ColliderCircle2dComponent::checkCollision(Collider2dComponent &other)
     if (circleShape) {
         return Circle::intersect(tmpPosition, radius, otherPosition, circleShape->radius);
     } else if (boxShape) {
-        return false;
+        return Circle::intersect(tmpPosition, radius, otherPosition, boxShape->size);
     }
     throw ExceptionLogger("ColliderBox2dComponent::checkCollision: unknown collider type");
+}
+
+ColliderCircle2dComponent::ColliderCircle2dComponent(Entity &gameObject)
+        : ACollider2dComponent(gameObject, "ColliderCircle2d")
+{
+
 }

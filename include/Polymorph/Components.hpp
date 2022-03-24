@@ -18,6 +18,6 @@
 #include "../Core/component/builtins/drawables/TextRendererComponent.hpp"
 
 //  Colliders
-#include "../Core/component/base/Collider2d.hpp"
+#include "../Core/component/base/ACollider2d.hpp"
 #include "../Core/component/builtins/colliders/ColliderCircle2d.hpp"
 #include "../Core/component/builtins/colliders/ColliderRect2d.hpp"
