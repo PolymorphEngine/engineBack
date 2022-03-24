@@ -8,7 +8,7 @@
 #ifndef ENGINE_ADRAWABLECOMPONENT_HPP
 #define ENGINE_ADRAWABLECOMPONENT_HPP
 
-#include "component/base/Component.hpp"
+#include "Core/component/base/Component.hpp"
 
 namespace Polymorph
 {
@@ -62,7 +62,7 @@ namespace Polymorph
 
     };
 
-    
+
 }
 
 #endif //ENGINE_ADRAWABLECOMPONENT_HPP

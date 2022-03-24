@@ -9,7 +9,7 @@
 #pragma once
 
 #include <myxmlpp.hpp>
-#include "safe_ptr.hpp"
+#include "Utilities/safe_ptr.hpp"
 #include "DynamicLoader/DynamicLoader.hpp"
 
 namespace arcade{class ISpriteModule; class ITextModule; class IDisplayModule;}

@@ -13,8 +13,7 @@
 #include <memory>
 #include <vector>
 
-#include "Vector.hpp"
-
+#include "Utilities/types/Vector.hpp"
 //TODO: find a way to not have multiples definitions of interfaces
 #include "GraphicalAPI/arcade/IDisplayModule.hpp"
 

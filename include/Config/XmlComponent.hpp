@@ -13,12 +13,12 @@
 #include <iostream>
 #include <memory>
 #include <myxmlpp.hpp>
-#include "safe_ptr.hpp"
 
-#include "SceneManager.hpp"
+#include "Utilities/safe_ptr.hpp"
+#include "Core/scene/SceneManager.hpp"
 #include "Log/Logger.hpp"
-#include "Entity.hpp"
-#include "ConfigurationException.hpp"
+#include "Core/entity/Entity.hpp"
+#include "Exceptions/ConfigurationException.hpp"
 
 namespace Polymorph
 {
