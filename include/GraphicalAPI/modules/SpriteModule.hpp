@@ -13,8 +13,8 @@
 #include <vector>
 
 #include <myxmlpp.hpp>
-#include "Rect.hpp"
-#include "Color.hpp"
+#include "Utilities/types/Color.hpp"
+#include "Utilities/types/Rect.hpp"
 
 namespace arcade{class ISpriteModule;}
 namespace Polymorph
