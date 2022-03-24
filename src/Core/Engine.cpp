@@ -13,6 +13,8 @@
 #include <Polymorph/Factory.hpp>
 #include <Polymorph/Debug.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
+#include "Engine.hpp"
+
 
 Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName): _projectPath(projectPath), _projectName(std::move(projectName))
 {
@@ -26,7 +28,8 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     
     _initExectutionOrder();
     _initLayers();
-    
+    _initTemplates();
+    _initPrefabs();
 }
 
 int Polymorph::Engine::run()
@@ -135,38 +138,6 @@ void Polymorph::Engine::_initDebugSettings()
 
 void Polymorph::Engine::_initGameData()
 {
-
-    try {
-        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
-
-        for (auto &prefab: *prefabs) {
-            try {
-                _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
-            } catch (...) {
-                Logger::log("Error loading prefab", Logger::MINOR);
-            }
-        }
-    } catch (myxmlpp::Exception &e) {
-        Logger::log("Error loading prefabs data in main config file",
-                    Logger::MINOR);
-    }
-
-    try {
-        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Templates");
-
-        for (auto &prefab: *prefabs) {
-            try {
-                auto path = _projectPath + "/" + prefab->findAttribute("path")->getValue();
-                auto templateDoc = myxmlpp::Doc(path);
-                _defaultConfigs.emplace_back(Config::XmlComponent(templateDoc.getRoot()));
-            } catch (...) {
-                Logger::log("Error loading component template", Logger::MINOR);
-            }
-        }
-    } catch (myxmlpp::Exception &e) {
-        Logger::log("Error loading templates data in main config file",
-                    Logger::MINOR);
-    }
 
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
 
@@ -278,7 +249,7 @@ void Polymorph::Engine::loadScriptingAPI(std::string scriptFactoryPath)
     } catch (ExceptionLogger &e) {
         e.what();
     } catch (std::exception &e) {
-        Logger::log("Unknown error: " + std::string(e.what()), Logger::MAJOR);
+        Logger::log("[Scripting API]: " + std::string(e.what()), Logger::MAJOR);
     }
 }
 
@@ -289,4 +260,69 @@ void Polymorph::Engine::loadEngine()
     if (_scenes.empty())
         throw std::runtime_error("No scenes built");
     SceneManager::Current = *_scenes.begin();
+}
+
+void Polymorph::Engine::_initPrefabs()
+{
+
+    try {
+        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Prefabs");
+
+        for (auto &prefab: *prefabs) {
+            try {
+                _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+            } catch (myxmlpp::Exception &e) {
+                Logger::log("[Configuration] Error loading prefab.\n" + e.baseWhat(), Logger::MINOR);
+            }
+            catch (std::exception &e) {
+                Logger::log("[Unknown] Error loading prefab\n" + std::string(e.what()), Logger::MINOR);
+            }
+        }
+    } catch (myxmlpp::NodeNotFoundException &e) {
+        Logger::log("[Configuration] Error loading prefabs: no prefabs to load.\n" + e.baseWhat(),
+                    Logger::MINOR);
+    }catch (myxmlpp::Exception &e) {
+        Logger::log("[Configuration] Error loading prefabs: " + e.baseWhat(),
+                    Logger::MINOR);
+    } catch (std::exception &e) {
+        Logger::log("[Unknown] Error loading prefabs data in main config file.\n" + std::string(e.what()),
+                    Logger::MINOR);
+    }
+
+}
+
+void Polymorph::Engine::_initTemplates()
+{
+
+    try {
+        std::shared_ptr<myxmlpp::Node> prefabs = _projectConfig->getRoot()->findChild("Templates");
+
+        for (auto &prefab: *prefabs) {
+            try
+            {
+                auto path = _projectPath + "/" +
+                            prefab->findAttribute("path")->getValue();
+                auto templateDoc = myxmlpp::Doc(path);
+                _defaultConfigs.emplace_back(
+                        Config::XmlComponent(templateDoc.getRoot()));
+                }catch (myxmlpp::Exception &e) {
+                    Logger::log("[Configuration] Error template: " + e.baseWhat(),
+                                Logger::MINOR);
+                } catch (std::exception &e) {
+                    Logger::log("[Unknown] Error loading template: \n" + std::string(e.what()),
+                                Logger::MINOR);
+                }
+        }
+    } catch (myxmlpp::NodeNotFoundException &e) {
+        Logger::log("[Configuration] Error loading components templates: no templates to load.\n" + e.baseWhat(),
+                    Logger::MINOR);
+    }catch (myxmlpp::Exception &e) {
+        Logger::log("[Configuration] Error loading components templates: " + e.baseWhat(),
+                    Logger::MINOR);
+    } catch (std::exception &e) {
+        Logger::log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
+                    Logger::MINOR);
+    }
+
+
 }
