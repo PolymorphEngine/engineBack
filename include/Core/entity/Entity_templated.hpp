@@ -18,9 +18,9 @@
 #include "ComponentsFactory/ComponentFactory.hpp"
 #include "ScriptingAPI/ScriptingApi.hpp"
 #include "Log/Logger.hpp"
-#include "Entity.hpp"
+#include "Core/entity/Entity.hpp"
 #include "Core/component/base/Component.hpp"
-#include "XmlComponent.hpp"
+#include "Config/XmlComponent.hpp"
 
 namespace Polymorph
 {
