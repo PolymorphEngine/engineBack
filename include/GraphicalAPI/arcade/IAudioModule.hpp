@@ -1,13 +1,4 @@
-/*
-** EPITECH PROJECT, 2020
-** DynamicLoader.hpp
-** File description:
-** header for DynamicLoader.c
-*/
-
-#pragma once
-
-#include <iostream>
+#include <string>
 
 namespace arcade
 {
@@ -17,7 +8,7 @@ namespace arcade
 
             virtual ~IAudioModule() = default;
             // ALL FILE TYPES MUST BE AT THE PATH SPECIFIED
-            // MUST: loads and set an audio file 
+            // MUST: loads and set an audio file
             //ex SFML:
             // assetPath = ./Assets/Pacman/enemy/sound
             // real path = ./Assets/Pacman/enmey/font.ttf
@@ -34,7 +25,7 @@ namespace arcade
             virtual void stop() = 0;
 
             // Must set the volume
-            virtual void setVolume() = 0;
-    
+            virtual void setVolume(float volume) = 0;
+
     };
 }
