@@ -5,8 +5,9 @@
 ** header for Input.c
 */
 
-#include "GraphicalAPI/Input.hpp"
-#include "Log/Logger.hpp"
+#include <Polymorph/Debug.hpp>
+#include <Polymorph/Core.hpp>
+#include <Polymorph/Types.hpp>
 
 bool Polymorph::Input::isKeyHold(arcade::KeyCode code)
 {

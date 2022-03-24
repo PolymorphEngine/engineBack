@@ -8,14 +8,20 @@
 
 #pragma once
 
+#include <myxmlpp.hpp>
 #include "safe_ptr.hpp"
 #include "DynamicLoader/DynamicLoader.hpp"
-#include "GraphicalAPI/SpriteModule.hpp"
-#include "GraphicalAPI/TextModule.hpp"
-#include "GraphicalAPI/DisplayModule.hpp"
+
+namespace arcade{class ISpriteModule; class ITextModule; class IDisplayModule;}
 
 namespace Polymorph
 {
+    namespace Settings{class VideoSettings;}
+    class SpriteModule;
+    class TextModule;
+    class DisplayModule;
+    
+    
     using Sprite = safe_ptr<SpriteModule>;
     using SpriteBase = std::shared_ptr<SpriteModule>;
     
@@ -86,7 +92,7 @@ namespace Polymorph
             
             static void reloadAPI(std::string newHandler);
             static void *getHandler();
-            static std::string getHandlerPath() const;
+            static std::string getHandlerPath();
             
         private:
             static void _unloadModules();

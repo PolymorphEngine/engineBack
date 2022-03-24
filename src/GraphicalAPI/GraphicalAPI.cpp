@@ -5,9 +5,9 @@
 ** header for GraphicalAPI.c
 */
 
-#include "GraphicalAPI/GraphicalAPI.hpp"
-#include "GraphicalAPI/DisplayModule.hpp"
-#include "GraphicalException.hpp"
+#include <Polymorph/Core.hpp>
+#include <Polymorph/Types.hpp>
+#include <Polymorph/Debug.hpp>
 
 Polymorph::GraphicalAPI::GraphicalAPI(std::string handlerPath)
 {

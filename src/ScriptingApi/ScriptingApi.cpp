@@ -6,8 +6,8 @@
 */
 
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include "Log/Logger.hpp"
-#include "ExceptionLogger.hpp"
+#include "ScriptingAPI/IScriptFactory.hpp"
+#include <Polymorph/Debug.hpp>
 
 Polymorph::ScriptingApi::Initializer
 Polymorph::ScriptingApi::create(std::string &type,
@@ -16,7 +16,7 @@ Polymorph::ScriptingApi::create(std::string &type,
 {
     if (!_instance || !_instance->_scriptFactory)
     {
-        Logger::log("No Script factory loaded to try load component type: '"+type+"'.", Logger::DEBUG);
+        Logger::log("[Scripting API] No Script factory loaded to try load component type: '"+type+"'.", Logger::DEBUG);
         return nullptr;
     }
     return _instance->_scriptFactory->create(type, data, entity);
@@ -25,7 +25,7 @@ Polymorph::ScriptingApi::create(std::string &type,
 Polymorph::ScriptingApi::ScriptingApi(std::string libPath)
 {
     if (_instance != nullptr)
-        throw ExceptionLogger("Tried to create ScriptingAPI where one exist already.", Logger::MAJOR);
+        throw ExceptionLogger("[Scripting API] Tried to create ScriptingAPI where one exist already.", Logger::MAJOR);
     _instance = this;
     try 
     {
