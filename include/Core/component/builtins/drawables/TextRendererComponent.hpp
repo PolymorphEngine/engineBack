@@ -8,7 +8,7 @@
 #ifndef ENGINE_TEXTRENDERERCOMPONENT_HPP
 #define ENGINE_TEXTRENDERERCOMPONENT_HPP
 
-#include "component/base/ADrawableComponent.hpp"
+#include "Core/component/base/ADrawableComponent.hpp"
 
 namespace Polymorph
 {
@@ -17,7 +17,7 @@ namespace Polymorph
     class TextRendererComponent;
     using TextRenderer = safe_ptr<TextRendererComponent>;
     using TextRendererBase = std::shared_ptr<TextRendererComponent>;
-    
+
     class TextRendererComponent : public ADrawableComponent
     {
         public:

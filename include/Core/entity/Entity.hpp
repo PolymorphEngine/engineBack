@@ -13,7 +13,7 @@
 #include <map>
 #include <unordered_map>
 
-#include "safe_ptr.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 namespace Polymorph
 {
@@ -152,7 +152,7 @@ namespace Polymorph
              */
             template <typename T>
             std::vector<safe_ptr<T>> getComponents();
-            
+
             /**
              * @details Adds a component to the entity
              * @tparam T: The 'T' type of the component to add.

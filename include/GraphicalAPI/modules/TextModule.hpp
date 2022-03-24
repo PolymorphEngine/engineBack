@@ -11,8 +11,8 @@
 
 #include <string>
 #include "myxmlpp.hpp"
-#include "Color.hpp"
-#include "Vector.hpp"
+#include "Utilities/types/Color.hpp"
+#include "Utilities/types/Vector.hpp"
 
 namespace arcade{class ITextModule;}
 

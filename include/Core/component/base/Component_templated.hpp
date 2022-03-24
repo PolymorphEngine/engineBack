@@ -8,10 +8,10 @@
 #ifndef ENGINE_COMPONENT_TEMPLATED_HPP
 #define ENGINE_COMPONENT_TEMPLATED_HPP
 
-#include "safe_ptr.hpp"
-#include "Component.hpp"
-#include "Entity.hpp"
-#include "component/builtins/TransformComponent.hpp"
+#include "Utilities/safe_ptr.hpp"
+#include "Core/component/base/Component.hpp"
+#include "Core/entity/Entity.hpp"
+#include "Core/component/builtins/TransformComponent.hpp"
 
 namespace Polymorph
 {
@@ -90,7 +90,7 @@ namespace Polymorph
     {
         return gameObject.deleteComponent<T>();
     }
-    
+
 }
 
 #endif //ENGINE_COMPONENT_TEMPLATED_HPP

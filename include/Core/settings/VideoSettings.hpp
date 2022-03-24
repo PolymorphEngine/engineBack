@@ -9,7 +9,7 @@
 #define ENGINE_VIDEOSETTINGS_HPP
 
 #include <myxmlpp.hpp>
-#include "types/Vector.hpp"
+#include "Utilities/types/Vector.hpp"
 
 namespace Polymorph::Settings {
     using XmlNode = myxmlpp::Node;

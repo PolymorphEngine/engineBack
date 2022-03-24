@@ -15,7 +15,7 @@
 #include <unordered_map>
 
 #include <myxmlpp.hpp>
-#include "safe_ptr.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 
 namespace Polymorph
