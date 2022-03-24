@@ -181,7 +181,16 @@ namespace Polymorph
              * @details Inits the debug settings of the engine
              */
             void _initDebugSettings();
+            
+            /**
+             * @details Inits the game prefabs
+             */
+            void _initPrefabs();
 
+            /**
+             * @details Inits the components default configs
+             */
+            void _initTemplates();
             /**
              * @details Inits the game data
              */
