@@ -9,6 +9,7 @@
 #include <myxmlpp.hpp>
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Config.hpp>
+#include <utility>
 
 namespace Polymorph
 {
@@ -34,7 +35,7 @@ namespace Polymorph
     Engine &engine, std::string projectPath): _engine(engine)
     {
         this->_node = node;
-        _path = projectPath;
+        _path = std::move(projectPath);
 
         std::string name;
         try {

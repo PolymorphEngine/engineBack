@@ -113,11 +113,11 @@ namespace Polymorph
 
             void setPosition(const Vector3 &position);
 
-            void setPositionX(const float posX);
+            void setPositionX(float posX);
 
-            void setPositionY(const float posY);
+            void setPositionY(float posY);
 
-            void setPositionZ(const float posZ);
+            void setPositionZ(float posZ);
 
             void move(const Vector3 &delta);
 

@@ -21,7 +21,7 @@ namespace Polymorph
 {
     class Vector2;
     class GraphicalAPI;
-    
+
     class SpriteModule
     {
 
@@ -40,7 +40,7 @@ namespace Polymorph
             std::string _filePath;
             Rect _crop = {-1, -1, -1, -1};
             Color _color {0, 0, 0};
-            
+
             arcade::ISpriteModule *_spriteModule = nullptr;
 
             static inline std::vector<SpriteModule *> _sprites;
@@ -51,10 +51,10 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
         public:
             arcade::ISpriteModule *getSprite();
-            void setSprite(std::string newFilePath);
+            void setSprite(const std::string& newFilePath);
             void setPosition(Vector2 position);
             void moveSprite(Vector2 move);
-            void setCrop(Rect crop);
+            void setCrop(const Rect& crop);
             void setColor(Color color);
 
 

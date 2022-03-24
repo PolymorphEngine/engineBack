@@ -11,6 +11,7 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Types.hpp>
+#include "XmlComponent.hpp"
 
 
 std::string Polymorph::Config::XmlComponent::getType()
@@ -43,7 +44,7 @@ Polymorph::Config::XmlComponent::XmlComponent(const std::shared_ptr<XmlNode> &no
     this->node = node;
 }
 
-std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::_findProperty(std::string name, Logger::severity level)
+std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::_findProperty(const std::string& name, Logger::severity level)
 {
     for (auto &property: *node) {
         try {
@@ -61,87 +62,47 @@ std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::_findProperty(st
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, int &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, int &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
     if (propNode == nullptr)
         return;
-
-    try {
-        toSet = propNode->findAttribute("value")->getValueInt();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("value", toSet, *propNode, level);
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, float &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, float &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
     if (propNode == nullptr)
         return;
-
-    try {
-        toSet = propNode->findAttribute("value")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("value", toSet, *propNode, level);
 }
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, bool &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, bool &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
     if (propNode == nullptr)
         return;
-
-    try {
-        toSet = propNode->findAttribute("value")->getValueBool();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("value", toSet, *propNode, level);
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::string &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::string &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
     if (propNode == nullptr)
         return;
-
-    try {
-        toSet = propNode->findAttribute("value")->getValue();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("value", toSet, *propNode, level);
 }
 
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector3 &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Vector3 &toSet, Logger::severity level)
 {
     std::shared_ptr<XmlNode> vectorProp = _findProperty(propertyName, level);
     std::shared_ptr<XmlNode> vector;
@@ -160,44 +121,14 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vect
                                          "': has missing value", Logger::MAJOR);
         return;
     }
-
-    try {
-        toSet.x = vector->findAttribute("x")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.y = vector->findAttribute("y")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.z = vector->findAttribute("z")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("x", toSet.x, *vector, level);
+    _setPropertyFromAttr("y", toSet.y, *vector, level);
+    _setPropertyFromAttr("z", toSet.z, *vector, level);
 }
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector2 &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Vector2 &toSet, Logger::severity level)
 {
     std::shared_ptr<XmlNode> vectorProp = _findProperty(propertyName, level);
     std::shared_ptr<XmlNode> vector;
@@ -216,34 +147,11 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vect
                                          "': has missing value", Logger::MAJOR);
         return;
     }
-
-    try {
-        toSet.x = vector->findAttribute("x")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.y = vector->findAttribute("y")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("x", toSet.x, *vector, level);
+    _setPropertyFromAttr("y", toSet.y, *vector, level);
 }
 
-
-
-
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Rect &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Rect &toSet, Logger::severity level)
 {
     std::shared_ptr<XmlNode> rectProp = _findProperty(propertyName, level);
     std::shared_ptr<XmlNode> rect;
@@ -263,53 +171,14 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Rect
         return;
     }
 
-    try {
-        toSet.x = rect->findAttribute("x")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.y = rect->findAttribute("y")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.width = rect->findAttribute("width")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.height = rect->findAttribute("height")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("x", toSet.x, *rect, level);
+    _setPropertyFromAttr("y", toSet.y, *rect, level);
+    _setPropertyFromAttr("width", toSet.width, *rect, level);
+    _setPropertyFromAttr("height", toSet.height, *rect, level);
 }
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<int> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<int> &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
@@ -321,14 +190,14 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueInt());
         } catch (...) {
             Logger::log("Property Int List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<float> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<float> &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
@@ -340,12 +209,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueFloat());
         } catch (...) {
             Logger::log("Property Float List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<bool> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<bool> &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
@@ -357,12 +226,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueBool());
         } catch (...) {
             Logger::log("Property Bool List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<std::string> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<std::string> &toSet, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, level);
 
@@ -374,12 +243,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValue());
         } catch (...) {
             Logger::log("Property String List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<Vector3> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<Vector3> &toSet, Logger::severity level)
 {
     auto vectorProp = _findProperty(propertyName, level);
     std::shared_ptr<XmlNode> vector;
@@ -396,43 +265,22 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
         } catch (...) {
             Logger::log("Incomplete Vector3 property named '" + propertyName +
                         "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
+                        level);
             continue;
         }
-
-        try {
-            tmp.x = vector->findAttribute("x")->getValueFloat();
-        } catch (...) {
-            Logger::log("x value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
-
-        try {
-            tmp.y = vector->findAttribute("y")->getValueFloat();
-        } catch (...) {
-            Logger::log("y value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
-
-        try {
-            tmp.z = vector->findAttribute("z")->getValueFloat();
-        } catch (...) {
-            Logger::log("z value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
+        _setPropertyFromAttr("x", tmp.x, *vector, level);
+        _setPropertyFromAttr("y", tmp.y, *vector, level);
+        _setPropertyFromAttr("z", tmp.z, *vector, level);
 
         toSet[count] = tmp;
         count += 1;
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Sprite &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Sprite &toSet, Logger::severity level)
 {
     auto data = _findProperty(propertyName, level);
-    
+
     try {
         toSet = GraphicalAPI::createSprite(data);
     } catch (...) {
@@ -445,10 +293,10 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Spri
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Text &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Text &toSet, Logger::severity level)
 {
     auto data = _findProperty(propertyName, level);
-    
+
     try {
         toSet = GraphicalAPI::createText(data);
     } catch (...) {
@@ -461,27 +309,19 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Text
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, GameObject &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, GameObject &toSet, Logger::severity level)
 {
     auto refProp = _findProperty(propertyName, level);
+    std::string id;
 
     if (refProp == nullptr)
         return;
 
-    try {
-        auto id = refProp->findAttribute("id")->getValue();
-        toSet = SceneManager::findById(id);
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property gameObject ref named '" + propertyName +
-                    "': has no value", level);
-        else
-            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property gameObject ref named '" + propertyName +
-                                        "': has no value", Logger::MAJOR);
-    }
+    _setPropertyFromAttr("id", id, *refProp, level);
+    toSet = SceneManager::findById(id);
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<GameObject> &toSet, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<GameObject> &toSet, Logger::severity level)
 {
     auto refProp = _findProperty(propertyName, level);
     auto i = 0;
@@ -494,17 +334,17 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             auto id = elem->findAttribute("id")->getValue();
             auto gameObject = SceneManager::findById(id);
 
-            if (!gameObject) {
-                Logger::log("Property gameObject ref nb: " + std::to_string(i) +
-                            ", in list named '" + propertyName + "': not found",
-                            Logger::DEBUG);
+            if (!gameObject)
                 throw;
-            }
             toSet.push_back(gameObject);
         } catch (myxmlpp::Exception &e) {
             Logger::log("Property gameObject ref nb: " + std::to_string(i) +
                         ", in list named '" + propertyName + "': has no value" +
-                        e.baseWhat(), Logger::DEBUG);
+                        e.baseWhat(), level);
+        } catch (...) {
+            Logger::log("Property gameObject ref nb: " + std::to_string(i) +
+                        ", in list named '" + propertyName + "': not found",
+                        level);
         }
         ++i;
     }
@@ -514,7 +354,7 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
 
 // STATICS
 std::shared_ptr<myxmlpp::Node>
-Polymorph::Config::XmlComponent::_findProperty(std::string name,
+Polymorph::Config::XmlComponent::_findProperty(const std::string& name,
                                                std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     for (auto &property: *data) {
@@ -524,8 +364,7 @@ Polymorph::Config::XmlComponent::_findProperty(std::string name,
                 return property;
         } catch (...) {}
     }
-    if (level != Logger::MAJOR)
-    {
+    if (level != Logger::MAJOR) {
         Logger::log("In property'"+data->getTag()+"': sub-property named '" + name + "': not found.", level);
         return nullptr;
     }
@@ -533,7 +372,7 @@ Polymorph::Config::XmlComponent::_findProperty(std::string name,
 }
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, int &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
 
@@ -543,41 +382,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, int 
     if (propNode == nullptr)
         return;
 
-    try {
-        toSet = propNode->findAttribute("value")->getValueInt();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-            "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("value", toSet, *propNode, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
-{
-    auto propNode = _findProperty(propertyName, data, level);
-    auto parent_type = data->findAttribute("type")->getValue();
-    auto parent_name = data->findAttribute("name")->getValue();
-    
-    if (propNode == nullptr)
-        return;
-
-    try {
-        toSet = propNode->findAttribute("value")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-}
-
-
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, float &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
     auto parent_type = data->findAttribute("type")->getValue();
@@ -586,43 +396,44 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, bool
     if (propNode == nullptr)
         return;
 
-    try {
-        toSet = propNode->findAttribute("value")->getValueBool();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("value", toSet, *propNode, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, bool &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
     auto parent_type = data->findAttribute("type")->getValue();
     auto parent_name = data->findAttribute("name")->getValue();
-    
+
     if (propNode == nullptr)
         return;
 
-    try {
-        toSet = propNode->findAttribute("value")->getValue();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("value", toSet, *propNode, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
+}
+
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::string &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+{
+    auto propNode = _findProperty(propertyName, data, level);
+    auto parent_type = data->findAttribute("type")->getValue();
+    auto parent_name = data->findAttribute("name")->getValue();
+
+    if (propNode == nullptr)
+        return;
+
+    if (!_setPropertyFromAttr("value", toSet, *propNode, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector3 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Vector3 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     std::shared_ptr<XmlNode> vectorProp = _findProperty(propertyName, data, level);
     std::shared_ptr<XmlNode> vector;
@@ -644,56 +455,34 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vect
         return;
     }
 
-    try {
-        toSet.x = vector->findAttribute("x")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("x", toSet.x, *vector, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-    try {
-        toSet.y = vector->findAttribute("y")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("y", toSet.y, *vector, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-    try {
-        toSet.z = vector->findAttribute("z")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("z", toSet.z, *vector, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vector2 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Vector2 &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     std::shared_ptr<XmlNode> vectorProp = _findProperty(propertyName, data, level);
     std::shared_ptr<XmlNode> vector;
     auto parent_type = data->findAttribute("type")->getValue();
     auto parent_name = data->findAttribute("name")->getValue();
-    
+
     if (vectorProp == nullptr)
         return;
 
     try {
         vector = vectorProp->findChild("Vector");
     } catch (...) {
-
         if (level != Logger::MAJOR)
             Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
                         "': has missing value", level);
@@ -703,35 +492,19 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Vect
         return;
     }
 
-    try {
-        toSet.x = vector->findAttribute("x")->getValueFloat();
-    } catch (...) {
+    if (!_setPropertyFromAttr("x", toSet.x, *vector, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.y = vector->findAttribute("y")->getValueFloat();
-    } catch (...) {
-
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("y", toSet.y, *vector, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Rect &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Rect &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     std::shared_ptr<XmlNode> rectProp = _findProperty(propertyName, data, level);
     std::shared_ptr<XmlNode> rect;
@@ -752,54 +525,25 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Rect
                                          "': has missing value", Logger::MAJOR);
         return;
     }
+    if (!_setPropertyFromAttr("x", toSet.x, *rect, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-    try {
-        toSet.x = rect->findAttribute("x")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("y", toSet.y, *rect, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-    try {
-        toSet.y = rect->findAttribute("y")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("width", toSet.width, *rect, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 
-    try {
-        toSet.width = rect->findAttribute("width")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
-
-    try {
-        toSet.height = rect->findAttribute("height")->getValueFloat();
-    } catch (...) {
-        if (level != Logger::MAJOR)
-            Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                        "': has missing value", level);
-        else
-            throw ConfigurationException("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
-    }
+    if (!_setPropertyFromAttr("height", toSet.height, *rect, level))
+        Logger::log("In property type '"+parent_type+"', named '"+parent_name+"': sub-property named '" + propertyName +
+                    "': has missing value", level);
 }
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<int> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<int> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
 
@@ -811,14 +555,14 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueInt());
         } catch (...) {
             Logger::log("Property Int List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
 
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<float> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<float> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
 
@@ -830,12 +574,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueFloat());
         } catch (...) {
             Logger::log("Property Float List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<bool> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<bool> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
 
@@ -847,12 +591,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValueBool());
         } catch (...) {
             Logger::log("Property Bool List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<std::string> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<std::string> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto propNode = _findProperty(propertyName, data, level);
 
@@ -864,12 +608,12 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             toSet.push_back(element->findAttribute("value")->getValue());
         } catch (...) {
             Logger::log("Property String List named '" + propertyName +
-                        "': has no value", Logger::DEBUG);
+                        "': has no value", level);
         }
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<Vector3> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<Vector3> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto vectorProp = _findProperty(propertyName, data, level);
     std::shared_ptr<XmlNode> vector;
@@ -886,40 +630,19 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
         } catch (...) {
             Logger::log("Incomplete Vector3 property named '" + propertyName +
                         "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
+                        level);
             continue;
         }
-
-        try {
-            tmp.x = vector->findAttribute("x")->getValueFloat();
-        } catch (...) {
-            Logger::log("x value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
-
-        try {
-            tmp.y = vector->findAttribute("y")->getValueFloat();
-        } catch (...) {
-            Logger::log("y value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
-
-        try {
-            tmp.z = vector->findAttribute("z")->getValueFloat();
-        } catch (...) {
-            Logger::log("z value of vector property named '" + propertyName +
-                        "' at index" + std::to_string(count) + ": not found",
-                        Logger::DEBUG);
-        }
+        _setPropertyFromAttr("x", tmp.x, *vector, level);
+        _setPropertyFromAttr("y", tmp.y, *vector, level);
+        _setPropertyFromAttr("z", tmp.z, *vector, level);
 
         toSet[count] = tmp;
         count += 1;
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, GameObject &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, GameObject &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto refProp = _findProperty(propertyName, data, level);
     auto parent_type = data->findAttribute("type")->getValue();
@@ -941,7 +664,79 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, Game
     }
 }
 
-void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std::vector<GameObject> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
+bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+                                                           int &toSet,
+                                                           myxmlpp::Node &data,
+                                                           Logger::severity level)
+{
+    try {
+        toSet = data.findAttribute(name)->getValueInt();
+        return true;
+    } catch (const myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log(e.what(),
+                        level);
+        else
+            throw ConfigurationException(e.what(), Logger::MAJOR);
+        return false;
+    }
+}
+
+bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+                                                           float &toSet,
+                                                           myxmlpp::Node &data,
+                                                           Logger::severity level)
+{
+    try {
+        toSet = data.findAttribute(name)->getValueFloat();
+        return true;
+    } catch (const myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log(e.what(),
+                        level);
+        else
+            throw ConfigurationException(e.what(), Logger::MAJOR);
+        return false;
+    }
+}
+
+bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+                                                           bool &toSet,
+                                                           myxmlpp::Node &data,
+                                                           Logger::severity level)
+{
+    try {
+        toSet = data.findAttribute(name)->getValueBool();
+        return true;
+    } catch (const myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log(e.what(),
+                        level);
+        else
+            throw ConfigurationException(e.what(), Logger::MAJOR);
+        return false;
+    }
+}
+
+bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+                                                           std::string &toSet,
+                                                           myxmlpp::Node &data,
+                                                           Logger::severity level)
+{
+    try {
+        toSet = data.findAttribute(name)->getValue();
+        return true;
+    } catch (const myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log(e.what(),
+                        level);
+        else
+            throw ConfigurationException(e.what(), Logger::MAJOR);
+        return false;
+    }
+}
+
+void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, std::vector<GameObject> &toSet, std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     auto refProp = _findProperty(propertyName, data, level);
     auto i = 0;
@@ -957,14 +752,14 @@ void Polymorph::Config::XmlComponent::setProperty(std::string propertyName, std:
             if (!gameObject) {
                 Logger::log("Property gameObject ref nb: " + std::to_string(i) +
                             ", in list named '" + propertyName + "': not found",
-                            Logger::DEBUG);
+                            level);
                 throw;
             }
             toSet.push_back(gameObject);
         } catch (myxmlpp::Exception &e) {
             Logger::log("Property gameObject ref nb: " + std::to_string(i) +
                         ", in list named '" + propertyName + "': has no value" +
-                        e.baseWhat(), Logger::DEBUG);
+                        e.baseWhat(), level);
         }
         ++i;
     }

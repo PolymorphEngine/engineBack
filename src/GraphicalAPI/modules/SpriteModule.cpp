@@ -10,6 +10,7 @@
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Config.hpp>
 #include <GraphicalAPI/arcade/ISpriteModule.hpp>
+#include <utility>
 
 void Polymorph::SpriteModule::_loadModule()
 {
@@ -20,8 +21,8 @@ void Polymorph::SpriteModule::_loadModule()
 Polymorph::SpriteModule::SpriteModule(std::string filePath)
 {
     _sprites.push_back(this);
-    _filePath = filePath;
-    
+    _filePath = std::move(filePath);
+
     _loadModule();
 }
 
@@ -36,7 +37,7 @@ arcade::ISpriteModule *Polymorph::SpriteModule::getSprite()
     return _spriteModule;
 }
 
-void Polymorph::SpriteModule::setSprite(std::string newFilePath)
+void Polymorph::SpriteModule::setSprite(const std::string& newFilePath)
 {
     _filePath = newFilePath;
     if (_spriteModule)
@@ -73,14 +74,14 @@ void Polymorph::SpriteModule::moveSprite(Polymorph::Vector2 move)
         Logger::log("No Sprite Object loaded", Logger::DEBUG);
 }
 
-void Polymorph::SpriteModule::setCrop(Polymorph::Rect crop)
+void Polymorph::SpriteModule::setCrop(const Polymorph::Rect& crop)
 {
     _crop = crop;
-    
+
     if (_spriteModule)
         try {
             if (_crop.x > -1 && _crop.y > -1 && _crop.width > 0 && _crop.height > 0)
-                _spriteModule->setCrop(_crop.x, _crop.y, _crop.width, _crop.height);
+                _spriteModule->setCrop((int)_crop.x, (int)_crop.y, (int)_crop.width, (int)_crop.height);
         } catch (std::exception &e) {
             throw GraphicalException("Sprite Crop exception: " + std::string(e.what()), Logger::DEBUG);
         }

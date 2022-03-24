@@ -20,25 +20,25 @@ class DynamicLibLoader
 
     protected:
         void *_handler = nullptr;
-    
-    
+
+
     public:
         /**
          * @details Close the previous opened library (if one is open) and opens the one passed as parameter
-         * @param libPath 
+         * @param libPath
          */
-        void loadHandler(std::string libPath);
-        
+        void loadHandler(const std::string& libPath);
+
 
     protected:
         template<typename T, typename API>
         static T loadSymbol(std::string name)
         {
             auto handler = API::getHandler();
-            
+
             if (handler == nullptr)
                 return nullptr;
-            
+
             void *symbol = dlsym(handler, name.c_str());
 
             if (symbol == nullptr)

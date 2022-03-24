@@ -9,6 +9,8 @@
 #include "GraphicalAPI/arcade/IDisplayModule.hpp"
 #include "GraphicalAPI/modules/DisplayModule.hpp"
 
+#include <utility>
+
 #include "GraphicalAPI/arcade/ISpriteModule.hpp"
 #include "GraphicalAPI/modules/SpriteModule.hpp"
 
@@ -22,12 +24,12 @@
 namespace Polymorph
 {
 
-    DisplayModule::DisplayModule(const std::shared_ptr<Settings::VideoSettings> &settings,
-                                 std::string title) : _settings(settings), _title(title)
+    DisplayModule::DisplayModule(std::shared_ptr<Settings::VideoSettings> settings,
+                                 std::string title) : _settings(std::move(settings)), _title(std::move(title))
     {
-        
+
     }
-     
+
     void DisplayModule::draw(SpriteModule &sprite)
     {
         if (!_displayModule || !sprite.getSprite())
@@ -93,7 +95,7 @@ namespace Polymorph
             Logger::log("[Graphical API] No display available.", Logger::MINOR);
             return;
         }
-        _displayModule->setResolution(newResolution.x, newResolution.y);
+        _displayModule->setResolution((int)newResolution.x, (int)newResolution.y);
     }
 
     Vector2 DisplayModule::getResolution()
@@ -151,11 +153,11 @@ namespace Polymorph
             Logger::log("[Graphical API] No display available.", Logger::MINOR);
             return;
         }
-        _displayModule->setResolution(res.x, res.y);
+        _displayModule->setResolution((int)res.x, (int)res.y);
         _displayModule->setWindowTitle(_title);
         _displayModule->setFps(_settings->getMaxFps());
         _displayModule->setFullScreen(_settings->getFullscreen());
-        
+
     }
 
     bool DisplayModule::isKeyPressed(arcade::KeyCode code)

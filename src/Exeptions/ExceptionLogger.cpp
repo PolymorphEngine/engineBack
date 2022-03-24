@@ -7,9 +7,11 @@
 
 #include "ExceptionLogger.hpp"
 
+#include <utility>
+
 ExceptionLogger::ExceptionLogger(std::string message, Logger::severity level)
 {
-    _message = message;
+    _message = std::move(message);
     _level = level;
 }
 

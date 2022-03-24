@@ -54,7 +54,7 @@ void Polymorph::TextModule::setFont(std::string newFilePath)
 void Polymorph::TextModule::setPosition(Vector2 position)
 {
     if (_textModule)
-    _textModule->setPosition(position.x, position.y);
+    _textModule->setPosition((int)position.x, (int)position.y);
     else
         Logger::log("No text module loaded.", Logger::MINOR);
 }
@@ -62,7 +62,7 @@ void Polymorph::TextModule::setPosition(Vector2 position)
 void Polymorph::TextModule::move(Vector2 move)
 {
     if (_textModule)
-    _textModule->move(move.x, move.y);
+    _textModule->move((int)move.x, (int)move.y);
     else
         Logger::log("No text module loaded.", Logger::MINOR);
 

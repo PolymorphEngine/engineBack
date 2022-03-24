@@ -51,19 +51,19 @@ namespace Polymorph::Settings {
              * Get the master volume as a percentage
              * @return The master volume
              */
-            int getMasterVolume();
+            int getMasterVolume() const;
 
             /**
              * Get the music volume as a percentage
              * @return The music volume
              */
-            int getMusicVolume();
+            int getMusicVolume() const;
 
             /**
              * Get the sfx volume as a percentage
              * @return The sfx volume
              */
-            int getSfxVolume();
+            int getSfxVolume() const;
 
             void setMasterVolume(int vol);
 

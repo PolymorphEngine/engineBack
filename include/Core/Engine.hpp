@@ -57,7 +57,7 @@ namespace Polymorph
 
             std::vector<std::string> _layers;
             std::vector<std::string> _execOrder;
-            
+
             static inline bool _exit = false;
             static inline ExitCode _exitCode = 0;
 
@@ -71,10 +71,10 @@ namespace Polymorph
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
             safe_ptr<DisplayModule> _display;
-            
+
             std::unique_ptr<GraphicalAPI> _graphicalApi;
             std::unique_ptr<ScriptingApi> _scriptingApi;
-        
+
 //////////////////////--------------------------/////////////////////////
 
 
@@ -92,27 +92,27 @@ namespace Polymorph
              * @details Runs the game.
              */
             int run();
-            
+
             /**
              * Loads a script factory from the filepath to an shared library ('.so')
              * @param scriptFactoryPath the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadScriptingAPI(std::string scriptFactoryPath);
-            
+            void loadScriptingAPI(const std::string& scriptFactoryPath);
+
 
             /**
              * Loads a graphical api from the filepath to an shared library ('.so')
              * @param graphicalLibPath the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadGraphicalAPI(std::string graphicalLibPath);
-            
+            void loadGraphicalAPI(const std::string& graphicalLibPath);
+
             /**
              * Loads the game configuration and inits all gameObjects/Components/Scenes
              */
             void loadEngine();
-            
+
             static void exit(ExitCode code);
 
             std::string getProjectPath();
@@ -121,7 +121,7 @@ namespace Polymorph
 
             std::vector<Config::XmlComponent> getDefaultConfigs();
 
-            Config::XmlComponent &getDefaultConfig(std::string type);
+            Config::XmlComponent &getDefaultConfig(const std::string& type);
 
 
 
@@ -137,7 +137,7 @@ namespace Polymorph
              * @param id the name of the scene to find
              * @return the required scene
              */
-            std::shared_ptr<Scene> findSceneById(std::string id);
+            std::shared_ptr<Scene> findSceneById(const std::string& id);
 
             /**
              * Add the provided scene to the engine's scenes list

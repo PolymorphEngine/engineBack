@@ -7,7 +7,7 @@
 
 #include "GraphicalException.hpp"
 
-GraphicalException::GraphicalException(std::string apiMessage,
+GraphicalException::GraphicalException(const std::string& apiMessage,
 Logger::severity level)
 : ExceptionLogger("[Graphical issue] " + apiMessage, level)
 {

@@ -36,15 +36,15 @@ Polymorph::Settings::AudioSettings::_getVolume(const std::string &attrName)
     return 100;
 }
 
-int Polymorph::Settings::AudioSettings::getMasterVolume() {
+int Polymorph::Settings::AudioSettings::getMasterVolume() const {
     return _masterVolume;
 }
 
-int Polymorph::Settings::AudioSettings::getMusicVolume() {
+int Polymorph::Settings::AudioSettings::getMusicVolume() const {
     return _musicVolume;
 }
 
-int Polymorph::Settings::AudioSettings::getSfxVolume() {
+int Polymorph::Settings::AudioSettings::getSfxVolume() const {
     return _sfxVolume;
 }
 

@@ -25,15 +25,15 @@ namespace Polymorph
     class SpriteModule;
     class TextModule;
     class GraphicalAPI;
-    
+
     class DisplayModule
     {
 
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            DisplayModule(const std::shared_ptr<Settings::VideoSettings> &settings, std::string title);
+            DisplayModule(std::shared_ptr<Settings::VideoSettings> settings, std::string title);
             ~DisplayModule();
-            
+
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -57,7 +57,7 @@ namespace Polymorph
             void close();
             bool isOpen();
             void fetchEvents();
-            
+
             void setResolution(Vector2 newResolution);
             bool isKeyPressed(arcade::KeyCode code);
             Vector2 getResolution();
@@ -68,7 +68,7 @@ namespace Polymorph
             void draw(SpriteModule &sprite);
             void draw(TextModule &sprite);
 
-            
+
         private:
             void _loadModule();
 

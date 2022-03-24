@@ -39,7 +39,7 @@ class Logger
 
     private:
         static inline std::string _logDir = "Logs/";
-        static inline std::string _logInstance = "";
+        static inline std::string _logInstance;
         static inline std::string _engineLogFile = "engine.log";
         static inline Mode _mode = RELEASE_MODE;
 //////////////////////--------------------------/////////////////////////
@@ -52,13 +52,13 @@ class Logger
          * @details Overrides the default log directory of the Logger
          * @param logDir new log directory
          */
-        static void setLogDir(std::string logDir);
+        static void setLogDir(const std::string& logDir);
 
         /**
          * @details Adds a custom instance name prefix to the instance log sub directory
          * @param logInstanceName prefix name
          */
-        static void setLogInstanceName(std::string logInstanceName);
+        static void setLogInstanceName(const std::string& logInstanceName);
 
         /**
          * @details Inits the logger instance with a log subdirectory name by date time now and sets the program mode
@@ -72,7 +72,7 @@ class Logger
          * @param message the message to log
          * @param level the severity of the log (optional)
          */
-        static void log(std::string message, severity level = INFO);
+        static void log(const std::string& message, severity level = INFO);
 
         /**
          * @details Logs a message to file and console depending on program mode and severity
@@ -80,7 +80,7 @@ class Logger
          * @param specificFile a custom file to log in (will be placed in the log dir into the instance subdir log)
          * @param level the severity of the log (optional)
          */
-        static void log(std::string message, std::string specificFile, severity level = INFO);
+        static void log(const std::string& message, std::string specificFile, severity level = INFO);
 
 
     private:
@@ -90,14 +90,14 @@ class Logger
          * @param message the message to log
          * @param level the severity of the log (optional)
          */
-        static void _consoleLog(std::string message, severity level);
+        static void _consoleLog(const std::string& message, severity level);
 
         /**
          * @details Logs a message and severity to default logfile instance
          * @param message the message to log
          * @param level the severity of the log (optional)
          */
-        static void _logFile(std::string message, severity level);
+        static void _logFile(const std::string& message, severity level);
 
         /**
          * @details Logs a message and severity to specified logfile
@@ -105,14 +105,14 @@ class Logger
          * @param file the specific file to log in
          * @param level the severity of the log (optional)
          */
-        static void _logFile(std::string message, std::string file, severity level);
+        static void _logFile(const std::string& message, const std::string& file, severity level);
 
         /**
          * @details Gets and formats the actual date time to readable format
          * @param flags format flags (refer to std::strftime documentation)
          * @returns the formatted date time now string
          */
-        static std::string _getTimeNow(std::string flags);
+        static std::string _getTimeNow(const std::string& flags);
 
         /**
          * @details Convert's the severity enumeration to string

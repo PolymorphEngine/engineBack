@@ -35,9 +35,9 @@ Polymorph::Color::Color(unsigned char r, unsigned char g, unsigned char b)
 }
 
 void
-Polymorph::Color::setColor(unsigned char r, unsigned char g, unsigned char b)
+Polymorph::Color::setColor(unsigned char red, unsigned char green, unsigned char blue)
 {
-    this->r = r;
-    this->g = g;
-    this->b = b;
+    this->r = red;
+    this->g = green;
+    this->b = blue;
 }

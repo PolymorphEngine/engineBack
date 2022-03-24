@@ -11,7 +11,7 @@ namespace Polymorph
 {
 
 
-    Time::Time() : _lastTime(Clock::now()) {};
+    Time::Time() : _lastTime(Clock::now()) {}
 
     void Time::computeDeltaTime()
     {

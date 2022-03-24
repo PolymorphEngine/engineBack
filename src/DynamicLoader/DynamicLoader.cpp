@@ -15,7 +15,7 @@ DynamicLibLoader::~DynamicLibLoader()
         dlclose(_handler);
 }
 
-void DynamicLibLoader::loadHandler(std::string libPath)
+void DynamicLibLoader::loadHandler(const std::string& libPath)
 {
 
     //TODO: check close error ?

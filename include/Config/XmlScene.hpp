@@ -21,7 +21,7 @@ namespace Polymorph
     namespace Config
     {
         class XmlEntity;
-        class XmlScene 
+        class XmlScene
         {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             public:
@@ -49,7 +49,7 @@ namespace Polymorph
            public:
                 std::string getId();
                 std::string getName();
-                bool isFirst();
+                bool isFirst() const;
                 std::vector<std::shared_ptr<Entity>> getEntities();
 
             private:

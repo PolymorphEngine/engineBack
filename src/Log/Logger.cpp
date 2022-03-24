@@ -9,19 +9,20 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <utility>
 #include "Log/Logger.hpp"
 
-void Logger::log(std::string message, std::string specificFile,
+void Logger::log(const std::string& message, std::string specificFile,
                  Logger::severity level)
 {
     if (_logInstance.empty())
         initLogInstance();
 
-    _logFile(message, specificFile, level);
+    _logFile(message, std::move(specificFile), level);
     _consoleLog(message, level);
 }
 
-void Logger::log(std::string message, Logger::severity level)
+void Logger::log(const std::string& message, Logger::severity level)
 {
     if (_logInstance.empty())
         initLogInstance();
@@ -37,7 +38,7 @@ void Logger::initLogInstance(Mode mode)
     _logInstance = _getTimeNow("%F_%X");
 }
 
-void Logger::_logFile(std::string message, Logger::severity level)
+void Logger::_logFile(const std::string& message, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
@@ -51,7 +52,7 @@ void Logger::_logFile(std::string message, Logger::severity level)
     file.close();
 }
 
-std::string Logger::_getTimeNow(std::string flags)
+std::string Logger::_getTimeNow(const std::string& flags)
 {
     char buffer[80];
     time_t rawtime;
@@ -60,7 +61,7 @@ std::string Logger::_getTimeNow(std::string flags)
     time (&rawtime);
     timeinfo = localtime (&rawtime);
     std::strftime(buffer, 80, flags.c_str(), timeinfo);
-    std::string s("");
+    std::string s;
     s+= buffer;
     return buffer;
 }
@@ -82,7 +83,7 @@ std::string Logger::_severity_to_string(Logger::severity level)
 }
 
 void
-Logger::_logFile(std::string message, std::string filepath, Logger::severity level)
+Logger::_logFile(const std::string& message, const std::string& filepath, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
@@ -96,7 +97,7 @@ Logger::_logFile(std::string message, std::string filepath, Logger::severity lev
     file.close();
 }
 
-void Logger::_consoleLog(std::string message, Logger::severity level)
+void Logger::_consoleLog(const std::string& message, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
@@ -105,14 +106,14 @@ void Logger::_consoleLog(std::string message, Logger::severity level)
 
 }
 
-void Logger::setLogDir(std::string logDir)
+void Logger::setLogDir(const std::string& logDir)
 {
     _logDir = logDir;
     if (!std::filesystem::is_directory(logDir))
         std::filesystem::create_directory(logDir);
 }
 
-void Logger::setLogInstanceName(std::string logInstanceName)
+void Logger::setLogInstanceName(const std::string& logInstanceName)
 {
     _logInstance = logInstanceName + "_" + _getTimeNow("%F_%X");
 }

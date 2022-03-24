@@ -18,7 +18,7 @@ namespace Polymorph {
         static inline std::uniform_int_distribution<> dis(0, 15);
 
         std::string uuid();
-    };
+    }
 }
 
 

@@ -101,7 +101,7 @@ namespace Polymorph
             else
                 ++entity;
         }
-        return count;
+        return static_cast<int>(count);
     }
 
     GameObject Scene::find(const std::string &needle)
@@ -217,7 +217,7 @@ namespace Polymorph
     void Scene::addEntityAtIdx(const std::shared_ptr<Entity> &entity,
                                std::size_t idx)
     {
-        _entities.insert(_entities.begin() + idx, entity);
+        _entities.insert(_entities.begin() + (int)idx, entity);
     }
 
 }

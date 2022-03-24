@@ -19,14 +19,14 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     Logger::setLogDir(projectPath + "/Logs");
     _openProject();
     _initDebugSettings();
-    
+
     _initVideoSettings();
     _initAudioSettings();
     _initPhysicSettings();
-    
+
     _initExectutionOrder();
     _initLayers();
-    
+
 }
 
 int Polymorph::Engine::run()
@@ -39,16 +39,16 @@ int Polymorph::Engine::run()
     {
         if (!!_display)
             GraphicalAPI::CurrentDisplay = (*_display).get();
-        
+
         _time.computeDeltaTime();
-        
+
         if (!!_display) {
             _display->fetchEvents();
             _display->clearWindow();
         }
-        
+
         SceneManager::Current->updateComponents();
-        
+
         if (!!_display) {
             _display->displayWindow();
         }
@@ -191,19 +191,19 @@ Polymorph::Engine::~Engine()
 std::shared_ptr<Polymorph::Scene>
 Polymorph::Engine::findSceneByName(const std::string& name)
 {
-    for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
-        if ((*it)->name == name)
-            return *it;
+    for (auto & _scene : _scenes) {
+        if (_scene->name == name)
+            return _scene;
     }
     return nullptr;
 }
 
 std::shared_ptr<Polymorph::Scene>
-Polymorph::Engine::findSceneById(std::string id)
+Polymorph::Engine::findSceneById(const std::string& id)
 {
-    for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
-        if ((*it)->id == id)
-            return *it;
+    for (auto & _scene : _scenes) {
+        if (_scene->id == id)
+            return _scene;
     }
     return nullptr;
 }
@@ -245,7 +245,7 @@ std::vector<Polymorph::Config::XmlComponent> Polymorph::Engine::getDefaultConfig
     return _defaultConfigs;
 }
 
-Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string type)
+Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(const std::string& type)
 {
     for (auto &c: _defaultConfigs) {
         if (c.getType() == type)
@@ -255,7 +255,7 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(std::string
     return *Config::XmlComponent::Empty;
 }
 
-void Polymorph::Engine::loadGraphicalAPI(std::string graphicalLibPath)
+void Polymorph::Engine::loadGraphicalAPI(const std::string& graphicalLibPath)
 {
     try
     {
@@ -270,7 +270,7 @@ void Polymorph::Engine::loadGraphicalAPI(std::string graphicalLibPath)
 
 }
 
-void Polymorph::Engine::loadScriptingAPI(std::string scriptFactoryPath)
+void Polymorph::Engine::loadScriptingAPI(const std::string& scriptFactoryPath)
 {
     try
     {

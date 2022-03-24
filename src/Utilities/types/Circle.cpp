@@ -12,9 +12,7 @@ Polymorph::Circle::Circle(const Polymorph::Vector2 &center, float radius): cente
 {
 }
 
-Polymorph::Circle::Circle(const Polymorph::Circle &circle): center(circle.center), radius(circle.radius)
-{
-}
+Polymorph::Circle::Circle(const Polymorph::Circle &circle) = default;
 
 Polymorph::Circle::Circle(float x, float y, float radius): center(x, y), radius(radius)
 {

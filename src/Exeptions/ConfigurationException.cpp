@@ -7,6 +7,6 @@
 
 #include "ConfigurationException.hpp"
 
-ConfigurationException::ConfigurationException(std::string message,
+ConfigurationException::ConfigurationException(const std::string& message,
 Logger::severity level) : ExceptionLogger("[Corrupted files] " + message, level)
 {}

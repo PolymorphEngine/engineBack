@@ -46,7 +46,7 @@ namespace Polymorph
         return _name;
     }
 
-    bool Config::XmlScene::isFirst()
+    bool Config::XmlScene::isFirst() const
     {
         return _first;
     }
