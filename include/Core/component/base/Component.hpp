@@ -8,8 +8,8 @@
 #ifndef ENGINE_COMPONENT_HPP
 #define ENGINE_COMPONENT_HPP
 
-#include "IComponent.hpp"
-#include "safe_ptr.hpp"
+#include "Core/component/base/IComponent.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 namespace Polymorph
 {

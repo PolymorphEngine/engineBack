@@ -9,9 +9,9 @@
 #define ENGINE_TRANSFORMCOMPONENT_HPP
 
 #include <vector>
-#include "component/base/Component.hpp"
-#include "safe_ptr.hpp"
-#include "Vector.hpp"
+#include "Core/component/base/Component.hpp"
+#include "Utilities/safe_ptr.hpp"
+#include "Utilities/types/Vector.hpp"
 
 namespace Polymorph
 {

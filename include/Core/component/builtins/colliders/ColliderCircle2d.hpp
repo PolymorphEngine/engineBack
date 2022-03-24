@@ -8,7 +8,7 @@
 #ifndef ENGINE_COLLIDER2CIRCLE_HPP
 #define ENGINE_COLLIDER2CIRCLE_HPP
 
-#include "component/base/ACollider2d.hpp"
+#include "Core/component/base/ACollider2d.hpp"
 
 namespace Polymorph
  {
