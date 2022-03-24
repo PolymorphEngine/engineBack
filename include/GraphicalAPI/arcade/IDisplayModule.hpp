@@ -1,13 +1,6 @@
-/*
-** EPITECH PROJECT, 2020
-** DynamicLoader.hpp
-** File description:
-** header for DynamicLoader.c
-*/
-
 #pragma once
 
-#include <iostream>
+#include <string>
 
 namespace arcade
 {
@@ -192,7 +185,7 @@ namespace arcade
 
 
         public:
-            // DRAW LOGIC:  
+            // DRAW LOGIC:
 
             // MUST : draw a sprite module
             virtual void draw(ISpriteModule *sprite) = 0;
@@ -203,4 +196,3 @@ namespace arcade
             /////////////////////////////////////////////////////////
     };
 }
-
