@@ -53,7 +53,7 @@ namespace myxmlpp {
                                         int depth) const;
 
             static std::vector<std::string> _split(const std::string &str,
-                                                   char delim);
+                                                   char delimiter);
 
             static std::shared_ptr<Node>
             _searchChild(const Node *current,
@@ -99,7 +99,7 @@ namespace myxmlpp {
              * @param indent the number of tab to return
              * @return the indentation helper string
              */
-            static std::string  _strIdent(std::size_t indent);
+            static std::string  _strIndent(std::size_t indent);
 
             /**
              * @details This method will return all the attributes serialized
@@ -123,7 +123,7 @@ namespace myxmlpp {
              * @param tag the tag of the node.
              * @return the created node.
              */
-            Node(Node *parent) noexcept;
+            explicit Node(Node *parent) noexcept;
 
             /**
              * Method to create a node with its tag and its children.
@@ -257,7 +257,7 @@ namespace myxmlpp {
             {
                 return _children.end();
             }
-            
+
             /**
              * Method to find a child node by its tag.
              * This method will return the first matched node

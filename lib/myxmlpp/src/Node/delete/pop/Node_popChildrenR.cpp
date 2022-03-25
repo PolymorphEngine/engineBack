@@ -20,9 +20,8 @@ myxmlpp::Node::_popChildrenRecurs(std::vector<std::shared_ptr<Node>> &children,
         children.push_back(**it);
         _children.erase(*it);
     }
-    for (auto it = _children.begin();
-         it != _children.end(); ++it)
-        (*it)->_popChildrenRecurs(children, tag, depth - 1);
+    for (auto & it : _children)
+        it->_popChildrenRecurs(children, tag, depth - 1);
 }
 
 std::vector<std::shared_ptr<myxmlpp::Node>>

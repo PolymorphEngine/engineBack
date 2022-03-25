@@ -33,11 +33,11 @@ std::string myxmlpp::Exception::baseWhat() const noexcept{
 
 std::string myxmlpp::Exception::details() const noexcept {
     if (!_description.empty())
-        return std::string("\nOptionnal details : ")
+        return std::string("\nOptional details : ")
                + _description
                + std::string("\n");
     else
-        return std::string("\n");
+        return "\n";
 }
 
 const std::string &myxmlpp::Exception::getFile() const noexcept {
