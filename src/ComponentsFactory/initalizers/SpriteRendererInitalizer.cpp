@@ -16,7 +16,8 @@ using namespace Polymorph;
 SpriteRendererInitializer::SpriteRendererInitializer(
         Config::XmlComponent &data, Entity &entity): AComponentInitializer("SpriteRenderer",data, entity)
 {
-    
+    component = std::shared_ptr<Component>(new SpriteRendererComponent(entity));
+
 }
 
 std::shared_ptr<Component> &SpriteRendererInitializer::build()

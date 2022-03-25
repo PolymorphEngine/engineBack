@@ -16,6 +16,7 @@ using namespace Polymorph;
 TextRendererInitializer::TextRendererInitializer(
         Config::XmlComponent &data, Entity &entity): AComponentInitializer("TextRenderer",data, entity)
 {
+    component = std::shared_ptr<Component>(new TextRendererComponent(entity));
 
 }
 
