@@ -43,7 +43,7 @@ void Logger::_logFile(const std::string& message, Logger::severity level)
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
 
-    std::fstream file(_logDir + "/"+ _logInstance, std::ios_base::out|std::ios_base::app);
+    std::fstream file(_logDir + "/"+ _logInstance + ".log", std::ios_base::out|std::ios_base::app);
 
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
@@ -88,7 +88,7 @@ Logger::_logFile(const std::string& message, const std::string& filepath, Logger
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
 
-    std::ofstream file(_logDir + "/" + filepath);
+    std::fstream file(_logDir + "/" + filepath + ".log", std::ios_base::out|std::ios_base::app);
 
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
