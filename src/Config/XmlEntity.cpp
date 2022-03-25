@@ -19,7 +19,10 @@ namespace Polymorph
 
         for (auto &c: _components) {
             std::string t = c->getType();
-            (*e).addComponent(t, *c);
+            if (t == "Transform") {
+                (*e).addComponent(t, *c);
+                break;
+            }
         }
         e->transform = *e->getComponent<TransformComponent>();
         if (!e->transform) {
@@ -28,6 +31,13 @@ namespace Polymorph
                         Logger::MINOR);
             e->transform = *(*e).addComponent<TransformComponent>();
         }
+        for (auto &c: _components) {
+            std::string t = c->getType();
+            if (t != "Transform") {
+                (*e).addComponent(t, *c);
+            }
+        }
+
         return e;
     }
 

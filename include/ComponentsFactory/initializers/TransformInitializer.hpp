@@ -12,7 +12,7 @@
 
 namespace Polymorph
 {
-    class TransformInitializer : public AComponentInitializer
+    class TransformInitializer : public AComponentInitializer<TransformComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -26,7 +26,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         public:
-            std::shared_ptr<Component> &build() final;
+            void build() final;
 
             void reference() final;
 ///////////////////////////--------------------------///////////////////////////

@@ -12,7 +12,8 @@
 
 namespace Polymorph
 {
-    class ColliderRect2dInitializer : public AComponentInitializer
+    class ColliderRect2dComponent;
+    class ColliderRect2dInitializer : public AComponentInitializer<ColliderRect2dComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -26,7 +27,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         public:
-            std::shared_ptr<Component> &build() final;
+            void build() final;
 
             void reference() final {};
 

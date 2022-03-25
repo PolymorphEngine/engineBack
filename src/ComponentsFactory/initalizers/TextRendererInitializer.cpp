@@ -16,15 +16,12 @@ using namespace Polymorph;
 TextRendererInitializer::TextRendererInitializer(
         Config::XmlComponent &data, Entity &entity): AComponentInitializer("TextRenderer",data, entity)
 {
-
 }
 
-std::shared_ptr<Component> &TextRendererInitializer::build()
+void TextRendererInitializer::build()
 {
-    auto trm = std::dynamic_pointer_cast<TextRendererComponent>(component);
-    data.setProperty("offset", trm->offset);
-    data.setProperty("text", trm->text);
-    return component;
+    data.setProperty("offset", component->offset);
+    data.setProperty("text", component->text);
 }
 
 void TextRendererInitializer::reference()

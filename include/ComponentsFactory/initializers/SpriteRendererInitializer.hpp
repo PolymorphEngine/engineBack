@@ -12,7 +12,8 @@
 
 namespace Polymorph
 {
-    class SpriteRendererInitializer : public AComponentInitializer
+    class SpriteRendererComponent;
+    class SpriteRendererInitializer : public AComponentInitializer<SpriteRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -26,7 +27,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         public:
-            std::shared_ptr<Component> &build() final;
+            void build() final;
 
             void reference() final;
 

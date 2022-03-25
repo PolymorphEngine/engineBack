@@ -13,18 +13,16 @@
 
 using namespace Polymorph;
 
-SpriteRendererInitializer::SpriteRendererInitializer(
-        Config::XmlComponent &data, Entity &entity): AComponentInitializer("SpriteRenderer",data, entity)
+SpriteRendererInitializer::SpriteRendererInitializer(Config::XmlComponent &data, Entity &entity)
+        : AComponentInitializer("SpriteRenderer", data, entity)
 {
-    
+
 }
 
-std::shared_ptr<Component> &SpriteRendererInitializer::build()
+void SpriteRendererInitializer::build()
 {
-    auto trm = std::dynamic_pointer_cast<SpriteRendererComponent>(component);
-    data.setProperty("offset", trm->offset);
-    data.setProperty("sprite", trm->sprite);
-    return component;
+    data.setProperty("offset", component->offset);
+    data.setProperty("sprite", component->sprite);
 }
 
 void SpriteRendererInitializer::reference()
