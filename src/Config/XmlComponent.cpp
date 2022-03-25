@@ -764,3 +764,39 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
         ++i;
     }
 }
+
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName,
+                                                  std::vector<Vector2> &toSet,
+                                                  Logger::severity level)
+{
+    auto refProp = _findProperty(propertyName, level);
+
+    if (refProp == nullptr)
+        return;
+
+    for (auto &elem : *refProp) {
+        Vector2 toAdd;
+        _setPropertyFromAttr("x", toAdd.x, *elem, level);
+        _setPropertyFromAttr("y", toAdd.y, *elem, level);
+        toSet.push_back(toAdd);
+    }
+}
+
+void Polymorph::Config::XmlComponent::setProperty(std::string propertyName,
+                                                  std::vector<Rect> &toSet,
+                                                  Logger::severity level)
+{
+    auto refProp = _findProperty(propertyName, level);
+
+    if (refProp == nullptr)
+        return;
+
+    for (auto &elem : *refProp) {
+        Rect toAdd;
+        _setPropertyFromAttr("x", toAdd.x, *elem, level);
+        _setPropertyFromAttr("y", toAdd.y, *elem, level);
+        _setPropertyFromAttr("width", toAdd.width, *elem, level);
+        _setPropertyFromAttr("height", toAdd.height, *elem, level);
+        toSet.push_back(toAdd);
+    }
+}

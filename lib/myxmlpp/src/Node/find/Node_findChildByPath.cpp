@@ -9,13 +9,13 @@
 #include "Node.hpp"
 
 std::vector<std::string> myxmlpp::Node::_split(const std::string &str,
-                                               char delim)
+                                               char delimiter)
 {
     std::vector<std::string> result;
     std::stringstream ss (str);
     std::string item;
 
-    while (getline(ss, item, delim)) {
+    while (getline(ss, item, delimiter)) {
         result.push_back (item);
     }
 

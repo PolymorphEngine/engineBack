@@ -44,9 +44,9 @@ Test(Attribute_getValueFloat, illegal)
     std::string k = "key";
     std::string v = "1kappa";
     myxmlpp::Attribute a(k, v);
-    
+
     try {
-        float i = a.getValueFloat();
+        (void)a.getValueFloat();
         cr_expect(0);
     } catch (const myxmlpp::IllegalValueException) {
         cr_expect(1);

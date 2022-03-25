@@ -44,9 +44,9 @@ Test(Attribute_getValueInt, illegal)
     std::string k = "key";
     std::string v = "1kappa";
     myxmlpp::Attribute a(k, v);
-    
+
     try {
-        int i = a.getValueInt();
+        (void)a.getValueInt();
         cr_expect(0);
     } catch (const myxmlpp::IllegalValueException) {
         cr_expect(1);

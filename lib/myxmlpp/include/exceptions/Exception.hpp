@@ -14,12 +14,12 @@
 
 namespace myxmlpp {
     /**
-     * Base exception for the lib, only containing mandatory informations to debug
+     * Base exception for the lib, only containing mandatory information to debug
      */
     class Exception: public std::exception {
         protected:
             /**
-             * Short descripition of the error
+             * Short description of the error
              */
             std::string _description;
 
@@ -32,7 +32,7 @@ namespace myxmlpp {
              * Line at which the error was raised
              */
             std::string _line;
-            
+
             /**
              * Complete error message
              */
@@ -47,7 +47,7 @@ namespace myxmlpp {
              * @return error message
              */
             const char *what() const noexcept override;
-            
+
             void build() noexcept;
 
             /**
