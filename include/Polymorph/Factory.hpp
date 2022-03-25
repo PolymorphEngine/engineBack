@@ -9,5 +9,6 @@
 
 #include "../ScriptingAPI/IScriptFactory.hpp"
 #include "../ComponentsFactory/AComponentInitializer.hpp"
+#include "../ComponentsFactory/IComponentInitializer.hpp"
 #include "../ComponentsFactory/ComponentFactory.hpp"
 

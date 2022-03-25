@@ -68,7 +68,7 @@ namespace Polymorph
         //TODO: maybe throw/Log ?
         Config::XmlComponent &config = _game.getDefaultConfig(t);
 
-        std::shared_ptr<AComponentInitializer> c = ComponentFactory::create(t, config, *this);
+        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t, config, *this);
         if (c == nullptr)
             c = ScriptingApi::create(t, config, *this);
 

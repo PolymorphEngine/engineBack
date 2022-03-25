@@ -18,7 +18,7 @@
 namespace Polymorph
 {
     class Component;
-    class AComponentInitializer;
+    class IComponentInitializer;
     class Engine;
 
     class TransformComponent;
@@ -64,7 +64,7 @@ namespace Polymorph
             Engine &_game;
             std::vector<std::string> _order;
             Config::XmlEntity &_xml_config;
-            std::unordered_map<std::string, std::vector<std::shared_ptr<AComponentInitializer>>> _components;
+            std::unordered_map<std::string, std::vector<std::shared_ptr<IComponentInitializer>>> _components;
 //////////////////////--------------------------/////////////////////////
 
 

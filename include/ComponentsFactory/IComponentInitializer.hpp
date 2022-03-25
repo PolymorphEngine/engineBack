@@ -1,42 +1,42 @@
 /*
 ** EPITECH PROJECT, 2020
-** ScriptFactory
+** IComponentInitalizer
 ** File description:
-** header for ScriptFactory.c
+** header for IComponentInitalizer.c
 */
 
 
 #pragma once
 
-#include <memory>
+#include <iostream>
 
 namespace Polymorph
 {
-    namespace Config {class XmlComponent;}
-    class Entity;
-    class IComponentInitializer;
-    using Initializer = std::shared_ptr<IComponentInitializer>;
+    class Component;
     
-    class IScriptFactory
+    class IComponentInitializer
     {
-
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            virtual ~IScriptFactory() = default;
-
+            virtual ~IComponentInitializer() = default;
+    
 //////////////////////--------------------------/////////////////////////
     
     
     
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            virtual Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity) = 0;
+            virtual void build() = 0;
     
-    
+            virtual void reference() = 0;
+            virtual std::string getType() const = 0;
+            virtual std::shared_ptr<Component> operator*() = 0;
+            virtual std::shared_ptr<Component> get() = 0;
+
         private:
     
 //////////////////////--------------------------/////////////////////////
-    
+
     };
 }
 

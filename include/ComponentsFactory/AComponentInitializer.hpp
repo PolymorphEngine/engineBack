@@ -10,6 +10,9 @@
 
 #include <iostream>
 #include <memory>
+#include "IComponentInitializer.hpp"
+#include <Polymorph/Components.hpp>
+#include <Polymorph/Config.hpp>
 
 namespace Polymorph
 {
@@ -19,11 +22,18 @@ namespace Polymorph
     class Entity;
 
     class Component;
-    class AComponentInitializer {
+
+    template <typename T>
+    class AComponentInitializer : public IComponentInitializer {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            AComponentInitializer(std::string type, Config::XmlComponent &data, Entity &entity);
+            AComponentInitializer(std::string type, Config::XmlComponent &data, Entity &entity) :
+            data(data), type(std::move(type)),
+            component(std::make_shared<T>(entity))
+            {
+                component->enabled = data.isEnabled();
+            };
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -32,33 +42,33 @@ namespace Polymorph
 ///////////////////////////////// Properties ///////////////////////////////////
 
         protected:
-            std::shared_ptr<Component> component;
+            std::shared_ptr<T> component;
             Config::XmlComponent &data;
             std::string type;
 
 
         public:
-            virtual std::shared_ptr<Component> &build() = 0;
+            virtual void build() = 0;
 
             virtual void reference() = 0;
 
-            std::shared_ptr<Component> &get()
+            std::shared_ptr<Component> get() final
             {
-                return component;
+                return std::dynamic_pointer_cast<Component>(component);
             }
 
-            std::shared_ptr<Component> &operator*()
+
+            std::shared_ptr<Component> operator*() final
             {
                 return get();
             }
 
-            std::string getType() const
+
+            std::string getType() const final
             {
                 return type;
             }
 
-        protected:
-            void _init();
 ///////////////////////////--------------------------///////////////////////////
     };
 
