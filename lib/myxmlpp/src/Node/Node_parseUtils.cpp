@@ -5,6 +5,7 @@
 ** Node_parseUtils.cpp
 */
 
+#include <memory>
 #include <regex>
 #include "Node.hpp"
 #include "ParsingException.hpp"
@@ -12,7 +13,7 @@
 bool myxmlpp::Node::_isEndOfNode(std::string &str)
 {
     std::string rgx("[\r\n\t\f\v ]*(?:(?:<[a-zA-Z0-9_\\-]*"
-                    "(?:[\r\n\t\f\v ].*\"[\r\n\t\f\v ]*?)*\/?>)|(?:<(\/).*>))");
+                    "(?:[\r\n\t\f\v ].*\"[\r\n\t\f\v ]*?)*/?>)|(?:<(/).*>))");
     std::smatch matches;
 
     if (!_performRegex(matches, rgx, str, nullptr))
@@ -26,7 +27,7 @@ bool myxmlpp::Node::_isEndOfNode(std::string &str)
 void myxmlpp::Node::_checkEndOfNode(std::string &str,
                                     std::string &remaining) noexcept
 {
-    std::string rgx("[\r\n\t\f\v ]*<\/(.*)>");
+    std::string rgx("[\r\n\t\f\v ]*</(.*)>");
     std::smatch matches;
 
     if (!_performRegex(matches, rgx, str, &remaining) || matches[1].str() != _tag)
@@ -45,7 +46,7 @@ bool myxmlpp::Node::_performRegex(std::smatch &matches, std::string &regexStr,
     if (remaining) {
         if (!std::regex_search(*remaining, remainingMatches, rgx))
             throw myxmlpp::ParsingException(*remaining, MYXMLPP_ERROR_LOCATION,
-                                            "Malformated file");
+                                            "Malformed file");
         remaining->replace(remainingMatches.position(),
                            remainingMatches.length(),
                            "");
@@ -56,7 +57,7 @@ bool myxmlpp::Node::_performRegex(std::smatch &matches, std::string &regexStr,
 void myxmlpp::Node::_parseNodeString(std::string &str, std::string &remaining)
 {
     std::string rgx("[\r\n\t\f\v ]*(<([a-zA-Z0-9_\\-]*)"
-                    "(?:[\r\n\t\f\v ](.*\")[\r\n\t\f\v ]*?)*(\/?)>)");
+                    "(?:[\r\n\t\f\v ](.*\")[\r\n\t\f\v ]*?)*(/?)>)");
     std::smatch matches;
 
     if (!_performRegex(matches, rgx, str, &remaining))
@@ -82,7 +83,7 @@ void myxmlpp::Node::_extractAttributes(std::string &str) noexcept
 
     while (std::regex_search(str, matches, rgx)) {
         _attributes.push_back(
-                std::unique_ptr<Attribute>(new Attribute(matches[1], matches[2]))
+                std::make_unique<Attribute>(matches[1], matches[2])
         );
         str = matches.suffix().str();
     }

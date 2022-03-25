@@ -7,8 +7,8 @@
 
 #include <Node.hpp>
 
-std::string myxmlpp::Node::_strIdent(std::size_t indent) {
-    std::string tab = "";
+std::string myxmlpp::Node::_strIndent(std::size_t indent) {
+    std::string tab;
 
     for (std::size_t i = 0; i < indent; ++i)
         tab += '\t';
@@ -63,7 +63,7 @@ std::string myxmlpp::Node::asString(bool includeChildren) const noexcept {
 
 std::string
 myxmlpp::Node::asFString(size_t indent, bool includeChildren) const noexcept {
-    std::string str = includeChildren ? _strIdent(indent) + "<" : "<";
+    std::string str = includeChildren ? _strIndent(indent) + "<" : "<";
 
     str += _tag;
     str += _dumpAttrsF();
@@ -75,10 +75,10 @@ myxmlpp::Node::asFString(size_t indent, bool includeChildren) const noexcept {
         str += ">\n";
         for (auto &c : _children)
             str += c->asFString(indent + 1);
-        str += _strIdent(indent)
-                + std::string("</")
-                + _tag
-                + (_parent ? ">\n" : ">");
+        str += _strIndent(indent)
+               + std::string("</")
+               + _tag
+               + (_parent ? ">\n" : ">");
     } else
         str += _parent ? "/>\n" : "/>";
     return str;

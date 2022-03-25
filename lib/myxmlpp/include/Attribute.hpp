@@ -42,7 +42,7 @@ namespace myxmlpp {
              * @param key the key of the attribute
              * @param value the value of the attribute
              */
-            Attribute(const std::string& key, const std::string& value);
+            Attribute(std::string  key, std::string  value);
 
             /**
              * Construct and attribute by a string with a attrName="attrValue"

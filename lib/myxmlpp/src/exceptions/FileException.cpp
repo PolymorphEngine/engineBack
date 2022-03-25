@@ -7,11 +7,13 @@
 
 #include "FileException.hpp"
 
-myxmlpp::FileException::FileException(const std::string &filepath,
+#include <utility>
+
+myxmlpp::FileException::FileException(std::string filepath,
                                       const std::string &file,
                                       int line,
                                       const std::string &description) noexcept
-    : _filepath(filepath), Exception(file, line, description)
+    : _filepath(std::move(filepath)), Exception(file, line, description)
 {
     build();
 }

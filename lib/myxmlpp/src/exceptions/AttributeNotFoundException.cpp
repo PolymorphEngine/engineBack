@@ -8,12 +8,14 @@
 
 #include "AttributeNotFoundException.hpp"
 
+#include <utility>
+
 myxmlpp::AttributeNotFoundException::AttributeNotFoundException(
-        const std::string& key,
+        std::string  key,
         const std::string& file,
         int line,
         const std::string& description) noexcept
-    : _key(key), Exception(file, line, description)
+    : _key(std::move(key)), Exception(file, line, description)
 {
     build();
 }

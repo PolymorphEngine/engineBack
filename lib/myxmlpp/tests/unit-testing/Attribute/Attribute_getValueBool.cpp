@@ -68,11 +68,11 @@ Test(Attribute_getValueBool, illegal)
     std::string k = "key";
     std::string v = "1kappa";
     myxmlpp::Attribute a(k, v);
-    
+
     try {
-        bool i = a.getValueBool();
+        (void)a.getValueBool();
         cr_expect(0);
-    } catch (const myxmlpp::IllegalValueException) {
+    } catch (const myxmlpp::IllegalValueException &e) {
         cr_expect(1);
     }
 }
@@ -84,9 +84,9 @@ Test(Attribute_getValueBool, illegal_overriden)
     myxmlpp::Attribute a(k, v);
 
     try {
-        bool i = a.getValueBool("TRUE");
+        (void)a.getValueBool("TRUE");
         cr_expect(0);
-    } catch (const myxmlpp::IllegalValueException) {
+    } catch (const myxmlpp::IllegalValueException &e) {
         cr_expect(1);
     }
 }

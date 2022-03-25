@@ -23,7 +23,7 @@ namespace myxmlpp {
             std::string _tag;
 
         public:
-            NodeNotFoundException(const std::string& tag,
+            NodeNotFoundException(std::string  tag,
                                   const std::string& file,
                                   int line,
                                   const std::string& description="") noexcept;

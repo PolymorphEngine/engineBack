@@ -46,7 +46,7 @@ namespace myxmlpp {
             std::shared_ptr<Node> _root;
 
             /**
-             * Check commons file openning errors and throw the correct exception
+             * Check commons file opening errors and throw the correct exception
              * @throws NoFileException if the required file does not exists
              * @throws PermissionDeniedException if there is not enough permissions to work with the file
              * @throws FileException Default exception for other errors
@@ -68,11 +68,11 @@ namespace myxmlpp {
              * @param filepath path to the xml file
              * @param keepOpen keep the file stream opened
              * @throws NoFileException if the required file does not exists
-             * @throws PermissionDeniedException if ther is not enough permissions to work with the file
+             * @throws PermissionDeniedException if there is not enough permissions to work with the file
              * @throws FileException Default exception for other errors
              * @throws ParsingException If the file is not correctly formatted
              */
-            Doc(const std::string& filepath, bool keepOpen = false);
+            explicit Doc(const std::string& filepath, bool keepOpen = false);
 
             /**
              * @details This method will write all the doc structure to a file in a minified way (only necessary spaces)
