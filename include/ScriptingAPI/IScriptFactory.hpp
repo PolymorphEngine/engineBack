@@ -8,16 +8,21 @@
 
 #pragma once
 
+#include <memory>
+
 namespace Polymorph
 {
+    namespace Config {class XmlComponent;}
+    class Entity;
     class AComponentInitializer;
+    using Initializer = std::shared_ptr<AComponentInitializer>;
+    
     class IScriptFactory
     {
-    
+
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             virtual ~IScriptFactory() = default;
-            using Initializer = std::shared_ptr<AComponentInitializer>;
 
 //////////////////////--------------------------/////////////////////////
     
