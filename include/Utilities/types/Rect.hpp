@@ -30,7 +30,7 @@ namespace Polymorph
             : x(x), y(y), width(size.x), height(size.y){};
             ~Rect() = default;
 
-            Rect(Rect &copy) = default;;
+            Rect(const Rect &copy) = default;
 
             Rect(): x(0), y(0), width(0), height(0){};
 //////////////////////--------------------------/////////////////////////
