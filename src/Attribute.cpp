@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <utility>
 #include "IllegalValueException.hpp"
 #include "FileException.hpp"
 #include "Attribute.hpp"
@@ -15,9 +16,9 @@
 
 namespace myxmlpp {
 
-    Attribute::Attribute(const std::string &key,
-                         const std::string &value)
-        : _key(key), _value(value)
+    Attribute::Attribute(std::string key,
+                         std::string value)
+        : _key(std::move(key)), _value(std::move(value))
     {}
 
     Attribute::Attribute(std::string &fileContent)

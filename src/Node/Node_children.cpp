@@ -16,8 +16,8 @@ unsigned int myxmlpp::Node::getNbChildrenR() const noexcept
 {
     size_t total = _children.size();
 
-    for (auto it = _children.begin(); it != _children.end(); ++it)
-        total += (*it)->getNbChildrenR();
+    for (const auto & child : _children)
+        total += child->getNbChildrenR();
     return total;
 }
 
