@@ -12,7 +12,8 @@
 
 namespace Polymorph
 {
-    class TextRendererInitializer : public AComponentInitializer
+    class TextRendererComponent;
+    class TextRendererInitializer : public AComponentInitializer<TextRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -26,7 +27,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
 
         public:
-            std::shared_ptr<Component> &build() final;
+            void build() final;
 
             void reference() final;
 ///////////////////////////--------------------------///////////////////////////

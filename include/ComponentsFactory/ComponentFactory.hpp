@@ -27,11 +27,11 @@
 
 namespace Polymorph
 {
-    class AComponentInitializer;
+    class IComponentInitializer;
     class ComponentFactory
     {
         public:
-            using Initializer = std::shared_ptr<AComponentInitializer>;
+            using Initializer = std::shared_ptr<IComponentInitializer>;
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:

@@ -10,7 +10,7 @@
 #include <Polymorph/Components.hpp>
 
 
-std::shared_ptr<Polymorph::AComponentInitializer>
+std::shared_ptr<Polymorph::IComponentInitializer>
 Polymorph::ComponentFactory::create(std::string &type,
                                     Config::XmlComponent &data,
                                     Entity &entity)
