@@ -43,7 +43,6 @@ namespace Polymorph
 
             arcade::ISpriteModule *_spriteModule = nullptr;
 
-            static inline std::vector<SpriteModule *> _sprites;
 ///////////////////////////--------------------------///////////////////////////
 
 
