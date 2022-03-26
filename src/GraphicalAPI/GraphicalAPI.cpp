@@ -8,6 +8,7 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Debug.hpp>
+#include <Polymorph/Settings.hpp>
 
 Polymorph::GraphicalAPI::GraphicalAPI(std::string handlerPath)
 {
@@ -67,7 +68,8 @@ void Polymorph::GraphicalAPI::_reloadModules()
     }
     for (auto &t: _instance->_displays)
     {
-        t->_displayModule = _instance->_c_display();
+        auto res = t->getResolution();
+        t->_displayModule = _instance->_c_display(res.x, res.y, "");
         t->_loadModule();
     }
 }
@@ -129,7 +131,7 @@ Polymorph::GraphicalAPI::createSprite(std::shared_ptr<myxmlpp::Node> &data)
         Logger::log("No GraphicalAPI available to create new Sprite.", Logger::MAJOR);
         return Sprite(nullptr);
     }
-    SpriteBase newSprite = std::make_shared<SpriteModule>(data);
+    SpriteBase newSprite(new SpriteModule(data));
 
     newSprite->_spriteModule = _instance->_c_sprite();
     newSprite->_loadModule();
@@ -147,9 +149,10 @@ Polymorph::Display Polymorph::GraphicalAPI::createDisplay(
         Logger::log("No GraphicalAPI available to create new Display.", Logger::MAJOR);
         return Display(nullptr);
     }
-    DisplayBase newDisplay = std::make_shared<DisplayModule>(videoSettings, title);
-    
-    newDisplay->_displayModule = _instance->_c_display();
+    DisplayBase newDisplay(new DisplayModule(videoSettings, title));
+
+    auto res = videoSettings->getResolution();
+    newDisplay->_displayModule = _instance->_c_display(res.x, res.y, title);
     newDisplay->_loadModule();
     
     _instance->_displays.push_back(newDisplay);
@@ -195,9 +198,12 @@ void Polymorph::GraphicalAPI::destroySprite(SpriteModule *sprite)
     auto fnc = [&sprite](SpriteBase &t) -> bool{ return (t.get() == sprite);};
     if (!_instance || !_instance->_d_sprite)
         throw GraphicalException("No GraphicalAPI available to destroy Sprite.", Logger::MAJOR);
-    
+
+    auto it = std::find_if(_instance->_sprites.begin(), _instance->_sprites.end(), fnc);
+    if (it == _instance->_sprites.end())
+        return;
     _instance->_d_sprite(sprite->_spriteModule);
-    _instance->_sprites.erase(std::find_if(_instance->_sprites.begin(), _instance->_sprites.end(), fnc));
+    _instance->_sprites.erase(it);
 }
 
 void Polymorph::GraphicalAPI::destroyText(TextModule *text)
@@ -206,9 +212,12 @@ void Polymorph::GraphicalAPI::destroyText(TextModule *text)
 
     if (!_instance || !_instance->_d_text)
         throw GraphicalException("No GraphicalAPI available to destroy Text.", Logger::MAJOR);
-    
+
+    auto it = std::find_if(_instance->_texts.begin(), _instance->_texts.end(), fnc);
+    if (it == _instance->_texts.end())
+        return;
     _instance->_d_text(text->_textModule);
-    _instance->_texts.erase(std::find_if(_instance->_texts.begin(), _instance->_texts.end(), fnc));
+    _instance->_texts.erase(it);
 }
 
 void Polymorph::GraphicalAPI::destroyDisplay(DisplayModule *display)
@@ -216,8 +225,10 @@ void Polymorph::GraphicalAPI::destroyDisplay(DisplayModule *display)
     auto fnc = [&display](DisplayBase &t) -> bool{ return (t.get() == display);};
     if (!_instance || !_instance->_d_display)
         throw GraphicalException("No GraphicalAPI available to destroy Display.", Logger::MAJOR);
-    
+
+    auto it = std::find_if(_instance->_displays.begin(), _instance->_displays.end(), fnc);
+    if (it == _instance->_displays.end())
+        return;
     _instance->_d_display(display->_displayModule);
-    _instance->_displays.erase(std::find_if(_instance->_displays.begin(), _instance->_displays.end(), fnc));
-    
+    _instance->_displays.erase(it);
 }

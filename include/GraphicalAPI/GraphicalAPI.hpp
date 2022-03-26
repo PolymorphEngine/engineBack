@@ -68,7 +68,7 @@ namespace Polymorph
             SpriteLoader _c_sprite = nullptr;
             SpriteUnloader _d_sprite = nullptr;
 
-            using DisplayLoader = arcade::IDisplayModule *(*)();
+            using DisplayLoader = arcade::IDisplayModule *(*)(unsigned int width, unsigned int height, std::string title);
             using DisplayUnloader = void (*)(arcade::IDisplayModule *module);
 
             DisplayLoader _c_display = nullptr;
