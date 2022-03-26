@@ -12,6 +12,7 @@
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Types.hpp>
 #include "XmlComponent.hpp"
+#include "GraphicalException.hpp"
 
 
 std::string Polymorph::Config::XmlComponent::getType()
@@ -283,13 +284,28 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
 
     try {
         toSet = GraphicalAPI::createSprite(data);
-    } catch (...) {
+    } catch (GraphicalException &e) {
+        e.what();
         if (level != Logger::MAJOR)
             Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
+                        "': GraphicalAPI fail", level);
         else
             throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
+                                         "': GraphicalAPI fail", Logger::MAJOR);
+    } catch (myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': " + e.baseWhat(), level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "':" + e.baseWhat(), Logger::MAJOR);
+    } catch (std::exception &e)
+    {   if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': " + e.what(), level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "':" + e.what(), Logger::MAJOR);
     }
 }
 
@@ -299,13 +315,28 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
 
     try {
         toSet = GraphicalAPI::createText(data);
-    } catch (...) {
+    } catch (GraphicalException &e) {
+        e.what();
         if (level != Logger::MAJOR)
             Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                        "': has missing value", level);
+                        "': GraphicalAPI fail", level);
         else
             throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
-                                         "': has missing value", Logger::MAJOR);
+                                         "': GraphicalAPI fail", Logger::MAJOR);
+    } catch (myxmlpp::Exception &e) {
+        if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': " + e.baseWhat(), level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "':" + e.baseWhat(), Logger::MAJOR);
+    } catch (std::exception &e)
+    {   if (level != Logger::MAJOR)
+            Logger::log("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                        "': " + e.what(), level);
+        else
+            throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': Property named '" + propertyName +
+                                         "':" + e.what(), Logger::MAJOR);
     }
 }
 
