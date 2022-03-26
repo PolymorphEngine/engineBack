@@ -8,8 +8,7 @@
 
 #pragma once
 
-#include "GraphicalAPI.hpp"
-
+#include "GraphicalAPI/arcade/IDisplayModule.hpp"
 
 namespace Polymorph
 {

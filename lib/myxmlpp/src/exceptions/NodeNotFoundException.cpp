@@ -8,11 +8,13 @@
 
 #include "NodeNotFoundException.hpp"
 
-myxmlpp::NodeNotFoundException::NodeNotFoundException(const std::string& tag,
+#include <utility>
+
+myxmlpp::NodeNotFoundException::NodeNotFoundException(std::string  tag,
         const std::string& file,
         int line,
         const std::string& description) noexcept
-    : _tag(tag), Exception(file, line, description)
+    : _tag(std::move(tag)), Exception(file, line, description)
 {
     build();
 }

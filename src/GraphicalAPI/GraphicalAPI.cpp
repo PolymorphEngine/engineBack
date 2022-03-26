@@ -5,9 +5,9 @@
 ** header for GraphicalAPI.c
 */
 
-#include "GraphicalAPI/GraphicalAPI.hpp"
-#include "GraphicalAPI/DisplayModule.hpp"
-#include "GraphicalException.hpp"
+#include <Polymorph/Core.hpp>
+#include <Polymorph/Types.hpp>
+#include <Polymorph/Debug.hpp>
 
 Polymorph::GraphicalAPI::GraphicalAPI(std::string handlerPath)
 {
@@ -87,8 +87,8 @@ void Polymorph::GraphicalAPI::reloadAPI(std::string newHandler)
     _instance->_c_display = loadSymbol<DisplayLoader, GraphicalAPI>("createDisplay");
 
     _instance->_d_display = loadSymbol<DisplayUnloader, GraphicalAPI>("deleteDisplay");
-    _instance->_d_sprite = loadSymbol<SpriteUnloader, GraphicalAPI>("destroySprite");
-    _instance->_d_text = loadSymbol<TextUnloader, GraphicalAPI>("destroyText");
+    _instance->_d_sprite = loadSymbol<SpriteUnloader, GraphicalAPI>("deleteSprite");
+    _instance->_d_text = loadSymbol<TextUnloader, GraphicalAPI>("deleteText");
     _instance->_handlerPath = newHandler;
 
     _reloadModules();

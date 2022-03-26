@@ -9,11 +9,16 @@
 #pragma once
 
 #include "DynamicLoader/DynamicLoader.hpp"
-#include "ScriptFactory.hpp"
-#include "factory/ComponentInitializer.hpp"
+
 
 namespace Polymorph
 {
+    namespace Config{class XmlComponent;}
+
+    class IScriptFactory;
+    class IComponentInitializer;
+    class Entity;
+    
     
     class ScriptingApi : public DynamicLibLoader
     {
@@ -31,7 +36,7 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            using Initializer = std::shared_ptr<AComponentInitializer>;
+            using Initializer = std::shared_ptr<IComponentInitializer>;
 
         private:
             using ScriptFactoryLoader = IScriptFactory *(*)();

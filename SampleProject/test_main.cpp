@@ -5,8 +5,8 @@
 ** test_main.cpp
 */
 
-#include "../include/Engine/Engine.hpp"
-#include "ConfigurationException.hpp"
+#include <Polymorph/Core.hpp>
+#include <Polymorph/Debug.hpp>
 
 int main()
 {

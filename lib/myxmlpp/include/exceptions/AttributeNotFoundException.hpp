@@ -24,7 +24,7 @@ namespace myxmlpp {
             std::string _key;
 
         public:
-            AttributeNotFoundException(const std::string& key,
+            AttributeNotFoundException(std::string  key,
                     const std::string& file,
                     int line,
                     const std::string& description="") noexcept;

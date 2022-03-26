@@ -26,7 +26,7 @@ namespace myxmlpp {
             std::string _filepath;
 
         public:
-            FileException(const std::string&  filepath,
+            FileException(std::string   filepath,
                           const std::string&  file,
                           int line,
                           const std::string& description="") noexcept;
