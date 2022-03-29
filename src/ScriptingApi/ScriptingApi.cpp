@@ -7,6 +7,8 @@
 
 #include "ScriptingAPI/ScriptingApi.hpp"
 #include <Polymorph/Debug.hpp>
+#include "safe_ptr.hpp"
+#include <Polymorph/Core.hpp>
 
 Polymorph::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)
 {
@@ -23,7 +25,7 @@ Polymorph::ScriptingApi::~ScriptingApi()
 Polymorph::ScriptingApi::Initializer
 Polymorph::ScriptingApi::create(std::string &type,
                                 Polymorph::Config::XmlComponent &data,
-                                Polymorph::Entity &entity)
+                               safe_ptr<Entity> entity)
 {
     if (!_scriptFactory) {
         Logger::log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);

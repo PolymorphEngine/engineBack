@@ -19,7 +19,7 @@ namespace Polymorph
     {
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            ADrawableComponent(std::string type, Entity &gameObject);
+            ADrawableComponent(std::string type, GameObject gameObject);
 ///////////////////////////--------------------------///////////////////////////
 
 

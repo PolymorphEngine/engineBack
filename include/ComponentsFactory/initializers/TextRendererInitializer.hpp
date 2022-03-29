@@ -18,7 +18,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            TextRendererInitializer(Config::XmlComponent &data, Entity &entity);
+            TextRendererInitializer(Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

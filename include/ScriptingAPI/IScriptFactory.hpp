@@ -9,6 +9,7 @@
 #pragma once
 
 #include <memory>
+#include "Utilities/safe_ptr.hpp"
 
 namespace Polymorph
 {
@@ -30,7 +31,7 @@ namespace Polymorph
     
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            virtual Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity) = 0;
+            virtual Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity) = 0;
     
     
         private:

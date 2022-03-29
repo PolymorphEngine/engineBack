@@ -48,7 +48,7 @@ namespace Polymorph
              * @property The unique mandatory component of an entity
              *           it's like his identity in the world.
              */
-            std::shared_ptr<TransformComponent> transform = nullptr;
+            Transform transform = Transform(nullptr);
 
             /**
              * @property The entity's name (not necessarily unique)
@@ -133,7 +133,7 @@ namespace Polymorph
              */
             void awake();
 
-            void addComponent(std::string &component, Config::XmlComponent &config);
+            void addComponent(std::string &component, Config::XmlComponent &config, GameObject gameObject);
 
             /**
              * @details Looks for a component by type

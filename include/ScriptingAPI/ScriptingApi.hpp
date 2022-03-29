@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "Utilities/safe_ptr.hpp"
 #include "ScriptingAPI/IScriptFactory.hpp"
 
 
@@ -48,7 +49,7 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity);
+            static Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity);
 
 
         private:

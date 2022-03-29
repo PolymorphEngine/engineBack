@@ -28,7 +28,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            AComponentInitializer(std::string type, Config::XmlComponent &data, Entity &entity) :
+            AComponentInitializer(std::string type, Config::XmlComponent &data, GameObject entity) :
             data(data), type(std::move(type)),
             component(std::make_shared<T>(entity))
             {

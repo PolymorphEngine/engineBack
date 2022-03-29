@@ -18,7 +18,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            SpriteRendererInitializer(Config::XmlComponent &data, Entity &entity);
+            SpriteRendererInitializer(Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
