@@ -27,7 +27,7 @@
 
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            ACollider2dComponent(Entity &gameObject, std::string type);
+            ACollider2dComponent(GameObject gameObject, std::string type);
             ~ACollider2dComponent();
 
 ///////////////////////////--------------------------///////////////////////////

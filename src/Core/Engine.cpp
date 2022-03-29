@@ -34,6 +34,9 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
 
 int Polymorph::Engine::run()
 {
+    if (!!_display)
+        GraphicalAPI::CurrentDisplay = (*_display).get();
+
     SceneManager::Current->loadScene();
 
     _time = Time();
@@ -206,7 +209,7 @@ void Polymorph::Engine::_initVideoSettings()
 }
 
 
-std::vector<Polymorph::Config::XmlEntity> Polymorph::Engine::getPrefabs()
+std::vector<std::shared_ptr<Polymorph::Entity>> Polymorph::Engine::getPrefabs()
 {
     return _prefabs;
 }
@@ -241,11 +244,11 @@ void Polymorph::Engine::loadGraphicalAPI(const std::string& graphicalLibPath)
 
 }
 
-void Polymorph::Engine::loadScriptingAPI(const std::string& scriptFactoryPath)
+void Polymorph::Engine::loadScriptingAPI(
+        std::unique_ptr<IScriptFactory> scriptFactory)
 {
-    try
-    {
-        _scriptingApi = std::make_unique<ScriptingApi>(scriptFactoryPath);
+    try {
+        _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
     } catch (ExceptionLogger &e) {
         e.what();
     } catch (std::exception &e) {
@@ -270,7 +273,8 @@ void Polymorph::Engine::_initPrefabs()
 
         for (auto &prefab: *prefabs) {
             try {
-                _prefabs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+                _prefabsConfigs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
+                _prefabs.emplace_back(_prefabsConfigs.back().makeInstance());
             } catch (myxmlpp::Exception &e) {
                 Logger::log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
             } catch (ExceptionLogger &e) {

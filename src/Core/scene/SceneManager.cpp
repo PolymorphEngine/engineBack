@@ -85,7 +85,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
     auto nEntity = xml.makeInstance();
 
     nEntity->awake();
-    nEntity->transform->setParent(*parent);
+    nEntity->transform->setParent(parent);
     Current->addEntity(nEntity);
     return GameObject(nEntity);
 }
@@ -99,7 +99,7 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
     auto nEntity = xml.makeInstance();
 
     nEntity->awake();
-    nEntity->transform->setParent(*parent);
+    nEntity->transform->setParent(parent);
     nEntity->transform->setPosition(parent->getPosition() + offset);
     Current->addEntity(nEntity);
     return GameObject(nEntity);

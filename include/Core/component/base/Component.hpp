@@ -28,8 +28,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            explicit Component(Entity &game_object);
-            Component(const std::string &type, Entity &game_object);
+            Component(const std::string &type, GameObject game_object);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -41,11 +40,11 @@ namespace Polymorph
             /**
              * @property A reference to the unique transform component of the entity
              */
-            TransformComponent &transform;
+            Transform transform = Transform(nullptr);
             /**
              * @property A reference to the entity which the component is bind to.
              */
-            Entity &gameObject;
+            GameObject gameObject = GameObject(nullptr);
 
             /**
              * @property The state of the component which defines if the component is updated or not.

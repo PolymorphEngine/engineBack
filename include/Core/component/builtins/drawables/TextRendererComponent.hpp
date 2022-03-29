@@ -21,7 +21,7 @@ namespace Polymorph
     class TextRendererComponent : public ADrawableComponent
     {
         public:
-            explicit TextRendererComponent(Entity &gameObject);
+            explicit TextRendererComponent(GameObject gameObject);
 
 
         public:

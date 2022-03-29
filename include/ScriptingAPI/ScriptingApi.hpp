@@ -8,7 +8,8 @@
 
 #pragma once
 
-#include "DynamicLoader/DynamicLoader.hpp"
+#include "Utilities/safe_ptr.hpp"
+#include "ScriptingAPI/IScriptFactory.hpp"
 
 
 namespace Polymorph
@@ -18,14 +19,14 @@ namespace Polymorph
     class IScriptFactory;
     class IComponentInitializer;
     class Entity;
-    
-    
-    class ScriptingApi : public DynamicLibLoader
+
+
+    class ScriptingApi
     {
-    
+
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            explicit ScriptingApi(std::string libPath);
+            explicit ScriptingApi(std::unique_ptr<IScriptFactory> factory);
 
             ~ScriptingApi();
 
@@ -39,13 +40,7 @@ namespace Polymorph
             using Initializer = std::shared_ptr<IComponentInitializer>;
 
         private:
-            using ScriptFactoryLoader = IScriptFactory *(*)();
-            using ScriptFactoryUnLoader = void (*)(IScriptFactory *);
-            ScriptFactoryLoader _loader = nullptr;
-            ScriptFactoryUnLoader _unloader = nullptr;
-            std::string _handlerPath;
-            IScriptFactory *_scriptFactory = nullptr;
-            static inline ScriptingApi *_instance = nullptr;
+            static inline std::unique_ptr<IScriptFactory> _scriptFactory = nullptr;
 
 
 //////////////////////--------------------------/////////////////////////
@@ -54,14 +49,11 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity);
+            static Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity);
 
-            static void *getHandler();
 
         private:
-            void _loadFactory();
-            void _loadSymbols();
-    
+
     };
 }
 
