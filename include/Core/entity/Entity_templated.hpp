@@ -59,7 +59,8 @@ namespace Polymorph
     template<typename T>
     safe_ptr<T> Entity::addComponent()
     {
-        std::shared_ptr<T> component(new T(*this));
+        auto object = SceneManager::findById(_stringId);
+        std::shared_ptr<T> component(new T(object));
 
         std::string t = component->getType();
         component.reset();
@@ -68,9 +69,9 @@ namespace Polymorph
         //TODO: maybe throw/Log ?
         Config::XmlComponent &config = _game.getDefaultConfig(t);
 
-        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t, config, *this);
+        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t, config, object);
         if (c == nullptr)
-            c = ScriptingApi::create(t, config, *this);
+            c = ScriptingApi::create(t, config, object);
 
         if (c == nullptr) {
             Logger::log("Unknown component to add at runtime: '" + t +

@@ -16,11 +16,11 @@ namespace Polymorph
     {
         if (!sprite)
             return;
-        sprite->setPosition(Vector2(transform.getPosition()) + offset);
+        sprite->setPosition(Vector2(transform->getPosition()) + offset);
         GraphicalAPI::CurrentDisplay->draw(**sprite);
     }
 
-    SpriteRendererComponent::SpriteRendererComponent(Entity &gameObject)
+    SpriteRendererComponent::SpriteRendererComponent(GameObject gameObject)
             : ADrawableComponent("SpriteRenderer", gameObject)
     {
 

@@ -13,19 +13,19 @@ using namespace Polymorph;
 
 void ACollider2dComponent::_broadCastCollisionStay(ACollider2dComponent &collider)
 {
-    for (auto &c: gameObject.getComponents<ICollider2dHandler>())
+    for (auto &c: gameObject->getComponents<ICollider2dHandler>())
         c->onCollisionStay(collider);
 }
 
 void ACollider2dComponent::_broadCastCollisionEnter(ACollider2dComponent &collider)
 {
-    for (auto &c: gameObject.getComponents<ICollider2dHandler>())
+    for (auto &c: gameObject->getComponents<ICollider2dHandler>())
         c->onCollisionEnter(collider);
 }
 
 void ACollider2dComponent::_broadCastCollisionExit(ACollider2dComponent &collider)
 {
-    for (auto &c: gameObject.getComponents<ICollider2dHandler>())
+    for (auto &c: gameObject->getComponents<ICollider2dHandler>())
         c->onCollisionExit(collider);
 }
 
@@ -48,30 +48,30 @@ void ACollider2dComponent::_checkCollisionToBroadCast(ACollider2dComponent &coll
     bool collided = checkCollision(collider);
 
     if (collided
-    && _encountered.contains(collider.gameObject.getId())
-    && _encountered[collider.gameObject.getId()])
+    && _encountered.contains(collider.gameObject->getId())
+    && _encountered[collider.gameObject->getId()])
     {
         _broadCastCollisionStay(collider);
     }
 
     else if (collided
-    && (!_encountered.contains(collider.gameObject.getId())
-    || !_encountered[collider.gameObject.getId()]) )
+    && (!_encountered.contains(collider.gameObject->getId())
+    || !_encountered[collider.gameObject->getId()]) )
     {
-        _encountered[collider.gameObject.getId()] = true;
+        _encountered[collider.gameObject->getId()] = true;
         _broadCastCollisionEnter(collider);
     }
 
     else if (!collided &&
-        _encountered.contains(collider.gameObject.getId())
-        && _encountered[collider.gameObject.getId()])
+        _encountered.contains(collider.gameObject->getId())
+        && _encountered[collider.gameObject->getId()])
     {
         _broadCastCollisionExit(collider);
-        _encountered[collider.gameObject.getId()] = false;
+        _encountered[collider.gameObject->getId()] = false;
     }
 }
 
-ACollider2dComponent::ACollider2dComponent(Entity &gameObject, std::string type)
+ACollider2dComponent::ACollider2dComponent(GameObject gameObject, std::string type)
 :Component(type, gameObject)
 {
     _allColliders.push_back(this);

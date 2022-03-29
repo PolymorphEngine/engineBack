@@ -23,6 +23,7 @@ namespace Polymorph
     namespace Config{class XmlEntity;class XmlComponent;}
     namespace Settings{class VideoSettings; class AudioSettings; class PhysicsSettings;}
     class DisplayModule;
+    class Entity;
     class Scene;
     class Time;
     class GraphicalAPI;
@@ -52,7 +53,8 @@ namespace Polymorph
 ///////////////////////////// PROPERTIES ////////////////////////////////
         private:
             std::vector<std::shared_ptr<Scene>> _scenes;
-            std::vector<Config::XmlEntity> _prefabs;
+            std::vector<std::shared_ptr<Entity>> _prefabs;
+            std::vector<Config::XmlEntity> _prefabsConfigs;
             std::vector<Config::XmlComponent> _defaultConfigs;
 
             std::vector<std::string> _layers;
@@ -117,7 +119,7 @@ namespace Polymorph
 
             std::string getProjectPath();
 
-            std::vector<Config::XmlEntity> getPrefabs();
+            std::vector<std::shared_ptr<Entity>> getPrefabs();
 
             std::vector<Config::XmlComponent> getDefaultConfigs();
 

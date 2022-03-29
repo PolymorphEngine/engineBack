@@ -8,11 +8,14 @@
 #include "ScriptingAPI/ScriptingApi.hpp"
 #include "ScriptingAPI/IScriptFactory.hpp"
 #include <Polymorph/Debug.hpp>
+#include "safe_ptr.hpp"
+#include <Polymorph/Core.hpp>
 
-Polymorph::ScriptingApi::Initializer
-Polymorph::ScriptingApi::create(std::string &type,
-                                Polymorph::Config::XmlComponent &data,
-                                Polymorph::Entity &entity)
+using namespace Polymorph;
+
+Initializer ScriptingApi::create(std::string &type,
+                                Config::XmlComponent &data,
+                                safe_ptr<Entity> entity)
 {
     if (!_instance || !_instance->_scriptFactory)
     {
@@ -22,7 +25,7 @@ Polymorph::ScriptingApi::create(std::string &type,
     return _instance->_scriptFactory->create(type, data, entity);
 }
 
-Polymorph::ScriptingApi::ScriptingApi(std::string libPath)
+ScriptingApi::ScriptingApi(std::string libPath)
 {
     if (_instance != nullptr)
         throw ExceptionLogger("[Scripting API] Tried to create ScriptingAPI where one exist already.", Logger::MAJOR);
@@ -38,14 +41,14 @@ Polymorph::ScriptingApi::ScriptingApi(std::string libPath)
     _loadFactory();
 }
 
-void *Polymorph::ScriptingApi::getHandler()
+void *ScriptingApi::getHandler()
 {
     if (!_instance)
         return nullptr;
     return _instance->_handler;
 }
 
-void Polymorph::ScriptingApi::_loadSymbols()
+void ScriptingApi::_loadSymbols()
 {
     try {
         _loader = loadSymbol<ScriptFactoryLoader, ScriptingApi>("createFactory");
@@ -53,13 +56,13 @@ void Polymorph::ScriptingApi::_loadSymbols()
     } catch(...) {}
 }
 
-void Polymorph::ScriptingApi::_loadFactory()
+void ScriptingApi::_loadFactory()
 {
     if (_loader != nullptr)
         _scriptFactory = _loader();
 }
 
-Polymorph::ScriptingApi::~ScriptingApi()
+ScriptingApi::~ScriptingApi()
 {
     if (_unloader != nullptr)
         _unloader(_scriptFactory);

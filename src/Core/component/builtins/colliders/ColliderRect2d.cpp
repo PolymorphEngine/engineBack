@@ -14,8 +14,8 @@ using namespace Polymorph;
 
 bool ColliderRect2dComponent::checkCollision(ACollider2dComponent &other)
 {
-    auto tmpPosition = Vector2(transform.getPosition()) + offset;
-    auto otherPosition = Vector2(other.transform.getPosition()) + other.offset;
+    auto tmpPosition = Vector2(transform->getPosition()) + offset;
+    auto otherPosition = Vector2(other.transform->getPosition()) + other.offset;
     auto circleShape = dynamic_cast<ColliderCircle2dComponent *>(&other);
     auto boxShape = dynamic_cast<ColliderRect2dComponent *>(&other);
 
@@ -27,7 +27,7 @@ bool ColliderRect2dComponent::checkCollision(ACollider2dComponent &other)
     throw ExceptionLogger("ColliderBox2dComponent::checkCollision: unknown collider type");
 }
 
-ColliderRect2dComponent::ColliderRect2dComponent(Entity &entity)
+ColliderRect2dComponent::ColliderRect2dComponent(GameObject entity)
     : ACollider2dComponent(entity, "ColliderRect2d")
 {
 

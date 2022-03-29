@@ -22,7 +22,7 @@ namespace Polymorph
     class SpriteRendererComponent : public ADrawableComponent
     {
         public:
-            explicit SpriteRendererComponent(Entity &gameObject);
+            explicit SpriteRendererComponent(GameObject gameObject);
 
 
         public:

@@ -20,21 +20,21 @@ namespace Polymorph
         for (auto &c: _components) {
             std::string t = c->getType();
             if (t == "Transform") {
-                (*e).addComponent(t, *c);
+                (*e).addComponent(t, *c, GameObject(e));
                 break;
             }
         }
-        e->transform = *e->getComponent<TransformComponent>();
+        e->transform = e->getComponent<TransformComponent>();
         if (!e->transform) {
             Logger::log("Entity '" + e->getName() +
                         "' has no transform. (set default Transform)",
                         Logger::MINOR);
-            e->transform = *(*e).addComponent<TransformComponent>();
+            e->transform = (*e).addComponent<TransformComponent>();
         }
         for (auto &c: _components) {
             std::string t = c->getType();
             if (t != "Transform") {
-                (*e).addComponent(t, *c);
+                (*e).addComponent(t, *c, GameObject(e));
             }
         }
 
