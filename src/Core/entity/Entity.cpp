@@ -26,15 +26,15 @@ Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
 
 
 void Polymorph::Entity::addComponent(std::string &component,
-Polymorph::Config::XmlComponent &config)
+Polymorph::Config::XmlComponent &config, GameObject _this)
 {
     if (componentExist(component))
         return;
     //TODO : throw ?
-    ComponentFactory::Initializer i = ComponentFactory::create(component, config, *this);
+    ComponentFactory::Initializer i = ComponentFactory::create(component, config, _this);
 
     if (i == nullptr)
-        i = ScriptingApi::create(component, config, *this);
+        i = ScriptingApi::create(component, config, _this);
 
     if (i == nullptr) {
         Logger::log(
@@ -82,10 +82,10 @@ void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
 
     for (auto &child : trm) {
         //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject.getComponent<ADrawableComponent>();
+        Drawable drawable = child->gameObject->getComponent<ADrawableComponent>();
         if (!!drawable && drawable->enabled)
             drawable->draw();
-        drawChildren(*child);
+        drawChildren(**child);
     }
 }
 
@@ -152,7 +152,7 @@ bool Polymorph::Entity::deleteComponent()
 Polymorph::Entity::~Entity()
 {
     if (!!transform->parent())
-        transform->parent()->removeChild(*transform);
+        transform->parent()->removeChild(transform);
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)

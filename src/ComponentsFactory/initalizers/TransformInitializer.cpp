@@ -13,8 +13,10 @@
 
 namespace Polymorph
 {
-    TransformInitializer::TransformInitializer(Config::XmlComponent &data, Entity &entity)
-        : AComponentInitializer("Transform", data, entity) {}
+    TransformInitializer::TransformInitializer(Config::XmlComponent &data, GameObject entity)
+        : AComponentInitializer("Transform", data, entity) {
+        component->transform = Transform(component);
+    }
 
     void TransformInitializer::build()
     {
@@ -29,7 +31,7 @@ namespace Polymorph
         data.setProperty("children", refs);
 
         for (auto &ref: refs) {
-                ref->transform->setParent(component);
+                ref->transform->setParent(Transform(component));
         }
     }
 }

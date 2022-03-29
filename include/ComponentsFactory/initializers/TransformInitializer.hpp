@@ -17,7 +17,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            TransformInitializer(Config::XmlComponent &data, Entity &entity);
+            TransformInitializer(Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

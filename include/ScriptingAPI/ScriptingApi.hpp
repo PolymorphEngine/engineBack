@@ -9,6 +9,7 @@
 #pragma once
 
 #include "DynamicLoader/DynamicLoader.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 
 namespace Polymorph
@@ -54,7 +55,7 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity);
+            static Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity);
 
             static void *getHandler();
 

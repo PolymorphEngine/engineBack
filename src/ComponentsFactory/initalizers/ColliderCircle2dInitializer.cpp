@@ -12,7 +12,7 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 
-Polymorph::ColliderCircle2dInitializer::ColliderCircle2dInitializer(Polymorph::Config::XmlComponent &data, Polymorph::Entity &entity)
+Polymorph::ColliderCircle2dInitializer::ColliderCircle2dInitializer(Polymorph::Config::XmlComponent &data, GameObject entity)
         : AComponentInitializer("ColliderCircle2d", data, entity)
 {
 }

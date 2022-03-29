@@ -10,7 +10,7 @@
 
 namespace Polymorph
 {
-    ADrawableComponent::ADrawableComponent(std::string type, Entity &gameObject)
+    ADrawableComponent::ADrawableComponent(std::string type, GameObject gameObject)
     : Component(type, gameObject)
     {
         

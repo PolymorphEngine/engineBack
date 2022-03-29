@@ -19,7 +19,7 @@ namespace Polymorph
     template<typename T>
     safe_ptr<T> Component::getComponent()
     {
-        return gameObject.getComponent<T>();
+        return gameObject->getComponent<T>();
     }
 
     /**
@@ -31,8 +31,8 @@ namespace Polymorph
     template <typename T>
     safe_ptr<T> Component::getComponentInParent()
     {
-        if (!!transform.parent())
-            return transform.parent()->gameObject.getComponent<T>();
+        if (!!transform->parent())
+            return transform->parent()->gameObject->getComponent<T>();
     }
 
     /**
@@ -45,7 +45,7 @@ namespace Polymorph
     template <typename T>
     safe_ptr<T> Component::getComponentInChildren()
     {
-        for (auto &child: transform)
+        for (auto &child: **transform)
         {
             auto c = child->getComponent<T>();
             if (!!c)
@@ -64,7 +64,7 @@ namespace Polymorph
     template<typename T>
     safe_ptr<T> Component::addComponent()
     {
-        return gameObject.addComponent<T>();
+        return gameObject->addComponent<T>();
     }
 
     /**
@@ -76,7 +76,7 @@ namespace Polymorph
     template<typename T>
     bool Component::componentExist()
     {
-        return gameObject.componentExist<T>();
+        return gameObject->componentExist<T>();
     }
 
     /**
@@ -88,7 +88,7 @@ namespace Polymorph
     template<typename T>
     bool Component::deleteComponent()
     {
-        return gameObject.deleteComponent<T>();
+        return gameObject->deleteComponent<T>();
     }
 
 }

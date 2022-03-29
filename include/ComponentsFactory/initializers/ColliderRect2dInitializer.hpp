@@ -18,7 +18,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            ColliderRect2dInitializer(Config::XmlComponent &data, Entity &entity);
+            ColliderRect2dInitializer(Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

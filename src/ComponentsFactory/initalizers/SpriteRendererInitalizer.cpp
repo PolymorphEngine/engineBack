@@ -13,7 +13,7 @@
 
 using namespace Polymorph;
 
-SpriteRendererInitializer::SpriteRendererInitializer(Config::XmlComponent &data, Entity &entity)
+SpriteRendererInitializer::SpriteRendererInitializer(Config::XmlComponent &data, GameObject entity)
         : AComponentInitializer("SpriteRenderer", data, entity)
 {
 

@@ -32,6 +32,8 @@ Polymorph::GraphicalAPI::~GraphicalAPI()
     _sprites.clear();
     _texts.clear();
     _displays.clear();
+    _instance = nullptr;
+    CurrentDisplay = nullptr;
 }
 
 

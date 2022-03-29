@@ -35,7 +35,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, Entity &entity);
+            static Initializer create(std::string &type, Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -45,17 +45,17 @@ namespace Polymorph
 
         private:
             static const inline std::map<std::string,
-            std::function<Initializer (Config::XmlComponent &data, Entity &entity)>>
+            std::function<Initializer (Config::XmlComponent &data, GameObject entity)>>
             _buildables =
             {
                 // @INITIALIZERS: (add Component Initializers here)
                 // @TRANSFORM:
                 {
-                        {"Transform", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
-                        {"ColliderCircle2d", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new ColliderCircle2dInitializer(data, entity));}},
-                        {"ColliderRect2d", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new ColliderRect2dInitializer(data, entity));}},
-                        {"SpriteRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new SpriteRendererInitializer(data, entity));}},
-                        {"TextRenderer", [](Config::XmlComponent &data, Entity &entity) -> Initializer{ return Initializer(new TextRendererInitializer(data, entity));}},
+                        {"Transform", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
+                        {"ColliderCircle2d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderCircle2dInitializer(data, entity));}},
+                        {"ColliderRect2d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderRect2dInitializer(data, entity));}},
+                        {"SpriteRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SpriteRendererInitializer(data, entity));}},
+                        {"TextRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new TextRendererInitializer(data, entity));}},
                 },
             };
 ///////////////////////////--------------------------///////////////////////////

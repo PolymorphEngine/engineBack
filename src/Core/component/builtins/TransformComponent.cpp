@@ -12,43 +12,39 @@ namespace Polymorph
 {
 
     Transform TransformComponent::parent() {
-        return Transform(_parent);
+        return _parent;
     }
 
-    void TransformComponent::setParent(const std::shared_ptr<TransformComponent>& parent_ref)
+    void TransformComponent::setParent(Transform parent_ref)
     {
-        if (this->_parent != nullptr && this->_parent != parent_ref)
-            this->_parent->removeChild(*this);
+        if (!!this->_parent && this->_parent->gameObject->getId() != parent_ref->gameObject->getId())
+            this->_parent->removeChild(transform);
         this->_parent = parent_ref;
-        if (parent_ref == nullptr)
-        {
-            //TODO: Set index in scene at (next parent empty Entity index) - 1
-        }
         setLastSibling();
     }
 
-    TransformBase TransformComponent::removeChild(TransformComponent &child)
+    Transform TransformComponent::removeChild(Transform child)
     {
         int pos = 0;
 
         for (auto &tchild: *this)
         {
-            if (tchild->gameObject.getId() == child.gameObject.getId())
+            if (tchild->gameObject->getId() == child->gameObject->getId())
             {
                 erase(pos);
-                child._parent.reset();
+                child->_parent.reset();
                 //TODO: reset in scene
                 return (tchild);
             }
             ++pos;
         }
-        return nullptr;
+        return Transform(nullptr);
     }
 
     void TransformComponent::setSiblingIndex(int index)
     {
 
-        if (_parent == nullptr)
+        if (!_parent)
             return;
         if (index < 0)
             index = 0;
@@ -57,13 +53,13 @@ namespace Polymorph
 
         //TODO: Set index in scene !!!
 
-        _parent->removeChild(*this);
-        _parent->_children.insert(_parent->_children.begin() + index, this->gameObject.transform);
+        _parent->removeChild(transform);
+        _parent->_children.insert(_parent->_children.begin() + index, transform);
     }
 
     void TransformComponent::setLastSibling()
     {
-        if (_parent == nullptr)
+        if (!_parent)
             //TODO : Log "Tried to set sibling index on an object which hasn't a parent"
             return;
         setSiblingIndex((int) _parent->_children.size() - 1);
@@ -74,7 +70,7 @@ namespace Polymorph
         setSiblingIndex(0);
     }
 
-    TransformComponent::TransformComponent(Entity &gameObject)
+    TransformComponent::TransformComponent(GameObject gameObject)
             : Component("Transform", gameObject)
     {
 
@@ -82,7 +78,6 @@ namespace Polymorph
 
     void TransformComponent::start()
     {
-
     }
 
     void TransformComponent::update()

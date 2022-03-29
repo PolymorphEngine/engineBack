@@ -162,8 +162,8 @@ namespace Polymorph
                 return GameObject(e);
         }
         for (auto &e: _game.getPrefabs()) {
-            if (e.getId() == id)
-                return GameObject(e.makeInstance());
+            if (e->getId() == id)
+                return GameObject(e);
         }
         return GameObject(nullptr);
     }
