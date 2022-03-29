@@ -16,6 +16,7 @@
 
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/Time.hpp"
+#include "ScriptingAPI/IScriptFactory.hpp"
 
 
 namespace Polymorph
@@ -97,10 +98,10 @@ namespace Polymorph
 
             /**
              * Loads a script factory from the filepath to an shared library ('.so')
-             * @param scriptFactoryPath the path to the shared library
+             * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadScriptingAPI(const std::string& scriptFactoryPath);
+            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
 
 
             /**
@@ -183,7 +184,7 @@ namespace Polymorph
              * @details Inits the debug settings of the engine
              */
             void _initDebugSettings();
-            
+
             /**
              * @details Inits the game prefabs
              */

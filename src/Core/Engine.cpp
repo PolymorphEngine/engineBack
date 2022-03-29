@@ -244,11 +244,11 @@ void Polymorph::Engine::loadGraphicalAPI(const std::string& graphicalLibPath)
 
 }
 
-void Polymorph::Engine::loadScriptingAPI(const std::string& scriptFactoryPath)
+void Polymorph::Engine::loadScriptingAPI(
+        std::unique_ptr<IScriptFactory> scriptFactory)
 {
-    try
-    {
-        _scriptingApi = std::make_unique<ScriptingApi>(scriptFactoryPath);
+    try {
+        _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
     } catch (ExceptionLogger &e) {
         e.what();
     } catch (std::exception &e) {
