@@ -29,7 +29,6 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     _initExectutionOrder();
     _initLayers();
     _initTemplates();
-    _initPrefabs();
 }
 
 int Polymorph::Engine::run()
@@ -257,6 +256,7 @@ void Polymorph::Engine::loadScriptingAPI(
 
 void Polymorph::Engine::loadEngine()
 {
+    _initPrefabs();
     _initGameData();
 
     if (_scenes.empty())
