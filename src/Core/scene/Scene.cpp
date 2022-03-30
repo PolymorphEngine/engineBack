@@ -54,8 +54,10 @@ namespace Polymorph
         for (auto &destroyHolder : _destroyQueueList) {
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
-            if (destroyHolder.first->timeIsUp())
+            if (destroyHolder.first->timeIsUp()) {
+                _eraseChildren(destroyHolder.second);
                 _erase(destroyHolder.second);
+            }
             else
                 nmap.emplace(destroyHolder);
         }
@@ -87,28 +89,14 @@ namespace Polymorph
     {
         auto pos = 0;
         for (auto entity = _entities.begin(); entity != _entities.end(); ++entity) {
-            if ((**entity) == id)
-                _entities.erase(entity, entity +
-                        _countChildren(entity, (*entity)->getId()) + 1);
+            if ((**entity) == id) {
+                _entities.erase(entity);
+                return;
+            }
             pos++;
         }
     }
 
-    int Scene::_countChildren(
-            std::vector<std::shared_ptr<Entity>>::iterator &entity,
-            std::string &parent_id)
-    {
-        auto count = (*entity)->transform->nbChildren();
-
-        ++entity;
-        for (; entity != _entities.end() && (*entity)->getId() != parent_id;) {
-            if (!(*entity)->transform->noChild())
-                count += _countChildren(entity, (*entity)->getId());
-            else
-                ++entity;
-        }
-        return static_cast<int>(count);
-    }
 
     GameObject Scene::find(const std::string &needle)
     {
@@ -229,6 +217,14 @@ namespace Polymorph
     void Scene::addEntityToAddQueue(const std::shared_ptr<Entity> &entity)
     {
         _entitiesToAdd.push_back(entity);
+    }
+
+    void Scene::_eraseChildren(Entity &entity)
+    {
+        for (auto &child: **entity.transform) {
+            _eraseChildren(**child->gameObject);
+            _erase(**child->gameObject);
+        }
     }
 
 }
