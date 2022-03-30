@@ -50,6 +50,7 @@ namespace Polymorph
             std::string id;
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
+            std::vector<std::shared_ptr<Entity>> _entitiesToAdd;
             std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
             Engine &_game;
             std::shared_ptr<Config::XmlScene> _config_data;
@@ -148,6 +149,11 @@ namespace Polymorph
              * @param entity a shared_ptr to an entity to add in the list
              */
              void addEntity(const std::shared_ptr<Entity>& entity);
+             /**
+              * @details Add an entity to the entities list
+              * @param entity a shared_ptr to an entity to add in the list
+              */
+             void addEntityToAddQueue(const std::shared_ptr<Entity>& entity);
 
             /**
             * @details Add an entity to the entities list at the desired index

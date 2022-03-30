@@ -52,8 +52,9 @@ namespace Polymorph
             index = _parent->_children.size() - 1;
 
         //TODO: Set index in scene !!!
-
+        auto tmp = _parent;
         _parent->removeChild(transform);
+        _parent = tmp;
         _parent->_children.insert(_parent->_children.begin() + index, transform);
     }
 
