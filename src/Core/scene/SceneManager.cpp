@@ -57,9 +57,11 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance();
-
+    auto nId = uuid::uuid();
+    
+    nEntity->setId(nId);
     nEntity->awake();
-    Current->addEntity(nEntity);
+    Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
@@ -69,11 +71,13 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance();
+    auto nId = uuid::uuid();
 
+    nEntity->setId(nId);
     nEntity->awake();
     //TODO maybe call transform method
     nEntity->transform->setPosition(position);
-    Current->addEntity(nEntity);
+    Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
@@ -83,10 +87,12 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance();
+    auto nId = uuid::uuid();
 
+    nEntity->setId(nId);
     nEntity->awake();
     nEntity->transform->setParent(parent);
-    Current->addEntity(nEntity);
+    Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
@@ -97,11 +103,13 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance();
+    auto nId = uuid::uuid();
 
+    nEntity->setId(nId);
     nEntity->awake();
     nEntity->transform->setParent(parent);
     nEntity->transform->setPosition(parent->getPosition() + offset);
-    Current->addEntity(nEntity);
+    Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
