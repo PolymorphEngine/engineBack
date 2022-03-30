@@ -159,7 +159,6 @@ std::string Polymorph::Engine::getProjectPath()
 
 Polymorph::Engine::~Engine()
 {
-    std::cout << "Its a temporary leak ..." << std::endl;
 }
 
 std::shared_ptr<Polymorph::Scene>
