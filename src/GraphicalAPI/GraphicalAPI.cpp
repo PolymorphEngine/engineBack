@@ -58,6 +58,11 @@ void Polymorph::GraphicalAPI::_unloadModules()
 
 void Polymorph::GraphicalAPI::_reloadModules()
 {
+    for (auto &t: _instance->_displays)
+    {
+        t->_displayModule = _instance->_c_display(10, 10, "");
+        t->_loadModule();
+    }
     for (auto &s: _instance->_sprites)
     {
         s->_spriteModule = _instance->_c_sprite();
@@ -66,12 +71,6 @@ void Polymorph::GraphicalAPI::_reloadModules()
     for (auto &t: _instance->_texts)
     {
         t->_textModule = _instance->_c_text();
-        t->_loadModule();
-    }
-    for (auto &t: _instance->_displays)
-    {
-        auto res = t->getResolution();
-        t->_displayModule = _instance->_c_display(res.x, res.y, "");
         t->_loadModule();
     }
 }
