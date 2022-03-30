@@ -12,13 +12,13 @@ int main()
 {
     std::string path = "./build";
     std::string name = "Test";
-    
-    
+
+
     try
     {
         Polymorph::Engine e = Polymorph::Engine(path, name);
         e.loadGraphicalAPI("./lib/libarcade_sfml.so");
-        e.loadScriptingAPI(path + "/" +name + ".so");
+        //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
         e;
