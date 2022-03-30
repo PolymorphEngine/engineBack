@@ -55,7 +55,7 @@ namespace Polymorph
         private:
             std::vector<std::shared_ptr<Scene>> _scenes;
             std::vector<std::shared_ptr<Entity>> _prefabs;
-            std::vector<Config::XmlEntity> _prefabsConfigs;
+            std::vector<std::shared_ptr<Config::XmlEntity>> _prefabsConfigs;
             std::vector<Config::XmlComponent> _defaultConfigs;
 
             std::vector<std::string> _layers;

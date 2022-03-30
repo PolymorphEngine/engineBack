@@ -273,8 +273,8 @@ void Polymorph::Engine::_initPrefabs()
 
         for (auto &prefab: *prefabs) {
             try {
-                _prefabsConfigs.emplace_back(Config::XmlEntity(prefab, *this, _projectPath));
-                _prefabs.emplace_back(_prefabsConfigs.back().makeInstance());
+                _prefabsConfigs.push_back(std::make_shared<Config::XmlEntity>(prefab, *this, _projectPath));
+                _prefabs.push_back(_prefabsConfigs.back()->makeInstance());
             } catch (myxmlpp::Exception &e) {
                 Logger::log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
             } catch (ExceptionLogger &e) {

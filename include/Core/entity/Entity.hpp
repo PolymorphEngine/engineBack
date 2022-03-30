@@ -194,6 +194,12 @@ namespace Polymorph
              * @returns An std::string of the entity's unique id
              */
             std::string &getId() {return _stringId;};
+            
+            /**
+             * @details A setter for the entity's unique id
+             * @param An std::string of the entity's unique id
+             */
+             void setId(const std::string &id) {_stringId = id;};
 
             /**
              * @details A getter to fetch the XmlEntity associated with the
