@@ -37,9 +37,13 @@ namespace Polymorph
         }
         
         for (auto &e: _entities)
+        {
             if (e->isActive())
                 e->update();
-
+            if (Engine::isExiting())
+                return;
+        }
+            
         //TODO : sort ?
         for (auto &e: _entities)
             if (e->isActive())
