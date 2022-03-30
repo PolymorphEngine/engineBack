@@ -18,7 +18,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            ColliderCircle2dInitializer(Config::XmlComponent &data, Entity &entity);
+            ColliderCircle2dInitializer(Config::XmlComponent &data, GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

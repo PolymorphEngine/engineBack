@@ -25,7 +25,7 @@ namespace Polymorph
     class TransformComponent : public Component
     {
         friend class TransformInitializer;
-        using iterator = std::vector<std::shared_ptr<TransformComponent>>::iterator;
+        using iterator = std::vector<Transform>::iterator;
 
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace Polymorph
              * Create a transform component with the entity which it belongs to
              * @param gameObject the container entity
              */
-            explicit TransformComponent(Entity &gameObject);
+            explicit TransformComponent(GameObject gameObject);
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -60,12 +60,12 @@ namespace Polymorph
             /**
              * A reference to the parent entity's transform (in the case the entity has a parent)
              */
-            TransformBase _parent = nullptr;
+            Transform _parent = Transform(nullptr);
 
             /**
              * The list of all references to children's entities transforms
              */
-            std::vector<TransformBase> _children;
+            std::vector<Transform> _children;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -143,9 +143,9 @@ namespace Polymorph
             void setScaleZ(float scaleZ);
 */
 
-            void setParent(const std::shared_ptr<TransformComponent>& parent_ref);
+            void setParent(Transform parent_ref);
 
-            std::shared_ptr<TransformComponent> removeChild(TransformComponent &child);
+            Transform removeChild(Transform child);
 
             void setSiblingIndex(int index);
 

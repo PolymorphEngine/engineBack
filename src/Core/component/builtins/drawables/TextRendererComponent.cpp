@@ -16,11 +16,11 @@ namespace Polymorph
     {
         if (!text)
             return;
-        text->setPosition(Vector2(transform.getPosition()) + offset);
+        text->setPosition(Vector2(transform->getPosition()) + offset);
         GraphicalAPI::CurrentDisplay->draw(**text);
     }
 
-    TextRendererComponent::TextRendererComponent(Entity &gameObject)
+    TextRendererComponent::TextRendererComponent(GameObject gameObject)
             : ADrawableComponent("TextRenderer", gameObject)
     {
 

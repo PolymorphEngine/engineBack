@@ -9,6 +9,7 @@
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Debug.hpp>
 #include <Polymorph/Config.hpp>
+#include "Scene.hpp"
 
 namespace Polymorph
 {
@@ -30,6 +31,11 @@ namespace Polymorph
 
     void Scene::updateComponents()
     {
+        if (!_entitiesToAdd.empty()) {
+            _entities.insert(_entities.end(), _entitiesToAdd.begin(), _entitiesToAdd.end());
+            _entitiesToAdd.clear();
+        }
+        
         for (auto &e: _entities)
             if (e->isActive())
                 e->update();
@@ -162,8 +168,8 @@ namespace Polymorph
                 return GameObject(e);
         }
         for (auto &e: _game.getPrefabs()) {
-            if (e.getId() == id)
-                return GameObject(e.makeInstance());
+            if (e->getId() == id)
+                return GameObject(e);
         }
         return GameObject(nullptr);
     }
@@ -218,6 +224,11 @@ namespace Polymorph
                                std::size_t idx)
     {
         _entities.insert(_entities.begin() + (int)idx, entity);
+    }
+
+    void Scene::addEntityToAddQueue(const std::shared_ptr<Entity> &entity)
+    {
+        _entitiesToAdd.push_back(entity);
     }
 
 }

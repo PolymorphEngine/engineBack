@@ -19,7 +19,7 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            explicit ColliderCircle2dComponent(Entity &entity);
+            explicit ColliderCircle2dComponent(GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

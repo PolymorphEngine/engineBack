@@ -14,7 +14,7 @@
 using namespace Polymorph;
 
 TextRendererInitializer::TextRendererInitializer(
-        Config::XmlComponent &data, Entity &entity): AComponentInitializer("TextRenderer",data, entity)
+        Config::XmlComponent &data, GameObject entity): AComponentInitializer("TextRenderer", data, entity)
 {
 }
 
