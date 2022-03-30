@@ -57,14 +57,20 @@ void Polymorph::Entity::update()
                 (**c)->onAwake();
                 (**c)->setAsAwaked();
             }
+            if (Engine::isExiting())
+                return;
             if (!(**c)->enabled)
                 continue;
             if (!(**c)->isStarted()) {
                 (**c)->start();
                 (**c)->setAsStarted();
             }
+            if (Engine::isExiting())
+                return;
             if ((**c)->enabled)
                 (**c)->update();
+            if (Engine::isExiting())
+                return;
         }
 }
 

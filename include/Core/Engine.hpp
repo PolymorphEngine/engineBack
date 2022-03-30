@@ -117,6 +117,7 @@ namespace Polymorph
             void loadEngine();
 
             static void exit(ExitCode code);
+            static bool isExiting() {return _exit;};
 
             std::string getProjectPath();
 
