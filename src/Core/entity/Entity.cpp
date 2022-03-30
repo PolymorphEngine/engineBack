@@ -63,7 +63,8 @@ void Polymorph::Entity::update()
                 (**c)->start();
                 (**c)->setAsStarted();
             }
-            (**c)->update();
+            if ((**c)->enabled)
+                (**c)->update();
         }
 }
 
