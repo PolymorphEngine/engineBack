@@ -210,3 +210,13 @@ bool Polymorph::Entity::isPrefab() const
 {
     return _isPrefab;
 }
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::find(const std::string &nameToFind)
+{
+    for (auto &child : **transform) {
+        if (child->gameObject->name == nameToFind)
+            return child->gameObject;
+    }
+    return GameObject(nullptr);
+}
