@@ -10,6 +10,8 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
+#include "Entity.hpp"
+
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
@@ -18,9 +20,9 @@ Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
     _active = data.isActive();
     _tags = data.getTags();
     _order = _game.getExecOrder();
+    _isPrefab = data.isPrefab();
     for (auto &type: _order)
         _components[type];
-    _isPrefab = false;
 }
 
 
@@ -202,4 +204,9 @@ void Polymorph::Entity::start()
 bool Polymorph::Entity::isActive() const
 {
     return _active;
+}
+
+bool Polymorph::Entity::isPrefab() const
+{
+    return _isPrefab;
 }
