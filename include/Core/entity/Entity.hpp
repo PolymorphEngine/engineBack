@@ -79,6 +79,8 @@ namespace Polymorph
              * @returns The state of the game object
              */
             bool isActive() const;
+            
+            bool isPrefab() const;
 
             /**
              * @details Changes the game object state
