@@ -225,3 +225,15 @@ Polymorph::Entity::find(const std::string &nameToFind)
     }
     return GameObject(nullptr);
 }
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::childAt(std::size_t idx)
+{
+    if (idx > transform->nbChildren())
+        return GameObject(nullptr);
+    for (auto &child : **transform) {
+        if (idx == 0)
+            return child->gameObject;
+        --idx;
+    }
+}

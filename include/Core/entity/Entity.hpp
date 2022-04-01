@@ -138,6 +138,13 @@ namespace Polymorph
             safe_ptr<Entity> find(const std::string &nameToFind);
 
             /**
+             * @details Get a child entity by its index
+             * @param idx The idx of the wanted child
+             * @return The child entity
+             */
+            safe_ptr<Entity> childAt(std::size_t idx);
+
+            /**
              * @details Awakes the entity by calling onAwake() of the components
              */
             void awake();
