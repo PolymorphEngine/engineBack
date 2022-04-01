@@ -70,8 +70,10 @@ void Polymorph::TextModule::move(Vector2 move)
 
 void Polymorph::TextModule::setString(std::string newString)
 {
-    if (_textModule)
-        _textModule->setText(std::move(newString));
+    if (_textModule) {
+        _textModule->setText(newString.c_str());
+        _str = newString;
+    }
     else
         Logger::log("No text module loaded.", Logger::MINOR);
 
@@ -111,7 +113,10 @@ void Polymorph::TextModule::setFontSize(int size)
 Polymorph::TextModule &Polymorph::TextModule::operator=(const std::string &newText)
 {
     if (_textModule)
+    {
         _textModule->setText(newText);
+        _str = newText;
+    }
     else
         Logger::log("No text module loaded.", Logger::MINOR);
     return *this;
@@ -120,7 +125,10 @@ Polymorph::TextModule &Polymorph::TextModule::operator=(const std::string &newTe
 Polymorph::TextModule &Polymorph::TextModule::operator+=(const std::string &newText)
 {
     if (_textModule)
+    {
         _textModule->setText(_str + newText);
+        _str += newText;
+    }
     else
         Logger::log("No text module loaded.", Logger::MINOR);
     return *this;

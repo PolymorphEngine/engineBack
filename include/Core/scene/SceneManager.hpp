@@ -34,8 +34,10 @@ namespace Polymorph
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public: // Properties
             static inline std::shared_ptr<Scene> Current = nullptr;
-            static inline std::shared_ptr<Engine> Game = nullptr;
+            static inline Engine *Game = nullptr;
             static inline std::vector<std::shared_ptr<Entity>> KeepOnLoad;
+        private:
+            static inline bool _sceneLoading = false;
 //////////////////////--------------------------/////////////////////////
 
 
@@ -163,7 +165,8 @@ namespace Polymorph
              */
             static void loadScene(std::string name);
 
-
+            static bool isSceneUnloaded();
+            static void resetLoading();
             /**
              * @details Creates an empty scene (runtime only)
              * @param name: Name of the scene to load
