@@ -45,12 +45,19 @@ namespace Polymorph
     template <typename T>
     safe_ptr<T> Component::getComponentInChildren()
     {
-        for (auto &child: **transform)
-        {
-            auto c = child->getComponent<T>();
-            if (!!c)
-                return c;
+        for (auto &child: **transform) {
+            auto c2 = child->getComponent<T>();
+            if (!!c2)
+                return c2;
         }
+        
+        for (auto &child: **transform) {
+            auto c1 = child->getComponentInChildren<T>();
+            if (!!c1)
+                return c1;
+            
+        }
+        return safe_ptr<T>(nullptr);
     }
 
     /**

@@ -55,7 +55,10 @@ namespace Polymorph
         auto tmp = _parent;
         _parent->removeChild(transform);
         _parent = tmp;
-        _parent->_children.insert(_parent->_children.begin() + index, transform);
+        if (index == _parent->_children.size() - 1)
+            _parent->_children.push_back(transform);
+        else
+            _parent->_children.insert(_parent->_children.begin() + index, transform);
     }
 
     void TransformComponent::setLastSibling()
