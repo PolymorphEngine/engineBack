@@ -20,6 +20,7 @@ namespace Polymorph
     class SpriteModule;
     class TextModule;
     class DisplayModule;
+    class Input;
     
     
     using Sprite = safe_ptr<SpriteModule>;
@@ -98,6 +99,7 @@ namespace Polymorph
             static void _unloadModules();
             static void _reloadModules();
 
+            friend Input;
 //////////////////////--------------------------/////////////////////////
         };
 

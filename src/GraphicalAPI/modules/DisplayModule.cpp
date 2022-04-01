@@ -86,6 +86,11 @@ namespace Polymorph
             return;
         }
         _displayModule->fetchInputs();
+        for (int i = 0; i < arcade::KeyCount; i++)
+            _storeInput(static_cast<arcade::KeyCode>(i), isKeyPressed(static_cast<arcade::KeyCode>(i)));
+        _storeInput(arcade::MouseButton1, isKeyPressed(arcade::MouseButton1));
+        _storeInput(arcade::MouseButton2, isKeyPressed(arcade::MouseButton2));
+        _storeInput(arcade::MouseButton3, isKeyPressed(arcade::MouseButton3));
     }
 
     void DisplayModule::setResolution(Vector2 newResolution)
@@ -167,5 +172,37 @@ namespace Polymorph
             return false;
         }
         return _displayModule->isKeyPressed(code);
+    }
+
+    void DisplayModule::_storeInput(arcade::KeyCode code, bool pressed)
+    {
+        if (!pressed && !_holdedKeys[code] && !_pressedKeys[code] && _releasedKeys[code])
+        {
+            _pressedKeys[code] = false;
+            _holdedKeys[code] = false;
+            _releasedKeys[code] = false;
+            return;
+        }
+        if (!pressed && _holdedKeys[code])
+        {
+            _pressedKeys[code] = false;
+            _holdedKeys[code] = false;
+            _releasedKeys[code] = true;
+            return;
+        }
+        if (pressed && !_holdedKeys[code] && !_pressedKeys[code])
+        {
+            _pressedKeys[code] = true;
+            _holdedKeys[code] = true;
+            _releasedKeys[code] = false;
+            return;
+        }
+        else  if (pressed && _pressedKeys[code])
+        {
+            _pressedKeys[code] = false;
+            _holdedKeys[code] = true;
+            _releasedKeys[code] = false;
+            return;
+        } 
     }
 }

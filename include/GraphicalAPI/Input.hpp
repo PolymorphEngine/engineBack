@@ -9,6 +9,7 @@
 #pragma once
 
 #include "GraphicalAPI/arcade/IDisplayModule.hpp"
+#include "GraphicalAPI.hpp"
 
 namespace Polymorph
 {
@@ -27,10 +28,10 @@ namespace Polymorph
         public:
     
         private:
-            std::map<arcade::KeyCode, bool> _pressedKeys;
-            std::map<arcade::KeyCode, bool> _releasedKeys;
-            std::map<arcade::KeyCode, bool> _holdedKeys;
-    
+
+
+
+
 //////////////////////--------------------------/////////////////////////
     
     
@@ -44,7 +45,10 @@ namespace Polymorph
             static bool isMouseButtonDown(arcade::KeyCode buttonNb);
             static bool isMouseButtonUp(arcade::KeyCode buttonNb);
             static bool isMouseButtonHold(arcade::KeyCode buttonNb);
-    
+            static std::vector<arcade::KeyCode> getHoldInputs();
+            static std::vector<arcade::KeyCode> getDownInputs();
+            static std::vector<arcade::KeyCode> getUpInputs();
+
         private:
     
 //////////////////////--------------------------/////////////////////////
