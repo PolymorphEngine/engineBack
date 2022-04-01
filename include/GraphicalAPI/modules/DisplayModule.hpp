@@ -22,6 +22,7 @@ namespace Polymorph
 {
     namespace Settings{class VideoSettings;}
     class SpriteModule;
+    class Input;
     class TextModule;
     class GraphicalAPI;
 
