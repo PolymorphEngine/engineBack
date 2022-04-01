@@ -8,39 +8,53 @@
 #include <Polymorph/Debug.hpp>
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Types.hpp>
+#include "GraphicalAPI/Input.hpp"
+
 
 bool Polymorph::Input::isKeyHold(arcade::KeyCode code)
 {
-    return GraphicalAPI::CurrentDisplay->isKeyPressed(code);
+    return GraphicalAPI::CurrentDisplay->_holdedKeys[code];
 }
 
 bool Polymorph::Input::isMouseButtonHold(arcade::KeyCode buttonNb)
 {
-    if (buttonNb < arcade::MouseButton1 || buttonNb > arcade::MouseButton3)
-        return false;
-    return GraphicalAPI::CurrentDisplay->isKeyPressed(buttonNb);
+    return GraphicalAPI::CurrentDisplay->_holdedKeys[buttonNb];
 }
 
 bool Polymorph::Input::isKeyUp(arcade::KeyCode code)
 {
-    Logger::log("[Input] isKeyUp: not implemented yet (false by default)");
-    return false;
+    return GraphicalAPI::CurrentDisplay->_releasedKeys[code];
 }
 
 bool Polymorph::Input::isKeyDown(arcade::KeyCode code)
 {
-    Logger::log("[Input] isKeyDown: not implemented yet (false by default)");
-    return false;
+    return GraphicalAPI::CurrentDisplay->_pressedKeys[code];
 }
 
 bool Polymorph::Input::isMouseButtonDown(arcade::KeyCode buttonNb)
 {
-    Logger::log("[Input] isMouseButtonDown: not implemented yet (false by default)");
-    return false;
+    
+    return GraphicalAPI::CurrentDisplay->_pressedKeys[buttonNb];
 }
 
 bool Polymorph::Input::isMouseButtonUp(arcade::KeyCode buttonNb)
 {
-    Logger::log("[Input] isMouseButtonUp: not implemented yet (false by default)");
-    return false;
+    return GraphicalAPI::CurrentDisplay->_releasedKeys[buttonNb];
+
+}
+
+std::vector<arcade::KeyCode> Polymorph::Input::getCurrentInputs()
+{
+    std::vector<arcade::KeyCode> keys;
+    for (int i = 0; i < arcade::KeyCount; i++) {
+        if (GraphicalAPI::CurrentDisplay->isKeyPressed(static_cast<arcade::KeyCode>(i)))
+            keys.push_back(static_cast<arcade::KeyCode>(i));
+    }
+    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton1))
+        keys.push_back(arcade::MouseButton1);
+    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton2))
+        keys.push_back(arcade::MouseButton2);
+    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton3))
+        keys.push_back(arcade::MouseButton3);
+    return keys;
 }

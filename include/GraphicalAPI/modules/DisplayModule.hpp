@@ -70,9 +70,15 @@ namespace Polymorph
 
         private:
             void _loadModule();
+            void _storeInput(arcade::KeyCode code, bool pressed);
+            std::map<arcade::KeyCode, bool> _pressedKeys;
+            std::map<arcade::KeyCode, bool> _releasedKeys;
+            std::map<arcade::KeyCode, bool> _holdedKeys;
 
-///////////////////////////--------------------------///////////////////////////
+
+            ///////////////////////////--------------------------///////////////////////////
         friend GraphicalAPI;
+        friend Input;
     };
 }
 
