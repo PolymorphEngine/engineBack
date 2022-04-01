@@ -16,7 +16,8 @@
 #include "Engine.hpp"
 
 
-Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName): _projectPath(projectPath), _projectName(std::move(projectName))
+Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName)
+: _projectPath(projectPath), _projectName(std::move(projectName))
 {
     Logger::setLogDir(projectPath + "/Logs");
     _openProject();
@@ -29,6 +30,7 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     _initExectutionOrder();
     _initLayers();
     _initTemplates();
+    SceneManager::Game = this;
 }
 
 int Polymorph::Engine::run()
@@ -42,6 +44,7 @@ int Polymorph::Engine::run()
     while ((!_exit && (!!_display && _display->isOpen()))
     || (!_display && !_exit))
     {
+        SceneManager::resetLoading();
         if (!!_display)
             GraphicalAPI::CurrentDisplay = (*_display).get();
 
@@ -53,7 +56,9 @@ int Polymorph::Engine::run()
         }
 
         SceneManager::Current->updateComponents();
-
+        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            continue;
+        
         if (!!_display) {
             _display->displayWindow();
         }

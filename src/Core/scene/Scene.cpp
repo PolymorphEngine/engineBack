@@ -40,7 +40,7 @@ namespace Polymorph
         {
             if (e->isActive() && !e->transform->parent())
                 e->update();
-            if (Engine::isExiting())
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
         }
             
