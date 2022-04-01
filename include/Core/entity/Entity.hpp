@@ -79,7 +79,7 @@ namespace Polymorph
              * @returns The state of the game object
              */
             bool isActive() const;
-            
+
             bool isPrefab() const;
 
             /**
@@ -129,6 +129,13 @@ namespace Polymorph
              * @details Draws the children
              */
             void drawChildren(TransformComponent &trm);
+
+            /**
+             * @details Get a child entity by its name
+             * @param nameToFind The name of the child
+             * @return The child entity
+             */
+            safe_ptr<Entity> find(const std::string &nameToFind);
 
             /**
              * @details Awakes the entity by calling onAwake() of the components
@@ -196,7 +203,7 @@ namespace Polymorph
              * @returns An std::string of the entity's unique id
              */
             std::string &getId() {return _stringId;};
-            
+
             /**
              * @details A setter for the entity's unique id
              * @param An std::string of the entity's unique id
