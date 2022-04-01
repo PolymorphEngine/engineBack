@@ -53,6 +53,7 @@ void Polymorph::Entity::update()
 {
     if (!_active)
         return;
+    
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             if (!(**c)->isAwaked()) {
@@ -74,16 +75,20 @@ void Polymorph::Entity::update()
             if (Engine::isExiting())
                 return;
         }
+    for (auto &c : **transform)
+        c->gameObject->update();
 }
 
 void Polymorph::Entity::draw()
 {
-    //TODO :Add an option to draw child independently of parent ?
-
+    if (!_active)
+        return;
     Drawable c = getComponent<ADrawableComponent>();
 
     if (!!c && c->enabled)
         c->draw();
+    for (auto &c : **transform)
+        c->gameObject->draw();
 }
 
 void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
