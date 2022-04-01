@@ -59,6 +59,8 @@ namespace Polymorph
             // Delay system : you can add a delay in seconds before destroying a component
             destroyHolder.first->tick();
             if (destroyHolder.first->timeIsUp()) {
+                if (!!destroyHolder.second.transform->parent())
+                    destroyHolder.second.transform->parent()->removeChild(destroyHolder.second.transform);
                 _eraseChildren(destroyHolder.second);
                 _erase(destroyHolder.second);
             }

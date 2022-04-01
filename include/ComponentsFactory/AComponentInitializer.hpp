@@ -69,6 +69,46 @@ namespace Polymorph
                 return type;
             }
 
+            void update() override
+            {
+                component->update();
+            }
+
+            void onAwake() override
+            {
+                component->onAwake();
+            }
+
+            void start() override
+            {
+                component->start(); 
+            }
+
+            bool isAwaked() const override
+            {
+                return component->isAwaked();
+            }
+
+            void setAsStarted() override
+            {
+                component->setAsStarted();
+            }
+
+            void setAsAwaked() override
+            {
+                component->setAsAwaked();
+            }
+
+            bool isStarted() const override
+            {
+                return component->isStarted();
+            }
+
+            bool isEnabled() const override
+            {
+                return component->enabled;
+            }
+
 ///////////////////////////--------------------------///////////////////////////
     };
 

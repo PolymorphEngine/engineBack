@@ -57,6 +57,9 @@
 
 
 ////////////////////////////////// Methods /////////////////////////////////////
+        public:
+            void update() override;
+
         private:
             /**
              * As to check collision with any collider shape implementation (box, circle ...)
@@ -65,7 +68,6 @@
              */
             virtual bool checkCollision(ACollider2dComponent &collider) = 0;
 
-            void update() override;
 
             /**
              * @details BroadCasting collision event functions
