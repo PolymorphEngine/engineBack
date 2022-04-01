@@ -38,7 +38,7 @@ namespace Polymorph
         
         for (auto &e: _entities)
         {
-            if (e->isActive())
+            if (e->isActive() && !e->transform->parent())
                 e->update();
             if (Engine::isExiting())
                 return;
@@ -46,7 +46,7 @@ namespace Polymorph
             
         //TODO : sort ?
         for (auto &e: _entities)
-            if (e->isActive())
+            if (e->isActive() && !e->transform->parent())
                 e->draw();
         updateDestroyQueueList();
     }
