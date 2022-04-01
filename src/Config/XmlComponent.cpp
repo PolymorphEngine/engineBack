@@ -282,6 +282,8 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
 {
     auto data = _findProperty(propertyName, level);
 
+    if (!data)
+        return;
     try {
         toSet = GraphicalAPI::createSprite(data);
     } catch (GraphicalException &e) {
@@ -312,7 +314,9 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
 void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyName, Text &toSet, Logger::severity level)
 {
     auto data = _findProperty(propertyName, level);
-
+    
+    if (!data)
+        return;
     try {
         toSet = GraphicalAPI::createText(data);
     } catch (GraphicalException &e) {
