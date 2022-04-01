@@ -248,4 +248,5 @@ Polymorph::Entity::childAt(std::size_t idx)
             return child->gameObject;
         --idx;
     }
+    return GameObject(nullptr);
 }
