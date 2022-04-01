@@ -45,7 +45,9 @@ namespace Polymorph
             static bool isMouseButtonDown(arcade::KeyCode buttonNb);
             static bool isMouseButtonUp(arcade::KeyCode buttonNb);
             static bool isMouseButtonHold(arcade::KeyCode buttonNb);
-            static std::vector<arcade::KeyCode> getCurrentInputs();
+            static std::vector<arcade::KeyCode> getHoldInputs();
+            static std::vector<arcade::KeyCode> getDownInputs();
+            static std::vector<arcade::KeyCode> getUpInputs();
 
         private:
     

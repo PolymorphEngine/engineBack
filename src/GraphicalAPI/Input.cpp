@@ -43,18 +43,35 @@ bool Polymorph::Input::isMouseButtonUp(arcade::KeyCode buttonNb)
 
 }
 
-std::vector<arcade::KeyCode> Polymorph::Input::getCurrentInputs()
+std::vector<arcade::KeyCode> Polymorph::Input::getHoldInputs()
 {
     std::vector<arcade::KeyCode> keys;
-    for (int i = 0; i < arcade::KeyCount; i++) {
-        if (GraphicalAPI::CurrentDisplay->isKeyPressed(static_cast<arcade::KeyCode>(i)))
-            keys.push_back(static_cast<arcade::KeyCode>(i));
+    
+    for (auto input: GraphicalAPI::CurrentDisplay->_holdedKeys) {
+        if (input.second)
+            keys.push_back(input.first);
     }
-    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton1))
-        keys.push_back(arcade::MouseButton1);
-    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton2))
-        keys.push_back(arcade::MouseButton2);
-    if (GraphicalAPI::CurrentDisplay->isKeyPressed(arcade::MouseButton3))
-        keys.push_back(arcade::MouseButton3);
+    return keys;
+}
+
+std::vector<arcade::KeyCode> Polymorph::Input::getDownInputs()
+{
+    std::vector<arcade::KeyCode> keys;
+    
+    for (auto input: GraphicalAPI::CurrentDisplay->_pressedKeys) {
+        if (input.second)
+            keys.push_back(input.first);
+    }
+    return keys;
+}
+
+std::vector<arcade::KeyCode> Polymorph::Input::getUpInputs()
+{
+    std::vector<arcade::KeyCode> keys;
+    
+    for (auto input: GraphicalAPI::CurrentDisplay->_releasedKeys) {
+        if (input.second)
+            keys.push_back(input.first);
+    }
     return keys;
 }
