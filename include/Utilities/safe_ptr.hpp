@@ -37,6 +37,15 @@ namespace Polymorph
                 return this->lock().get();
             }
 
+            bool operator==(std::shared_ptr<T> &t)
+            {
+                return this->lock() == t;
+            }
+            
+            bool operator==(safe_ptr<T> &t)
+            {
+                return this->lock() == t.lock();
+            }
 
             bool operator!()
             {
