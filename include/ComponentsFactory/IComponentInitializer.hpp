@@ -9,12 +9,13 @@
 #pragma once
 
 #include <iostream>
+#include "base/IComponent.hpp"
 
 namespace Polymorph
 {
     class Component;
     
-    class IComponentInitializer
+    class IComponentInitializer : public IComponent
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
@@ -32,6 +33,22 @@ namespace Polymorph
             virtual std::string getType() const = 0;
             virtual std::shared_ptr<Component> operator*() = 0;
             virtual std::shared_ptr<Component> get() = 0;
+
+            void update() override = 0;
+
+            void onAwake() override = 0;
+
+            void start() override = 0;
+
+            bool isAwaked() const override = 0;
+
+            void setAsStarted() override = 0;
+
+            void setAsAwaked() override = 0;
+
+            bool isStarted() const override = 0;
+            
+            virtual bool isEnabled() const = 0;
 
         private:
     

@@ -56,22 +56,22 @@ void Polymorph::Entity::update()
     
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            if (!(**c)->isAwaked()) {
-                (**c)->onAwake();
-                (**c)->setAsAwaked();
+            if (!c->isAwaked()) {
+                c->onAwake();
+                c->setAsAwaked();
             }
             if (Engine::isExiting())
                 return;
-            if (!(**c)->enabled)
+            if (!c->isEnabled())
                 continue;
-            if (!(**c)->isStarted()) {
-                (**c)->start();
-                (**c)->setAsStarted();
+            if (!c->isStarted()) {
+                c->start();
+                c->setAsStarted();
             }
             if (Engine::isExiting())
                 return;
-            if ((**c)->enabled)
-                (**c)->update();
+            if (c->isEnabled())
+                c->update();
             if (Engine::isExiting())
                 return;
         }
@@ -165,8 +165,6 @@ bool Polymorph::Entity::deleteComponent()
 
 Polymorph::Entity::~Entity()
 {
-    if (!!transform->parent())
-        transform->parent()->removeChild(transform);
 }
 
 bool Polymorph::Entity::componentExist(std::string &type)
@@ -188,8 +186,11 @@ void Polymorph::Entity::awake()
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             c->reference();
-            (**c)->onAwake();
-            (**c)->setAsAwaked();
+        }
+    for (auto &cl :_components)
+        for (auto &c : cl.second) {
+            c->onAwake();
+            c->setAsAwaked();
         }
 }
 
@@ -201,8 +202,8 @@ void Polymorph::Entity::start()
 {
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            (**c)->start();
-            (**c)->setAsStarted();
+            c->start();
+            c->setAsStarted();
         }
 }
 
