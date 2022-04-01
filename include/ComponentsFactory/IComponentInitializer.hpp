@@ -9,7 +9,7 @@
 #pragma once
 
 #include <iostream>
-#include "base/IComponent.hpp"
+#include "Core/component/base/IComponent.hpp"
 
 namespace Polymorph
 {
