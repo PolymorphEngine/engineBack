@@ -201,14 +201,9 @@ namespace Polymorph
               * @param entity: the entity to _erase
               */
             void _erase(std::string &id);
+            
+            void _eraseChildren(Entity &entity);
 
-            /**
-              * @details Counts all children in an entity
-              * @param entity: An iterator of the parent entity
-              * @param parent_id: The id of the parent entity
-              * @returns The total count of children and sub-children of an entity
-              */
-            int _countChildren(std::vector<std::shared_ptr<Entity>>::iterator &entity, std::string &parent_id);
 //////////////////////--------------------------/////////////////////////
 
     };

@@ -29,7 +29,6 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     _initExectutionOrder();
     _initLayers();
     _initTemplates();
-    _initPrefabs();
 }
 
 int Polymorph::Engine::run()
@@ -159,7 +158,6 @@ std::string Polymorph::Engine::getProjectPath()
 
 Polymorph::Engine::~Engine()
 {
-    std::cout << "Its a temporary leak ..." << std::endl;
 }
 
 std::shared_ptr<Polymorph::Scene>
@@ -258,6 +256,7 @@ void Polymorph::Engine::loadScriptingAPI(
 
 void Polymorph::Engine::loadEngine()
 {
+    _initPrefabs();
     _initGameData();
 
     if (_scenes.empty())

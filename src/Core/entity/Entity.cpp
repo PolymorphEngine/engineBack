@@ -10,6 +10,8 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
+#include "Entity.hpp"
+
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
@@ -18,9 +20,9 @@ Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
     _active = data.isActive();
     _tags = data.getTags();
     _order = _game.getExecOrder();
+    _isPrefab = data.isPrefab();
     for (auto &type: _order)
         _components[type];
-    _isPrefab = false;
 }
 
 
@@ -57,13 +59,20 @@ void Polymorph::Entity::update()
                 (**c)->onAwake();
                 (**c)->setAsAwaked();
             }
+            if (Engine::isExiting())
+                return;
             if (!(**c)->enabled)
                 continue;
             if (!(**c)->isStarted()) {
                 (**c)->start();
                 (**c)->setAsStarted();
             }
-            (**c)->update();
+            if (Engine::isExiting())
+                return;
+            if ((**c)->enabled)
+                (**c)->update();
+            if (Engine::isExiting())
+                return;
         }
 }
 
@@ -195,4 +204,36 @@ void Polymorph::Entity::start()
 bool Polymorph::Entity::isActive() const
 {
     return _active;
+}
+
+bool Polymorph::Entity::isPrefab() const
+{
+    return _isPrefab;
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::find(const std::string &nameToFind)
+{
+    for (auto &child : **transform) {
+        if (child->gameObject->name == nameToFind)
+            return child->gameObject;
+    }
+    for (auto &child : **transform) {
+        auto found = child->gameObject->find(nameToFind);
+        if (!!found)
+            return found;
+    }
+    return GameObject(nullptr);
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::childAt(std::size_t idx)
+{
+    if (idx > transform->nbChildren())
+        return GameObject(nullptr);
+    for (auto &child : **transform) {
+        if (idx == 0)
+            return child->gameObject;
+        --idx;
+    }
 }
