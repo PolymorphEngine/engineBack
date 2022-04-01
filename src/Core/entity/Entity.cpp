@@ -56,11 +56,13 @@ void Polymorph::Entity::update()
     
     for (auto &cl :_components)
         for (auto &c : cl.second) {
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
             if (!c->isAwaked()) {
                 c->onAwake();
                 c->setAsAwaked();
             }
-            if (Engine::isExiting())
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
             if (!c->isEnabled())
                 continue;
@@ -68,15 +70,19 @@ void Polymorph::Entity::update()
                 c->start();
                 c->setAsStarted();
             }
-            if (Engine::isExiting())
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
             if (c->isEnabled())
                 c->update();
-            if (Engine::isExiting())
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
         }
     for (auto &c : **transform)
+    {
+        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            return;
         c->gameObject->update();
+    }
 }
 
 void Polymorph::Entity::draw()

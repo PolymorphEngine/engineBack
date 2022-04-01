@@ -117,7 +117,11 @@ void Polymorph::SceneManager::loadScene(std::string name)
 {
     auto scene = Game->findSceneByName(name);
 
+    if (!scene)
+        Logger::log("Failed to find scene to load called: " + name, Logger::MAJOR);
+
     Current->unloadScene();
+    _sceneLoading = true;
     Current = scene;
     Current->loadScene();
     for (auto &e: KeepOnLoad)
@@ -134,7 +138,7 @@ void Polymorph::SceneManager::createScene(std::string name)
 void
 Polymorph::SceneManager::dontDestroyOnLoad(Polymorph::GameObject gameObject)
 {
-    KeepOnLoad.push_back(gameObject.lock());
+    KeepOnLoad.emplace_back(gameObject.lock());
 }
 
 void Polymorph::SceneManager::setAtFront(Polymorph::GameObject gameObject)
@@ -161,4 +165,14 @@ void Polymorph::SceneManager::setAtBack(Polymorph::GameObject gameObject)
     auto nb = Current->countParents();
 
     Current->addEntityAtIdx(entity, nb);
+}
+
+bool Polymorph::SceneManager::isSceneUnloaded()
+{
+    return _sceneLoading;
+}
+
+void Polymorph::SceneManager::resetLoading()
+{
+    _sceneLoading = false;
 }
