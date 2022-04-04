@@ -268,7 +268,7 @@ namespace Polymorph
 
                     for (auto &elem : *refProp) {
                         try {
-                            auto id = refProp->findAttribute("id")->getValue();
+                            auto id = elem->findAttribute("id")->getValue();
                             auto gameObject = SceneManager::findById(id);
                             auto comp = gameObject->getComponent<T>();
 
