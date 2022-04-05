@@ -135,7 +135,7 @@ namespace Polymorph
 
     void TransformComponent::setPositionX(const float posX)
     {
-        Vector3 diff = {_position.x - posX, 0, 0};
+        Vector3 diff = { posX - _position.x, 0, 0};
 
         this->_position.x = posX;
         _moveChildren(diff);
@@ -143,7 +143,7 @@ namespace Polymorph
 
     void TransformComponent::setPositionY(const float posY)
     {
-        Vector3 diff = { 0, _position.y - posY, 0};
+        Vector3 diff = { 0, posY - _position.y, 0};
 
         this->_position.y = posY;
         _moveChildren(diff);
@@ -151,7 +151,7 @@ namespace Polymorph
 
     void TransformComponent::setPositionZ(const float posZ)
     {
-        Vector3 diff = { 0, 0, _position.z - posZ };
+        Vector3 diff = { 0, 0, posZ - _position.z };
 
         this->_position.z = posZ;
         _moveChildren(diff);
