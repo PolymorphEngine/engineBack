@@ -68,7 +68,7 @@ void myxmlpp::Node::_parseNodeString(std::string &str, std::string &remaining)
         _extractAttributes(attributes);
     }
     str = matches.suffix().str();
-    if (matches[4].str().empty()) {
+    if (!matches[4].length()) {
         while (!_isEndOfNode(str)) {
             addChild(std::shared_ptr<Node>(new Node(this, str, remaining)));
         }
