@@ -227,7 +227,7 @@ namespace Polymorph
             setPosition(_smoothTarget);
             return;
         }
-        auto t = _smoothTimer.actual / _smoothTimer.delay;
+        float t = static_cast<float>((_smoothTimer.actual / _smoothTimer.delay));
         if (_smoothTimer.actual > _smoothTimer.delay)
             t = 1;
         _position = _smoothOrigin.lerp(_smoothTarget, t);
