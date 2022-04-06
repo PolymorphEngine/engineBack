@@ -370,7 +370,7 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
             auto gameObject = SceneManager::findById(id);
 
             if (!gameObject)
-                throw;
+                throw std::exception();
             toSet.push_back(gameObject);
         } catch (myxmlpp::Exception &e) {
             Logger::log("Property gameObject ref nb: " + std::to_string(i) +
@@ -788,7 +788,7 @@ void Polymorph::Config::XmlComponent::setProperty(const std::string& propertyNam
                 Logger::log("Property gameObject ref nb: " + std::to_string(i) +
                             ", in list named '" + propertyName + "': not found",
                             level);
-                throw;
+                continue;
             }
             toSet.push_back(gameObject);
         } catch (myxmlpp::Exception &e) {
