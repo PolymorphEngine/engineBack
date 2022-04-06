@@ -59,7 +59,17 @@ void Polymorph::Entity::update()
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
             if (!c->isAwaked()) {
-                c->onAwake();
+                try {
+                    c->onAwake();
+                } catch (ExceptionLogger &e) {
+                    e.what();
+                } catch (std::exception &e) {
+                    if (std::string(e.what()) == "Object reference not set to an instance")
+                        Logger::log("[Polymorph Engine] Object reference not set to an instance:"
+                                    " this maybe occurs because you need to set a reference in configuration or in interface.", Logger::MAJOR);
+                    else
+                        Logger::log("[Unknown Exception] : " + std::string(e.what()), Logger::MAJOR);
+                }
                 c->setAsAwaked();
             }
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
@@ -67,13 +77,33 @@ void Polymorph::Entity::update()
             if (!c->isEnabled())
                 continue;
             if (!c->isStarted()) {
-                c->start();
+                try {
+                    c->start();
+                } catch (ExceptionLogger &e) {
+                    e.what();
+                } catch (std::exception &e) {
+                    if (std::string(e.what()) == "Object reference not set to an instance")
+                        Logger::log("[Polymorph Engine] Object reference not set to an instance:"
+                                    " this maybe occurs because you need to set a reference in configuration or in interface.", Logger::MAJOR);
+                    else
+                        Logger::log("[Unknown Exception] : " + std::string(e.what()), Logger::MAJOR);
+                }
                 c->setAsStarted();
             }
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
             if (c->isEnabled())
-                c->update();
+                try {
+                    c->update();
+                } catch (ExceptionLogger &e) {
+                    e.what();
+                } catch (std::exception &e) {
+                    if (std::string(e.what()) == "Object reference not set to an instance")
+                        Logger::log("[Polymorph Engine] Object reference not set to an instance:"
+                                    " this maybe occurs because you need to set a reference in configuration or in interface.", Logger::MAJOR);
+                    else
+                        Logger::log("[Unknown Exception] : " + std::string(e.what()), Logger::MAJOR);
+                }
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
         }
@@ -195,7 +225,17 @@ void Polymorph::Entity::awake()
         }
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            c->onAwake();
+            try {
+                c->onAwake();
+            } catch (ExceptionLogger &e) {
+                e.what();
+            } catch (std::exception &e) {
+                if (std::string(e.what()) == "Object reference not set to an instance")
+                    Logger::log("[Polymorph Engine] Object reference not set to an instance:"
+                                " this maybe occurs because you need to set a reference in configuration or in interface.", Logger::MAJOR);
+                else
+                    Logger::log("[Unknown Exception] : " + std::string(e.what()), Logger::MAJOR);
+            }
             c->setAsAwaked();
         }
 }
@@ -208,7 +248,17 @@ void Polymorph::Entity::start()
 {
     for (auto &cl :_components)
         for (auto &c : cl.second) {
-            c->start();
+            try {
+                c->start();
+            } catch (ExceptionLogger &e) {
+                e.what();
+            } catch (std::exception &e) {
+                if (std::string(e.what()) == "Object reference not set to an instance")
+                    Logger::log("[Polymorph Engine] Object reference not set to an instance:"
+                                " this maybe occurs because you need to set a reference in configuration or in interface.", Logger::MAJOR);
+                else
+                    Logger::log("[Unknown Exception] : " + std::string(e.what()), Logger::MAJOR);
+            }
             c->setAsStarted();
         }
 }
