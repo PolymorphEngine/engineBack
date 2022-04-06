@@ -7,6 +7,8 @@
 
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
+#include "TransformComponent.hpp"
+
 
 namespace Polymorph
 {
@@ -43,7 +45,6 @@ namespace Polymorph
 
     void TransformComponent::setSiblingIndex(int index)
     {
-
         if (!_parent)
             return;
         if (index < 0)
@@ -86,7 +87,7 @@ namespace Polymorph
 
     void TransformComponent::update()
     {
-
+        _updateSmoothMove();
     }
 
     std::size_t TransformComponent::nbChildren()
@@ -204,6 +205,32 @@ namespace Polymorph
         for (auto &c : _children) {
             c->move(delta);
         }
+    }
+
+    void TransformComponent::smoothMove(Vector3 destination, float time)
+    {
+        if (_smoothMoving)
+            return;
+        _smoothMoving = true;
+        _smoothTimer = Timer(time);
+        _smoothTarget = destination;
+        _smoothOrigin = _position;
+    }
+
+    void TransformComponent::_updateSmoothMove()
+    {
+        if (!_smoothMoving)
+            return;
+        _smoothTimer.tick();
+        if (_smoothTimer.timeIsUp(false)) {
+            _smoothMoving = false;
+            setPosition(_smoothTarget);
+            return;
+        }
+        float t = static_cast<float>((_smoothTimer.actual / _smoothTimer.delay));
+        if (_smoothTimer.actual > _smoothTimer.delay)
+            t = 1;
+        setPosition(_smoothOrigin.lerp(_smoothTarget, t));
     }
 
     /*Todo: later
