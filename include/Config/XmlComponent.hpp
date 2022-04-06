@@ -238,7 +238,7 @@ namespace Polymorph
                         auto comp = gameObject->getComponent<T>();
 
                         if (!comp)
-                            throw;
+                            throw std::exception();
                         toSet = comp;
                     } catch (...) {
                         if (level != Logger::MAJOR)
