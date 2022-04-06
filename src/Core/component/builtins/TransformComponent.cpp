@@ -226,7 +226,7 @@ namespace Polymorph
             _smoothMoving = false;
             setPosition(_smoothTarget);
             if (_hasCallback) {
-                _callback(_smoothOrigin, _smoothTarget);
+                _callback(gameObject, _smoothOrigin, _smoothTarget);
                 _hasCallback = false;
             }
             return;
@@ -237,7 +237,7 @@ namespace Polymorph
     }
 
     void TransformComponent::smoothMove(Vector3 destination, float time,
-                                        std::function<void(Vector3,
+                                        std::function<void(GameObject, Vector3,
                                                            Vector3)> callback)
     {
         if (_smoothMoving)
