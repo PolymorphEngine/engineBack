@@ -67,10 +67,13 @@ namespace Polymorph
              * The list of all references to children's entities transforms
              */
             std::vector<Transform> _children;
-            bool _smoothMoving = false; 
+            bool _smoothMoving = false;
+            bool _hasCallback = false;
             Timer _smoothTimer;
             Vector3 _smoothTarget {0, 0, 0};
             Vector3 _smoothOrigin {0, 0, 0};
+            std::function<void (Vector3, Vector3)> _callback;
+
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -125,8 +128,10 @@ namespace Polymorph
             void setPositionZ(float posZ);
 
             void move(const Vector3 &delta);
-            
+
             void smoothMove(Vector3 destination, float time);
+
+            void smoothMove(Vector3 destination, float time, std::function<void (Vector3, Vector3)> callback);
 
 //TODO do this later
 /*
