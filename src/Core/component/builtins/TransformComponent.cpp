@@ -225,12 +225,29 @@ namespace Polymorph
         if (_smoothTimer.timeIsUp(false)) {
             _smoothMoving = false;
             setPosition(_smoothTarget);
+            if (_hasCallback) {
+                _callback(_smoothOrigin, _smoothTarget);
+                _hasCallback = false;
+            }
             return;
         }
         float t = static_cast<float>((_smoothTimer.actual / _smoothTimer.delay));
-        if (_smoothTimer.actual > _smoothTimer.delay)
-            t = 1;
         setPosition(_smoothOrigin.lerp(_smoothTarget, t));
+
+    }
+
+    void TransformComponent::smoothMove(Vector3 destination, float time,
+                                        std::function<void(Vector3,
+                                                           Vector3)> callback)
+    {
+        if (_smoothMoving)
+            return;
+        _smoothMoving = true;
+        _hasCallback = true;
+        _smoothTimer = Timer(time);
+        _smoothTarget = destination;
+        _smoothOrigin = _position;
+        _callback = std::move(callback);
     }
 
     /*Todo: later
