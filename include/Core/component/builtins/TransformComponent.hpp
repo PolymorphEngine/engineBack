@@ -73,7 +73,7 @@ namespace Polymorph
             Timer _smoothTimer;
             Vector3 _smoothTarget {0, 0, 0};
             Vector3 _smoothOrigin {0, 0, 0};
-            std::function<void (Vector3, Vector3)> _callback;
+            std::function<void (GameObject, Vector3, Vector3)> _callback;
 
 
 ///////////////////////////--------------------------///////////////////////////
@@ -132,7 +132,7 @@ namespace Polymorph
 
             void smoothMove(Vector3 destination, float time);
 
-            void smoothMove(Vector3 destination, float time, std::function<void (Vector3, Vector3)> callback);
+            void smoothMove(Vector3 destination, float time, std::function<void (GameObject, Vector3, Vector3)> callback);
 
 //TODO do this later
 /*
