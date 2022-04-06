@@ -12,6 +12,7 @@
 #include "Core/component/base/Component.hpp"
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/types/Vector.hpp"
+#include "Utilities/Time.hpp"
 
 namespace Polymorph
 {
