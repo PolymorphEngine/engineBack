@@ -9,6 +9,7 @@
 #define ENGINE_TRANSFORMCOMPONENT_HPP
 
 #include <vector>
+#include <functional>
 #include "Core/component/base/Component.hpp"
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/types/Vector.hpp"
