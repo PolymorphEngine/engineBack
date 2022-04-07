@@ -250,6 +250,11 @@ namespace Polymorph
         _callback = std::move(callback);
     }
 
+    bool TransformComponent::isSmoothMoving()
+    {
+        return _smoothMoving;
+    }
+
     /*Todo: later
     void TransformComponent::_rotateChildren(const Vector2 &delta)
     {
