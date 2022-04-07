@@ -255,6 +255,12 @@ namespace Polymorph
         return _smoothMoving;
     }
 
+    void TransformComponent::cancelSmoothMove()
+    {
+        _smoothMoving = false;
+        _hasCallback = false;
+    }
+
     /*Todo: later
     void TransformComponent::_rotateChildren(const Vector2 &delta)
     {
