@@ -61,6 +61,7 @@ namespace Polymorph
             void setPosition(Vector2 position);
             void move(Vector2 move);
             void setString(std::string newString);
+            std::string getString() const;
             void setColor(Color color);
 
 
