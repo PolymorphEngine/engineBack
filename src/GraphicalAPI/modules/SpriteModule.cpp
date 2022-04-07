@@ -11,6 +11,8 @@
 #include <Polymorph/Config.hpp>
 #include <GraphicalAPI/arcade/ISpriteModule.hpp>
 #include <utility>
+#include "GraphicalAPI/modules/SpriteModule.hpp"
+
 
 void Polymorph::SpriteModule::_loadModule()
 {
@@ -25,11 +27,18 @@ Polymorph::SpriteModule::SpriteModule(std::string filePath)
     _loadModule();
 }
 
+Polymorph::SpriteModule::SpriteModule(std::shared_ptr<myxmlpp::Node> &data)
+{
+    Config::XmlComponent::setProperty("filepath", _filePath, data);
+    Config::XmlComponent::setProperty("crop", _crop, data);
+    Config::XmlComponent::setProperty("color", _color, data);
+}
+
+
 Polymorph::SpriteModule::~SpriteModule()
 {
     GraphicalAPI::destroySprite(this);
 }
-
 
 arcade::ISpriteModule *Polymorph::SpriteModule::getSprite()
 {
@@ -88,6 +97,11 @@ void Polymorph::SpriteModule::setCrop(const Polymorph::Rect& crop)
         Logger::log("No Sprite Object loaded", Logger::DEBUG);
 }
 
+Polymorph::Rect Polymorph::SpriteModule::getCrop() const
+{
+    return _crop;
+}
+
 void Polymorph::SpriteModule::setColor(Polymorph::Color color)
 {
     _color = color;
@@ -100,11 +114,4 @@ void Polymorph::SpriteModule::setColor(Polymorph::Color color)
         }
     else
         Logger::log("No Sprite Object loaded", Logger::DEBUG);
-}
-
-Polymorph::SpriteModule::SpriteModule(std::shared_ptr<myxmlpp::Node> &data)
-{
-    Config::XmlComponent::setProperty("filepath", _filePath, data);
-    Config::XmlComponent::setProperty("crop", _crop, data);
-    Config::XmlComponent::setProperty("color", _color, data);
 }

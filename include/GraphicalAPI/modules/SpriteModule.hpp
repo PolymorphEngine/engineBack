@@ -54,6 +54,7 @@ namespace Polymorph
             void setPosition(Vector2 position);
             void moveSprite(Vector2 move);
             void setCrop(const Rect& crop);
+            Rect getCrop() const;
             void setColor(Color color);
 
 

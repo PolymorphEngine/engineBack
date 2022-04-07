@@ -12,6 +12,7 @@
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Config.hpp>
 #include <GraphicalAPI/arcade/ITextModule.hpp>
+#include "GraphicalAPI/modules/TextModule.hpp"
 
 
 Polymorph::TextModule::TextModule(std::string fontPath, std::string text, unsigned int size)
@@ -79,6 +80,11 @@ void Polymorph::TextModule::setString(std::string newString)
 
 }
 
+std::string Polymorph::TextModule::getString() const
+{
+    return _str;
+}
+
 void Polymorph::TextModule::setColor(Polymorph::Color color)
 {
     _color = color;
@@ -93,6 +99,7 @@ void Polymorph::TextModule::setColor(Polymorph::Color color)
         Logger::log("No text module loaded.", Logger::MINOR);
 }
 
+
 void Polymorph::TextModule::_loadModule()
 {
     setFont(_filepath);
@@ -100,7 +107,6 @@ void Polymorph::TextModule::_loadModule()
     setFontSize(_fontSize);
     setColor(_color);
 }
-
 
 void Polymorph::TextModule::setFontSize(int size)
 {
