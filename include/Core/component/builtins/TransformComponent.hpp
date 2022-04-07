@@ -134,6 +134,8 @@ namespace Polymorph
 
             void smoothMove(Vector3 destination, float time, std::function<void (GameObject, Vector3, Vector3)> callback);
 
+            bool isSmoothMoving();
+
 //TODO do this later
 /*
             const Vector2 &getRotation() const;
