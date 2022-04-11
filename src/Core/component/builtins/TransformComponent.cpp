@@ -202,9 +202,8 @@ namespace Polymorph
 
     void TransformComponent::_moveChildren(const Vector3 &delta)
     {
-        for (auto &c : _children) {
+        for (auto &c : _children)
             c->move(delta);
-        }
     }
 
     void TransformComponent::smoothMove(Vector3 destination, float time)
@@ -226,8 +225,8 @@ namespace Polymorph
             _smoothMoving = false;
             setPosition(_smoothTarget);
             if (_hasCallback) {
-                _callback(gameObject, _smoothOrigin, _smoothTarget);
                 _hasCallback = false;
+                _callback(gameObject, _smoothOrigin, _smoothTarget);
             }
             return;
         }
