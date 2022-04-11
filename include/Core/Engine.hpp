@@ -109,7 +109,7 @@ namespace Polymorph
              * @param graphicalLibPath the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadGraphicalAPI(const std::string& graphicalLibPath);
+            void loadGraphicalAPI(const std::string &graphicalLibPath);
 
             /**
              * Loads the game configuration and inits all gameObjects/Components/Scenes

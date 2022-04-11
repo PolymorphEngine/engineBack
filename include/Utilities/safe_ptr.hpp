@@ -32,7 +32,7 @@ namespace Polymorph
 
             T *operator->()
             {
-                if (this->expired() || this->lock() == nullptr)
+                if (this->expired())
                     throw std::runtime_error("Object reference not set to an instance");
                 return this->lock().get();
             }
@@ -49,7 +49,7 @@ namespace Polymorph
 
             bool operator!()
             {
-                return this->expired() || this->lock() == nullptr;
+                return this->expired();
             }
 
     };

@@ -15,9 +15,11 @@ namespace Polymorph
 {
     // COMPONENT TYPES
     class TransformComponent;
+    using Transform = safe_ptr<TransformComponent>;
 
 
     class Entity;
+    using GameObject = safe_ptr<Entity>;
     /**
      * @class Component a class that is used to define any behavior for an
      * entity in the game
