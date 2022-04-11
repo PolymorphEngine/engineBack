@@ -35,8 +35,7 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
 
 int Polymorph::Engine::run()
 {
-    if (!!_display)
-        GraphicalAPI::CurrentDisplay = (*_display).get();
+    GraphicalAPI::CurrentDisplay = _display;
 
     SceneManager::Current->loadScene();
 
@@ -45,8 +44,7 @@ int Polymorph::Engine::run()
     || (!_display && !_exit))
     {
         SceneManager::resetLoading();
-        if (!!_display)
-            GraphicalAPI::CurrentDisplay = (*_display).get();
+        GraphicalAPI::CurrentDisplay = _display;
 
         _time.computeDeltaTime();
 
@@ -161,9 +159,7 @@ std::string Polymorph::Engine::getProjectPath()
     return _projectPath;
 }
 
-Polymorph::Engine::~Engine()
-{
-}
+Polymorph::Engine::~Engine() = default;
 
 std::shared_ptr<Polymorph::Scene>
 Polymorph::Engine::findSceneByName(const std::string& name)
@@ -232,7 +228,8 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(const std::
     return *Config::XmlComponent::Empty;
 }
 
-void Polymorph::Engine::loadGraphicalAPI(const std::string& graphicalLibPath)
+void
+Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
 {
     try
     {

@@ -13,6 +13,7 @@ DynamicLibLoader::~DynamicLibLoader()
 {
     if (_handler != nullptr)
         dlclose(_handler);
+    _handler = nullptr;
 }
 
 void DynamicLibLoader::loadHandler(const std::string& libPath)

@@ -25,13 +25,13 @@ namespace Polymorph
     
     using Sprite = safe_ptr<SpriteModule>;
     using SpriteBase = std::shared_ptr<SpriteModule>;
-    
+
     using Text = safe_ptr<TextModule>;
     using TextBase = std::shared_ptr<TextModule>;
-    
+
     using Display = safe_ptr<DisplayModule>;
     using DisplayBase = std::shared_ptr<DisplayModule>;
-    
+
     class GraphicalAPI : public DynamicLibLoader
     {
 
@@ -47,9 +47,9 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            static inline DisplayModule *CurrentDisplay = nullptr;
-    
-    
+            static inline Display CurrentDisplay = Display(nullptr);
+
+
         private:
             std::string _handlerPath;
             std::vector<SpriteBase> _sprites;
@@ -76,28 +76,31 @@ namespace Polymorph
             DisplayUnloader _d_display = nullptr;
 
 //////////////////////--------------------------/////////////////////////
-    
-    
-    
+
+
+
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             static Sprite createSprite(std::shared_ptr<myxmlpp::Node> &data);
-            static Sprite createSprite(std::string filePath);
+            static Sprite createSprite(const std::string& filePath);
             static Text createText(std::shared_ptr<myxmlpp::Node> &data);
-            static Text createText(unsigned int size, std::string fontPath, std::string text = "");
-            static Display createDisplay(std::shared_ptr<Settings::VideoSettings> videoSettings, std::string title);
-            
+            static Text createText(unsigned int size, const std::string& fontPath, const std::string& text = "");
+            static Display createDisplay(const std::shared_ptr<Settings::VideoSettings>& videoSettings, const std::string& title);
+
             static void destroySprite(SpriteModule *sprite);
             static void destroyText(TextModule *text);
             static void destroyDisplay(DisplayModule *display);
-            
-            static void reloadAPI(std::string newHandler);
+
+            static void reloadAPI(const std::string& newHandler);
             static void *getHandler();
             static std::string getHandlerPath();
-            
+
+
+
         private:
             static void _unloadModules();
             static void _reloadModules();
+
 
             friend Input;
 //////////////////////--------------------------/////////////////////////

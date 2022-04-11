@@ -118,7 +118,7 @@ void Polymorph::SceneManager::loadScene(std::string name)
     auto scene = Game->findSceneByName(name);
 
     if (!scene)
-        Logger::log("Failed to find scene to load called: " + name, Logger::MAJOR);
+        throw ExceptionLogger("Failed to find scene to load called: " + name, Logger::MAJOR);
 
     Current->unloadScene();
     _sceneLoading = true;
