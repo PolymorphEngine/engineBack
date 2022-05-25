@@ -12,6 +12,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <map>
 
 #include "Utilities/types/Vector.hpp"
 //TODO: find a way to not have multiples definitions of interfaces

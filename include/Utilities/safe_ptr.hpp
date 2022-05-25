@@ -9,6 +9,7 @@
 #define ENGINE_SAFE_PTR_HPP
 
 #include <memory>
+#include <stdexcept>
 
 namespace Polymorph
 {

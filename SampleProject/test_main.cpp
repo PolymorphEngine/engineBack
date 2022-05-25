@@ -21,7 +21,6 @@ int main()
         //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
-        e;
     }
     catch (ConfigurationException &e)
     {
