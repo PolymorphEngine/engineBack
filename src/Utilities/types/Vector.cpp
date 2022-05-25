@@ -167,6 +167,8 @@ namespace Polymorph
         x += value;
         y += value;
         z += value;
+
+        return *this;
     }
 
     Vector3 Vector3::operator-(float value) const

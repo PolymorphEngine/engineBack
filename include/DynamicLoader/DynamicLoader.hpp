@@ -11,7 +11,11 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <dlfcn.h>
+#if _WIN32
+    #include <Windows.h>
+#else
+    #include <dlfcn.h> //dlopen
+#endif
 
 class DynamicLibLoader
 {
@@ -39,12 +43,19 @@ class DynamicLibLoader
             if (handler == nullptr)
                 return nullptr;
 
+
+#if _WIN32
+            void *symbol = (void *)GetProcAddress((HMODULE)handler, name.c_str());
+#else
             void *symbol = dlsym(handler, name.c_str());
+#endif
 
             if (symbol == nullptr)
                 throw std::runtime_error("Failed to find symbol named: "+ name);
             return reinterpret_cast<T>(symbol);
         }
+
+        void closeHandle();
 };
 
 
