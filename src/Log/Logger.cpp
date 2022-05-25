@@ -129,5 +129,7 @@ std::string Logger::_severity_to_color(Logger::severity level)
             return YELLOW;
         case MAJOR:
             return RED;
+        default:
+            return WHITE;
     }
 }
