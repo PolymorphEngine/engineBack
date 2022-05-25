@@ -32,8 +32,11 @@ add_library(PolymorphEngine
         ${ICL}
         ${ICL_HEADERS}
 )
-target_link_libraries(PolymorphEngine myxmlpp dl)
-target_link_options(PolymorphEngine PUBLIC "-Wl,--no-undefined")
+target_link_libraries(PolymorphEngine myxmlpp)
+if (UNIX)
+    target_link_libraries(PolymorphEngine dl)
+    target_link_options(PolymorphEngine PUBLIC "-Wl,--no-undefined")
+endif()
 set_target_properties(PolymorphEngine PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_executable(TestMain EXCLUDE_FROM_ALL

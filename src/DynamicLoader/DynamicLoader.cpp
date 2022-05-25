@@ -12,7 +12,7 @@
 DynamicLibLoader::~DynamicLibLoader()
 {
     if (_handler != nullptr)
-        dlclose(_handler);
+        closeHandle();
     _handler = nullptr;
 }
 
@@ -21,11 +21,22 @@ void DynamicLibLoader::loadHandler(const std::string& libPath)
 
     //TODO: check close error ?
     if (_handler != nullptr)
-        dlclose(_handler);
+        closeHandle();
 
-    _handler = dlopen(libPath.c_str(), RTLD_LAZY);
+#if _WIN32
+    LoadLibrary(libPath.c_str());
+#else
+    dlopen(libPath.c_str(), RTLD_LAZY);
+#endif
 
     if (_handler == nullptr)
         throw ExceptionLogger("Failed to dl open library at path: " + libPath);
 }
 
+void DynamicLibLoader::closeHandle() {
+    #if _WIN32
+    FreeLibrary((HMODULE)_handler);
+#else
+    dlclose(_handler);
+#endif
+}
