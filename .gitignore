@@ -53,4 +53,3 @@ dkms.conf
 
 build
 build-debug
-cmake-build-debug-visual-studio
