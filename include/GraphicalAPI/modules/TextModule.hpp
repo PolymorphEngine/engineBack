@@ -25,9 +25,10 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
+            TextModule() = default;
             explicit TextModule(std::string fontPath, std::string , unsigned int size);
 
-            explicit TextModule(std::shared_ptr<myxmlpp::Node> &data);
+            explicit TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
 
             ~TextModule();
             TextModule &operator=(const std::string &newText);

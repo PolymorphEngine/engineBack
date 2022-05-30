@@ -56,24 +56,24 @@ namespace Polymorph
             std::vector<TextBase> _texts;
             std::vector<DisplayBase> _displays;
             static inline GraphicalAPI *_instance = nullptr;
-
+        public:
             using TextLoader = arcade::ITextModule *(*)();
             using TextUnloader = void (*)(arcade::ITextModule *module);
 
-            TextLoader _c_text = nullptr;
-            TextUnloader _d_text = nullptr;
+            static inline TextLoader _c_text = nullptr;
+            static inline TextUnloader _d_text = nullptr;
 
             using SpriteLoader = arcade::ISpriteModule *(*)();
             using SpriteUnloader = void (*)(arcade::ISpriteModule *module);
 
-            SpriteLoader _c_sprite = nullptr;
-            SpriteUnloader _d_sprite = nullptr;
+            static inline SpriteLoader _c_sprite = nullptr;
+            static inline SpriteUnloader _d_sprite = nullptr;
 
             using DisplayLoader = arcade::IDisplayModule *(*)(unsigned int width, unsigned int height, std::string title);
             using DisplayUnloader = void (*)(arcade::IDisplayModule *module);
 
-            DisplayLoader _c_display = nullptr;
-            DisplayUnloader _d_display = nullptr;
+            static inline DisplayLoader _c_display = nullptr;
+            static inline DisplayUnloader _d_display = nullptr;
 
 //////////////////////--------------------------/////////////////////////
 
@@ -81,14 +81,14 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Sprite createSprite(std::shared_ptr<myxmlpp::Node> &data);
-            static Sprite createSprite(const std::string& filePath);
-            static Text createText(std::shared_ptr<myxmlpp::Node> &data);
-            static Text createText(unsigned int size, const std::string& fontPath, const std::string& text = "");
+//            static Sprite createSprite(std::shared_ptr<myxmlpp::Node> &data);
+//            static Sprite createSprite(const std::string& filePath);
+//            static Text createText(std::shared_ptr<myxmlpp::Node> &data);
+//            static Text createText(unsigned int size, const std::string& fontPath, const std::string& text = "");
             static Display createDisplay(const std::shared_ptr<Settings::VideoSettings>& videoSettings, const std::string& title);
 
-            static void destroySprite(SpriteModule *sprite);
-            static void destroyText(TextModule *text);
+//            static void destroySprite(SpriteModule *sprite);
+//            static void destroyText(TextModule *text);
             static void destroyDisplay(DisplayModule *display);
 
             static void reloadAPI(const std::string& newHandler);
@@ -98,8 +98,8 @@ namespace Polymorph
 
 
         private:
-            static void _unloadModules();
-            static void _reloadModules();
+//            static void _unloadModules();
+//            static void _reloadModules();
 
 
             friend Input;

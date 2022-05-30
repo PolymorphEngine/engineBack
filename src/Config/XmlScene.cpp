@@ -75,6 +75,6 @@ namespace Polymorph
             return;
         }
         for (auto &e: *list)
-            _entities.push_back(std::make_shared<Config::XmlEntity>(e, _engine, _path));
+            _entities.push_back(std::make_shared<Config::XmlEntity>(e, _engine, _engine.getProjectPath()));
     }
 }

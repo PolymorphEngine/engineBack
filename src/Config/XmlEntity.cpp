@@ -15,7 +15,8 @@ namespace Polymorph
 {
     std::shared_ptr<Entity> Config::XmlEntity::makeInstance()
     {
-        std::shared_ptr<Entity> e(new Entity(*this, this->_engine));
+        _loadComponents();
+        std::shared_ptr<Entity> e = instance;
 
         for (auto &c: _components) {
             std::string t = c->getType();
@@ -37,7 +38,7 @@ namespace Polymorph
                 (*e).addComponent(t, *c, GameObject(e));
             }
         }
-
+        instance = nullptr;
         return e;
     }
 
@@ -63,7 +64,7 @@ namespace Polymorph
         } catch (myxmlpp::Exception &e) {
             throw ConfigurationException("Entity at path: '"+_path + "/" +_fileName+"': does not exist", Logger::MINOR);
         }
-        _loadComponents();
+        //_loadComponents();
     }
 
     std::string Config::XmlEntity::getName() const
@@ -139,8 +140,9 @@ namespace Polymorph
 
     void Config::XmlEntity::_loadComponents()
     {
+        instance = std::make_shared<Entity>(*this, this->_engine);
         std::shared_ptr<XmlNode> components;
-
+        _components.clear();
         try {
             components = _entity->getRoot()->findChild("Components");
         } catch (myxmlpp::Exception &e) {
@@ -149,7 +151,7 @@ namespace Polymorph
             return;
         }
         for (auto &c: *components)
-            _components.push_back(std::make_shared<Config::XmlComponent>(c));
+            _components.push_back(std::make_shared<Config::XmlComponent>(c, GameObject(instance)));
     }
 
     bool Config::XmlEntity::isPrefab()

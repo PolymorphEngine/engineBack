@@ -9,6 +9,10 @@
 #define ENGINE_VECTOR_HPP
 
 
+#include <memory>
+#include "Node.hpp"
+#include "XmlComponent.hpp"
+
 namespace Polymorph
 {
     class Vector2;
@@ -24,6 +28,7 @@ namespace Polymorph
             Vector3(float x, float y, float z);
             Vector3(const Vector3 &copy) = default;
             Vector3(const Vector2 &copy);
+            Vector3(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
 //////////////////////--------------------------/////////////////////////
 
 
@@ -99,6 +104,7 @@ namespace Polymorph
             Vector2(const Vector2 &copy) = default;
             Vector2(const Vector3 &copy);
             Vector2();
+            Vector2(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
             ~Vector2() = default;
 //////////////////////--------------------------/////////////////////////
 

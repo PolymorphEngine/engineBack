@@ -10,6 +10,7 @@
 
 
 #include "Core/component/base/ADrawableComponent.hpp"
+#include "GraphicalAPI/modules/SpriteModule.hpp"
 
 namespace Polymorph
 {
@@ -26,7 +27,7 @@ namespace Polymorph
 
 
         public:
-            Sprite sprite;
+            SpriteModule sprite;
 
 
 

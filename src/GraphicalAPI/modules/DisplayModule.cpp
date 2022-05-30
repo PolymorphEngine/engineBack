@@ -27,7 +27,9 @@ namespace Polymorph
     DisplayModule::DisplayModule(std::shared_ptr<Settings::VideoSettings> settings,
                                  std::string title) : _settings(std::move(settings)), _title(std::move(title))
     {
-
+        _displayModule = GraphicalAPI::_c_display(settings->getResolution().x, settings->getResolution().y, title);
+        if (!_displayModule)
+            throw GraphicalException("Failed to create display.");
     }
 
     void DisplayModule::draw(SpriteModule &sprite)

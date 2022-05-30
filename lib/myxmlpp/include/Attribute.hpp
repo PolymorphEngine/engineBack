@@ -93,8 +93,8 @@ namespace myxmlpp {
              * @return the bool attribute value
              * @throws IllegalValueException
              */
-            bool getValueBool(const std::string& trueElement = "true",
-                              const std::string& falseElement = "false") const;
+            bool getValueBool(const std::string& trueElement = "True",
+                              const std::string& falseElement = "False") const;
 
             /**
              * Build a new XML document with the filepath of the attribute value

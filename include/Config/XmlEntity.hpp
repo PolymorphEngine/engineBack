@@ -32,6 +32,7 @@ namespace Polymorph
             private:
                 std::vector<std::shared_ptr<XmlComponent>> _components;
                 std::vector<std::shared_ptr<XmlEntity>> _children;
+                std::shared_ptr<Entity> instance;
                 Engine &_engine;
                 std::shared_ptr<XmlNode> _node;
                 std::string _path;

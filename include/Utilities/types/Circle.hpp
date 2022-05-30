@@ -23,6 +23,7 @@ namespace Polymorph
         Circle(const Vector2 &center, float radius);
         Circle(const Circle &circle);
         Circle(float x, float y, float radius);
+        Circle(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
         ~Circle() = default;
 //////////////////////--------------------------/////////////////////////
 

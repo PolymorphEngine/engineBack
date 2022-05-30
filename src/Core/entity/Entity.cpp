@@ -312,3 +312,23 @@ Polymorph::Entity::childAt(std::size_t idx)
     }
     return GameObject(nullptr);
 }
+
+bool Polymorph::Entity::wasPrefab() const
+{
+    return _wasPrefab;
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::findByPrefabId(const std::string &nameToFind)
+{
+    for (auto &child : **transform) {
+        if (child->gameObject->_prefabId == nameToFind)
+            return child->gameObject;
+    }
+    for (auto &child : **transform) {
+        auto found = child->gameObject->findByPrefabId(nameToFind);
+        if (!!found)
+            return found;
+    }
+    return GameObject(nullptr);
+}
