@@ -19,9 +19,9 @@ namespace Polymorph
         try {
             _name = _projectNode->findAttribute("name")->getValue();
             _id = _projectNode->findAttribute("id")->getValue();
-            _path =engine.getProjectPath() + "/" + _projectNode->findAttribute("path")->getValue();
-            _sceneDoc = std::make_shared<myxmlpp::Doc>(_path + "/" + _name + ".pcf.scene");
-            _first = _sceneDoc->getRoot()->findAttribute("first")->getValueBool("True", "False");
+            _path = engine.getProjectPath() + "/" + _projectNode->findAttribute("path")->getValue();
+            _sceneDoc = std::make_shared<myxmlpp::Doc>(_path);
+            _first = _sceneDoc->getRoot()->findAttribute("first")->getValueBool();
         } catch (myxmlpp::Exception &e) {
             throw ConfigurationException( e.what(), Logger::MAJOR);
         }

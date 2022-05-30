@@ -14,7 +14,7 @@
 namespace Polymorph
 {
     template <typename T>
-    class safe_ptr : public std::weak_ptr<T>, public std::error_code
+    class safe_ptr : public std::weak_ptr<T>
     {
         public:
             safe_ptr() : std::weak_ptr<T>(){};

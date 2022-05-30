@@ -63,11 +63,22 @@ namespace Polymorph
             static constexpr auto is_map = CastHelper::is_mappish_impl<T>::value;
             
             template<typename T, typename U = void>
+            struct is_shp_impl : std::false_type { };
+
+            template<typename T>
+            struct is_shp_impl<T, 
+                    void_t<decltype(&T::operator*), decltype(&T::operator->)>
+                    >
+                    : std::true_type { };
+            template<typename T>
+            static constexpr auto is_sharedptr = CastHelper::is_shp_impl<T>::value;
+            
+            template<typename T, typename U = void>
             struct is_sp_impl : std::false_type { };
 
             template<typename T>
             struct is_sp_impl<T, 
-                    void_t<decltype(&T::operator*), decltype(&T::operator->)>
+                    void_t<decltype(&T::operator*), decltype(&T::operator->), decltype(&T::operator!)>
                     >
                     : std::true_type { };
             template<typename T>
@@ -165,6 +176,16 @@ namespace Polymorph
                     static_assert(!CastHelper::is_map<T>);
                     _setRefProperty<T>(property, toSet, level);
                 };
+                template<typename T>
+                void setProperty(const std::string& propertyName, std::shared_ptr<T> &toSet, Logger::severity level = Logger::DEBUG)
+                {
+                    std::shared_ptr<XmlNode> property = _findProperty(propertyName, level);
+
+                    if (property == nullptr)
+                        return;
+                    static_assert(!CastHelper::is_map<T>);
+                    _setSharedProperty<T>(property, toSet, level);
+                };
 
 //                template<typename T, std::enable_if_t<!CastHelper::is_map<T>, int> = 0>
                 template<typename T>
@@ -219,6 +240,15 @@ namespace Polymorph
                         _setPrimitiveProperty<int>(property, reinterpret_cast<int &>(toSet), level);
                     else if constexpr (!std::is_enum<T>())
                         _setPrimitiveProperty<T>(property, toSet, level);
+                };                
+                template<typename T>
+                void setSubProperty(const std::string& propertyName, const std::shared_ptr<XmlNode> &data, std::shared_ptr<T> &toSet, Logger::severity level = Logger::DEBUG)
+                {
+                    std::shared_ptr<XmlNode> property = _findProperty(propertyName, data, level);
+
+                    if (property == nullptr)
+                        return;
+                    _setSharedProperty<T>(property, toSet, level);
                 };
                 
                 template<typename T>
@@ -294,6 +324,14 @@ namespace Polymorph
                     static_assert(!CastHelper::is_map<T> && !CastHelper::is_vector<T>
                     && !CastHelper::is_safeptr<T> && !std::is_enum<T>());
                     toSet = T(data, *this);
+                };
+                
+                template<typename T, typename  T2 = void>
+                void _setSharedProperty(std::shared_ptr<XmlNode> &data, std::shared_ptr<T> &toSet, Logger::severity level = Logger::DEBUG)
+                {
+                    static_assert(!CastHelper::is_map<T> && !CastHelper::is_vector<T>
+                    && !CastHelper::is_safeptr<T> && !std::is_enum<T>());
+                    toSet = std::make_shared<T>(data, *this);
                 };
                 template<typename T2 = void>
                 void _setPrimitiveProperty(std::shared_ptr<XmlNode> &data, int &toSet, Logger::severity level)
@@ -375,7 +413,6 @@ namespace Polymorph
                 {
                     for (auto &elem : *data)
                     {
-                        const auto elemType = elem->findAttribute("type")->getValue();
                         if constexpr (CastHelper::is_map<T>)
                         {
                             T tmp;
@@ -388,7 +425,13 @@ namespace Polymorph
                             _setRefProperty(elem, tmp, level);
                             toSet.push_back(tmp);
                         }
-                        if constexpr (CastHelper::is_vector<T>)
+                        if constexpr (CastHelper::is_sharedptr<T> && !CastHelper::is_safeptr<T>)
+                        {
+                            T tmp;
+                            _setSharedProperty(elem, tmp, level);
+                            toSet.push_back(tmp);
+                        }
+                        if constexpr (CastHelper::is_vector<T> && !std::is_same_v<T, std::string>)
                         {
                             T tmp;
                             _setVectorProperty(elem, tmp, level);
@@ -412,51 +455,38 @@ namespace Polymorph
                     {
                         T1 key;
                         auto keyElem = elem->begin();
+                        {
+                            if constexpr (CastHelper::is_map<T1>)
+                                _setMapPropertyFromNode(*keyElem, key, level);
+                            if constexpr (CastHelper::is_safeptr<T1>)
+                                _setRefProperty(*keyElem, key, level);
+                            if constexpr (CastHelper::is_sharedptr<T1> && !CastHelper::is_safeptr<T1>)
+                                _setSharedProperty(*keyElem, key, level);
+                            if constexpr (CastHelper::is_vector<T1> && !std::is_same_v<T1, std::string>)
+                                _setVectorProperty(*keyElem, key, level);
+                            if constexpr (!CastHelper::is_vector<T1>
+                            && !CastHelper::is_safeptr<T1> && !CastHelper::is_map<T1>)
+                                _setPrimitiveProperty((*keyElem), key, level);
+                        }
+                        
                         auto valueElem = elem->begin() + 1;
                         T2 value;
                         {
-                            if constexpr (CastHelper::is_map<T1>)
-                            {
-                                _setMapPropertyFromNode(*keyElem, key, level);
-                            }
-                            if constexpr (CastHelper::is_safeptr<T1>)
-                            {
-                                _setRefProperty(*keyElem, key, level);
-                            }
-                            if constexpr (CastHelper::is_vector<T1>)
-                            {
-                                _setVectorProperty(*keyElem, key, level);
-                            }
-                            if constexpr (!CastHelper::is_vector<T1>
-                                          && !CastHelper::is_safeptr<T1> &&
-                                          !CastHelper::is_map<T1>)
-                            {
-                                _setPrimitiveProperty((*keyElem), key, level);
-                            }
-                        }
-                        {
                             if constexpr (CastHelper::is_map<T2>)
-                            {
                                 _setMapPropertyFromNode(*valueElem,
                                                         value, level);
-                            }
                             if constexpr (CastHelper::is_safeptr<T2>)
-                            {
                                 _setRefProperty(*valueElem, value,
                                                 level);
-                            }
-                            if constexpr (CastHelper::is_vector<T2>)
-                            {
+                            if constexpr (CastHelper::is_sharedptr<T2> && !CastHelper::is_safeptr<T2>)
+                                _setSharedProperty(*valueElem, value, level);
+                            if constexpr (CastHelper::is_vector<T2> && !std::is_same_v<T2, std::string>)
                                 _setVectorProperty(*valueElem, value,
                                                    level);
-                            }
                             if constexpr (! CastHelper::is_vector<T2>
-                                          && ! CastHelper::is_safeptr<T2> &&
-                                          ! CastHelper::is_map<T2>)
-                            {
+                            && !CastHelper::is_safeptr<T2> && !CastHelper::is_map<T2>)
                                 _setPrimitiveProperty(*valueElem, value,
                                                       level);
-                            }
                         }
                         toSet.insert_or_assign(key, value);
                     }
@@ -473,47 +503,35 @@ namespace Polymorph
                         T2 value;
                         {
                             if constexpr (CastHelper::is_map<T1>)
-                            {
                                 _setMapPropertyFromNode(*keyElem, key, level);
-                            }
                             if constexpr (CastHelper::is_safeptr<T1>)
-                            {
                                 _setRefProperty(*keyElem, key, level);
-                            }
-                            if constexpr (CastHelper::is_vector<T1>)
-                            {
+                            if constexpr (CastHelper::is_sharedptr<T1> && !CastHelper::is_safeptr<T1>)
+                                _setSharedProperty(*keyElem, key, level);
+                            if constexpr (CastHelper::is_vector<T1> && !std::is_same_v<T1, std::string>)
                                 _setVectorProperty(*keyElem, key, level);
-                            }
                             if constexpr (!CastHelper::is_vector<T1>
                                           && !CastHelper::is_safeptr<T1> &&
                                           !CastHelper::is_map<T1>)
-                            {
                                 _setPrimitiveProperty(*keyElem, key, level);
-                            }
                         }
                         {
                             if constexpr (CastHelper::is_map<T2>)
-                            {
                                 _setMapPropertyFromNode(*valueElem,
                                                         value, level);
-                            }
                             if constexpr (CastHelper::is_safeptr<T2>)
-                            {
                                 _setRefProperty(*valueElem, value,
                                                 level);
-                            }
-                            if constexpr (CastHelper::is_vector<T2>)
-                            {
+                            if constexpr (CastHelper::is_sharedptr<T2> && !CastHelper::is_safeptr<T2>)
+                                _setSharedProperty(*valueElem, value, level);
+                            if constexpr (CastHelper::is_vector<T2> && !std::is_same_v<T2, std::string>)
                                 _setVectorProperty(*valueElem, value,
                                                    level);
-                            }
                             if constexpr (! CastHelper::is_vector<T2>
                                           && ! CastHelper::is_safeptr<T2> &&
                                           ! CastHelper::is_map<T2>)
-                            {
                                 _setPrimitiveProperty(*valueElem, value,
                                                       level);
-                            }
                         }
                         toSet.insert_or_assign(key, value);
                     }
