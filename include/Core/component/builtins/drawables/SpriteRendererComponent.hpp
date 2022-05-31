@@ -27,7 +27,7 @@ namespace Polymorph
 
 
         public:
-            SpriteModule sprite;
+            std::shared_ptr<SpriteModule> sprite;
 
 
 

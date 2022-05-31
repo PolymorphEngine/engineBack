@@ -14,9 +14,8 @@
 namespace Polymorph
 {
     TransformInitializer::TransformInitializer(Config::XmlComponent &data, GameObject entity)
-        : AComponentInitializer("Transform", data, entity) {
-        component->transform = Transform(component);
-    }
+        : AComponentInitializer("Transform", data, entity)
+        {}
 
     void TransformInitializer::build()
     {

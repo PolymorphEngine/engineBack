@@ -10,8 +10,8 @@
 
 
 #include <memory>
-#include "Node.hpp"
-#include "XmlComponent.hpp"
+#include "myxmlpp.hpp"
+#include "Config/XmlComponent.hpp"
 
 namespace Polymorph
 {

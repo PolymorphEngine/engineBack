@@ -39,42 +39,6 @@ Polymorph::GraphicalAPI::~GraphicalAPI()
     _instance = nullptr;
 }
 
-
-//void Polymorph::GraphicalAPI::_unloadModules()
-//{
-//    for (auto &s: _instance->_sprites)
-//    {
-//        _instance->_d_sprite(s->_spriteModule);
-//        s->_spriteModule = nullptr;
-//    }
-//    for (auto &t: _instance->_texts)
-//    {
-//        _instance->_d_text(t->_textModule);
-//        t->_textModule = nullptr;
-//    }
-//    for (auto &t: _instance->_displays)
-//    {
-//        _instance->_d_display(t->_displayModule);
-//        t->_displayModule = nullptr;
-//    }
-//}
-
-//void Polymorph::GraphicalAPI::_reloadModules()
-//{
-//    for (auto &t: _instance->_displays) {
-//        t->_displayModule = _instance->_c_display(10, 10, "");
-//        t->_loadModule();
-//    }
-//    for (auto &s: _instance->_sprites) {
-//        s->_spriteModule = _instance->_c_sprite();
-//        s->_loadModule();
-//    }
-//    for (auto &t: _instance->_texts) {
-//        t->_textModule = _instance->_c_text();
-//        t->_loadModule();
-//    }
-//}
-
 void Polymorph::GraphicalAPI::reloadAPI(const std::string& newHandler)
 {
     if (!_instance)
@@ -99,48 +63,16 @@ void Polymorph::GraphicalAPI::reloadAPI(const std::string& newHandler)
 
 std::string Polymorph::GraphicalAPI::getHandlerPath()
 {
-    if (!_instance)
+    if (! _instance)
     {
-        Logger::log("No Graphic API handler available to reload.", Logger::MAJOR);
+        Logger::log("No Graphic API handler available to reload.",
+                    Logger::MAJOR);
         return "";
     }
     return _instance->_handlerPath;
 }
-//
-//void Polymorph::GraphicalAPI::destroySprite(SpriteModule *sprite)
-//{
-//    auto fnc = [&sprite](SpriteBase &t) -> bool{ return (t.get() == sprite);};
-//    if (!_instance)
-//        throw GraphicalException("No GraphicalAPI available to destroy Sprite.", Logger::MAJOR);
-//    else if (!_instance->_d_sprite)
-//        throw GraphicalException("No symbol available to destroy Sprite.", Logger::MAJOR);
-//
-//    _instance->_d_sprite(sprite->_spriteModule);
-//    sprite->_spriteModule = nullptr;
-//    auto it = std::find_if(_instance->_sprites.begin(), _instance->_sprites.end(), fnc);
-//    if (it == _instance->_sprites.end())
-//        return;
-//    _instance->_sprites.erase(it);
-//}
-//
-//void Polymorph::GraphicalAPI::destroyText(TextModule *text)
-//{
-//    auto fnc = [&text](TextBase &t) -> bool{ return (t.get() == text);};
-//
-//    if (!_instance)
-//        throw GraphicalException("No GraphicalAPI available to destroy Text.", Logger::MAJOR);
-//    else if (!_instance->_d_text)
-//        throw GraphicalException("No symbol available to destroy Text.", Logger::MAJOR);
-//    _instance->_d_text(text->_textModule);
-//    text->_textModule = nullptr;
-//    auto it = std::find_if(_instance->_texts.begin(), _instance->_texts.end(), fnc);
-//    if (it == _instance->_texts.end())
-//        return;
-//    _instance->_texts.erase(it);
-//
-//}
 
-Polymorph::Display Polymorph::GraphicalAPI::createDisplay(const std::shared_ptr<Settings::VideoSettings> &videoSettings, const std::string &title)
+Polymorph::Display Polymorph::GraphicalAPI::createDisplay(std::shared_ptr<Settings::VideoSettings> &videoSettings, const std::string &title)
 {
     auto n = std::make_shared<DisplayModule>(videoSettings, title);
     

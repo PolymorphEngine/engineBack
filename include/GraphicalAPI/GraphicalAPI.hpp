@@ -85,7 +85,7 @@ namespace Polymorph
 //            static Sprite createSprite(const std::string& filePath);
 //            static Text createText(std::shared_ptr<myxmlpp::Node> &data);
 //            static Text createText(unsigned int size, const std::string& fontPath, const std::string& text = "");
-            static Display createDisplay(const std::shared_ptr<Settings::VideoSettings>& videoSettings, const std::string& title);
+            static Display createDisplay(std::shared_ptr<Settings::VideoSettings>& videoSettings, const std::string& title);
 
 //            static void destroySprite(SpriteModule *sprite);
 //            static void destroyText(TextModule *text);

@@ -26,7 +26,7 @@ namespace Polymorph
 
 
         public:
-            TextModule text;
+            std::shared_ptr<TextModule> text;
 
 
 

@@ -10,6 +10,8 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Config.hpp>
 #include <utility>
+#include "Config/XmlEntity.hpp"
+
 
 namespace Polymorph
 {
@@ -163,6 +165,31 @@ namespace Polymorph
                         "': as corrupted prefab attribute, setting default prefab to false",
                         Logger::DEBUG);
             return false;
+        }
+    }
+
+    std::string Config::XmlEntity::getPrefabId()
+    {
+
+        try {
+            return _entity->getRoot()->findAttribute("prefab_id")->getValue();
+        } catch (myxmlpp::Exception &e) {
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as corrupted prefab attribute, setting default to \"\"",
+                        Logger::DEBUG);
+            return "";
+        }
+    }
+
+    bool Config::XmlEntity::wasPrefab()
+    {
+        try {
+            return _entity->getRoot()->findAttribute("was_prefab")->getValueBool();
+        } catch (myxmlpp::Exception &e) {
+            Logger::log("Entity at path: '" + _path + "/" + _fileName +
+                        "': as corrupted prefab attribute, setting default wasprefab to true",
+                        Logger::DEBUG);
+            return true;
         }
     }
 }

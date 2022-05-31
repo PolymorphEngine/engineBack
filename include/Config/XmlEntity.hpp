@@ -47,6 +47,8 @@ namespace Polymorph
                 std::string getName() const;
                 bool isActive() const;
                 bool isPrefab();
+                bool wasPrefab();
+                std::string getPrefabId();
                 std::string getId() const;
                 [[nodiscard]] std::vector<std::string> getTags() const;
                 std::string getLayer() const;

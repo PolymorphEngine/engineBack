@@ -11,10 +11,15 @@
 
 Polymorph::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
 {
-    manager.setSubProperty("r", data, reinterpret_cast<int &>(r));
-    manager.setSubProperty("g", data, reinterpret_cast<int &>(g));
-    manager.setSubProperty("b", data, reinterpret_cast<int &>(b));
-    manager.setSubProperty("a", data, reinterpret_cast<int &>(a));
+    int tmp = 0;
+    manager.setSubProperty("r", data, tmp);
+    r = tmp;
+    manager.setSubProperty("g", data, tmp);
+    g = tmp;
+    manager.setSubProperty("b", data, tmp);
+    b = tmp;
+    manager.setSubProperty("a", data, tmp);
+    a = tmp;
 }
 
 Polymorph::Color::Color(unsigned char r, unsigned char g, unsigned char b)
