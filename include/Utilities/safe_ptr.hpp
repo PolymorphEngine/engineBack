@@ -23,8 +23,6 @@ namespace Polymorph
             safe_ptr<T> &operator=(std::shared_ptr<T> &t)
             {
                 this->_M_assign(t);
-                std::weak_ptr<T>::element_type;
-                std::weak_ptr<T>::expired();
                 return *this;
             }
 
@@ -54,8 +52,6 @@ namespace Polymorph
             {
                 return this->expired();
             }
-            
-            static inline bool safe = true;
 
     };
 }

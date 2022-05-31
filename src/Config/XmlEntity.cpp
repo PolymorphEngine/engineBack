@@ -66,7 +66,6 @@ namespace Polymorph
         } catch (myxmlpp::Exception &e) {
             throw ConfigurationException("Entity at path: '"+_path + "/" +_fileName+"': does not exist", Logger::MINOR);
         }
-        //_loadComponents();
     }
 
     std::string Config::XmlEntity::getName() const

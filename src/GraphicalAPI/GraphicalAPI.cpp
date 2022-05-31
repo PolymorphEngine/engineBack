@@ -31,7 +31,6 @@ void *Polymorph::GraphicalAPI::getHandler()
 
 Polymorph::GraphicalAPI::~GraphicalAPI()
 {
-//    _unloadModules();
     CurrentDisplay.reset();
     _sprites.clear();
     _texts.clear();
@@ -46,7 +45,6 @@ void Polymorph::GraphicalAPI::reloadAPI(const std::string& newHandler)
         Logger::log("No Graphic API handler available to reload.", Logger::MAJOR);
         return;
     }
-//    _unloadModules();
     _instance->loadHandler(newHandler);
 
     _c_text = loadSymbol<TextLoader, GraphicalAPI>("createText");
@@ -57,8 +55,6 @@ void Polymorph::GraphicalAPI::reloadAPI(const std::string& newHandler)
     _d_sprite = loadSymbol<SpriteUnloader, GraphicalAPI>("deleteSprite");
     _d_text = loadSymbol<TextUnloader, GraphicalAPI>("deleteText");
     _instance->_handlerPath = newHandler;
-
-//    _reloadModules();
 }
 
 std::string Polymorph::GraphicalAPI::getHandlerPath()
