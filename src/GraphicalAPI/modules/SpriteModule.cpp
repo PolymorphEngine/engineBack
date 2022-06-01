@@ -27,17 +27,25 @@ Polymorph::SpriteModule::SpriteModule(std::string filePath)
     _loadModule();
 }
 
-Polymorph::SpriteModule::SpriteModule(std::shared_ptr<myxmlpp::Node> &data)
+Polymorph::SpriteModule::SpriteModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
 {
-    Config::XmlComponent::setProperty("filepath", _filePath, data);
-    Config::XmlComponent::setProperty("crop", _crop, data);
-    Config::XmlComponent::setProperty("color", _color, data);
+    manager.setSubProperty("_filePath", data, _filePath);
+    _filePath = "./Game/Assets/" + _filePath;
+    manager.setSubProperty("_crop", data, _crop);
+    manager.setSubProperty("_color", data, _color);
+    
+    _spriteModule = GraphicalAPI::_c_sprite();
+    _loadModule();
 }
 
 
 Polymorph::SpriteModule::~SpriteModule()
 {
-    GraphicalAPI::destroySprite(this);
+    if (_spriteModule != nullptr && GraphicalAPI::_d_sprite != nullptr)
+    {
+        GraphicalAPI::_d_sprite(_spriteModule);
+        _spriteModule = nullptr;
+    }
 }
 
 arcade::ISpriteModule *Polymorph::SpriteModule::getSprite()

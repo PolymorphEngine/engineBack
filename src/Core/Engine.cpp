@@ -70,12 +70,10 @@ void Polymorph::Engine::exit(ExitCode code = 0)
     _exit = true;
 }
 
-
-
 void Polymorph::Engine::_openProject()
 {
     try {
-        _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName + ".pcf");
+        _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName + ".pcf.engine");
         std::shared_ptr<myxmlpp::Node> n = _projectConfig->getRoot();
         std::shared_ptr<myxmlpp::Node> settings = n->findChild("EngineSettings");
         std::shared_ptr<myxmlpp::Node> scenes = n->findChild("Scenes");
@@ -134,7 +132,7 @@ void Polymorph::Engine::_initDebugSettings()
     try {
         auto debug = settings->findChild("Debug");
 
-        if (debug->findAttribute("enabled")->getValueBool("True", "False"))
+        if (debug->findAttribute("enabled")->getValueBool())
             Logger::initLogInstance(Logger::DEBUG_MODE);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);

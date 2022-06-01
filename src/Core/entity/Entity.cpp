@@ -14,7 +14,8 @@
 
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
-Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
+Engine &game) : _game(game), _xml_config(data), _stringId(data.getId()),
+_prefabId(data.getPrefabId()), _wasPrefab(data.wasPrefab())
 {
     name = data.getName();
     _active = data.isActive();
@@ -309,6 +310,26 @@ Polymorph::Entity::childAt(std::size_t idx)
         if (idx == 0)
             return child->gameObject;
         --idx;
+    }
+    return GameObject(nullptr);
+}
+
+bool Polymorph::Entity::wasPrefab() const
+{
+    return _wasPrefab;
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::findByPrefabId(const std::string &nameToFind)
+{
+    for (auto &child : **transform) {
+        if (child->gameObject->_prefabId == nameToFind)
+            return child->gameObject;
+    }
+    for (auto &child : **transform) {
+        auto found = child->gameObject->findByPrefabId(nameToFind);
+        if (!!found)
+            return found;
     }
     return GameObject(nullptr);
 }

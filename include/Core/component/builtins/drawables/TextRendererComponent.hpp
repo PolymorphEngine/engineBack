@@ -9,6 +9,7 @@
 #define ENGINE_TEXTRENDERERCOMPONENT_HPP
 
 #include "Core/component/base/ADrawableComponent.hpp"
+#include "GraphicalAPI/modules/TextModule.hpp"
 
 namespace Polymorph
 {
@@ -25,7 +26,7 @@ namespace Polymorph
 
 
         public:
-            Text text;
+            std::shared_ptr<TextModule> text;
 
 
 

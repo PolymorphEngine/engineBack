@@ -21,17 +21,19 @@ Polymorph::TextModule::TextModule(std::string fontPath, std::string text, unsign
     _loadModule();
 }
 
-Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data)
+Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
 {
-    Config::XmlComponent::setProperty("font", _filepath, data, Logger::MAJOR);
-    Config::XmlComponent::setProperty("string", _str, data);
-    Config::XmlComponent::setProperty("size", _fontSize, data, Logger::MAJOR);
-    Config::XmlComponent::setProperty("color", _color, data);
+    manager.setSubProperty("_filepath", data, _filepath, Logger::MAJOR);
+    manager.setSubProperty("_fontSize", data, _fontSize, Logger::MAJOR);
+    manager.setSubProperty("_color", data, _color, Logger::MAJOR);
+    manager.setSubProperty("_str", data, _str, Logger::MAJOR);
+    _textModule = GraphicalAPI::_c_text();
+    _loadModule();
 }
 
 Polymorph::TextModule::~TextModule()
 {
-    GraphicalAPI::destroyText(this);
+    GraphicalAPI::_d_text(_textModule);
 }
 
 arcade::ITextModule *Polymorph::TextModule::getText()

@@ -16,3 +16,5 @@
 #include "../Utilities/safe_ptr.hpp"
 #include "../GraphicalAPI/Input.hpp"
 #include "../GraphicalAPI/GraphicalAPI.hpp"
+#include "../GraphicalAPI/modules/SpriteModule.hpp"
+#include "../GraphicalAPI/modules/TextModule.hpp"

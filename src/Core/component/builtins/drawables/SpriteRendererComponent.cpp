@@ -11,13 +11,10 @@
 
 namespace Polymorph
 {
-
     void SpriteRendererComponent::draw()
     {
-        if (!sprite)
-            return;
         sprite->setPosition(Vector2(transform->getPosition()) + offset);
-        GraphicalAPI::CurrentDisplay->draw(**sprite);
+        GraphicalAPI::CurrentDisplay->draw(*sprite);
     }
 
     SpriteRendererComponent::SpriteRendererComponent(GameObject gameObject)

@@ -57,8 +57,10 @@ namespace Polymorph
 
         private:
             bool _isPrefab;
+            bool _wasPrefab;
             bool _active;
             std::string _stringId;
+            std::string _prefabId;
             std::vector<std::string> _tags;
             std::string _layer;
             Engine &_game;
@@ -81,6 +83,7 @@ namespace Polymorph
             bool isActive() const;
 
             bool isPrefab() const;
+            bool wasPrefab() const;
 
             /**
              * @details Changes the game object state
@@ -136,6 +139,7 @@ namespace Polymorph
              * @return The child entity
              */
             safe_ptr<Entity> find(const std::string &nameToFind);
+            safe_ptr<Entity> findByPrefabId(const std::string &nameToFind);
 
             /**
              * @details Get a child entity by its index
@@ -210,12 +214,14 @@ namespace Polymorph
              * @returns An std::string of the entity's unique id
              */
             std::string &getId() {return _stringId;};
+            std::string &getPrefabId() {return _prefabId;};
 
             /**
              * @details A setter for the entity's unique id
              * @param An std::string of the entity's unique id
              */
              void setId(const std::string &id) {_stringId = id;};
+             void setPrefabId(const std::string &id) {_stringId = id;};
 
             /**
              * @details A getter to fetch the XmlEntity associated with the

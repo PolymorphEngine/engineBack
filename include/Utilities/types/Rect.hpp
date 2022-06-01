@@ -8,7 +8,10 @@
 #ifndef ENGINE_RECT_HPP
 #define ENGINE_RECT_HPP
 
+#include <memory>
 #include "Vector.hpp"
+#include "myxmlpp.hpp"
+#include "Config/XmlComponent.hpp"
 
 namespace Polymorph
 {
@@ -33,6 +36,8 @@ namespace Polymorph
             Rect(const Rect &copy) = default;
 
             Rect(): x(0), y(0), width(0), height(0){};
+            
+            Rect(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
 //////////////////////--------------------------/////////////////////////
 
 

@@ -14,10 +14,8 @@ namespace Polymorph
 
     void TextRendererComponent::draw()
     {
-        if (!text)
-            return;
         text->setPosition(Vector2(transform->getPosition()) + offset);
-        GraphicalAPI::CurrentDisplay->draw(**text);
+        GraphicalAPI::CurrentDisplay->draw(*text);
     }
 
     TextRendererComponent::TextRendererComponent(GameObject gameObject)

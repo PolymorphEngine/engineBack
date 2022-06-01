@@ -7,6 +7,8 @@
 
 #include <Polymorph/Types.hpp>
 #include <cmath>
+#include "Circle.hpp"
+
 
 Polymorph::Circle::Circle(const Polymorph::Vector2 &center, float radius): center(center), radius(radius)
 {
@@ -172,4 +174,11 @@ bool Polymorph::Circle::intersect(const Polymorph::Vector2 &center, float radius
     if (circleDistanceX <= (rect.width/2) || circleDistanceY <= (rect.height/2))
         return true;
     return ((pow((circleDistanceX - rect.width/2), 2) + pow((circleDistanceY - rect.height/2), 2)) <= (pow(radius, 2)));
+}
+
+Polymorph::Circle::Circle(std::shared_ptr<myxmlpp::Node> &data,
+                          Polymorph::Config::XmlComponent &manager)
+{
+    manager.setSubProperty("center", data, center);
+    manager.setSubProperty("radius", data, radius);
 }

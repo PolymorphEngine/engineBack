@@ -32,7 +32,7 @@ namespace Polymorph
 
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            DisplayModule(std::shared_ptr<Settings::VideoSettings> settings, std::string title);
+            DisplayModule(std::shared_ptr<Settings::VideoSettings> &settings, std::string title);
             ~DisplayModule();
 
 ///////////////////////////--------------------------///////////////////////////
