@@ -57,7 +57,8 @@ bool myxmlpp::Node::_performRegex(std::smatch &matches, std::string &regexStr,
 void myxmlpp::Node::_parseNodeString(std::string &str, std::string &remaining)
 {
     std::string rgx("[\r\n\t\f\v ]*(<([a-zA-Z0-9_\\-]*)"
-                    "(?:[\r\n\t\f\v ](.*\")[\r\n\t\f\v ]*?)*(/?)>)");
+                    "(?:[\r\n\t\f\v ](.*\")[\r\n\t\f\v ]*?)*"
+                    "[\\r\\n\\t\\f\\v ]*(/?)>)");
     std::smatch matches;
 
     if (!_performRegex(matches, rgx, str, &remaining))
