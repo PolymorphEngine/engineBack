@@ -106,6 +106,12 @@ namespace myxmlpp {
              * @return the XML root node
              */
             std::shared_ptr<Node> getRoot() const noexcept;
+
+            /**
+             * Set the root node of the document.
+             * @param root the new root node
+             */
+            void setRoot(const std::shared_ptr<Node> &root);
     };
 
 }
