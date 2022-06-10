@@ -108,3 +108,8 @@ std::shared_ptr<myxmlpp::Node> myxmlpp::Doc::getRoot() const noexcept
 {
     return _root;
 }
+
+void myxmlpp::Doc::setRoot(const std::shared_ptr<Node> &root)
+{
+    _root = root;
+}
