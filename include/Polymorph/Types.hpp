@@ -13,6 +13,7 @@
 #include "../Utilities/types/Rect.hpp"
 #include "../Utilities/types/Circle.hpp"
 #include "../Utilities/types/Color.hpp"
-#include "../GraphicalAPI/modules/SpriteModule.hpp"
+#include "../GraphicalAPI/modules/TextureModule.hpp"
 #include "../GraphicalAPI/modules/TextModule.hpp"
 #include "../GraphicalAPI/modules/DisplayModule.hpp"
+#include "../GraphicalAPI/modules/BoxModule.hpp"

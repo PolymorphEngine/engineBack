@@ -20,6 +20,9 @@ namespace Polymorph
             _name = _projectNode->findAttribute("name")->getValue();
             _id = _projectNode->findAttribute("id")->getValue();
             _path = engine.getProjectPath() + "/" + _projectNode->findAttribute("path")->getValue();
+#ifdef _WIN32
+            std::replace(_path.begin(), _path.end(), '/', '\\');
+#endif
             _sceneDoc = std::make_shared<myxmlpp::Doc>(_path);
             _first = _sceneDoc->getRoot()->findAttribute("first")->getValueBool();
         } catch (myxmlpp::Exception &e) {

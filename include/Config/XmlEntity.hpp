@@ -52,10 +52,10 @@ namespace Polymorph
                 std::string getId() const;
                 [[nodiscard]] std::vector<std::string> getTags() const;
                 std::string getLayer() const;
-                std::shared_ptr<Entity> makeInstance();
+                std::shared_ptr<Entity> makeInstance(bool wasPrefab = false, bool isPrefab = false);
                 
             private:
-                void _loadComponents();
+                void _loadComponents(bool isPrefab);
 //////////////////////--------------------------/////////////////////////
 
         };

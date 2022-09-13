@@ -12,6 +12,9 @@
 
 namespace Polymorph
  {
+    class ColliderRect2dComponent;
+    using ColliderRect2d = safe_ptr<ColliderRect2dComponent>;
+    using ColliderRect2dBase = std::shared_ptr<ColliderRect2dComponent>;
 
     class ColliderRect2dComponent : public ACollider2dComponent
     {

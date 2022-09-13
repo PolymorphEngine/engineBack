@@ -52,7 +52,7 @@ namespace Polymorph
             /**
              * Rotation of the entity
              */
-            Vector2 _rotation;
+            Vector3 _rotation;
 
             /**
              * Scale of drawable components in the entity
@@ -135,9 +135,12 @@ namespace Polymorph
             void smoothMove(Vector3 destination, float time, std::function<void (GameObject, Vector3, Vector3)> callback);
 
             bool isSmoothMoving();
-            
+
             void cancelSmoothMove();
 
+            const Vector3 &getRotation() const;
+
+            void setRotation(const Vector3 &rotation);
 //TODO do this later
 /*
             const Vector2 &getRotation() const;
@@ -148,9 +151,9 @@ namespace Polymorph
 
             void setRotationY(float rotationY);
 
-
+*/
             const Vector3 &getScale() const;
-
+/*
             void setScale(const Vector3 &scale);
 
             void setScaleX(float scaleX);
@@ -165,6 +168,7 @@ namespace Polymorph
             Transform removeChild(Transform child);
 
             void setSiblingIndex(int index);
+            int getSiblingIndex();
 
             void setLastSibling();
 

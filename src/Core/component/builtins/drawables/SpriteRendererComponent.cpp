@@ -11,14 +11,14 @@
 
 namespace Polymorph
 {
-    void SpriteRendererComponent::draw()
+    void SpriteRendererComponent::draw(Canvas canvas)
     {
         sprite->setPosition(Vector2(transform->getPosition()) + offset);
-        GraphicalAPI::CurrentDisplay->draw(*sprite);
+        sprite->draw();
     }
 
     SpriteRendererComponent::SpriteRendererComponent(GameObject gameObject)
-            : ADrawableComponent("SpriteRenderer", gameObject)
+            : ADrawable2dComponent("SpriteRenderer", gameObject)
     {
 
     }

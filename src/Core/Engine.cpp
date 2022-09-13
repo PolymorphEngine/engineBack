@@ -14,12 +14,17 @@
 #include <Polymorph/Debug.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
 #include "Engine.hpp"
+#include "SplashScreen.hpp"
 
 
 Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName)
 : _projectPath(projectPath), _projectName(std::move(projectName))
 {
+#ifdef _WIN32
+    Logger::setLogDir(projectPath + "\\Logs");
+#else
     Logger::setLogDir(projectPath + "/Logs");
+#endif
     _openProject();
     _initDebugSettings();
 
@@ -35,31 +40,21 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
 
 int Polymorph::Engine::run()
 {
-    GraphicalAPI::CurrentDisplay = _display;
-
-    SceneManager::Current->loadScene();
-
     _time = Time();
-    while ((!_exit && (!!_display && _display->isOpen()))
-    || (!_display && !_exit))
-    {
-        SceneManager::resetLoading();
-        GraphicalAPI::CurrentDisplay = _display;
-
+    while (!_splashScreen->isFinished()) {
         _time.computeDeltaTime();
-
-        if (!!_display) {
-            _display->fetchEvents();
+        _splashScreen->update();
+    }
+    SceneManager::Current->loadScene();
+    while ((!_exit && (!!_display && _display->isOpen()))
+    || (!_display && !_exit)) {
+        _time.computeDeltaTime();
+        if (!!_display)
             _display->clearWindow();
-        }
-
+        SceneManager::resetLoading();
         SceneManager::Current->updateComponents();
         if (Engine::isExiting() || SceneManager::isSceneUnloaded())
             continue;
-        
-        if (!!_display) {
-            _display->displayWindow();
-        }
     }
     return _exitCode;
 }
@@ -131,8 +126,9 @@ void Polymorph::Engine::_initDebugSettings()
 
     try {
         auto debug = settings->findChild("Debug");
+        is_debug_session = debug->findAttribute("enabled")->getValueBool("true", "false");
 
-        if (debug->findAttribute("enabled")->getValueBool())
+        if (is_debug_session)
             Logger::initLogInstance(Logger::DEBUG_MODE);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);
@@ -234,6 +230,12 @@ Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
         _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
         _graphicalApi->reloadAPI(graphicalLibPath);
         _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
+        GraphicalAPI::CurrentDisplay = _display;
+        _splashScreen = std::make_unique<SplashScreen>();
+        if (is_debug_session)
+            _display->setLogLevel(0);
+        else
+            _display->setLogLevel(5);
     } catch (GraphicalException &e) {
         e.what();
     } catch (std::exception &e) {
@@ -267,7 +269,7 @@ void Polymorph::Engine::_initPrefabs()
         for (auto &prefab: *prefabs) {
             try {
                 _prefabsConfigs.push_back(std::make_shared<Config::XmlEntity>(prefab, *this, _projectPath));
-                _prefabs.push_back(_prefabsConfigs.back()->makeInstance());
+                _prefabs.push_back(_prefabsConfigs.back()->makeInstance(false, true));
             } catch (myxmlpp::Exception &e) {
                 Logger::log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
             } catch (ExceptionLogger &e) {
@@ -302,6 +304,9 @@ void Polymorph::Engine::_initTemplates()
             {
                 auto path = _projectPath + "/" +
                             prefab->findAttribute("path")->getValue();
+#ifdef _WIN32
+                std::replace(path.begin(), path.end(), '/', '\\');
+#endif
                 auto templateDoc = myxmlpp::Doc(path);
                 _defaultConfigs.emplace_back(
                         Config::XmlComponent(templateDoc.getRoot()));

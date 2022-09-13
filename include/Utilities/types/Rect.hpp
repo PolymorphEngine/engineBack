@@ -68,6 +68,8 @@ namespace Polymorph
             static bool intersect(const Circle &circle, const Vector2 &position, const Vector2 &size);
             static bool intersect(const Vector2 &center, float radius, const Vector2 &position, const Vector2 &size);
             static bool intersect(const Vector2 &center, float radius, const Rect &rect);
+            
+            bool contains(Vector2 &point) const;
 
 //////////////////////--------------------------/////////////////////////
 

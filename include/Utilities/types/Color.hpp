@@ -18,8 +18,8 @@ namespace Polymorph
         public:
             Color() = default;
 
+            explicit Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
             explicit Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
-            explicit Color(unsigned char r, unsigned char g, unsigned char b);
             ~Color() = default;
 ///////////////////////////--------------------------///////////////////////////
 
@@ -31,14 +31,15 @@ namespace Polymorph
             unsigned char g;
             unsigned char b;
             unsigned char a;
-            
+
 ///////////////////////////--------------------------///////////////////////////
 
 
 
 ////////////////////////////////// Methods /////////////////////////////////////
         public:
-            void setColor(unsigned char r, unsigned char g, unsigned char b);
+            void setColor(unsigned char red, unsigned char green,
+                          unsigned char blue, unsigned char alpha = 255);
 
 ///////////////////////////--------------------------///////////////////////////
 

@@ -8,6 +8,8 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
+#include "SceneManager.hpp"
+
 
 std::vector<Polymorph::GameObject> Polymorph::SceneManager::getAll()
 {
@@ -27,6 +29,8 @@ Polymorph::SceneManager::findAll(const std::string& name)
 
 Polymorph::GameObject Polymorph::SceneManager::findById(const std::string& id)
 {
+    if (Current == nullptr)
+        return GameObject(nullptr);
     return Current->findById(id);
 }
 
@@ -53,12 +57,12 @@ void Polymorph::SceneManager::destroy(Polymorph::GameObject gameObject,
 }
 
 Polymorph::GameObject
-Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject)
+Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
-    auto nEntity = xml.makeInstance();
+    auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
     auto nId = uuid::uuid();
-    
+
     nEntity->setId(nId);
     nEntity->awake();
     Current->addEntityToAddQueue(nEntity);
@@ -67,10 +71,10 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject)
 
 Polymorph::GameObject
 Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
-                                     const Polymorph::Vector3& position)
+                                     const Polymorph::Vector3& position, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
-    auto nEntity = xml.makeInstance();
+    auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
@@ -83,15 +87,15 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 
 Polymorph::GameObject
 Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
-                                     Polymorph::Transform parent)
+                                     Polymorph::Transform parent, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
-    auto nEntity = xml.makeInstance();
+    auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
-    nEntity->awake();
     nEntity->transform->setParent(parent);
+    nEntity->awake();
     Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
@@ -99,15 +103,15 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
 Polymorph::GameObject
 Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
                                      Polymorph::Transform parent,
-                                     Polymorph::Vector3 offset)
+                                     Polymorph::Vector3 offset, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
-    auto nEntity = xml.makeInstance();
+    auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
-    nEntity->awake();
     nEntity->transform->setParent(parent);
+    nEntity->awake();
     nEntity->transform->setPosition(parent->getPosition() + offset);
     Current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);

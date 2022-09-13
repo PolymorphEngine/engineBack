@@ -28,7 +28,7 @@ namespace Polymorph
     class Vector3;
     class Entity;
     class SpriteModule;
-    class TextModule;
+    class arcadeTextModule;
 
     namespace Config
     {
@@ -362,11 +362,14 @@ namespace Polymorph
                     try {
                         auto id = refProp->findAttribute("id")->getValue();
                         GameObject gameObject;
-                        if (!!entity && (entity->wasPrefab() || entity->isPrefab()))
+                        if (!!entity && (entity->getPrefabId() == id || entity->getId() == id))
+                            gameObject = entity;
+                        if (!gameObject && !!entity)
                             gameObject = entity->findByPrefabId(id);
                         if (!gameObject)
                             gameObject = SceneManager::findById(id);
-                        toSet = gameObject->getComponent<T>();
+                        if (!!gameObject)
+                            toSet = gameObject->getComponent<T>();
                         if (!toSet)
                             throw std::exception();
                     } catch (...) {
@@ -386,10 +389,11 @@ namespace Polymorph
                         return;
                     try {
                         auto id = refProp->findAttribute("id")->getValue();
-                        GameObject gameObject;
-                        if (!!entity && (entity->wasPrefab() || entity->isPrefab()))
+                        if (!!entity && (entity->getPrefabId() == id || entity->getId() == id))
+                            toSet = entity;
+                        if (!toSet && !!entity)
                             toSet = entity->findByPrefabId(id);
-                        if (!gameObject)
+                        if (!toSet)
                             toSet = SceneManager::findById(id);
                         if (!toSet)
                             throw std::exception();

@@ -28,7 +28,15 @@ bool myxmlpp::Node::empty() const noexcept
 
 void myxmlpp::Node::move(myxmlpp::Node &newParent) noexcept
 {
-    auto popped = _parent->popChild(_tag);
-    popped->setParent(&newParent);
-    newParent.addChild(popped);
+    if (_parent != nullptr)
+    {
+        auto popped = _parent->popChild(_tag);
+        popped->setParent(&newParent);
+        newParent.addChild(popped);
+    }
+    else
+    {
+        this->setParent(&newParent);
+        newParent.addChild(std::shared_ptr<myxmlpp::Node>(this));
+    }
 }

@@ -11,6 +11,7 @@
 #include <vector>
 #include <memory>
 #include "Utilities/safe_ptr.hpp"
+#include "Core/scene/Scene.hpp"
 
 namespace Polymorph
 {
@@ -85,6 +86,10 @@ namespace Polymorph
              */
             static std::vector<GameObject> findAllByTag(const std::string& tag);
 
+            template <class T>
+            static std::vector<safe_ptr<T>> getAlComponents() {
+                return Current->getComponentsInScene<T>();
+            }
 
 
             /**
@@ -107,7 +112,7 @@ namespace Polymorph
              * @param gameObject: the game object to clone
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject& gameObject);
+            static GameObject instantiate(GameObject& gameObject, bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -115,7 +120,7 @@ namespace Polymorph
              * @param position: the position at which the game object is instantiated
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, const Vector3& position);
+            static GameObject instantiate(GameObject gameObject, const Vector3& position, bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -123,7 +128,7 @@ namespace Polymorph
              * @param parent: the parent transform on which the instantiated object will depend on
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, Transform parent);
+            static GameObject instantiate(GameObject gameObject, Transform parent, bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -132,7 +137,7 @@ namespace Polymorph
              * @param offset: the offset position from the parent object
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, Transform parent, Vector3 offset);
+            static GameObject instantiate(GameObject gameObject, Transform parent, Vector3 offset, bool isParent = true);
 
             /**
              * @details Set the position of a parent entity at the front of the scene entities list

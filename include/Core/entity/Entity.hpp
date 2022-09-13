@@ -22,10 +22,16 @@ namespace Polymorph
     class Engine;
 
     class TransformComponent;
+    class CanvasComponent;
+    using Canvas = safe_ptr<CanvasComponent>;
     namespace Config{
         class XmlEntity;
         class XmlComponent;
     }
+
+    class Entity;
+    using Transform = safe_ptr<TransformComponent>;
+    using GameObject = safe_ptr<Entity>;
 
     /**
      * @class Entity a container class which is defined by the components it
@@ -58,7 +64,9 @@ namespace Polymorph
         private:
             bool _isPrefab;
             bool _wasPrefab;
-            bool _active;
+            bool _active = true;
+            bool _asBeenInit = false;
+            bool _transformInitialized = false;
             std::string _stringId;
             std::string _prefabId;
             std::vector<std::string> _tags;
@@ -84,6 +92,9 @@ namespace Polymorph
 
             bool isPrefab() const;
             bool wasPrefab() const;
+
+            void setIsPrefab(bool value);
+            void setWasPrefab(bool value);
 
             /**
              * @details Changes the game object state
@@ -127,11 +138,11 @@ namespace Polymorph
              *          then calls draw() of children.
              */
             void draw();
+            void draw2d(Canvas canvas = Canvas(nullptr));
 
             /**
              * @details Draws the children
              */
-            void drawChildren(TransformComponent &trm);
 
             /**
              * @details Get a child entity by its name
@@ -139,7 +150,7 @@ namespace Polymorph
              * @return The child entity
              */
             safe_ptr<Entity> find(const std::string &nameToFind);
-            safe_ptr<Entity> findByPrefabId(const std::string &nameToFind);
+            safe_ptr<Entity> findByPrefabId(const std::string &nameToFind, bool _firstCall = true);
 
             /**
              * @details Get a child entity by its index
@@ -151,10 +162,10 @@ namespace Polymorph
             /**
              * @details Awakes the entity by calling onAwake() of the components
              */
-            void awake();
+            void awake(bool rescurse = false);
 
             void addComponent(std::string &component, Config::XmlComponent &config, GameObject gameObject);
-
+            void initTransform();
             /**
              * @details Looks for a component by type
              * @tparam T: The 'T' type of the component to look for.
@@ -281,7 +292,6 @@ namespace Polymorph
 
 
     };
-    using GameObject = safe_ptr<Entity>;
 }
 
 

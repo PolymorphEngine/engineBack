@@ -30,7 +30,10 @@ namespace Polymorph
             virtual void build() = 0;
     
             virtual void reference() = 0;
-            virtual std::string getType() const = 0;
+
+            std::string getType() const override = 0;
+
+
             virtual std::shared_ptr<Component> operator*() = 0;
             virtual std::shared_ptr<Component> get() = 0;
 

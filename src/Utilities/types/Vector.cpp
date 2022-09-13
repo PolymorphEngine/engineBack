@@ -12,9 +12,9 @@
 
 namespace Polymorph
 {
-    
+
     // VECTOR3
-    
+
     Vector3::Vector3(const Vector2 &copy)
     {
         x = copy.x;
@@ -292,7 +292,7 @@ namespace Polymorph
 
 
     // VECTOR2
-    
+
     Vector2::Vector2(const Vector3 &copy)
     {
         x = copy.x;
@@ -322,7 +322,7 @@ namespace Polymorph
 
     bool Vector2::operator==(const Vector2 &other) const
     {
-        return false;
+        return (x == other.x && y == other.y);
     }
 
     Vector2 Vector2::operator-(const Vector2 &other) const {

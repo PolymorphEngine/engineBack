@@ -1,77 +1,87 @@
 /*
 ** EPITECH PROJECT, 2020
-** Text.hpp
+** TextModule.hpp
 ** File description:
-** header for Text.c
+** header for TextModule.c
 */
 
 
 #pragma once
 
-
-#include <string>
-#include "myxmlpp.hpp"
-#include "Utilities/types/Color.hpp"
-#include "Utilities/types/Vector.hpp"
-
-namespace arcade{class ITextModule;}
+#include <myxmlpp.hpp>
+#include <memory>
+#include "Polymorph/Types.hpp"
+#include "isModules/interfaces/ITextModule.hpp"
+#include "Config/XmlComponent.hpp"
 
 namespace Polymorph
 {
-    class GraphicalAPI;
-    class TextModule
-    {
+	class TextModule
+	{
 
-////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+	////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
-        public:
-            TextModule() = default;
-            explicit TextModule(std::string fontPath, std::string , unsigned int size);
-
+		public:
             explicit TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            TextModule(std::string str, float size);
+			~TextModule() = default;
 
-            ~TextModule();
-            TextModule &operator=(const std::string &newText);
-            TextModule &operator+=(const std::string &newText);
-            std::string operator+(const std::string &newText);
 
-//////////////////////--------------------------/////////////////////////
+	//////////////////////--------------------------/////////////////////////
 
 
 
-///////////////////////////// PROPERTIES ////////////////////////////////
-        public:
+	///////////////////////////// PROPERTIES ////////////////////////////////
+		public:
 
 
-        private:
-            arcade::ITextModule *_textModule;
-            Color _color;
-            std::string _filepath;
-            std::string _str;
-            int _fontSize = -1;
+		private:
+            using TextModuleLoader = is::ITextModule *(*)(const std::string &text);
+            using FontModuleLoader = is::IFontModule *(*)(const std::string &filepath);
+            static inline TextModuleLoader _c_text = nullptr;
+            static inline FontModuleLoader _c_font = nullptr;
 
-//////////////////////--------------------------/////////////////////////
+			std::unique_ptr<is::ITextModule> _text;
+			std::unique_ptr<is::IFontModule> _font;
+			std::string _textString;
+            std::string _fontFilepath;
+			float _fontSize;
+			float _lineSpacing;
+			Color _color;
 
-
-
-/////////////////////////////// METHODS /////////////////////////////////
-        public:
-            arcade::ITextModule *getText();
-            void setFont(std::string newFilePath);
-            void setFontSize(int size);
-            void setPosition(Vector2 position);
-            void move(Vector2 move);
-            void setString(std::string newString);
-            std::string getString() const;
-            void setColor(Color color);
+	//////////////////////--------------------------/////////////////////////
 
 
 
-        private:
-            void _loadModule();
+	/////////////////////////////// METHODS /////////////////////////////////
+		public:
+			void setPosition(Vector2 position);
+
+			void setString(const std::string &content);
+
+			std::string getString();
+
+			void setFont(const std::string &fontPath);
+
+			void setFontSize(float fontSize);
+
+			float getFontSize();
+
+			void setSpacing(float lineSpacing);
+
+			float getSpacing();
+
+			void setColor(Color color);
+
+			Color getColor();
+
+			void draw();
 
 
-//////////////////////--------------------------/////////////////////////
-        friend GraphicalAPI;
-    };
+		private:
+            void _loadModules();
+
+	//////////////////////--------------------------/////////////////////////
+
+	};
 }

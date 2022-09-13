@@ -12,7 +12,7 @@
 
 namespace Polymorph
 {
-    class TextRendererComponent;
+    class MeshRendererComponent;
     class TextRendererInitializer : public AComponentInitializer<TextRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
