@@ -12,16 +12,14 @@
 namespace Polymorph
 {
 
-    void TextRendererComponent::draw()
+    void TextRendererComponent::draw(Canvas canvas)
     {
-        if (!text)
-            return;
         text->setPosition(Vector2(transform->getPosition()) + offset);
-        GraphicalAPI::CurrentDisplay->draw(**text);
+        text->draw();
     }
 
     TextRendererComponent::TextRendererComponent(GameObject gameObject)
-            : ADrawableComponent("TextRenderer", gameObject)
+            : ADrawable2dComponent("TextRenderer", gameObject)
     {
 
     }

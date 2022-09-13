@@ -24,9 +24,9 @@ void DynamicLibLoader::loadHandler(const std::string& libPath)
         closeHandle();
 
 #if _WIN32
-    LoadLibrary(libPath.c_str());
+    _handler = LoadLibrary(TEXT(libPath.c_str()));
 #else
-    dlopen(libPath.c_str(), RTLD_LAZY);
+    _handler = dlopen(libPath.c_str(), RTLD_LAZY);
 #endif
 
     if (_handler == nullptr)

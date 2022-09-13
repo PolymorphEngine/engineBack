@@ -29,7 +29,7 @@ namespace Polymorph
         public:
             SpriteModule() = default;
             explicit SpriteModule(std::string filePath);
-            explicit SpriteModule(std::shared_ptr<myxmlpp::Node> &data);
+            explicit SpriteModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
             ~SpriteModule();
 ///////////////////////////--------------------------///////////////////////////
 

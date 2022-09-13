@@ -25,7 +25,7 @@ bool Polymorph::Settings::VideoSettings::_initBoolVal(
         const std::string &attrName)
 {
     try {
-        return _node->findAttribute(attrName)->getValueBool();
+        return _node->findAttribute(attrName)->getValueBool("true", "false");
     } catch (const myxmlpp::AttributeNotFoundException &e) {
         Logger::log("Video setting is incomplete, cannot find \"" + attrName +
                     "\" attribute", Logger::MINOR);

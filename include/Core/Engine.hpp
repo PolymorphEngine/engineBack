@@ -29,6 +29,8 @@ namespace Polymorph
     class Time;
     class GraphicalAPI;
     class ScriptingApi;
+    class TextureModule;
+    class SplashScreen;
 
     using ExitCode = int;
 
@@ -66,6 +68,7 @@ namespace Polymorph
 
             std::string _projectPath;
             std::string _projectName;
+            bool is_debug_session = false;
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
             Time _time;
@@ -77,6 +80,7 @@ namespace Polymorph
 
             std::unique_ptr<GraphicalAPI> _graphicalApi;
             std::unique_ptr<ScriptingApi> _scriptingApi;
+            std::unique_ptr<SplashScreen> _splashScreen;
 
 //////////////////////--------------------------/////////////////////////
 

@@ -73,6 +73,7 @@ namespace myxmlpp {
              * @throws ParsingException If the file is not correctly formatted
              */
             explicit Doc(const std::string& filepath, bool keepOpen = false);
+            Doc() = default;
 
             /**
              * @details This method will write all the doc structure to a file in a minified way (only necessary spaces)
@@ -106,6 +107,12 @@ namespace myxmlpp {
              * @return the XML root node
              */
             std::shared_ptr<Node> getRoot() const noexcept;
+
+            /**
+             * Set the root node of the document.
+             * @param root the new root node
+             */
+            void setRoot(const std::shared_ptr<Node> &root);
     };
 
 }

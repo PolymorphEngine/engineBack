@@ -33,9 +33,10 @@ namespace Polymorph::Settings {
         private:
             const std::shared_ptr<XmlNode> &_node;
 
-            int _masterVolume = 0;
-            int _musicVolume = 0;
-            int _sfxVolume = 0;
+            float _masterVolume = 0;
+            float _musicVolume = 0;
+            float _sfxVolume = 0;
+            static inline AudioSettings *_instance = nullptr;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -44,32 +45,32 @@ namespace Polymorph::Settings {
 ///////////////////////////////// Methods /////////////////////////////////
 
         private:
-            int _getVolume(const std::string &attrName);
+            float _getVolume(const std::string &attrName);
 
         public:
             /**
              * Get the master volume as a percentage
              * @return The master volume
              */
-            int getMasterVolume() const;
+            static float getMasterVolume();
 
             /**
              * Get the music volume as a percentage
              * @return The music volume
              */
-            int getMusicVolume() const;
+            static float getMusicVolume();
 
             /**
              * Get the sfx volume as a percentage
              * @return The sfx volume
              */
-            int getSfxVolume() const;
+            static float getSfxVolume();
 
-            void setMasterVolume(int vol);
+            static void setMasterVolume(float vol);
 
-            void setMusicVolume(int vol);
+            static void setMusicVolume(float vol);
 
-            void setSfxVolume(int vol);
+            static void setSfxVolume(float vol);
 
 ///////////////////////////--------------------------///////////////////////////
 

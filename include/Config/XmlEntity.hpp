@@ -32,6 +32,7 @@ namespace Polymorph
             private:
                 std::vector<std::shared_ptr<XmlComponent>> _components;
                 std::vector<std::shared_ptr<XmlEntity>> _children;
+                std::shared_ptr<Entity> instance;
                 Engine &_engine;
                 std::shared_ptr<XmlNode> _node;
                 std::string _path;
@@ -46,13 +47,15 @@ namespace Polymorph
                 std::string getName() const;
                 bool isActive() const;
                 bool isPrefab();
+                bool wasPrefab();
+                std::string getPrefabId();
                 std::string getId() const;
                 [[nodiscard]] std::vector<std::string> getTags() const;
                 std::string getLayer() const;
-                std::shared_ptr<Entity> makeInstance();
+                std::shared_ptr<Entity> makeInstance(bool wasPrefab = false, bool isPrefab = false);
                 
             private:
-                void _loadComponents();
+                void _loadComponents(bool isPrefab);
 //////////////////////--------------------------/////////////////////////
 
         };

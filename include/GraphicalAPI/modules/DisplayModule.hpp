@@ -1,87 +1,80 @@
 /*
 ** EPITECH PROJECT, 2020
-** Display.hpp
+** WindowModule.hpp
 ** File description:
-** header for Display.c
+** header for WindowModule.c
 */
 
-#ifndef ENGINE_DISPLAYMODULE_HPP
-#define ENGINE_DISPLAYMODULE_HPP
 
+#pragma once
 
-#include <iostream>
-#include <memory>
-#include <vector>
-#include <map>
+#include "myxmlpp.hpp"
+#include "isModules/interfaces/IWindowModule.hpp"
+#include "isModules/interfaces/ICursorModule.hpp"
+#include "isModules/interfaces/IDrawingModule.hpp"
+#include "Polymorph/Types.hpp"
+#include "Core/settings/VideoSettings.hpp"
 
-#include "Utilities/types/Vector.hpp"
-//TODO: find a way to not have multiples definitions of interfaces
-#include "GraphicalAPI/arcade/IDisplayModule.hpp"
-
-namespace arcade{class IDisplayModule;}
 namespace Polymorph
 {
-    namespace Settings{class VideoSettings;}
-    class SpriteModule;
-    class Input;
-    class TextModule;
-    class GraphicalAPI;
 
     class DisplayModule
     {
 
-///////////////////////////////// Constructors /////////////////////////////////
+////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+
         public:
-            DisplayModule(std::shared_ptr<Settings::VideoSettings> settings, std::string title);
+            explicit DisplayModule(std::shared_ptr<Settings::VideoSettings> &settings, std::string title);
+
             ~DisplayModule();
 
-///////////////////////////--------------------------///////////////////////////
+
+//////////////////////--------------------------/////////////////////////
 
 
 
-///////////////////////////////// Properties ///////////////////////////////////
+///////////////////////////// PROPERTIES ////////////////////////////////
         public:
 
         private:
-            std::string _title;
-            arcade::IDisplayModule *_displayModule = nullptr;
+            using WindowModuleLoader = is::IWindowModule *(*)(int width, int height, const std::string &title);
+            static inline WindowModuleLoader _c_window = nullptr;
+
+                    using DrawingModuleLoader = is::IDrawingModule *(*)();
+            static inline DrawingModuleLoader _c_drawing = nullptr;
+
+            const std::string &_title;
+            std::unique_ptr<is::IWindowModule> _windowModule;
+            std::unique_ptr<is::IDrawingModule> _drawingModule;
             std::shared_ptr<Settings::VideoSettings> _settings;
 
-///////////////////////////--------------------------///////////////////////////
+
+//////////////////////--------------------------/////////////////////////
 
 
 
-////////////////////////////////// Methods /////////////////////////////////////
+/////////////////////////////// METHODS /////////////////////////////////
         public:
-            void clearWindow();
-            void displayWindow();
+            // Window
             void close();
             bool isOpen();
-            void fetchEvents();
+            bool isFullscreen();
+            void setFullscreen(bool fullscreen);
+            void setTitle(const std::string &title);
+            Vector2 getResolution() const;
+            void setLogLevel(int level);
 
-            void setResolution(Vector2 newResolution);
-            bool isKeyPressed(arcade::KeyCode code);
-            Vector2 getResolution();
-            void setMaxFps(int fps);
-            void setFullScreen(bool fullScreen);
-            bool isTextMode();
-
-            void draw(SpriteModule &sprite);
-            void draw(TextModule &sprite);
-
+            // Drawing
+            void clearWindow(Color color);
+            void clearWindow();
+            void beginDrawing();
+            void endDrawing();
 
         private:
-            void _loadModule();
-            void _storeInput(arcade::KeyCode code, bool pressed);
-            std::map<arcade::KeyCode, bool> _pressedKeys;
-            std::map<arcade::KeyCode, bool> _releasedKeys;
-            std::map<arcade::KeyCode, bool> _holdedKeys;
+            static void _loadModule();
 
+//////////////////////--------------------------/////////////////////////
 
-            ///////////////////////////--------------------------///////////////////////////
-        friend GraphicalAPI;
-        friend Input;
     };
-}
 
-#endif //ENGINE_DISPLAYMODULE_HPP
+}

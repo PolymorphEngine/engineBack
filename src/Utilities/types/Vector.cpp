@@ -12,9 +12,9 @@
 
 namespace Polymorph
 {
-    
+
     // VECTOR3
-    
+
     Vector3::Vector3(const Vector2 &copy)
     {
         x = copy.x;
@@ -278,11 +278,21 @@ namespace Polymorph
         return {std::lerp(x, destination.x, factor), std::lerp(y, destination.y, factor), z};
     }
 
+    Vector3::Vector3(std::shared_ptr<myxmlpp::Node> &data,
+                     Config::XmlComponent &manager)
+    {
+        auto r = *data->begin();
+
+        x = r->findAttribute("x")->getValueFloat();
+        y = r->findAttribute("y")->getValueFloat();
+        z = r->findAttribute("z")->getValueFloat();
+    }
+
 
 
 
     // VECTOR2
-    
+
     Vector2::Vector2(const Vector3 &copy)
     {
         x = copy.x;
@@ -312,7 +322,7 @@ namespace Polymorph
 
     bool Vector2::operator==(const Vector2 &other) const
     {
-        return false;
+        return (x == other.x && y == other.y);
     }
 
     Vector2 Vector2::operator-(const Vector2 &other) const {
@@ -528,5 +538,14 @@ namespace Polymorph
     Vector2 Vector2::lerp(const Vector2 &destination, float factor) const
     {
         return {std::lerp(x, destination.x, factor), std::lerp(y, destination.y, factor)};
+    }
+
+    Vector2::Vector2(std::shared_ptr<myxmlpp::Node> &data,
+                     Config::XmlComponent &manager)
+    {
+        auto r = *data->begin();
+
+        x = r->findAttribute("x")->getValueFloat();
+        y = r->findAttribute("y")->getValueFloat();
     }
 }

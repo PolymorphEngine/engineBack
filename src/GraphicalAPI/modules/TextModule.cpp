@@ -1,146 +1,111 @@
 /*
 ** EPITECH PROJECT, 2022
-** Text.cpp
+** TextModule.cpp
 ** File description:
-** Text.cpp
+** TextModule.cpp
 */
 
 
-
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Debug.hpp>
-#include <Polymorph/Types.hpp>
-#include <Polymorph/Config.hpp>
-#include <GraphicalAPI/arcade/ITextModule.hpp>
 #include "GraphicalAPI/modules/TextModule.hpp"
+#include "GraphicalAPI/GraphicalAPI.hpp"
 
 
-Polymorph::TextModule::TextModule(std::string fontPath, std::string text, unsigned int size)
-        : _filepath(std::move(fontPath)), _str(std::move(text))
+Polymorph::TextModule::TextModule(std::string str, float size)
 {
-    _loadModule();
+    _loadModules();
+    _fontSize = size;
+    _lineSpacing = 5;
+    _textString = str;
+    _fontFilepath = "";
+    _text = std::unique_ptr<is::ITextModule>(_c_text(_textString));
+    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
+    setFontSize(_fontSize);
+    setSpacing(_lineSpacing);
+    setColor(Color(255, 255, 255, 255));
 }
 
-Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data)
-{
-    Config::XmlComponent::setProperty("font", _filepath, data, Logger::MAJOR);
-    Config::XmlComponent::setProperty("string", _str, data);
-    Config::XmlComponent::setProperty("size", _fontSize, data, Logger::MAJOR);
-    Config::XmlComponent::setProperty("color", _color, data);
-}
 
-Polymorph::TextModule::~TextModule()
+Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
+    : _fontSize(15), _lineSpacing(4)
 {
-    GraphicalAPI::destroyText(this);
-}
-
-arcade::ITextModule *Polymorph::TextModule::getText()
-{
-    return _textModule;
-}
-
-void Polymorph::TextModule::setFont(std::string newFilePath)
-{
-    if (_textModule)
-        try {
-            _textModule->setFont(std::move(newFilePath));
-        } catch(std::exception &e) {
-            throw GraphicalException("No text font found: " + std::string(e.what()), Logger::MAJOR);
-        }
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
-
+    _loadModules();
+    manager.setSubProperty("_textString", data, _textString);
+    manager.setSubProperty("_fontFilepath", data, _fontFilepath);
+    _fontFilepath = "./Game/Assets/" + _fontFilepath;
+    manager.setSubProperty("_fontSize", data, _fontSize);
+    manager.setSubProperty("_lineSpacing", data, _lineSpacing);
+    if (_lineSpacing == 0)
+        _lineSpacing = 1;
+    manager.setSubProperty("_color", data, _color);
+    _text = std::unique_ptr<is::ITextModule>(_c_text(_textString));
+    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
+    setFontSize(_fontSize);
+    setSpacing(_lineSpacing);
+    setColor(_color);
 }
 
 void Polymorph::TextModule::setPosition(Vector2 position)
 {
-    if (_textModule)
-    _textModule->setPosition((int)position.x, (int)position.y);
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
+	_text->setPosition(position.x, position.y);
 }
 
-void Polymorph::TextModule::move(Vector2 move)
+void Polymorph::TextModule::setString(const std::string &content)
 {
-    if (_textModule)
-    _textModule->move((int)move.x, (int)move.y);
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
-
+	_text->setText(content);
+	_textString = content;
 }
 
-void Polymorph::TextModule::setString(std::string newString)
+std::string Polymorph::TextModule::getString()
 {
-    if (_textModule) {
-        _textModule->setText(newString.c_str());
-        _str = newString;
-    }
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
-
+	return _textString;
 }
 
-std::string Polymorph::TextModule::getString() const
+void Polymorph::TextModule::setFont(const std::string &fontPath)
 {
-    return _str;
+    _fontFilepath = fontPath;
+    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
 }
 
-void Polymorph::TextModule::setColor(Polymorph::Color color)
+void Polymorph::TextModule::setFontSize(float fontSize)
 {
-    _color = color;
-
-    if (_textModule)
-        try {
-            _textModule->setColor(_color.r, _color.g, _color.b);
-        } catch (std::exception &e) {
-            throw GraphicalException("Text setColor exception: " + std::string(e.what()), Logger::DEBUG);
-        }
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
+	_fontSize = fontSize;
 }
 
-
-void Polymorph::TextModule::_loadModule()
+float Polymorph::TextModule::getFontSize()
 {
-    setFont(_filepath);
-    setString(_str);
-    setFontSize(_fontSize);
-    setColor(_color);
+	return _fontSize;
 }
 
-void Polymorph::TextModule::setFontSize(int size)
+void Polymorph::TextModule::setSpacing(float lineSpacing)
 {
-    if (_textModule)
-        _textModule->setSize(size);
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
+	_lineSpacing = lineSpacing;
 }
 
-Polymorph::TextModule &Polymorph::TextModule::operator=(const std::string &newText)
+float Polymorph::TextModule::getSpacing()
 {
-    if (_textModule)
-    {
-        _textModule->setText(newText);
-        _str = newText;
-    }
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
-    return *this;
+	return _lineSpacing;
 }
 
-Polymorph::TextModule &Polymorph::TextModule::operator+=(const std::string &newText)
+void Polymorph::TextModule::setColor(Color color)
 {
-    if (_textModule)
-    {
-        _textModule->setText(_str + newText);
-        _str += newText;
-    }
-    else
-        Logger::log("No text module loaded.", Logger::MINOR);
-    return *this;
+	_color = color;
+    _text->setColor(color.r, color.g, color.b, color.a);
 }
 
-std::string Polymorph::TextModule::operator+(const std::string &newText)
+Polymorph::Color Polymorph::TextModule::getColor()
 {
-    return _str + newText;
+	return _color;
+}
+
+void Polymorph::TextModule::draw()
+{
+	_text->draw(*_font, _fontSize, _lineSpacing);
+}
+
+void Polymorph::TextModule::_loadModules()
+{
+    if (_c_text && _c_font)
+        return;
+    _c_text = GraphicalAPI::loadSymbol<TextModuleLoader, GraphicalAPI>("createTextModule");
+    _c_font = GraphicalAPI::loadSymbol<FontModuleLoader, GraphicalAPI>("createFontModule");
 }

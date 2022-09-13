@@ -12,12 +12,13 @@
 Polymorph::Settings::AudioSettings::AudioSettings(
         const std::shared_ptr<XmlNode> &node) : _node(node)
 {
+    _instance = this;
     _masterVolume = _getVolume("mastervolume");
     _musicVolume = _getVolume("musicvolume");
     _sfxVolume = _getVolume("sfxvolume");
 }
 
-int
+float
 Polymorph::Settings::AudioSettings::_getVolume(const std::string &attrName)
 {
     try {
@@ -36,47 +37,49 @@ Polymorph::Settings::AudioSettings::_getVolume(const std::string &attrName)
     return 100;
 }
 
-int Polymorph::Settings::AudioSettings::getMasterVolume() const {
-    return _masterVolume;
+float Polymorph::Settings::AudioSettings::getMasterVolume() {
+    return _instance->_masterVolume;
 }
 
-int Polymorph::Settings::AudioSettings::getMusicVolume() const {
-    return _musicVolume;
+float Polymorph::Settings::AudioSettings::getMusicVolume()  {
+    return _instance->_musicVolume;
 }
 
-int Polymorph::Settings::AudioSettings::getSfxVolume() const {
-    return _sfxVolume;
+float Polymorph::Settings::AudioSettings::getSfxVolume()  {
+    return _instance->_sfxVolume;
 }
 
-void Polymorph::Settings::AudioSettings::setMasterVolume(int vol)
+void Polymorph::Settings::AudioSettings::setMasterVolume(float vol)
 {
-    _masterVolume = vol;
-
+    _instance->_masterVolume = vol;
+/*
     try {
-        _node->findAttribute("mastervolume")->setValueInt(vol);
+        _instance->_node->findAttribute("mastervolume")->setValueFloat(vol);
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        _node->addAttribute("mastervolume", std::to_string(vol));
-    }
+        _instance->_node->addAttribute("mastervolume", std::to_string(vol));
+    }*/
 }
 
-void Polymorph::Settings::AudioSettings::setMusicVolume(int vol)
+void Polymorph::Settings::AudioSettings::setMusicVolume(float vol)
 {
-    _musicVolume = vol;
-
+    _instance->_musicVolume = vol;
+/*
     try {
-        _node->findAttribute("musicvolume")->setValueInt(vol);
+        _instance->_node->findAttribute("musicvolume")->setValueFloat(vol);
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        _node->addAttribute("musicvolume", std::to_string(vol));
+        _instance->_node->addAttribute("musicvolume", std::to_string(vol));
     }
+    */
 }
 
-void Polymorph::Settings::AudioSettings::setSfxVolume(int vol)
+void Polymorph::Settings::AudioSettings::setSfxVolume(float vol)
 {
-    _sfxVolume = vol;
-
+    _instance->_sfxVolume = vol;
+/*
     try {
-        _node->findAttribute("sfxvolume")->setValueInt(vol);
+        _instance->_node->findAttribute("sfxvolume")->setValueFloat(vol);
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        _node->addAttribute("sfxvolume", std::to_string(vol));
+        _instance->_node->addAttribute("sfxvolume", std::to_string(vol));
     }
+    */
 }

@@ -42,8 +42,8 @@ void Logger::_logFile(const std::string& message, Logger::severity level)
 {
     if (_mode == RELEASE_MODE && level == DEBUG)
         return;
-
-    std::fstream file(_logDir + "/"+ _logInstance + ".log", std::ios_base::out|std::ios_base::app);
+    auto filepath = _logDir + "/"+ _logInstance + ".log";
+    std::fstream file(filepath, std::ios_base::out|std::ios_base::app);
 
     if (!file.is_open())
         throw std::runtime_error("Failed to open log file");
@@ -63,7 +63,10 @@ std::string Logger::_getTimeNow(const std::string& flags)
     std::strftime(buffer, 80, flags.c_str(), timeinfo);
     std::string s;
     s+= buffer;
-    return buffer;
+#ifdef _WIN32
+    std::replace(s.begin(), s.end(),':', '.');
+#endif
+    return s;
 }
 
 std::string Logger::_severity_to_string(Logger::severity level)
@@ -132,4 +135,9 @@ std::string Logger::_severity_to_color(Logger::severity level)
         default:
             return WHITE;
     }
+}
+
+bool Logger::isDebugBuild()
+{
+    return (_mode == DEBUG_MODE);
 }

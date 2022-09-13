@@ -6,6 +6,8 @@
 */
 
 #include <Polymorph/Types.hpp>
+#include "Rect.hpp"
+
 
 bool Polymorph::Rect::intersect(const Polymorph::Rect &rect1, const Polymorph::Rect &rect2)
 {
@@ -162,4 +164,20 @@ bool Polymorph::Rect::intersect(const Polymorph::Vector2 &center, float radius,
     if (circleDistanceX <= (rect.width/2) || circleDistanceY <= (rect.height/2))
         return true;
     return ((pow((circleDistanceX - rect.width/2), 2) + pow((circleDistanceY - rect.height/2), 2)) <= (pow(radius, 2)));
+}
+
+Polymorph::Rect::Rect(std::shared_ptr<myxmlpp::Node> &data,
+                      Polymorph::Config::XmlComponent &manager)
+{
+    auto r = *data->begin();
+    
+    x = r->findAttribute("x")->getValueFloat();
+    y = r->findAttribute("y")->getValueFloat();
+    width = r->findAttribute("width")->getValueFloat();
+    height = r->findAttribute("height")->getValueFloat();
+}
+
+bool Polymorph::Rect::contains(Vector2 &point) const
+{
+    return (point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height);
 }

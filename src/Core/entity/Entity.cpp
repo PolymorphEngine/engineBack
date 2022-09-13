@@ -14,7 +14,8 @@
 
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
-Engine &game) : _game(game), _xml_config(data), _stringId(data.getId())
+Engine &game) : _game(game), _xml_config(data), _stringId(data.getId()),
+_prefabId(data.getPrefabId()), _wasPrefab(data.wasPrefab())
 {
     name = data.getName();
     _active = data.isActive();
@@ -41,11 +42,13 @@ Polymorph::Config::XmlComponent &config, GameObject _this)
     if (i == nullptr) {
         Logger::log(
                 "Unknown component to load at initialisation: '" + component +
-                "'", Logger::DEBUG);
+                "'", Logger::MINOR);
         return;
     }
-    i->build();
     _components[i->getType()].push_back(i);
+    if (component == "Transform")
+        (**i)->transform = getComponent<TransformComponent>();
+    i->build();
 }
 
 
@@ -129,27 +132,38 @@ void Polymorph::Entity::update()
 
 void Polymorph::Entity::draw()
 {
-    if (!_active)
+    if (!_active || componentExist<CanvasComponent>())
         return;
-    Drawable c = getComponent<ADrawableComponent>();
+    Drawable2d c = getComponent<ADrawable2dComponent>();
 
     if (!!c && c->enabled)
         c->draw();
     for (auto &c : **transform)
         c->gameObject->draw();
+    Drawable3d c3 = getComponent<ADrawable3dComponent>();
+
+    if (!!c3 && c3->enabled)
+        c3->draw();
+    for (auto &c3 : **transform)
+        c3->gameObject->draw();
 }
-
-void Polymorph::Entity::drawChildren(Polymorph::TransformComponent &trm)
+void Polymorph::Entity::draw2d(Canvas canvas)
 {
+    if (!_active)
+        return;
+    Drawable2d c = getComponent<ADrawable2dComponent>();
+    Canvas tmp = getComponent<CanvasComponent>();
 
-    for (auto &child : trm) {
-        //TODO: check independence before drawing ?
-        Drawable drawable = child->gameObject->getComponent<ADrawableComponent>();
-        if (!!drawable && drawable->enabled)
-            drawable->draw();
-        drawChildren(**child);
+    if (!!c && c->enabled && !!canvas)
+        c->draw(canvas);
+    for (auto &c : **transform) {
+        if (!canvas)
+            c->gameObject->draw2d(tmp);
+        else
+            c->gameObject->draw2d(canvas);
     }
 }
+
 
 void Polymorph::Entity::setActive(bool active)
 {
@@ -229,16 +243,21 @@ bool Polymorph::Entity::componentExist(std::string &type)
     return false;
 }
 
-void Polymorph::Entity::awake()
+void Polymorph::Entity::awake(bool recurse)
 {
-    for (auto &cl :_components)
-        for (auto &c : cl.second) {
-            c->reference();
-        }
+    if (!_asBeenInit) {
+        initTransform();
+        for (auto &cl: _components)
+            for (auto &c: cl.second)
+                if (c->getType() != "Transform")
+                    c->reference();
+        _asBeenInit = true;
+    }   
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             try {
-                c->onAwake();
+                if (!c->isAwaked())
+                    c->onAwake();
             } catch (ExceptionLogger &e) {
                 e.what();
             } catch (std::exception &e) {
@@ -250,6 +269,12 @@ void Polymorph::Entity::awake()
             }
             c->setAsAwaked();
         }
+    if (recurse)
+    {
+        for (auto &child: **transform)
+            child->gameObject->awake(true);
+    }
+    _asBeenInit = true;
 }
 
 Polymorph::Config::XmlEntity &Polymorph::Entity::getXmlConfig() const noexcept {
@@ -261,7 +286,8 @@ void Polymorph::Entity::start()
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             try {
-                c->start();
+                if (!c->isStarted())
+                    c->start();
             } catch (ExceptionLogger &e) {
                 e.what();
             } catch (std::exception &e) {
@@ -311,4 +337,55 @@ Polymorph::Entity::childAt(std::size_t idx)
         --idx;
     }
     return GameObject(nullptr);
+}
+
+bool Polymorph::Entity::wasPrefab() const
+{
+    return _wasPrefab;
+}
+
+Polymorph::safe_ptr<Polymorph::Entity>
+Polymorph::Entity::findByPrefabId(const std::string &nameToFind, bool _firstCall)
+{
+    for (auto &child : **transform) {
+        if (child->gameObject->_prefabId == nameToFind)
+            return child->gameObject;
+    }
+    for (auto &child : **transform) {
+        auto found = child->gameObject->findByPrefabId(nameToFind, false);
+        if (!!found)
+            return found;
+    }
+    auto parent = transform->parent();
+    if (!!parent && (parent->gameObject->getId() == nameToFind 
+    || parent->gameObject->getPrefabId() == nameToFind))
+        return parent->gameObject;
+    if (_firstCall && !!transform->parent())
+        return transform->parent()->gameObject->findByPrefabId(nameToFind);
+    return GameObject(nullptr);
+}
+
+void Polymorph::Entity::setIsPrefab(bool value)
+{
+    _isPrefab = value;
+}
+
+void Polymorph::Entity::setWasPrefab(bool value)
+{
+    _wasPrefab = value;
+}
+
+void Polymorph::Entity::initTransform()
+{
+    if (_transformInitialized)
+        return;
+    for (auto &cl :_components)
+        for (auto &c : cl.second) {
+            if (c->getType() == "Transform")
+            {
+                c->reference();
+                break;
+            }
+        }
+    _transformInitialized = true;
 }

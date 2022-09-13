@@ -59,6 +59,8 @@ class Logger
          * @param logInstanceName prefix name
          */
         static void setLogInstanceName(const std::string& logInstanceName);
+        
+        static bool isDebugBuild();
 
         /**
          * @details Inits the logger instance with a log subdirectory name by date time now and sets the program mode

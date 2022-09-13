@@ -60,6 +60,7 @@ namespace Polymorph
             _parent->_children.push_back(transform);
         else
             _parent->_children.insert(_parent->_children.begin() + index, transform);
+        return;
     }
 
     void TransformComponent::setLastSibling()
@@ -113,21 +114,16 @@ namespace Polymorph
         _moveChildren(diff);
     }
 
-/*
-    const Vector2 &TransformComponent::getRotation() const
+    const Vector3 &TransformComponent::getRotation() const
     {
         return _rotation;
     }
 
-    void TransformComponent::setRotation(const Vector2 &rotation)
+    void TransformComponent::setRotation(const Vector3 &rotation)
     {
         _rotation = rotation;
     }
-
-    const Vector3 &TransformComponent::getScale() const
-    {
-        return _scale;
-    }
+    /*
 
     void TransformComponent::setScale(const Vector3 &scale) {
         _scale = scale;
@@ -258,6 +254,25 @@ namespace Polymorph
     {
         _smoothMoving = false;
         _hasCallback = false;
+    }
+
+    const Vector3 &TransformComponent::getScale() const
+    {
+        return _scale;
+    }
+
+    int TransformComponent::getSiblingIndex()
+    {
+        int idx = 0;
+        if (!_parent)
+            return 0;
+        for (auto &child : **_parent)
+        {
+            if (**child->gameObject == **gameObject)
+                return idx;
+            ++idx;
+        }
+        return idx;            
     }
 
     /*Todo: later
