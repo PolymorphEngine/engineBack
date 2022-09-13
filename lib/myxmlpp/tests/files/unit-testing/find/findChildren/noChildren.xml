@@ -1,0 +1,4 @@
+<root attr="issou" attr2="iss/>ou2">
+    <escapeChild attr1="val"/>
+    <escapeChild2 attr1="val"/>
+</root>
