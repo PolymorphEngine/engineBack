@@ -11,7 +11,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#if _WIN32
+#ifdef _WIN32
     #include <Windows.h>
 #else
     #include <dlfcn.h> //dlopen
@@ -23,8 +23,12 @@ class DynamicLibLoader
         ~DynamicLibLoader();
 
     protected:
+#ifdef _WIN32
+        HINSTANCE _handler = nullptr;
+#else
         void *_handler = nullptr;
-
+#endif
+     //   void *_handler = nullptr;
 
     public:
         /**
@@ -34,27 +38,22 @@ class DynamicLibLoader
         void loadHandler(const std::string& libPath);
 
 
-    protected:
         template<typename T, typename API>
         static T loadSymbol(std::string name)
         {
-            auto handler = API::getHandler();
-
-            if (handler == nullptr)
-                return nullptr;
-
-
-#if _WIN32
-            void *symbol = (void *)GetProcAddress((HMODULE)handler, name.c_str());
+#ifdef _WIN32
+            T s = (T)GetProcAddress(API::getHandler(), name.c_str());
+            if (s == nullptr)
+                throw std::runtime_error("Failed to find symbol named: "+ name);
+            return reinterpret_cast<T>(s);
 #else
-            void *symbol = dlsym(handler, name.c_str());
-#endif
-
+            void *symbol = dlsym(API::getHandler(), name.c_str());
             if (symbol == nullptr)
                 throw std::runtime_error("Failed to find symbol named: "+ name);
             return reinterpret_cast<T>(symbol);
+#endif
         }
-
+    protected:
         void closeHandle();
 };
 

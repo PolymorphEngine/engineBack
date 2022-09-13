@@ -9,30 +9,30 @@
 #define ENGINE_SPRITERENDERERCOMPONENT_HPP
 
 
-#include "Core/component/base/ADrawableComponent.hpp"
-#include "GraphicalAPI/modules/SpriteModule.hpp"
+#include "Core/component/base/ADrawable2dComponent.hpp"
+#include "GraphicalAPI/modules/TextureModule.hpp"
+#include "GraphicalAPI/modules/MeshModule.hpp"
 
 namespace Polymorph
 {
-    class SpriteModule;
-    using Sprite = safe_ptr<SpriteModule>;
+    class TextureModule;
     class SpriteRendererComponent;
     using SpriteRenderer = safe_ptr<SpriteRendererComponent>;
     using SpriteRendererBase = std::shared_ptr<SpriteRendererComponent>;
 
-    class SpriteRendererComponent : public ADrawableComponent
+    class SpriteRendererComponent : public ADrawable2dComponent
     {
         public:
             explicit SpriteRendererComponent(GameObject gameObject);
 
 
         public:
-            std::shared_ptr<SpriteModule> sprite;
+            std::shared_ptr<TextureModule> sprite;
 
 
 
         public:
-            void draw() override;
+            void draw(Canvas canvas = Canvas(nullptr)) override;
 
     };
 }

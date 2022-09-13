@@ -176,3 +176,8 @@ Polymorph::Rect::Rect(std::shared_ptr<myxmlpp::Node> &data,
     width = r->findAttribute("width")->getValueFloat();
     height = r->findAttribute("height")->getValueFloat();
 }
+
+bool Polymorph::Rect::contains(Vector2 &point) const
+{
+    return (point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height);
+}

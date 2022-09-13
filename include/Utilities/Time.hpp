@@ -39,6 +39,7 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void computeDeltaTime();
+            static std::string formatToMinutes(float time);
 //////////////////////--------------------------/////////////////////////
 
     };

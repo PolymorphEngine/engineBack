@@ -16,6 +16,7 @@
 
 #include <myxmlpp.hpp>
 #include "Utilities/safe_ptr.hpp"
+#include "Core/entity/Entity.hpp"
 
 
 namespace Polymorph
@@ -188,6 +189,18 @@ namespace Polymorph
              */
             std::size_t countParents();
 
+            template<class T>
+            std::vector<safe_ptr<T>> getComponentsInScene() const {
+                std::vector<safe_ptr<T>> components;
+
+                for (auto &entity : _entities) {
+                    if (entity->componentExist<T>()) {
+                        components.push_back(entity->getComponent<T>());
+                    }
+                }
+                return components;
+            };
+
 
         private:
             /**
@@ -201,7 +214,7 @@ namespace Polymorph
               * @param entity: the entity to _erase
               */
             void _erase(std::string &id);
-            
+
             void _eraseChildren(Entity &entity);
 
 //////////////////////--------------------------/////////////////////////

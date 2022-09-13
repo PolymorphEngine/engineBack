@@ -15,10 +15,21 @@
 
 namespace Polymorph
 {
-    std::shared_ptr<Entity> Config::XmlEntity::makeInstance()
+    std::shared_ptr<Entity> Config::XmlEntity::makeInstance(bool wasPrefab, bool isPrefab)
     {
-        _loadComponents();
+        _loadComponents(isPrefab);
         std::shared_ptr<Entity> e = instance;
+        
+        if (isPrefab)
+        {
+            instance = nullptr;
+            return e;
+        }
+        if (wasPrefab)
+        {
+            e->setWasPrefab(true);
+            e->setIsPrefab(false);
+        }
 
         for (auto &c: _components) {
             std::string t = c->getType();
@@ -34,6 +45,7 @@ namespace Polymorph
                         Logger::MINOR);
             e->transform = (*e).addComponent<TransformComponent>();
         }
+        e->transform->transform = e->transform;
         for (auto &c: _components) {
             std::string t = c->getType();
             if (t != "Transform") {
@@ -54,6 +66,9 @@ namespace Polymorph
         try {
             name = _node->findAttribute("name")->getValue();
             _fileName = _node->findAttribute("path")->getValue();
+#ifdef _WIN32
+            std::replace(_fileName.begin(), _fileName.end(), '/', '\\');
+#endif
         } catch (myxmlpp::Exception &e) {
             if (name.empty())
                 name = "Unknown";
@@ -61,10 +76,14 @@ namespace Polymorph
         }
 
         try {
+#ifdef _WIN32
+            _entity = std::make_shared<myxmlpp::Doc>(_path + "\\" +_fileName);
+#else
             _entity = std::make_shared<myxmlpp::Doc>(_path + "/" +_fileName);
+#endif
             _entity->getRoot();
         } catch (myxmlpp::Exception &e) {
-            throw ConfigurationException("Entity at path: '"+_path + "/" +_fileName+"': does not exist", Logger::MINOR);
+            throw ConfigurationException("Entity at path: '"+_path + "/" +_fileName+"':" + e.what(), Logger::MINOR);
         }
     }
 
@@ -139,9 +158,11 @@ namespace Polymorph
         }
     }
 
-    void Config::XmlEntity::_loadComponents()
+    void Config::XmlEntity::_loadComponents(bool isPrefab)
     {
         instance = std::make_shared<Entity>(*this, this->_engine);
+        if (isPrefab)
+            return;
         std::shared_ptr<XmlNode> components;
         _components.clear();
         try {

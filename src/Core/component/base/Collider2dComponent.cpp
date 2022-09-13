@@ -32,7 +32,7 @@ void ACollider2dComponent::_broadCastCollisionExit(ACollider2dComponent &collide
 
 void ACollider2dComponent::update()
 {
-    for (auto c2 = _colliderIdx + 1; c2 != _allColliders.end(); ++c2)
+    for (auto c2 = _allColliders.begin() + _colliderIdx + 1; c2 != _allColliders.end(); ++c2)
     {
         for (; !(*c2)->enabled && c2 != _allColliders.end(); ++c2);
         if (c2 == _allColliders.end())
@@ -76,10 +76,13 @@ ACollider2dComponent::ACollider2dComponent(GameObject gameObject, std::string ty
 {
     _allColliders.push_back(this);
 
-    _colliderIdx = _allColliders.end() - 1;
+    _colliderIdx = _allColliders.end() - _allColliders.begin() - 1;
 }
 
 ACollider2dComponent::~ACollider2dComponent()
 {
-    _allColliders.erase(_colliderIdx);
+    for (auto it = _allColliders.begin() + _colliderIdx; it != _allColliders.end(); ++it) {
+        (*it)->_colliderIdx--;
+    }
+    _allColliders.erase(_allColliders.begin() + _colliderIdx);
 }

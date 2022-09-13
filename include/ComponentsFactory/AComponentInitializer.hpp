@@ -48,9 +48,9 @@ namespace Polymorph
 
 
         public:
-            virtual void build() = 0;
+            void build() override = 0;
 
-            virtual void reference() = 0;
+            void reference() override = 0;
 
             std::shared_ptr<Component> get() final
             {

@@ -8,7 +8,7 @@
 #ifndef ENGINE_TEXTRENDERERCOMPONENT_HPP
 #define ENGINE_TEXTRENDERERCOMPONENT_HPP
 
-#include "Core/component/base/ADrawableComponent.hpp"
+#include "Core/component/base/ADrawable2dComponent.hpp"
 #include "GraphicalAPI/modules/TextModule.hpp"
 
 namespace Polymorph
@@ -19,7 +19,7 @@ namespace Polymorph
     using TextRenderer = safe_ptr<TextRendererComponent>;
     using TextRendererBase = std::shared_ptr<TextRendererComponent>;
 
-    class TextRendererComponent : public ADrawableComponent
+    class TextRendererComponent : public ADrawable2dComponent
     {
         public:
             explicit TextRendererComponent(GameObject gameObject);
@@ -31,7 +31,7 @@ namespace Polymorph
 
 
         public:
-            void draw() override;
+            void draw(Canvas canvas = Canvas(nullptr)) override;
     };
 }
 

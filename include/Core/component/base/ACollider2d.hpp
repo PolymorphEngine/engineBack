@@ -46,7 +46,7 @@
             /**
              * @property the iterator where is placed the instance of the collider
              */
-            std::vector<ACollider2dComponent *>::iterator _colliderIdx;
+            long _colliderIdx;
 
              /**
               * @property all colliders instantiated in the game

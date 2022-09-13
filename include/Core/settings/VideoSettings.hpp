@@ -13,7 +13,7 @@
 
 namespace Polymorph::Settings {
     using XmlNode = myxmlpp::Node;
-    
+
     class VideoSettings {
 
 ///////////////////////////////// Constructors /////////////////////////////////

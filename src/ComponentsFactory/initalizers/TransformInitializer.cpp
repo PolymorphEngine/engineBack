@@ -30,8 +30,10 @@ namespace Polymorph
         data.setProperty("children", refs);
 
         for (auto &ref: refs) {
+            if (!ref)
+                continue;
             if (ref->isPrefab())
-                SceneManager::instantiate(ref, component->transform);
+                SceneManager::instantiate(ref, component->transform, false);
             else
                 ref->transform->setParent(Transform(component));
         }

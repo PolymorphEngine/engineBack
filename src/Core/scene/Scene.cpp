@@ -31,11 +31,6 @@ namespace Polymorph
 
     void Scene::updateComponents()
     {
-        if (!_entitiesToAdd.empty()) {
-            _entities.insert(_entities.end(), _entitiesToAdd.begin(), _entitiesToAdd.end());
-            _entitiesToAdd.clear();
-        }
-        
         for (auto &e: _entities)
         {
             if (e->isActive() && !e->transform->parent())
@@ -43,11 +38,23 @@ namespace Polymorph
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
         }
-            
-        //TODO : sort ?
+        GraphicalAPI::CurrentDisplay->beginDrawing();
+        CameraComponent::Current->begin3dMode();
         for (auto &e: _entities)
-            if (e->isActive() && !e->transform->parent())
+            if (e->isActive() && !e->transform->parent() && !e->componentExist<CanvasComponent>())
                 e->draw();
+        CameraComponent::Current->end3dMode();
+        for (auto &e: _entities)
+        {
+            auto canvas = e->getComponent<CanvasComponent>();
+            if (e->isActive() && !e->transform->parent())
+                e->draw2d(canvas);
+        }
+        GraphicalAPI::CurrentDisplay->endDrawing();
+        if (!_entitiesToAdd.empty()) {
+            _entities.insert(_entities.end(), _entitiesToAdd.begin(), _entitiesToAdd.end());
+            _entitiesToAdd.clear();
+        }
         updateDestroyQueueList();
     }
 
@@ -131,9 +138,16 @@ namespace Polymorph
 
     void Scene::destroy(Entity &entity, float delayInSeconds)
     {
-        std::shared_ptr<Timer> timer (new Timer(delayInSeconds));
-
-        _destroyQueueList.emplace(timer, entity);
+        auto e = std::find_if(_destroyQueueList.begin(),
+        _destroyQueueList.end(), [&entity](std::pair<std::shared_ptr<Timer>, Entity&> p) {
+            return p.second == entity;
+        });
+        if (e == _destroyQueueList.end())
+        {
+            entity.setActive(false);
+            std::shared_ptr<Timer> timer (new Timer(delayInSeconds));
+            _destroyQueueList.emplace(timer, entity);
+        }
     }
 
     void Scene::loadScene()
@@ -162,7 +176,7 @@ namespace Polymorph
                 return GameObject(e);
         }
         for (auto &e: _game.getPrefabs()) {
-            if (e->getId() == id)
+            if (e->getId() == id || e->getPrefabId() == id)
                 return GameObject(e);
         }
         return GameObject(nullptr);

@@ -7,6 +7,7 @@
 
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Config.hpp>
+#include "Color.hpp"
 
 
 Polymorph::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
@@ -22,17 +23,21 @@ Polymorph::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlCompone
     a = tmp;
 }
 
-Polymorph::Color::Color(unsigned char r, unsigned char g, unsigned char b)
+Polymorph::Color::Color(unsigned char r, unsigned char g,
+                        unsigned char b, unsigned char a)
 {
     this->r = r;
     this->g = g;
     this->b = b;
+    this->a = a;
 }
 
 void
-Polymorph::Color::setColor(unsigned char red, unsigned char green, unsigned char blue)
+Polymorph::Color::setColor(unsigned char red, unsigned char green,
+                           unsigned char blue, unsigned char alpha)
 {
     this->r = red;
     this->g = green;
     this->b = blue;
+    this->a = alpha;
 }
