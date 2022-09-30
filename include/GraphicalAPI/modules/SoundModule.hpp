@@ -22,7 +22,9 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit SoundModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit SoundModule(std::shared_ptr<myxmlpp::Node> &data,
+                                 Config::XmlComponent &manager);
+
             ~SoundModule() = default;
 
 
@@ -34,9 +36,9 @@ namespace Polymorph
         public:
 
 
-
         private:
-            using SoundModuleLoader = Polymorph::ISoundModule *(*)(const std::string &filepath);
+            using SoundModuleLoader = Polymorph::ISoundModule *(*)(
+                    const std::string &filepath);
             static inline SoundModuleLoader _c_sound = nullptr;
 
             float _volume;
@@ -51,13 +53,21 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void play();
+
             void pause();
+
             void resume();
+
             void stop();
+
             void setVolume(float volume);
+
             float getVolume() const;
+
             std::string getFilePath() const;
+
             bool isSoundPlaying() const;
+
             void playMulti();
 
         private:

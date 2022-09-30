@@ -18,10 +18,11 @@ namespace Polymorph
     class MeshFrame
     {
         public:
-            MeshFrame(std::shared_ptr <myxmlpp::Node> &data,
-            Config::XmlComponent &manager);
+            MeshFrame(std::shared_ptr<myxmlpp::Node> &data,
+                      Config::XmlComponent &manager);
+
             explicit MeshFrame() = default;
-            
+
         public:
             float frameTime;
             std::shared_ptr<TextureModule> texture;

@@ -13,12 +13,15 @@
 namespace Polymorph
 {
     class BoxColliderComponent;
-    class BoxColliderInitializer : public AComponentInitializer<BoxColliderComponent>
+
+    class BoxColliderInitializer
+            : public AComponentInitializer<BoxColliderComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            BoxColliderInitializer(Config::XmlComponent &data, GameObject entity);
+            BoxColliderInitializer(Config::XmlComponent &data,
+                                   GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

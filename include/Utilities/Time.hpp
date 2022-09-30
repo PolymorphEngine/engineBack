@@ -15,8 +15,8 @@ namespace Polymorph
 {
     class Time
     {
-        using Clock = std::chrono::steady_clock;
-        using Duration = std::chrono::time_point<Clock>;
+            using Clock = std::chrono::steady_clock;
+            using Duration = std::chrono::time_point<Clock>;
 
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -39,18 +39,18 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void computeDeltaTime();
+
             static std::string formatToMinutes(float time);
 //////////////////////--------------------------/////////////////////////
 
     };
-
-
 
     class Timer
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Timer() = default;
+
             explicit Timer(double delay);
 //////////////////////--------------------------/////////////////////////
 
@@ -67,6 +67,7 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void tick();
+
             bool timeIsUp(bool isReset = true);;
 //////////////////////--------------------------/////////////////////////
 

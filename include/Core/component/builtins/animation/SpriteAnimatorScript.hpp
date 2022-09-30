@@ -49,13 +49,18 @@ namespace Polymorph
             void start() override;
 
             void update() override;
-            
+
             void startAnimation(std::string animationName);
-            void addAnimCallBack(SpriteAnimation::AnimationCallBack callback, std::string animationName = "");
+
+            void addAnimCallBack(SpriteAnimation::AnimationCallBack callback,
+                                 std::string animationName = "");
+
             void clearAnimationCallbacks(std::string name = "");
+
             void setAnimationFrameTime(std::string name, float frameTime);
+
             float getAnimationFrameTime(std::string name);
-            
+
         private:
 
             //////////////////////--------------------------/////////////////////////

@@ -15,6 +15,7 @@
 namespace Polymorph
 {
     class ColliderMesh3dComponent;
+
     using ColliderMesh3d = safe_ptr<ColliderMesh3dComponent>;
     using ColliderMesh3dBase = std::shared_ptr<ColliderMesh3dComponent>;
 
@@ -40,7 +41,6 @@ namespace Polymorph
             std::shared_ptr<TextureModule> DebugTexture;
 
 
-
         private:
             std::shared_ptr<BoxModule> _box = nullptr;
 
@@ -52,6 +52,7 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             std::shared_ptr<BoxModule> getBox();
+
             std::shared_ptr<BoxModule> regenBox();
 
             void onAwake() override;

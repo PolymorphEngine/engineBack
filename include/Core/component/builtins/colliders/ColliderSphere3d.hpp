@@ -15,6 +15,7 @@
 namespace Polymorph
 {
     class ColliderSphere3dComponent;
+
     using ColliderSphere3d = safe_ptr<ColliderSphere3dComponent>;
     using ColliderSphere3dBase = std::shared_ptr<ColliderSphere3dComponent>;
 
@@ -35,7 +36,6 @@ namespace Polymorph
         public:
             SphereRenderer renderer;
             std::shared_ptr<SphereModule> sphere;
-
 
 
         private:

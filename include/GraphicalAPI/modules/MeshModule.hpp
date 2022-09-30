@@ -16,59 +16,63 @@
 
 namespace Polymorph
 {
-	class MeshModule
-	{
-	////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+    class MeshModule
+    {
+            ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
-		public:
+        public:
             explicit MeshModule() = default;
-			explicit MeshModule(const std::string &path);
-			explicit MeshModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
 
-			~MeshModule() = default;
+            explicit MeshModule(const std::string &path);
 
+            explicit MeshModule(std::shared_ptr<myxmlpp::Node> &data,
+                                Config::XmlComponent &manager);
 
-	//////////////////////--------------------------/////////////////////////
-
-
-
-	///////////////////////////// PROPERTIES ////////////////////////////////
-		public:
+            ~MeshModule() = default;
 
 
-		private:
-            using MeshModuleLoader = Polymorph::IModelModule *(*)(const std::string &objFilepath);
+            //////////////////////--------------------------/////////////////////////
+
+
+
+            ///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
+
+
+        private:
+            using MeshModuleLoader = Polymorph::IModelModule *(*)(
+                    const std::string &objFilepath);
             static inline MeshModuleLoader _c_model = nullptr;
 
-			std::unique_ptr<Polymorph::IModelModule> _model;
-			std::string _filepath;
-			float _rotationAngle;
-			Color _color;
+            std::unique_ptr<Polymorph::IModelModule> _model;
+            std::string _filepath;
+            float _rotationAngle;
+            Color _color;
             std::shared_ptr<TextureModule> _internalTexture;
 
-	//////////////////////--------------------------/////////////////////////
+            //////////////////////--------------------------/////////////////////////
 
 
 
-	/////////////////////////////// METHODS /////////////////////////////////
-		public:
-			void setPosition(Vector3 position);
+            /////////////////////////////// METHODS /////////////////////////////////
+        public:
+            void setPosition(Vector3 position);
 
-			void setScale(Vector3 scale);
+            void setScale(Vector3 scale);
 
-			void setRotationAxis(Vector3 rotationAxis);
+            void setRotationAxis(Vector3 rotationAxis);
 
-			void setRotationAngle(float rotationAngle);
+            void setRotationAngle(float rotationAngle);
 
             float getRotationAngle() const;
 
-			void setColor(Color color);
+            void setColor(Color color);
 
-			Color getColor() const;
+            Color getColor() const;
 
             void setTexture(const std::shared_ptr<TextureModule> &texture);
 
-			void draw();
+            void draw();
 
             Polymorph::IModelModule &getMesh() const;
 
@@ -80,10 +84,10 @@ namespace Polymorph
 
             bool colliderWithMesh(const Polymorph::MeshModule &mesh) const;
 
-		private:
+        private:
             void _loadModule();
 
-	//////////////////////--------------------------/////////////////////////
+            //////////////////////--------------------------/////////////////////////
 
-	};
+    };
 }

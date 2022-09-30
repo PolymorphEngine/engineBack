@@ -23,7 +23,7 @@ namespace Polymorph
 
         public:
             ButtonInitializer(Config::XmlComponent &data,
-                                           GameObject entity);
+                              GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

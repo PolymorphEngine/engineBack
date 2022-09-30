@@ -25,7 +25,9 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit MeshAnimationModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit MeshAnimationModule(std::shared_ptr<myxmlpp::Node> &data,
+                                         Config::XmlComponent &manager);
+
             ~MeshAnimationModule() = default;
 
 
@@ -39,9 +41,9 @@ namespace Polymorph
             std::string name;
 
 
-
         private:
-            using MeshAnimationModuleLoader = Polymorph::IModelAnimationModule *(*)(const std::string &filepath);
+            using MeshAnimationModuleLoader = Polymorph::IModelAnimationModule *(*)(
+                    const std::string &filepath);
             static inline MeshAnimationModuleLoader _c_MeshAnimation = nullptr;
 
             std::vector<float>::iterator _currentFrameTime;
@@ -59,11 +61,15 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void begin();
+
             void update(const std::shared_ptr<Polymorph::MeshModule> &mesh);
-            void addAnimCallBack(const MeshAnimation::AnimationCallBack& callback);
+
+            void
+            addAnimCallBack(const MeshAnimation::AnimationCallBack &callback);
 
         private:
             void _loadModule();
+
             void _invokeCallBacks();
 
 //////////////////////--------------------------/////////////////////////

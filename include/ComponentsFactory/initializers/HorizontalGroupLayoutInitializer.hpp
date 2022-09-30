@@ -23,7 +23,7 @@ namespace Polymorph
 
         public:
             HorizontalGroupLayoutInitializer(Config::XmlComponent &data,
-                                           GameObject entity);
+                                             GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

@@ -46,6 +46,7 @@
 namespace Polymorph
 {
     class IComponentInitializer;
+
     class ComponentFactory
     {
         public:
@@ -53,7 +54,9 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, GameObject entity);
+            static Initializer
+            create(std::string &type, Config::XmlComponent &data,
+                   GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -63,36 +66,143 @@ namespace Polymorph
 
         private:
             static const inline std::map<std::string,
-            std::function<Initializer (Config::XmlComponent &data, GameObject entity)>>
-            _buildables =
-            {
-                // @INITIALIZERS: (add Component Initializers here)
-                // @TRANSFORM:
-                {
-                        {"Button", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ButtonInitializer(data, entity));}},
-                        {"HorizontalGroupLayout", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new HorizontalGroupLayoutInitializer(data, entity));}},
-                        {"InputField", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new InputFieldInitializer(data, entity));}},
-                        {"VerticalGroupLayout", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new VerticalGroupLayoutInitializer(data, entity));}},
-                        {"Transform", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new TransformInitializer(data, entity));}},
-                        {"ColliderCircle2d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderCircle2dInitializer(data, entity));}},
-                        {"ColliderRect2d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderRect2dInitializer(data, entity));}},
-                        {"SpriteRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SpriteRendererInitializer(data, entity));}},
-                        {"TextRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new TextRendererInitializer(data, entity));}},
-                        {"SoundPlayer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SoundPlayerInitializer(data, entity));}},
-                        {"MusicPlayer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MusicPlayerInitializer(data, entity));}},
-                        {"MeshRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MeshRendererInitializer(data, entity));}},
-                        {"Camera", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new CameraInitializer(data, entity));}},
-                        {"BoxCollider", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new BoxColliderInitializer(data, entity));}},
-                        {"ColliderMesh3d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderMesh3dInitializer(data, entity));}},
-                        {"ColliderSphere3d", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new ColliderSphere3dInitializer(data, entity));}},
-                        {"SphereRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SphereRendererInitializer(data, entity));}},
-                        {"Canvas", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new CanvasInitializer(data, entity));}},
-                        {"BoxRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new BoxRendererInitializer(data, entity));}},
-                        {"MeshAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MeshAnimatorInitializer(data, entity));}},
-                        {"MonoMeshAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MonoMeshAnimatorInitializer(data, entity));}},
-                        {"SpriteAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SpriteAnimatorInitializer(data, entity));}},
-                },
-            };
+                    std::function<Initializer(Config::XmlComponent &data,
+                                              GameObject entity)>>
+                    _buildables =
+                    {
+                            // @INITIALIZERS: (add Component Initializers here)
+                            // @TRANSFORM:
+                            {
+                                    {"Button", [](Config::XmlComponent &data,
+                                                  GameObject entity) -> Initializer { return Initializer(
+                                            new ButtonInitializer(data,
+                                                                  entity));
+                                    }},
+                                    {"HorizontalGroupLayout",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new HorizontalGroupLayoutInitializer(
+                                                     data, entity));
+                                     }},
+                                    {"InputField",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new InputFieldInitializer(data,
+                                                                       entity));
+                                     }},
+                                    {"VerticalGroupLayout",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new VerticalGroupLayoutInitializer(
+                                                     data, entity));
+                                     }},
+                                    {"Transform", [](Config::XmlComponent &data,
+                                                     GameObject entity) -> Initializer { return Initializer(
+                                            new TransformInitializer(data,
+                                                                     entity));
+                                    }},
+                                    {"ColliderCircle2d",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new ColliderCircle2dInitializer(
+                                                     data, entity));
+                                     }},
+                                    {"ColliderRect2d",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new ColliderRect2dInitializer(data,
+                                                                           entity));
+                                     }},
+                                    {"SpriteRenderer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new SpriteRendererInitializer(data,
+                                                                           entity));
+                                     }},
+                                    {"TextRenderer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new TextRendererInitializer(data,
+                                                                         entity));
+                                     }},
+                                    {"SoundPlayer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new SoundPlayerInitializer(data,
+                                                                        entity));
+                                     }},
+                                    {"MusicPlayer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new MusicPlayerInitializer(data,
+                                                                        entity));
+                                     }},
+                                    {"MeshRenderer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new MeshRendererInitializer(data,
+                                                                         entity));
+                                     }},
+                                    {"Camera", [](Config::XmlComponent &data,
+                                                  GameObject entity) -> Initializer { return Initializer(
+                                            new CameraInitializer(data,
+                                                                  entity));
+                                    }},
+                                    {"BoxCollider",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new BoxColliderInitializer(data,
+                                                                        entity));
+                                     }},
+                                    {"ColliderMesh3d",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new ColliderMesh3dInitializer(data,
+                                                                           entity));
+                                     }},
+                                    {"ColliderSphere3d",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new ColliderSphere3dInitializer(
+                                                     data, entity));
+                                     }},
+                                    {"SphereRenderer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new SphereRendererInitializer(data,
+                                                                           entity));
+                                     }},
+                                    {"Canvas", [](Config::XmlComponent &data,
+                                                  GameObject entity) -> Initializer { return Initializer(
+                                            new CanvasInitializer(data,
+                                                                  entity));
+                                    }},
+                                    {"BoxRenderer",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new BoxRendererInitializer(data,
+                                                                        entity));
+                                     }},
+                                    {"MeshAnimator",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new MeshAnimatorInitializer(data,
+                                                                         entity));
+                                     }},
+                                    {"MonoMeshAnimator",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new MonoMeshAnimatorInitializer(
+                                                     data, entity));
+                                     }},
+                                    {"SpriteAnimator",
+                                     [](Config::XmlComponent &data,
+                                        GameObject entity) -> Initializer { return Initializer(
+                                             new SpriteAnimatorInitializer(data,
+                                                                           entity));
+                                     }},
+                            },
+                    };
 ///////////////////////////--------------------------///////////////////////////
 
     };

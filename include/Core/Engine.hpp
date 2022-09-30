@@ -21,15 +21,34 @@
 
 namespace Polymorph
 {
-    namespace Config{class XmlEntity;class XmlComponent;}
-    namespace Settings{class VideoSettings; class AudioSettings; class PhysicsSettings;}
+    namespace Config
+    {
+        class XmlEntity;
+
+        class XmlComponent;
+    }
+    namespace Settings
+    {
+        class VideoSettings;
+
+        class AudioSettings;
+
+        class PhysicsSettings;
+    }
     class DisplayModule;
+
     class Entity;
+
     class Scene;
+
     class Time;
+
     class GraphicalAPI;
+
     class ScriptingApi;
+
     class TextureModule;
+
     class SplashScreen;
 
     using ExitCode = int;
@@ -47,7 +66,9 @@ namespace Polymorph
              * @param projectPath path containing resources to load
              * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
              */
-            explicit Engine(const std::string &projectPath, std::string projectName);
+            explicit Engine(const std::string &projectPath,
+                            std::string projectName);
+
             ~Engine();
 //////////////////////--------------------------/////////////////////////
 
@@ -93,7 +114,8 @@ namespace Polymorph
              *          Order determines which component has to be updated before others.
              * @returns A vector of std::string ordered based on execution order.
              */
-            std::vector<std::string> &getExecOrder(){return _execOrder;};
+            std::vector<std::string> &getExecOrder()
+            { return _execOrder; };
 
             /**
              * @details Runs the game.
@@ -105,8 +127,8 @@ namespace Polymorph
              * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
-
+            void
+            loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
 
             /**
              * Loads a graphical api from the filepath to an shared library ('.so')
@@ -121,7 +143,9 @@ namespace Polymorph
             void loadEngine();
 
             static void exit(ExitCode code);
-            static bool isExiting() {return _exit;};
+
+            static bool isExiting()
+            { return _exit; };
 
             std::string getProjectPath();
 
@@ -129,29 +153,27 @@ namespace Polymorph
 
             std::vector<Config::XmlComponent> getDefaultConfigs();
 
-            Config::XmlComponent &getDefaultConfig(const std::string& type);
-
-
+            Config::XmlComponent &getDefaultConfig(const std::string &type);
 
             /**
              * @details Find a scene by its name, returns the first matched
              * @param name the name of the scene to find
              * @return the required scene
              */
-            std::shared_ptr<Scene> findSceneByName(const std::string& name);
+            std::shared_ptr<Scene> findSceneByName(const std::string &name);
 
             /**
              * @details Find a scene by its id, returns the first matched
              * @param id the name of the scene to find
              * @return the required scene
              */
-            std::shared_ptr<Scene> findSceneById(const std::string& id);
+            std::shared_ptr<Scene> findSceneById(const std::string &id);
 
             /**
              * Add the provided scene to the engine's scenes list
              * @param scene the scene to add
              */
-            void addScene(const std::shared_ptr<Scene>& scene);
+            void addScene(const std::shared_ptr<Scene> &scene);
 
 
         private:
@@ -199,6 +221,7 @@ namespace Polymorph
              * @details Inits the components default configs
              */
             void _initTemplates();
+
             /**
              * @details Inits the game data
              */

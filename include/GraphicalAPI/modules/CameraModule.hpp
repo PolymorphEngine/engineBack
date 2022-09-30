@@ -21,7 +21,9 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit CameraModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit CameraModule(std::shared_ptr<myxmlpp::Node> &data,
+                                  Config::XmlComponent &manager);
+
             ~CameraModule() = default;
 
 
@@ -51,13 +53,21 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void setTarget(Vector3 target);
+
             void setPosition(Vector3 pos);
+
             void move(Vector3 pos);
+
             Vector3 getUp() const;
+
             void setUp(Vector3 up);
+
             float getFov() const;
+
             void setFOV(float fov);
+
             void begin3DMode();
+
             void end3DMode();
 
         private:
@@ -66,5 +76,5 @@ namespace Polymorph
 
 //////////////////////--------------------------/////////////////////////
 
-};
+    };
 }

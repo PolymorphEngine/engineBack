@@ -23,7 +23,7 @@ namespace Polymorph
 
         public:
             CanvasInitializer(Config::XmlComponent &data,
-                                           GameObject entity);
+                              GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

@@ -13,12 +13,15 @@
 namespace Polymorph
 {
     class ColliderCircle2dComponent;
-    class ColliderCircle2dInitializer : public AComponentInitializer<ColliderCircle2dComponent>
+
+    class ColliderCircle2dInitializer
+            : public AComponentInitializer<ColliderCircle2dComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            ColliderCircle2dInitializer(Config::XmlComponent &data, GameObject entity);
+            ColliderCircle2dInitializer(Config::XmlComponent &data,
+                                        GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -29,7 +32,8 @@ namespace Polymorph
         public:
             void build() final;
 
-            void reference() final {};
+            void reference() final
+            {};
 
 ///////////////////////////--------------------------///////////////////////////
 

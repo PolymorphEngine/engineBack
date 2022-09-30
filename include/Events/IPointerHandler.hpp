@@ -16,7 +16,9 @@ namespace Polymorph
     {
         public:
             virtual void onPointerEnter(PointerEvent &event) = 0;
+
             virtual void onPointerHover(PointerEvent &event) = 0;
+
             virtual void onPointerExit(PointerEvent &event) = 0;
     };
 }

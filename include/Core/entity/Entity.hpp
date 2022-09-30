@@ -18,18 +18,25 @@
 namespace Polymorph
 {
     class Component;
+
     class IComponentInitializer;
+
     class Engine;
 
     class TransformComponent;
+
     class CanvasComponent;
+
     using Canvas = safe_ptr<CanvasComponent>;
-    namespace Config{
+    namespace Config
+    {
         class XmlEntity;
+
         class XmlComponent;
     }
 
     class Entity;
+
     using Transform = safe_ptr<TransformComponent>;
     using GameObject = safe_ptr<Entity>;
 
@@ -42,6 +49,7 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Entity(Config::XmlEntity &data, Engine &game);
+
             ~Entity();
 
 //////////////////////--------------------------/////////////////////////
@@ -91,9 +99,11 @@ namespace Polymorph
             bool isActive() const;
 
             bool isPrefab() const;
+
             bool wasPrefab() const;
 
             void setIsPrefab(bool value);
+
             void setWasPrefab(bool value);
 
             /**
@@ -108,7 +118,6 @@ namespace Polymorph
              * @returns True if the game object has the tag, False otherwise.
              */
             bool hasTag(const std::string &tag) const;
-
 
             /**
              * @details Adds to the game object the tag passed as parameter.
@@ -138,6 +147,7 @@ namespace Polymorph
              *          then calls draw() of children.
              */
             void draw();
+
             void draw2d(Canvas canvas = Canvas(nullptr));
 
             /**
@@ -150,7 +160,9 @@ namespace Polymorph
              * @return The child entity
              */
             safe_ptr<Entity> find(const std::string &nameToFind);
-            safe_ptr<Entity> findByPrefabId(const std::string &nameToFind, bool _firstCall = true);
+
+            safe_ptr<Entity> findByPrefabId(const std::string &nameToFind,
+                                            bool _firstCall = true);
 
             /**
              * @details Get a child entity by its index
@@ -164,15 +176,19 @@ namespace Polymorph
              */
             void awake(bool rescurse = false);
 
-            void addComponent(std::string &component, Config::XmlComponent &config, GameObject gameObject);
+            void
+            addComponent(std::string &component, Config::XmlComponent &config,
+                         GameObject gameObject);
+
             void initTransform();
+
             /**
              * @details Looks for a component by type
              * @tparam T: The 'T' type of the component to look for.
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A safe pointer to the component 'T'
              */
-            template <typename T>
+            template<typename T>
             safe_ptr<T> getComponent();
 
             /**
@@ -181,7 +197,7 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A vector of safe pointer to the components of type 'T'
              */
-            template <typename T>
+            template<typename T>
             std::vector<safe_ptr<T>> getComponents();
 
             /**
@@ -202,7 +218,7 @@ namespace Polymorph
              * @bug is not found by compiler !!!
              * @returns True if the component exist
              */
-            template <typename T>
+            template<typename T>
             bool componentExist();
 
             /**
@@ -211,35 +227,42 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be deleted
              * @returns True if the component existed and was deleted successfully
              */
-            template <typename T>
+            template<typename T>
             bool deleteComponent();
 
             /**
              * @details A getter to fetch the entity's name
              * @returns An std::string of the entity's name
              */
-            std::string getName() const{return name;};
+            std::string getName() const
+            { return name; };
 
             /**
              * @details A getter to fetch the entity's unique id
              * @returns An std::string of the entity's unique id
              */
-            std::string &getId() {return _stringId;};
-            std::string &getPrefabId() {return _prefabId;};
+            std::string &getId()
+            { return _stringId; };
+
+            std::string &getPrefabId()
+            { return _prefabId; };
 
             /**
              * @details A setter for the entity's unique id
              * @param An std::string of the entity's unique id
              */
-             void setId(const std::string &id) {_stringId = id;};
-             void setPrefabId(const std::string &id) {_stringId = id;};
+            void setId(const std::string &id)
+            { _stringId = id; };
+
+            void setPrefabId(const std::string &id)
+            { _stringId = id; };
 
             /**
              * @details A getter to fetch the XmlEntity associated with the
              * entity
              * @returns The associated XmlEntity
              */
-             Config::XmlEntity &getXmlConfig() const noexcept;
+            Config::XmlEntity &getXmlConfig() const noexcept;
 
             /**
              * @details Comparator operator that compares 2 entities based on unique id.

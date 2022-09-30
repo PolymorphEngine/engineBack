@@ -16,15 +16,20 @@
 namespace Polymorph
 {
     class SphereModule;
+
     class MeshModule;
+
     class TextureModule;
+
     class BoxModule
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit BoxModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit BoxModule(std::shared_ptr<myxmlpp::Node> &data,
+                               Config::XmlComponent &manager);
+
             explicit BoxModule(const MeshModule &meshModule);
 
 //////////////////////--------------------------/////////////////////////
@@ -36,9 +41,12 @@ namespace Polymorph
 
 
         private:
-            using BoxModuleLoader = Polymorph::IBoxModule *(*)(float posX, float posY, float posZ);
+            using BoxModuleLoader = Polymorph::IBoxModule *(*)(float posX,
+                                                               float posY,
+                                                               float posZ);
             static inline BoxModuleLoader _c_box = nullptr;
-            using BoxModuleFromMeshLoader = Polymorph::IBoxModule *(*)(const Polymorph::IModelModule &model);
+            using BoxModuleFromMeshLoader = Polymorph::IBoxModule *(*)(
+                    const Polymorph::IModelModule &model);
             static inline BoxModuleFromMeshLoader _c_box_from_model = nullptr;
 
             std::unique_ptr<Polymorph::IBoxModule> _box;
@@ -66,7 +74,7 @@ namespace Polymorph
 
             bool collideWithSphere(const SphereModule &sphere) const;
 
-            void setTexture(const std::shared_ptr<TextureModule>& texture);
+            void setTexture(const std::shared_ptr<TextureModule> &texture);
 
             std::shared_ptr<TextureModule> getTexture() const;
 

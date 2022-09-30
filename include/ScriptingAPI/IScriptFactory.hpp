@@ -13,11 +13,16 @@
 
 namespace Polymorph
 {
-    namespace Config {class XmlComponent;}
+    namespace Config
+    {
+        class XmlComponent;
+    }
     class Entity;
+
     class IComponentInitializer;
+
     using Initializer = std::shared_ptr<IComponentInitializer>;
-    
+
     class IScriptFactory
     {
 
@@ -26,18 +31,20 @@ namespace Polymorph
             virtual ~IScriptFactory() = default;
 
 //////////////////////--------------------------/////////////////////////
-    
-    
-    
+
+
+
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            virtual Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity) = 0;
-    
-    
+            virtual Initializer
+            create(std::string &type, Config::XmlComponent &data,
+                   safe_ptr<Entity> entity) = 0;
+
+
         private:
-    
+
 //////////////////////--------------------------/////////////////////////
-    
+
     };
 }
 

@@ -26,7 +26,9 @@ namespace Polymorph
         public:
             explicit SphereModule(std::shared_ptr<myxmlpp::Node> &data,
                                   Config::XmlComponent &manager);
+
             explicit SphereModule();
+
             ~SphereModule() = default;
 
 
@@ -39,7 +41,10 @@ namespace Polymorph
 
 
         private:
-            using SphereModuleLoader = Polymorph::ISphereModule *(*)(float x, float y, float z, float radius);
+            using SphereModuleLoader = Polymorph::ISphereModule *(*)(float x,
+                                                                     float y,
+                                                                     float z,
+                                                                     float radius);
             static inline SphereModuleLoader _c_sphere = nullptr;
 
             Polymorph::Vector3 _center;

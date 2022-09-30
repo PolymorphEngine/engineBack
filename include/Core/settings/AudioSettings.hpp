@@ -10,8 +10,10 @@
 
 #include <myxmlpp.hpp>
 
-namespace Polymorph::Settings {
+namespace Polymorph::Settings
+{
     using XmlNode = myxmlpp::Node;
+
     class AudioSettings
     {
 

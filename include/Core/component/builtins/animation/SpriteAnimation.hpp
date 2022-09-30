@@ -13,32 +13,34 @@
 
 namespace Polymorph
 {
-        
+
     class SpriteAnimation
     {
-    
-    ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-    
+
+            ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+
         public:
-            SpriteAnimation(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
-    
+            SpriteAnimation(std::shared_ptr<myxmlpp::Node> &data,
+                            Config::XmlComponent &manager);
+
             ~SpriteAnimation();
-            using AnimationCallBack = std::function<void (void)>;
+
+            using AnimationCallBack = std::function<void(void)>;
 
 
             //////////////////////--------------------------/////////////////////////
-    
-    
-    
-    ///////////////////////////// PROPERTIES ////////////////////////////////
+
+
+
+            ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
             std::string animationName;
             std::shared_ptr<TextureModule> sprite;
             int nbFrames;
             float yOffset;
             float frameTime;
-    
-    
+
+
         private:
             Rect _currentFrame;
             float _width;
@@ -48,21 +50,25 @@ namespace Polymorph
 
 
             //////////////////////--------------------------/////////////////////////
-    
-    
-    
-    /////////////////////////////// METHODS /////////////////////////////////
+
+
+
+            /////////////////////////////// METHODS /////////////////////////////////
         public:
             void addEndAnimCallBack(AnimationCallBack callback);
+
             void invokeCallBacks();
+
             void nextFrame();
+
             void clear();
+
             void setAnimationFrameTime(float frameTime);
 
         private:
 
-    
-    //////////////////////--------------------------/////////////////////////
-    
+
+            //////////////////////--------------------------/////////////////////////
+
     };
 }
