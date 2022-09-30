@@ -9,10 +9,10 @@
 
 namespace Polymorph
 {
-	class IFontModule
-	{
-		public:
-			virtual ~IFontModule() = default;
-	};
+    class IFontModule
+    {
+        public:
+            virtual ~IFontModule() = default;
+    };
 
 }
