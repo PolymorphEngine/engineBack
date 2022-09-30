@@ -73,9 +73,7 @@ Polymorph::Rect Polymorph::TextureModule::getCrop()
 
 void Polymorph::TextureModule::draw()
 {
-    //TODO: drawRect
-    if (_crop.width == 0 || _crop.height == 0)
-    	_texture->draw(_color.r, _color.g, _color.b, _color.a);
+    _texture->draw(_color.r, _color.g, _color.b, _color.a);
 }
 
 void Polymorph::TextureModule::_flipTextureToImage()
@@ -117,14 +115,12 @@ Polymorph::ITextureModule &Polymorph::TextureModule::getTexture() const
 
 float Polymorph::TextureModule::getTextureWidth()
 {
-    //TODO:
-    return 0;
+    return _texture->getTextureWidth();
 }
 
 float Polymorph::TextureModule::getTextureHeight()
 {
-    //TODO:
-    return 0;
+    return _texture->getTextureHeight();
 }
 /*
 Polymorph::Vector2 Polymorph::TextureModule::getSize()
