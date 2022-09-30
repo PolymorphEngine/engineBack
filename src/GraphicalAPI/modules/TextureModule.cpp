@@ -59,6 +59,7 @@ void Polymorph::TextureModule::setCrop(Rect crop)
     _crop = crop;
 	//_image->crop(crop.x, crop.y, crop.width, crop.height);
 	//_flipImageToTexture();
+    _texture->setTextureRect(crop.x, crop.y, crop.width, crop.height);
 }
 
 Polymorph::Rect Polymorph::TextureModule::getCrop()
