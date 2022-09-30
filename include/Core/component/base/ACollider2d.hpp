@@ -11,16 +11,17 @@
 #include "Core/component/base/Component.hpp"
 #include <map>
 
- namespace Polymorph
- {
+namespace Polymorph
+{
     class ACollider2dComponent;
+
     using Collider2dBase = std::shared_ptr<ACollider2dComponent>;
     using Collider2d = safe_ptr<ACollider2dComponent>;
 
     /**
      * @class Collider2dComponent
      * @details An abstract component that is used to make new collider shapes (box, circle ...)
-     * @warning Do not try to use this as a component ! (AddComponent)
+     * @warning Do not try to use this as a component !(AddComponent)
      */
     class ACollider2dComponent : public Component
     {
@@ -28,6 +29,7 @@
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
             ACollider2dComponent(GameObject gameObject, std::string type);
+
             ~ACollider2dComponent();
 
 ///////////////////////////--------------------------///////////////////////////
@@ -48,9 +50,9 @@
              */
             long _colliderIdx;
 
-             /**
-              * @property all colliders instantiated in the game
-              */
+            /**
+             * @property all colliders instantiated in the game
+             */
             static inline std::vector<ACollider2dComponent *> _allColliders = {};
 ///////////////////////////--------------------------///////////////////////////
 
@@ -68,20 +70,21 @@
              */
             virtual bool checkCollision(ACollider2dComponent &collider) = 0;
 
-
             /**
              * @details BroadCasting collision event functions
              */
             void _checkCollisionToBroadCast(ACollider2dComponent &collider);
 
             void _broadCastCollisionStay(ACollider2dComponent &collider);
+
             void _broadCastCollisionEnter(ACollider2dComponent &collider);
+
             void _broadCastCollisionExit(ACollider2dComponent &collider);
 ///////////////////////////--------------------------///////////////////////////
 
-     };
+    };
 
 
- }
+}
 
 #endif //ENGINE_ACOLLIDER2D_HPP

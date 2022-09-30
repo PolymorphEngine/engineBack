@@ -12,12 +12,13 @@ namespace Polymorph
 {
     class ACollider2dComponent;
 
-
     class ICollider2dHandler
     {
         public:
             virtual void onCollisionEnter(ACollider2dComponent &collider) = 0;
+
             virtual void onCollisionExit(ACollider2dComponent &collider) = 0;
+
             virtual void onCollisionStay(ACollider2dComponent &collider) = 0;
     };
 }

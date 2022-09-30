@@ -14,27 +14,27 @@
 namespace Polymorph
 {
     class Component;
-    
+
     class IComponentInitializer : public IComponent
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             virtual ~IComponentInitializer() = default;
-    
+
 //////////////////////--------------------------/////////////////////////
-    
-    
-    
+
+
+
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             virtual void build() = 0;
-    
+
             virtual void reference() = 0;
 
             std::string getType() const override = 0;
 
-
             virtual std::shared_ptr<Component> operator*() = 0;
+
             virtual std::shared_ptr<Component> get() = 0;
 
             void update() override = 0;
@@ -50,11 +50,11 @@ namespace Polymorph
             void setAsAwaked() override = 0;
 
             bool isStarted() const override = 0;
-            
+
             virtual bool isEnabled() const = 0;
 
         private:
-    
+
 //////////////////////--------------------------/////////////////////////
 
     };

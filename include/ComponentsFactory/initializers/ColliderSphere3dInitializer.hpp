@@ -14,12 +14,15 @@
 namespace Polymorph
 {
     class ColliderSphere3dComponent;
-    class ColliderSphere3dInitializer : public AComponentInitializer<ColliderSphere3dComponent>
+
+    class ColliderSphere3dInitializer
+            : public AComponentInitializer<ColliderSphere3dComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            ColliderSphere3dInitializer(Config::XmlComponent &data, GameObject entity);
+            ColliderSphere3dInitializer(Config::XmlComponent &data,
+                                        GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

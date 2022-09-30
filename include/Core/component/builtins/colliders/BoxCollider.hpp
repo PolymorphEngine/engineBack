@@ -13,8 +13,9 @@
 #include "GraphicalAPI/modules/MeshModule.hpp"
 
 namespace Polymorph
- {
+{
     class BoxColliderComponent;
+
     using BoxCollider = safe_ptr<BoxColliderComponent>;
     using BoxColliderBase = std::shared_ptr<BoxColliderComponent>;
 
@@ -51,4 +52,4 @@ namespace Polymorph
 ///////////////////////////--------------------------///////////////////////////
 
     };
- }
+}

@@ -16,6 +16,7 @@ namespace Polymorph
     {
         public:
             virtual void onDrop(PointerEvent &event) = 0;
+
             virtual void checkDrop(PointerEvent &event) = 0;
     };
 }

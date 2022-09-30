@@ -59,13 +59,13 @@ namespace Polymorph
             void start() override;
 
             void update() override;
-            
+
             bool hasFocus();
 
         private:
-            
+
             void _updateFocus();
-            
+
 
             //////////////////////--------------------------/////////////////////////
 

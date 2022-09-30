@@ -16,12 +16,16 @@
 namespace Polymorph
 {
     class Entity;
+
     class TransformComponent;
 
     using GameObject = safe_ptr<Entity>;
     using Transform = safe_ptr<TransformComponent>;
+
     class Vector3;
+
     class Engine;
+
     class Scene;
 
     /**
@@ -57,47 +61,47 @@ namespace Polymorph
              * @param name: The name of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
              */
-            static GameObject find(const std::string& name);
+            static GameObject find(const std::string &name);
 
             /**
              * @details Finds all occurrences of game objects in scene by name
              * @param name: The name of the game objects to find
              * @returns A vector of smart pointers (safe_ptr) of game objects found (empty vector if not found)
              */
-            static std::vector<GameObject> findAll(const std::string& name);
+            static std::vector<GameObject> findAll(const std::string &name);
 
             /**
              * @details Finds a game object in scene by its unique id
              * @param id: The unique id of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
              */
-            static GameObject findById(const std::string& id);
+            static GameObject findById(const std::string &id);
+
             /**
              * @details Finds the first occurrence of a game object in scene by tag
              * @param tag: The tag of the game object to find
              * @returns A smart pointer (safe_ptr) of the entity found (empty safe_ptr if not found)
              */
-            static GameObject findByTag(const std::string& tag);
+            static GameObject findByTag(const std::string &tag);
 
             /**
              * @details Finds all occurrences of game objects in scene by tag
              * @param tag: The tag which is used to filter game objects
              * @returns A vector of smart pointers (safe_ptr) of game objects found (empty vector if not found)
              */
-            static std::vector<GameObject> findAllByTag(const std::string& tag);
+            static std::vector<GameObject> findAllByTag(const std::string &tag);
 
-            template <class T>
-            static std::vector<safe_ptr<T>> getAlComponents() {
+            template<class T>
+            static std::vector<safe_ptr<T>> getAlComponents()
+            {
                 return Current->getComponentsInScene<T>();
             }
-
 
             /**
               * @details Destroy's a game object from the scene
               * @param gameObject: The game object to destroy
               */
-            static void destroy(GameObject& gameObject);
-
+            static void destroy(GameObject &gameObject);
 
             /**
               * @details Destroy's a game object from the scene
@@ -106,13 +110,13 @@ namespace Polymorph
               */
             static void destroy(GameObject gameObject, float delay);
 
-
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
              * @param gameObject: the game object to clone
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject& gameObject, bool isParent = true);
+            static GameObject
+            instantiate(GameObject &gameObject, bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -120,7 +124,9 @@ namespace Polymorph
              * @param position: the position at which the game object is instantiated
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, const Vector3& position, bool isParent = true);
+            static GameObject
+            instantiate(GameObject gameObject, const Vector3 &position,
+                        bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -128,7 +134,9 @@ namespace Polymorph
              * @param parent: the parent transform on which the instantiated object will depend on
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, Transform parent, bool isParent = true);
+            static GameObject
+            instantiate(GameObject gameObject, Transform parent,
+                        bool isParent = true);
 
             /**
              * @details Instantiate a game object in scene (makes a clone of it)
@@ -137,7 +145,9 @@ namespace Polymorph
              * @param offset: the offset position from the parent object
              * @returns the instantiated game object
              */
-            static GameObject instantiate(GameObject gameObject, Transform parent, Vector3 offset, bool isParent = true);
+            static GameObject
+            instantiate(GameObject gameObject, Transform parent, Vector3 offset,
+                        bool isParent = true);
 
             /**
              * @details Set the position of a parent entity at the front of the scene entities list
@@ -158,7 +168,7 @@ namespace Polymorph
              */
             static void setAtBack(GameObject gameObject);
 
-        // End of GameObject Section
+            // End of GameObject Section
 
 
         public: // Scene Section
@@ -171,13 +181,14 @@ namespace Polymorph
             static void loadScene(std::string name);
 
             static bool isSceneUnloaded();
+
             static void resetLoading();
+
             /**
              * @details Creates an empty scene (runtime only)
              * @param name: Name of the scene to load
              */
             static void createScene(std::string name);
-
 
             /**
              * @details Keep a reference to the requested game object to clone it when loading
@@ -187,7 +198,7 @@ namespace Polymorph
              */
             static void dontDestroyOnLoad(GameObject gameObject);
 
-        //  End of Scene Section
+            //  End of Scene Section
 //////////////////////--------------------------/////////////////////////
 
     };

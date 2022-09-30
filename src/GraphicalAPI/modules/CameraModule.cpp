@@ -16,7 +16,7 @@ Polymorph::CameraModule::CameraModule(std::shared_ptr<myxmlpp::Node> &data, Conf
     manager.setSubProperty("_position", data, _position);
     manager.setSubProperty("_target", data, _target);
     manager.setSubProperty("_fov", data, _fov);
-    _camera = std::unique_ptr<is::ICameraModule>(_c_camera());
+    _camera = std::unique_ptr<Polymorph::ICameraModule>(_c_camera());
     _camera->setUp(_up.x, _up.y, _up.z);
     _camera->setPosition(_position.x, _position.y, _position.z);
     _camera->setTarget(_target.x, _target.y, _target.z);

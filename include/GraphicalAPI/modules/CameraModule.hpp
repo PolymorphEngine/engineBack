@@ -10,7 +10,7 @@
 
 #include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
-#include "isModules/interfaces/ICameraModule.hpp"
+#include "GraphicalAPI/Interfaces/ICameraModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph
@@ -21,7 +21,9 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit CameraModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit CameraModule(std::shared_ptr<myxmlpp::Node> &data,
+                                  Config::XmlComponent &manager);
+
             ~CameraModule() = default;
 
 
@@ -34,10 +36,10 @@ namespace Polymorph
 
 
         private:
-            using CameraModuleLoader = is::ICameraModule *(*)();
+            using CameraModuleLoader = Polymorph::ICameraModule *(*)();
             static inline CameraModuleLoader _c_camera = nullptr;
 
-            std::unique_ptr<is::ICameraModule> _camera;
+            std::unique_ptr<Polymorph::ICameraModule> _camera;
             float _fov;
             Vector3 _up;
             Vector3 _position;
@@ -51,13 +53,21 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void setTarget(Vector3 target);
+
             void setPosition(Vector3 pos);
+
             void move(Vector3 pos);
+
             Vector3 getUp() const;
+
             void setUp(Vector3 up);
+
             float getFov() const;
+
             void setFOV(float fov);
+
             void begin3DMode();
+
             void end3DMode();
 
         private:
@@ -66,5 +76,5 @@ namespace Polymorph
 
 //////////////////////--------------------------/////////////////////////
 
-};
+    };
 }

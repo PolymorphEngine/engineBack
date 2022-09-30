@@ -14,7 +14,7 @@ Polymorph::SphereModule::SphereModule(std::shared_ptr<myxmlpp::Node> &data, Conf
     manager.setSubProperty("_center", data, _center);
     manager.setSubProperty("_color", data, _color);
     manager.setSubProperty("_radius", data, _radius);
-    _sphere = std::unique_ptr<is::ISphereModule>(_c_sphere(_center.x, _center.y, _center.z, _radius));
+    _sphere = std::unique_ptr<Polymorph::ISphereModule>(_c_sphere(_center.x, _center.y, _center.z, _radius));
     setColor(_color);
 }
 
@@ -36,7 +36,7 @@ void Polymorph::SphereModule::setColor(Color color)
     _sphere->setColor(color.r, color.g, color.b, color.a);
 }
 
-is::ISphereModule &Polymorph::SphereModule::getSphere() const
+Polymorph::ISphereModule &Polymorph::SphereModule::getSphere() const
 {
     return *_sphere;
 }

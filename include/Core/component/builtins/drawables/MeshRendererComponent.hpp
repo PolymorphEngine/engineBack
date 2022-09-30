@@ -13,8 +13,11 @@
 namespace Polymorph
 {
     class TextModule;
+
     using Mesh = safe_ptr<MeshModule>;
+
     class MeshRendererComponent;
+
     using MeshRenderer = safe_ptr<MeshRendererComponent>;
     using MehRendererBase = std::shared_ptr<MeshRendererComponent>;
 
@@ -29,12 +32,11 @@ namespace Polymorph
             std::shared_ptr<TextureModule> texture;
 
 
-
         public:
             void start() override;
 
             void draw() override;
 
-            void setTexture(const std::shared_ptr<TextureModule>& texture);
+            void setTexture(const std::shared_ptr<TextureModule> &texture);
     };
 }

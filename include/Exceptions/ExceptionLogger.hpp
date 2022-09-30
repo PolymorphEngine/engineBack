@@ -17,7 +17,8 @@ class ExceptionLogger : public std::exception
 ///////////////////////////////// Constructors /////////////////////////////////
 
     public:
-        explicit ExceptionLogger(std::string message, Logger::severity level = Logger::severity::MAJOR);
+        explicit ExceptionLogger(std::string message,
+                                 Logger::severity level = Logger::severity::MAJOR);
 
 ///////////////////////////--------------------------///////////////////////////
 

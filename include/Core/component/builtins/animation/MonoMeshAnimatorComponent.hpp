@@ -15,8 +15,11 @@
 namespace Polymorph
 {
     class ColliderMesh3dComponent;
+
     using ColliderMesh3d = safe_ptr<ColliderMesh3dComponent>;
+
     class MonoMeshAnimatorComponent;
+
     using MonoMeshAnimator = safe_ptr<MonoMeshAnimatorComponent>;
     using MonoMeshAnimatorBase = std::shared_ptr<MonoMeshAnimatorComponent>;
 
@@ -52,9 +55,13 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void update() override;
+
             void start() override;
-            void addAnimCallBack(const MeshAnimation::AnimationCallBack& callback);
-            void setAnimation(const std::string& animationName);
+
+            void
+            addAnimCallBack(const MeshAnimation::AnimationCallBack &callback);
+
+            void setAnimation(const std::string &animationName);
 
         private:
 

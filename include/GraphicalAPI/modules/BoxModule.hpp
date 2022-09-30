@@ -10,21 +10,26 @@
 
 
 #include "Node.hpp"
-#include "isModules/interfaces/IModelModule.hpp"
-#include "isModules/interfaces/IBoxModule.hpp"
+#include "GraphicalAPI/Interfaces/IModelModule.hpp"
+#include "GraphicalAPI/Interfaces/IBoxModule.hpp"
 
 namespace Polymorph
 {
     class SphereModule;
+
     class MeshModule;
+
     class TextureModule;
+
     class BoxModule
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            explicit BoxModule(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            explicit BoxModule(std::shared_ptr<myxmlpp::Node> &data,
+                               Config::XmlComponent &manager);
+
             explicit BoxModule(const MeshModule &meshModule);
 
 //////////////////////--------------------------/////////////////////////
@@ -36,12 +41,15 @@ namespace Polymorph
 
 
         private:
-            using BoxModuleLoader = is::IBoxModule *(*)(float posX, float posY, float posZ);
+            using BoxModuleLoader = Polymorph::IBoxModule *(*)(float posX,
+                                                               float posY,
+                                                               float posZ);
             static inline BoxModuleLoader _c_box = nullptr;
-            using BoxModuleFromMeshLoader = is::IBoxModule *(*)(const is::IModelModule &model);
+            using BoxModuleFromMeshLoader = Polymorph::IBoxModule *(*)(
+                    const Polymorph::IModelModule &model);
             static inline BoxModuleFromMeshLoader _c_box_from_model = nullptr;
 
-            std::unique_ptr<is::IBoxModule> _box;
+            std::unique_ptr<Polymorph::IBoxModule> _box;
             Vector3 _size;
             Vector3 _origin;
             std::shared_ptr<TextureModule> _texture;
@@ -58,7 +66,7 @@ namespace Polymorph
 
             Polymorph::Vector3 getSize() const;
 
-            is::IBoxModule &getBox() const;
+            Polymorph::IBoxModule &getBox() const;
 
             void setOrigin(Polymorph::Vector3 origin);
 
@@ -66,7 +74,7 @@ namespace Polymorph
 
             bool collideWithSphere(const SphereModule &sphere) const;
 
-            void setTexture(const std::shared_ptr<TextureModule>& texture);
+            void setTexture(const std::shared_ptr<TextureModule> &texture);
 
             std::shared_ptr<TextureModule> getTexture() const;
 

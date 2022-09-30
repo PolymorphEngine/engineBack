@@ -9,7 +9,6 @@
 #include "Polymorph/Core.hpp"
 #include "Polymorph/Types.hpp"
 #include "Polymorph/Components.hpp"
-#include "ScriptFactory.hpp"
 
 namespace Polymorph
 {

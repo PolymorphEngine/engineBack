@@ -12,7 +12,8 @@
 
 namespace Polymorph
 {
-    class TransformInitializer : public AComponentInitializer<TransformComponent>
+    class TransformInitializer
+            : public AComponentInitializer<TransformComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 

@@ -21,14 +21,18 @@
 
 namespace Polymorph
 {
-    namespace Config{
+    namespace Config
+    {
         class XmlScene;
     }
 
     class Engine;
+
     class Entity;
+
     using GameObject = safe_ptr<Entity>;
     using EntityIterator = std::vector<std::shared_ptr<Entity>>::iterator;
+
     class Timer;
 
     /**
@@ -40,6 +44,7 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
+
             explicit Scene(std::string sceneName, Engine &game);
 //////////////////////--------------------------/////////////////////////
 
@@ -52,7 +57,7 @@ namespace Polymorph
         private:
             std::vector<std::shared_ptr<Entity>> _entities;
             std::vector<std::shared_ptr<Entity>> _entitiesToAdd;
-            std::map<std::shared_ptr<Timer>, Entity&> _destroyQueueList;
+            std::map<std::shared_ptr<Timer>, Entity &> _destroyQueueList;
             Engine &_game;
             std::shared_ptr<Config::XmlScene> _config_data;
 //////////////////////--------------------------/////////////////////////
@@ -91,7 +96,7 @@ namespace Polymorph
              * @details Get all entities of a list
              * @returns An array of safe_ptr to the entities in the scene
              */
-             std::vector<GameObject> getAll() const noexcept;
+            std::vector<GameObject> getAll() const noexcept;
 
             /**
              * @details Looks for the first occurrence of entity with the parameter name
@@ -108,7 +113,6 @@ namespace Polymorph
              */
             std::vector<GameObject> findAll(const std::string &name);
 
-
             /**
              * @details Looks for the first occurrence of entity with has the tag
              *          passed as parameter.
@@ -118,14 +122,12 @@ namespace Polymorph
              */
             GameObject findByTag(const std::string &tag);
 
-
             /**
              * @details Looks for all occurrences of entities filtered by the tag parameter
              * @param tag: The filter tag
              * @return A vector of safe_ptr to entities (alias GameObject type)
              */
-             std::vector<GameObject> findAllByTag(const std::string &tag);
-
+            std::vector<GameObject> findAllByTag(const std::string &tag);
 
             /**
              * @details Looks for an entity by it's unique id
@@ -149,27 +151,27 @@ namespace Polymorph
              * @details Add an entity to the entities list
              * @param entity a shared_ptr to an entity to add in the list
              */
-             void addEntity(const std::shared_ptr<Entity>& entity);
-             /**
-              * @details Add an entity to the entities list
-              * @param entity a shared_ptr to an entity to add in the list
-              */
-             void addEntityToAddQueue(const std::shared_ptr<Entity>& entity);
+            void addEntity(const std::shared_ptr<Entity> &entity);
+
+            /**
+             * @details Add an entity to the entities list
+             * @param entity a shared_ptr to an entity to add in the list
+             */
+            void addEntityToAddQueue(const std::shared_ptr<Entity> &entity);
 
             /**
             * @details Add an entity to the entities list at the desired index
             * @param entity a shared_ptr to an entity to add in the list
             * @param idx the desired index
             */
-            void addEntityAtIdx(const std::shared_ptr<Entity>& entity, std::size_t idx);
-
+            void addEntityAtIdx(const std::shared_ptr<Entity> &entity,
+                                std::size_t idx);
 
             /**
               * @details Adds an entity to the destroy queue of the scene
               * @param entity: the entity to push in queue
               */
             void destroy(Entity &entity);
-
 
             /**
               * @details Adds an entity to the destroy queue of the scene
@@ -190,11 +192,14 @@ namespace Polymorph
             std::size_t countParents();
 
             template<class T>
-            std::vector<safe_ptr<T>> getComponentsInScene() const {
+            std::vector<safe_ptr<T>> getComponentsInScene() const
+            {
                 std::vector<safe_ptr<T>> components;
 
-                for (auto &entity : _entities) {
-                    if (entity->componentExist<T>()) {
+                for (auto &entity: _entities)
+                {
+                    if (entity->componentExist<T>())
+                    {
                         components.push_back(entity->getComponent<T>());
                     }
                 }

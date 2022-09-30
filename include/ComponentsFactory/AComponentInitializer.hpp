@@ -16,21 +16,25 @@
 
 namespace Polymorph
 {
-    namespace Config {
+    namespace Config
+    {
         class XmlComponent;
     }
     class Entity;
 
     class Component;
 
-    template <typename T>
-    class AComponentInitializer : public IComponentInitializer {
+    template<typename T>
+    class AComponentInitializer : public IComponentInitializer
+    {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            AComponentInitializer(std::string type, Config::XmlComponent &data, GameObject entity) :
-            data(data), type(std::move(type)),
-            component(std::make_shared<T>(entity))
+            AComponentInitializer(std::string type, Config::XmlComponent &data,
+                                  GameObject entity)
+                    :
+                    data(data), type(std::move(type)),
+                    component(std::make_shared<T>(entity))
             {
                 component->enabled = data.isEnabled();
             };
@@ -57,12 +61,10 @@ namespace Polymorph
                 return std::dynamic_pointer_cast<Component>(component);
             }
 
-
             std::shared_ptr<Component> operator*() final
             {
                 return get();
             }
-
 
             std::string getType() const final
             {
@@ -81,7 +83,7 @@ namespace Polymorph
 
             void start() override
             {
-                component->start(); 
+                component->start();
             }
 
             bool isAwaked() const override

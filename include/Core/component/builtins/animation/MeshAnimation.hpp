@@ -17,14 +17,17 @@
 namespace Polymorph
 {
     class MeshFrame;
+
     class MeshAnimation
     {
         public:
 
-            MeshAnimation(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager);
+            MeshAnimation(std::shared_ptr<myxmlpp::Node> &data,
+                          Config::XmlComponent &manager);
+
             explicit MeshAnimation() = default;
 
-            using AnimationCallBack = std::function<void (void)>;
+            using AnimationCallBack = std::function<void(void)>;
 
 
         public:
@@ -37,6 +40,7 @@ namespace Polymorph
 
         public:
             void addEndAnimCallBack(AnimationCallBack callback);
+
             void invokeCallBacks();
 
     };

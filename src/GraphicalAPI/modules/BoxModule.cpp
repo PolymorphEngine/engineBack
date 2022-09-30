@@ -16,7 +16,7 @@ Polymorph::BoxModule::BoxModule(std::shared_ptr<myxmlpp::Node> &data, Config::Xm
     _loadModule();
     manager.setSubProperty("_size", data, _size);
     manager.setSubProperty("_origin", data, _origin);
-    _box = std::unique_ptr<is::IBoxModule>(_c_box(_size.x, _size.y, _size.z));
+    _box = std::unique_ptr<Polymorph::IBoxModule>(_c_box(_size.x, _size.y, _size.z));
     setSize(_size);
     setOrigin(_origin);
 }
@@ -24,7 +24,7 @@ Polymorph::BoxModule::BoxModule(std::shared_ptr<myxmlpp::Node> &data, Config::Xm
 Polymorph::BoxModule::BoxModule(const MeshModule &meshModule)
 {
     _loadModule();
-    _box = std::unique_ptr<is::IBoxModule>(_c_box_from_model(meshModule.getMesh()));
+    _box = std::unique_ptr<Polymorph::IBoxModule>(_c_box_from_model(meshModule.getMesh()));
     setSize({_box->getXSize(), _box->getYSize(), _box->getZSize()});
     setOrigin({_box->getXOrigin(), _box->getYOrigin(), _box->getZOrigin()});
 }
@@ -46,7 +46,7 @@ void Polymorph::BoxModule::setOrigin(Polymorph::Vector3 origin)
     _box->setOrigin(origin.x, origin.y, origin.z);
 }
 
-is::IBoxModule &Polymorph::BoxModule::getBox() const
+Polymorph::IBoxModule &Polymorph::BoxModule::getBox() const
 {
     return *_box;
 }

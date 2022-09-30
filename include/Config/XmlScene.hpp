@@ -13,14 +13,15 @@
 #include <myxmlpp.hpp>
 
 namespace Polymorph
-
 {
     class Engine;
+
     class Entity;
 
     namespace Config
     {
         class XmlEntity;
+
         class XmlScene
         {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
@@ -46,10 +47,13 @@ namespace Polymorph
 
 
 /////////////////////////////// METHODS /////////////////////////////////
-           public:
+            public:
                 std::string getId();
+
                 std::string getName();
+
                 bool isFirst() const;
+
                 std::vector<std::shared_ptr<Entity>> getEntities();
 
             private:

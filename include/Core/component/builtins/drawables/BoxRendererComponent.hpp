@@ -13,7 +13,9 @@
 namespace Polymorph
 {
     class TextureModule;
+
     class BoxRendererComponent;
+
     using BoxRenderer = safe_ptr<BoxRendererComponent>;
     using BoxRendererBase = std::shared_ptr<BoxRendererComponent>;
 
@@ -46,7 +48,8 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void start() override;
-            void setTexture(const std::shared_ptr<TextureModule>& texture);
+
+            void setTexture(const std::shared_ptr<TextureModule> &texture);
 
 
         private:

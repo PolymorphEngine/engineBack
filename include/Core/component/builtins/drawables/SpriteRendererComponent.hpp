@@ -16,7 +16,9 @@
 namespace Polymorph
 {
     class TextureModule;
+
     class SpriteRendererComponent;
+
     using SpriteRenderer = safe_ptr<SpriteRendererComponent>;
     using SpriteRendererBase = std::shared_ptr<SpriteRendererComponent>;
 
@@ -28,7 +30,6 @@ namespace Polymorph
 
         public:
             std::shared_ptr<TextureModule> sprite;
-
 
 
         public:
