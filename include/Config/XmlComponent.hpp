@@ -182,12 +182,12 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     if constexpr (std::is_enum<T>())
                         _setPrimitiveProperty<int>(property,
                                                    reinterpret_cast<int &>(toSet),
                                                    level);
-                    else if constexpr (! std::is_enum<T>())
+                    else if constexpr (!std::is_enum<T>())
                         _setPrimitiveProperty<T>(property, toSet, level);
                 };
 
@@ -201,7 +201,7 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     _setRefProperty<T>(property, toSet, level);
                 };
 
@@ -215,7 +215,7 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     _setSharedProperty<T>(property, toSet, level);
                 };
 
@@ -229,7 +229,7 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     _setVectorProperty(property, toSet, level);
                 };
 
@@ -272,12 +272,12 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     if constexpr (std::is_enum<T>())
                         _setPrimitiveProperty<int>(property,
                                                    reinterpret_cast<int &>(toSet),
                                                    level);
-                    else if constexpr (! std::is_enum<T>())
+                    else if constexpr (!std::is_enum<T>())
                         _setPrimitiveProperty<T>(property, toSet, level);
                 };
 
@@ -308,7 +308,7 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     _setRefProperty<T>(property, toSet, level);
                 };
 
@@ -324,7 +324,7 @@ namespace Polymorph
 
                     if (property == nullptr)
                         return;
-                    static_assert(! CastHelper::is_map<T>);
+                    static_assert(!CastHelper::is_map<T>);
                     _setVectorProperty<T>(property, toSet, level);
                 };
 
@@ -386,10 +386,10 @@ namespace Polymorph
                 _setPrimitiveProperty(std::shared_ptr<XmlNode> &data, T &toSet,
                                       Logger::severity level = Logger::DEBUG)
                 {
-                    static_assert(! CastHelper::is_map<T> &&
-                                  ! CastHelper::is_vector<T>
-                                  && ! CastHelper::is_safeptr<T> &&
-                                  ! std::is_enum<T>());
+                    static_assert(!CastHelper::is_map<T> &&
+                                  !CastHelper::is_vector<T>
+                                  && !CastHelper::is_safeptr<T> &&
+                                  !std::is_enum<T>());
                     toSet = T(data, *this);
                 };
 
@@ -398,10 +398,10 @@ namespace Polymorph
                                         std::shared_ptr<T> &toSet,
                                         Logger::severity level = Logger::DEBUG)
                 {
-                    static_assert(! CastHelper::is_map<T> &&
-                                  ! CastHelper::is_vector<T>
-                                  && ! CastHelper::is_safeptr<T> &&
-                                  ! std::is_enum<T>());
+                    static_assert(!CastHelper::is_map<T> &&
+                                  !CastHelper::is_vector<T>
+                                  && !CastHelper::is_safeptr<T> &&
+                                  !std::is_enum<T>());
                     toSet = std::make_shared<T>(data, *this);
                 };
 
@@ -448,16 +448,16 @@ namespace Polymorph
                     {
                         auto id = refProp->findAttribute("id")->getValue();
                         GameObject gameObject;
-                        if (! ! entity && (entity->getPrefabId() == id ||
+                        if (!!entity && (entity->getPrefabId() == id ||
                                            entity->getId() == id))
                             gameObject = entity;
-                        if (! gameObject && ! ! entity)
+                        if (!gameObject && !!entity)
                             gameObject = entity->findByPrefabId(id);
-                        if (! gameObject)
+                        if (!gameObject)
                             gameObject = SceneManager::findById(id);
-                        if (! ! gameObject)
+                        if (!!gameObject)
                             toSet = gameObject->getComponent<T>();
-                        if (! toSet)
+                        if (!toSet)
                             throw std::exception();
                     } catch (...)
                     {
@@ -489,14 +489,14 @@ namespace Polymorph
                     try
                     {
                         auto id = refProp->findAttribute("id")->getValue();
-                        if (! ! entity && (entity->getPrefabId() == id ||
+                        if (!!entity && (entity->getPrefabId() == id ||
                                            entity->getId() == id))
                             toSet = entity;
-                        if (! toSet && ! ! entity)
+                        if (!toSet && !!entity)
                             toSet = entity->findByPrefabId(id);
-                        if (! toSet)
+                        if (!toSet)
                             toSet = SceneManager::findById(id);
-                        if (! toSet)
+                        if (!toSet)
                             throw std::exception();
                     } catch (...)
                     {

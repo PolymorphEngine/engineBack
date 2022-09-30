@@ -24,7 +24,7 @@ namespace Polymorph
     /**
      * @class Collider3dComponent
      * @details An abstract component that is used to make new collider shapes (box, circle ...)
-     * @warning Do not try to use this as a component ! (AddComponent)
+     * @warning Do not try to use this as a component !(AddComponent)
      */
     class ACollider3dComponent : public Component
     {

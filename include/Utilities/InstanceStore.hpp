@@ -50,12 +50,12 @@ namespace Polymorph
             void updateInstances()
             {
                 auto istIt = std::find_if(_instances.begin(), _instances.end(),
-                                          [](safe_ptr<T> instance) { return ! instance; });
+                                          [](safe_ptr<T> instance) { return !instance; });
                 while (istIt != _instances.end())
                 {
                     _instances.erase(istIt);
                     istIt = std::find_if(_instances.begin(), _instances.end(),
-                                         [](safe_ptr<T> instance) { return ! instance; });
+                                         [](safe_ptr<T> instance) { return !instance; });
                 }
             }
 
