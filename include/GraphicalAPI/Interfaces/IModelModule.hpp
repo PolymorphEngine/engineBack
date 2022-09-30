@@ -19,15 +19,24 @@ namespace Polymorph
             virtual ~IModelModule() = default;
 
             virtual void setPosition(float x, float y, float z) = 0;
+
             virtual void setScale(float x, float y, float z) = 0;
+
             virtual void setRotationAxis(float x, float y, float z) = 0;
+
             virtual void setRotationAngle(float angle) = 0;
+
             virtual void setColor(unsigned char r, unsigned char g,
                                   unsigned char b, unsigned char a) = 0;
+
             virtual bool collideWithBox(const IBoxModule &box) = 0;
+
             virtual bool collideWithSphere(const ISphereModule &box) = 0;
+
             virtual bool collideWithModel(const IModelModule &model) = 0;
+
             virtual void setTexture(ITextureModule &texture) = 0;
+
             virtual void draw() = 0;
     };
 }

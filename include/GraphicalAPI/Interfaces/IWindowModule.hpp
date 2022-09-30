@@ -11,17 +11,22 @@
 
 namespace Polymorph
 {
-	class IWindowModule
-	{
-		public:
-			virtual ~IWindowModule() = default;
+    class IWindowModule
+    {
+        public:
+            virtual ~IWindowModule() = default;
 
-			virtual void close() = 0;
-			virtual bool isOpen() = 0;
-			virtual bool isFullscreen() = 0;
-			virtual void setFullscreen(bool fullscreen) = 0;
-			virtual void setTitle(const std::string &title) = 0;
+            virtual void close() = 0;
+
+            virtual bool isOpen() = 0;
+
+            virtual bool isFullscreen() = 0;
+
+            virtual void setFullscreen(bool fullscreen) = 0;
+
+            virtual void setTitle(const std::string &title) = 0;
+
             virtual void setLogLevel(int level) = 0;
-	};
+    };
 
 }

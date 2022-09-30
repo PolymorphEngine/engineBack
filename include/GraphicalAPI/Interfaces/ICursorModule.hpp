@@ -9,14 +9,16 @@
 
 namespace Polymorph
 {
-	class ICursorModule
-	{
-		public:
-			virtual ~ICursorModule() = default;
+    class ICursorModule
+    {
+        public:
+            virtual ~ICursorModule() = default;
 
-			virtual bool isOnScreen() = 0;
-			virtual int getMouseX() = 0;
-			virtual int getMouseY() = 0;
-	};
+            virtual bool isOnScreen() = 0;
+
+            virtual int getMouseX() = 0;
+
+            virtual int getMouseY() = 0;
+    };
 
 }

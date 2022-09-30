@@ -15,11 +15,17 @@ namespace Polymorph
             virtual ~ISoundModule(void) = default;
 
             virtual void play(void) = 0;
+
             virtual void playMulti(void) = 0;
+
             virtual void pause(void) = 0;
+
             virtual void stop(void) = 0;
+
             virtual void resume(void) = 0;
+
             virtual void setVolume(float volume) = 0;
+
             virtual bool isSoundPlaying(void) = 0;
     };
 }

@@ -18,9 +18,13 @@ namespace Polymorph
             virtual ~IModelAnimationModule() = default;
 
             virtual void update(const IModelModule &model) = 0;
+
             virtual void incrementIdx() = 0;
+
             virtual void resetIdx() = 0;
+
             virtual void tick() = 0;
+
             virtual unsigned int getNbFrames() = 0;
     };
 }
