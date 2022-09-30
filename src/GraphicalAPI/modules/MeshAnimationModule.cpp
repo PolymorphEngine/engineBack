@@ -15,7 +15,7 @@ Polymorph::MeshAnimationModule::MeshAnimationModule(std::shared_ptr<myxmlpp::Nod
     manager.setSubProperty("name", data, name);
     manager.setSubProperty("frameTimes", data, frameTimes);
     _filePath = "./Game/Assets/" + _filePath;
-    _meshAnimation = std::unique_ptr<is::IModelAnimationModule>(_c_MeshAnimation(_filePath));
+    _meshAnimation = std::unique_ptr<Polymorph::IModelAnimationModule>(_c_MeshAnimation(_filePath));
 }
 
 void Polymorph::MeshAnimationModule::begin()

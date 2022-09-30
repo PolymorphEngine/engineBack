@@ -9,9 +9,9 @@
 #pragma once
 
 #include "myxmlpp.hpp"
-#include "isModules/interfaces/IWindowModule.hpp"
-#include "isModules/interfaces/ICursorModule.hpp"
-#include "isModules/interfaces/IDrawingModule.hpp"
+#include "GraphicalAPI/Interfaces/IWindowModule.hpp"
+#include "GraphicalAPI/Interfaces/ICursorModule.hpp"
+#include "GraphicalAPI/Interfaces/IDrawingModule.hpp"
 #include "Polymorph/Types.hpp"
 #include "Core/settings/VideoSettings.hpp"
 
@@ -37,15 +37,15 @@ namespace Polymorph
         public:
 
         private:
-            using WindowModuleLoader = is::IWindowModule *(*)(int width, int height, const std::string &title);
+            using WindowModuleLoader = Polymorph::IWindowModule *(*)(int width, int height, const std::string &title);
             static inline WindowModuleLoader _c_window = nullptr;
 
-                    using DrawingModuleLoader = is::IDrawingModule *(*)();
+                    using DrawingModuleLoader = Polymorph::IDrawingModule *(*)();
             static inline DrawingModuleLoader _c_drawing = nullptr;
 
             const std::string &_title;
-            std::unique_ptr<is::IWindowModule> _windowModule;
-            std::unique_ptr<is::IDrawingModule> _drawingModule;
+            std::unique_ptr<Polymorph::IWindowModule> _windowModule;
+            std::unique_ptr<Polymorph::IDrawingModule> _drawingModule;
             std::shared_ptr<Settings::VideoSettings> _settings;
 
 

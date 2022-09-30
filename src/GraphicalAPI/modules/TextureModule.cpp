@@ -14,7 +14,7 @@ Polymorph::TextureModule::TextureModule(const std::string &path)
 {
     _loadModules();
     _filepath = path;
-    _texture = std::unique_ptr<is::ITextureModule>(_c_texture(_filepath));
+    _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     _color = Color{255, 255, 255, 255};
     _crop = {0, 0, 256, 256};
     _image = nullptr;
@@ -26,8 +26,8 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
     manager.setSubProperty("_filepath", data, _filepath);
     manager.setSubProperty("_color", data, _color);
     _filepath = "./Game/Assets/" + _filepath;
-    _texture = std::unique_ptr<is::ITextureModule>(_c_texture(_filepath));
-    _image = std::unique_ptr<is::IImageModule>(_c_image(_filepath));
+    _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
+    _image = std::unique_ptr<Polymorph::IImageModule>(_c_image(_filepath));
     manager.setSubProperty("_crop", data, _crop);
     if (_color.r == 0 && _color.g == 0 && _color.b == 0 && _color.a == 0)
         setColor(Color{255, 255, 255, 255});
@@ -55,10 +55,10 @@ void Polymorph::TextureModule::setCrop(Rect crop)
 {
     if (crop.width == 0 || crop.height == 0)
         return;
-	_flipTextureToImage();
+	//_flipTextureToImage();
     _crop = crop;
-	_image->crop(crop.x, crop.y, crop.width, crop.height);
-	_flipImageToTexture();
+	//_image->crop(crop.x, crop.y, crop.width, crop.height);
+	//_flipImageToTexture();
 }
 
 Polymorph::Rect Polymorph::TextureModule::getCrop()
@@ -72,18 +72,20 @@ Polymorph::Rect Polymorph::TextureModule::getCrop()
 
 void Polymorph::TextureModule::draw()
 {
-	_texture->draw(_color.r, _color.g, _color.b, _color.a);
+    //TODO: drawRect
+    if (_crop.width == 0 || _crop.height == 0)
+    	_texture->draw(_color.r, _color.g, _color.b, _color.a);
 }
 
 void Polymorph::TextureModule::_flipTextureToImage()
 {
-	_image = std::unique_ptr<is::IImageModule>(_c_image_from_texture(*_texture));
+	_image = std::unique_ptr<Polymorph::IImageModule>(_c_image_from_texture(*_texture));
     _texture = nullptr;
 }
 
 void Polymorph::TextureModule::_flipImageToTexture()
 {
-    _texture = std::unique_ptr<is::ITextureModule>(_c_texture_from_image(*_image));
+    _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture_from_image(*_image));
     _image = nullptr;
 }
 
@@ -107,9 +109,21 @@ void Polymorph::TextureModule::_loadModules()
     _c_image_from_texture = GraphicalAPI::loadSymbol<ImageModuleFromTextureLoader, GraphicalAPI>("createImageModuleFromTexture");
 }
 
-is::ITextureModule &Polymorph::TextureModule::getTexture() const
+Polymorph::ITextureModule &Polymorph::TextureModule::getTexture() const
 {
     return *_texture;
+}
+
+float Polymorph::TextureModule::getTextureWidth()
+{
+    //TODO:
+    return 0;
+}
+
+float Polymorph::TextureModule::getTextureHeight()
+{
+    //TODO:
+    return 0;
 }
 /*
 Polymorph::Vector2 Polymorph::TextureModule::getSize()

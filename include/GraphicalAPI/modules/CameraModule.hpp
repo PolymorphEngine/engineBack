@@ -10,7 +10,7 @@
 
 #include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
-#include "isModules/interfaces/ICameraModule.hpp"
+#include "GraphicalAPI/Interfaces/ICameraModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph
@@ -34,10 +34,10 @@ namespace Polymorph
 
 
         private:
-            using CameraModuleLoader = is::ICameraModule *(*)();
+            using CameraModuleLoader = Polymorph::ICameraModule *(*)();
             static inline CameraModuleLoader _c_camera = nullptr;
 
-            std::unique_ptr<is::ICameraModule> _camera;
+            std::unique_ptr<Polymorph::ICameraModule> _camera;
             float _fov;
             Vector3 _up;
             Vector3 _position;

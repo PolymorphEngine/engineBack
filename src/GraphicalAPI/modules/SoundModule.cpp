@@ -14,7 +14,7 @@ Polymorph::SoundModule::SoundModule(std::shared_ptr<myxmlpp::Node> &data, Config
     manager.setSubProperty("_filePath", data, _filePath);
     _filePath = "./Game/Assets/" + _filePath;
     manager.setSubProperty("_volume", data, _volume);
-    _sound = std::unique_ptr<is::ISoundModule>(_c_sound(_filePath));
+    _sound = std::unique_ptr<Polymorph::ISoundModule>(_c_sound(_filePath));
     _sound->setVolume(_volume);
 }
 

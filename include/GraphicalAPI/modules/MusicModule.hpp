@@ -10,7 +10,7 @@
 #include <string>
 #include <memory>
 #include <myxmlpp.hpp>
-#include "isModules/interfaces/IMusicModule.hpp"
+#include "GraphicalAPI/Interfaces/IMusicModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph
@@ -34,13 +34,13 @@ namespace Polymorph
 
 
         private:
-            using MusicModuleLoader = is::IMusicModule *(*)(const std::string &filepath);
+            using MusicModuleLoader = Polymorph::IMusicModule *(*)(const std::string &filepath);
             static inline MusicModuleLoader _c_music = nullptr;
 
             float _volume;
             float _pitch;
             std::string _filePath;
-            std::unique_ptr<is::IMusicModule> _music;
+            std::unique_ptr<Polymorph::IMusicModule> _music;
 
 
 //////////////////////--------------------------/////////////////////////

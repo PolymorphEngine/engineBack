@@ -11,10 +11,10 @@
 #include <string>
 #include <memory>
 #include <myxmlpp.hpp>
-#include "isModules/interfaces/IModelAnimationModule.hpp"
+#include "GraphicalAPI/Interfaces/IModelAnimationModule.hpp"
 #include "Config/XmlComponent.hpp"
 #include "MeshModule.hpp"
-#include "isModules/interfaces/IModelAnimationModule.hpp"
+#include "GraphicalAPI/Interfaces/IModelAnimationModule.hpp"
 #include "Core/component/builtins/animation/MeshAnimation.hpp"
 
 namespace Polymorph
@@ -41,14 +41,14 @@ namespace Polymorph
 
 
         private:
-            using MeshAnimationModuleLoader = is::IModelAnimationModule *(*)(const std::string &filepath);
+            using MeshAnimationModuleLoader = Polymorph::IModelAnimationModule *(*)(const std::string &filepath);
             static inline MeshAnimationModuleLoader _c_MeshAnimation = nullptr;
 
             std::vector<float>::iterator _currentFrameTime;
             unsigned int _currentFrameCounter;
             Timer _timer;
             std::string _filePath;
-            std::unique_ptr<is::IModelAnimationModule> _meshAnimation;
+            std::unique_ptr<Polymorph::IModelAnimationModule> _meshAnimation;
             std::vector<MeshAnimation::AnimationCallBack> _callbacks;
 
 

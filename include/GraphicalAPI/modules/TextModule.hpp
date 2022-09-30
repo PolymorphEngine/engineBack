@@ -11,7 +11,7 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include "Polymorph/Types.hpp"
-#include "isModules/interfaces/ITextModule.hpp"
+#include "GraphicalAPI/Interfaces/ITextModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph
@@ -36,13 +36,13 @@ namespace Polymorph
 
 
 		private:
-            using TextModuleLoader = is::ITextModule *(*)(const std::string &text);
-            using FontModuleLoader = is::IFontModule *(*)(const std::string &filepath);
+            using TextModuleLoader = Polymorph::ITextModule *(*)(const std::string &text);
+            using FontModuleLoader = Polymorph::IFontModule *(*)(const std::string &filepath);
             static inline TextModuleLoader _c_text = nullptr;
             static inline FontModuleLoader _c_font = nullptr;
 
-			std::unique_ptr<is::ITextModule> _text;
-			std::unique_ptr<is::IFontModule> _font;
+			std::unique_ptr<Polymorph::ITextModule> _text;
+			std::unique_ptr<Polymorph::IFontModule> _font;
 			std::string _textString;
             std::string _fontFilepath;
 			float _fontSize;

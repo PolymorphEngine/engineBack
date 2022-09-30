@@ -12,7 +12,7 @@
 #include <memory>
 #include "Polymorph/Types.hpp"
 #include "Config/XmlComponent.hpp"
-#include "isModules/interfaces/IModelModule.hpp"
+#include "GraphicalAPI/Interfaces/IModelModule.hpp"
 
 namespace Polymorph
 {
@@ -37,10 +37,10 @@ namespace Polymorph
 
 
 		private:
-            using MeshModuleLoader = is::IModelModule *(*)(const std::string &objFilepath);
+            using MeshModuleLoader = Polymorph::IModelModule *(*)(const std::string &objFilepath);
             static inline MeshModuleLoader _c_model = nullptr;
 
-			std::unique_ptr<is::IModelModule> _model;
+			std::unique_ptr<Polymorph::IModelModule> _model;
 			std::string _filepath;
 			float _rotationAngle;
 			Color _color;
@@ -70,7 +70,7 @@ namespace Polymorph
 
 			void draw();
 
-            is::IModelModule &getMesh() const;
+            Polymorph::IModelModule &getMesh() const;
 
             BoxModule getBoundingBox() const;
 

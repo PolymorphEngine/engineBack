@@ -17,8 +17,8 @@ Polymorph::TextModule::TextModule(std::string str, float size)
     _lineSpacing = 5;
     _textString = str;
     _fontFilepath = "";
-    _text = std::unique_ptr<is::ITextModule>(_c_text(_textString));
-    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
+    _text = std::unique_ptr<Polymorph::ITextModule>(_c_text(_textString));
+    _font = std::unique_ptr<Polymorph::IFontModule>(_c_font(_fontFilepath));
     setFontSize(_fontSize);
     setSpacing(_lineSpacing);
     setColor(Color(255, 255, 255, 255));
@@ -37,8 +37,8 @@ Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::
     if (_lineSpacing == 0)
         _lineSpacing = 1;
     manager.setSubProperty("_color", data, _color);
-    _text = std::unique_ptr<is::ITextModule>(_c_text(_textString));
-    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
+    _text = std::unique_ptr<Polymorph::ITextModule>(_c_text(_textString));
+    _font = std::unique_ptr<Polymorph::IFontModule>(_c_font(_fontFilepath));
     setFontSize(_fontSize);
     setSpacing(_lineSpacing);
     setColor(_color);
@@ -63,7 +63,7 @@ std::string Polymorph::TextModule::getString()
 void Polymorph::TextModule::setFont(const std::string &fontPath)
 {
     _fontFilepath = fontPath;
-    _font = std::unique_ptr<is::IFontModule>(_c_font(_fontFilepath));
+    _font = std::unique_ptr<Polymorph::IFontModule>(_c_font(_fontFilepath));
 }
 
 void Polymorph::TextModule::setFontSize(float fontSize)

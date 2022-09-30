@@ -11,9 +11,9 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include "Polymorph/Types.hpp"
-#include "isModules/interfaces/ITextureModule.hpp"
-#include "isModules/interfaces/IImageModule.hpp"
+#include "GraphicalAPI/Interfaces/ITextureModule.hpp"
 #include "Config/XmlComponent.hpp"
+#include "GraphicalAPI/Interfaces/IImageModule.hpp"
 
 namespace Polymorph
 {
@@ -40,17 +40,17 @@ namespace Polymorph
 
 
 		private:
-            using TextureModuleLoader = is::ITextureModule *(*)(const std::string &filepath);
-            using TextureModuleFromImageLoader = is::ITextureModule *(*)(const is::IImageModule &image);
-            using ImageModuleLoader = is::IImageModule *(*)(const std::string &filepath);
-            using ImageModuleFromTextureLoader = is::IImageModule *(*)(const is::ITextureModule &texture);
+            using TextureModuleLoader = Polymorph::ITextureModule *(*)(const std::string &filepath);
+            using TextureModuleFromImageLoader = Polymorph::ITextureModule *(*)(const Polymorph::IImageModule &image);
+            using ImageModuleLoader = Polymorph::IImageModule *(*)(const std::string &filepath);
+            using ImageModuleFromTextureLoader = Polymorph::IImageModule *(*)(const Polymorph::ITextureModule &texture);
             static inline TextureModuleLoader _c_texture = nullptr;
             static inline TextureModuleFromImageLoader _c_texture_from_image = nullptr;
             static inline ImageModuleLoader _c_image = nullptr;
             static inline ImageModuleFromTextureLoader _c_image_from_texture = nullptr;
 
-			std::unique_ptr<is::ITextureModule> _texture;
-			std::unique_ptr<is::IImageModule> _image;
+			std::unique_ptr<Polymorph::ITextureModule> _texture;
+			std::unique_ptr<Polymorph::IImageModule> _image;
             Rect _crop;
 			std::string _filepath;
 			Color _color;
@@ -70,8 +70,10 @@ namespace Polymorph
             Rect getCrop();
      //       Vector2 getSize();
      //       Vector2 getScale();
+            float getTextureWidth();
+            float getTextureHeight();
 
-            is::ITextureModule &getTexture() const;
+            Polymorph::ITextureModule &getTexture() const;
 
 			void draw();
 

@@ -13,7 +13,7 @@ Polymorph::MeshModule::MeshModule(const std::string &path)
 {
     _loadModule();
     _filepath = path;
-    _model = std::unique_ptr<is::IModelModule>(_c_model(_filepath));
+    _model = std::unique_ptr<Polymorph::IModelModule>(_c_model(_filepath));
     _model->setPosition(0, 0, 0);
 }
 
@@ -22,7 +22,7 @@ Polymorph::MeshModule::MeshModule(std::shared_ptr<myxmlpp::Node> &data, Config::
     _loadModule();
     manager.setSubProperty("_filepath", data, _filepath);
     _filepath = "./Game/Assets/" + _filepath;
-    _model = std::unique_ptr<is::IModelModule>(_c_model(_filepath));
+    _model = std::unique_ptr<Polymorph::IModelModule>(_c_model(_filepath));
     _model->setPosition(0, 0, 0);
     setColor(Color(255, 255, 255, 255));
     manager.setSubProperty("_color", data, _color);
@@ -98,7 +98,7 @@ Polymorph::MeshModule::colliderWithMesh(const Polymorph::MeshModule &mesh) const
     return _model->collideWithModel(*mesh._model);
 }
 
-is::IModelModule &Polymorph::MeshModule::getMesh() const
+Polymorph::IModelModule &Polymorph::MeshModule::getMesh() const
 {
     return *_model;
 }

@@ -10,8 +10,8 @@
 
 #include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
-#include "isModules/interfaces/IBoxModule.hpp"
-#include "isModules/interfaces/ISphereModule.hpp"
+#include "GraphicalAPI/Interfaces/IBoxModule.hpp"
+#include "GraphicalAPI/Interfaces/ISphereModule.hpp"
 #include "GraphicalAPI/modules/BoxModule.hpp"
 #include "Config/XmlComponent.hpp"
 
@@ -39,13 +39,13 @@ namespace Polymorph
 
 
         private:
-            using SphereModuleLoader = is::ISphereModule *(*)(float x, float y, float z, float radius);
+            using SphereModuleLoader = Polymorph::ISphereModule *(*)(float x, float y, float z, float radius);
             static inline SphereModuleLoader _c_sphere = nullptr;
 
             Polymorph::Vector3 _center;
             float _radius;
             Polymorph::Color _color;
-            std::unique_ptr<is::ISphereModule> _sphere;
+            std::unique_ptr<Polymorph::ISphereModule> _sphere;
 
 
 //////////////////////--------------------------/////////////////////////
@@ -64,7 +64,7 @@ namespace Polymorph
 
             bool collideWithSphere(const Polymorph::SphereModule &sphere) const;
 
-            is::ISphereModule &getSphere() const;
+            Polymorph::ISphereModule &getSphere() const;
 
             void draw();
 
