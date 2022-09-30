@@ -40,6 +40,7 @@
 #include "ComponentsFactory/initializers/InputFieldInitializer.hpp"
 #include "ComponentsFactory/initializers/VerticalGroupLayoutInitializer.hpp"
 #include "ComponentsFactory/initializers/MonoMeshAnimatorInitializer.hpp"
+#include "ComponentsFactory/initializers/SpriteAnimatorInitializer.hpp"
 
 
 namespace Polymorph
@@ -89,6 +90,7 @@ namespace Polymorph
                         {"BoxRenderer", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new BoxRendererInitializer(data, entity));}},
                         {"MeshAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MeshAnimatorInitializer(data, entity));}},
                         {"MonoMeshAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new MonoMeshAnimatorInitializer(data, entity));}},
+                        {"SpriteAnimator", [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new SpriteAnimatorInitializer(data, entity));}},
                 },
             };
 ///////////////////////////--------------------------///////////////////////////
