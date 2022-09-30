@@ -14,10 +14,10 @@
 
 namespace Polymorph
 {
-    class SpriteAnimatorScript;
+    class SpriteAnimatorComponent;
 
     class SpriteAnimatorInitializer
-            : public AComponentInitializer<SpriteAnimatorScript>
+            : public AComponentInitializer<SpriteAnimatorComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** SpriteAnimatorScript
+** SpriteAnimatorComponent
 ** File description:
 ** header for SpriteAnimator.c
 */
@@ -14,17 +14,17 @@
 
 namespace Polymorph
 {
-    class SpriteAnimatorScript;
+    class SpriteAnimatorComponent;
 
-    using SpriteAnimator = safe_ptr<SpriteAnimatorScript>;
-    using SpriteAnimatorBase = std::shared_ptr<SpriteAnimatorScript>;
+    using SpriteAnimator = safe_ptr<SpriteAnimatorComponent>;
+    using SpriteAnimatorBase = std::shared_ptr<SpriteAnimatorComponent>;
 
-    class SpriteAnimatorScript : public Component
+    class SpriteAnimatorComponent : public Component
     {
 
             ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            explicit SpriteAnimatorScript(GameObject gameObject);
+            explicit SpriteAnimatorComponent(GameObject gameObject);
 
             //////////////////////--------------------------/////////////////////////
 
@@ -51,7 +51,7 @@ namespace Polymorph
             void update() override;
             
             void startAnimation(std::string animationName);
-            void addAnimCallBack(MeshAnimation::AnimationCallBack callback, std::string animationName = "");
+            void addAnimCallBack(SpriteAnimation::AnimationCallBack callback, std::string animationName = "");
             void clearAnimationCallbacks(std::string name = "");
             void setAnimationFrameTime(std::string name, float frameTime);
             float getAnimationFrameTime(std::string name);

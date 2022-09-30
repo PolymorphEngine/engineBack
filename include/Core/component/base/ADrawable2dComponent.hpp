@@ -9,6 +9,7 @@
 #define ENGINE_ADRAWABLE2DCOMPONENT_HPP
 
 #include "Core/component/base/Component.hpp"
+#include "Utilities/types/Vector.hpp"
 
 namespace Polymorph
 {

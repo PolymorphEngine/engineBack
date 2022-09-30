@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2020
-** SpriteAnimatorScript
+** SpriteAnimatorComponent
 ** File description:
 ** header for SpriteAnimator.c
 */
@@ -12,18 +12,18 @@
 
 namespace Polymorph
 {
-    SpriteAnimatorScript::SpriteAnimatorScript(GameObject gameObject)
+    SpriteAnimatorComponent::SpriteAnimatorComponent(GameObject gameObject)
             : Component("SpriteAnimator", gameObject)
     {}
 
     // Called only once when the Script is enabled the first time
-    void SpriteAnimatorScript::start()
+    void SpriteAnimatorComponent::start()
     {
         startAnimation(currentAnimation);
     }
 
     // Called every frame by the engine
-    void SpriteAnimatorScript::update()
+    void SpriteAnimatorComponent::update()
     {
         if (animations.empty() || !_currentAnimation)
             return;
@@ -31,7 +31,7 @@ namespace Polymorph
             _currentAnimation->nextFrame();
     }
 
-    void SpriteAnimatorScript::startAnimation(std::string animationName)
+    void SpriteAnimatorComponent::startAnimation(std::string animationName)
     {
         if (!animationName.empty())
             _currentAnimation = std::find_if(animations.begin(), animations.end(), [animationName](const std::shared_ptr<SpriteAnimation> x){
@@ -43,7 +43,7 @@ namespace Polymorph
         targetGraphics->sprite = _currentAnimation->sprite;
     }
 
-    void SpriteAnimatorScript::addAnimCallBack(
+    void SpriteAnimatorComponent::addAnimCallBack(
             MeshAnimation::AnimationCallBack callback,
             std::string animationName)
     {
@@ -53,7 +53,7 @@ namespace Polymorph
             }).operator*()->addEndAnimCallBack(callback);
     }
 
-    void SpriteAnimatorScript::clearAnimationCallbacks(std::string name)
+    void SpriteAnimatorComponent::clearAnimationCallbacks(std::string name)
     {
         if (!name.empty())
             std::find_if(animations.begin(), animations.end(), [name](const std::shared_ptr<SpriteAnimation> x){
@@ -63,7 +63,7 @@ namespace Polymorph
             a->clear();
     }
 
-    void SpriteAnimatorScript::setAnimationFrameTime(std::string name,
+    void SpriteAnimatorComponent::setAnimationFrameTime(std::string name,
                                                      float frameTime)
     {
         auto a = std::find_if(animations.begin(), animations.end(), [name](const std::shared_ptr<SpriteAnimation> x){
@@ -74,7 +74,7 @@ namespace Polymorph
             _timer.delay = frameTime;
     }
 
-    float SpriteAnimatorScript::getAnimationFrameTime(std::string name)
+    float SpriteAnimatorComponent::getAnimationFrameTime(std::string name)
     {
         auto a = std::find_if(animations.begin(), animations.end(), [name](const std::shared_ptr<SpriteAnimation> x){
             return x->animationName == name;
