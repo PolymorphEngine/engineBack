@@ -10,7 +10,7 @@
 #include <string>
 #include <memory>
 #include <myxmlpp.hpp>
-#include "GraphicalAPI/Interfaces/IMusicModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IMusicModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph

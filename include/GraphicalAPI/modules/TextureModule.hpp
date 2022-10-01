@@ -11,9 +11,9 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include "Polymorph/Types.hpp"
-#include "GraphicalAPI/Interfaces/ITextureModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/ITextureModule.hpp"
 #include "Config/XmlComponent.hpp"
-#include "GraphicalAPI/Interfaces/IImageModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IImageModule.hpp"
 
 namespace Polymorph
 {

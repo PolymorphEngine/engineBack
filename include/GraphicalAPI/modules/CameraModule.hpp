@@ -10,7 +10,7 @@
 
 #include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
-#include "GraphicalAPI/Interfaces/ICameraModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/ICameraModule.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace Polymorph

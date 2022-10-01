@@ -10,8 +10,8 @@
 
 
 #include "Node.hpp"
-#include "GraphicalAPI/Interfaces/IModelModule.hpp"
-#include "GraphicalAPI/Interfaces/IBoxModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IModelModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IBoxModule.hpp"
 
 namespace Polymorph
 {

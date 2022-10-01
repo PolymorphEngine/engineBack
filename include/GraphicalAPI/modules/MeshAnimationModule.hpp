@@ -11,10 +11,10 @@
 #include <string>
 #include <memory>
 #include <myxmlpp.hpp>
-#include "GraphicalAPI/Interfaces/IModelAnimationModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IModelAnimationModule.hpp"
 #include "Config/XmlComponent.hpp"
 #include "MeshModule.hpp"
-#include "GraphicalAPI/Interfaces/IModelAnimationModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IModelAnimationModule.hpp"
 #include "Core/component/builtins/animation/MeshAnimation.hpp"
 
 namespace Polymorph

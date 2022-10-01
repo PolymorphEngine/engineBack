@@ -10,8 +10,8 @@
 
 #include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
-#include "GraphicalAPI/Interfaces/IBoxModule.hpp"
-#include "GraphicalAPI/Interfaces/ISphereModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IBoxModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/ISphereModule.hpp"
 #include "GraphicalAPI/modules/BoxModule.hpp"
 #include "Config/XmlComponent.hpp"
 

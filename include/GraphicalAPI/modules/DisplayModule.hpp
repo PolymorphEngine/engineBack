@@ -9,9 +9,9 @@
 #pragma once
 
 #include "myxmlpp.hpp"
-#include "GraphicalAPI/Interfaces/IWindowModule.hpp"
-#include "GraphicalAPI/Interfaces/ICursorModule.hpp"
-#include "GraphicalAPI/Interfaces/IDrawingModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IWindowModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/ICursorModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IDrawingModule.hpp"
 #include "Polymorph/Types.hpp"
 #include "Core/settings/VideoSettings.hpp"
 

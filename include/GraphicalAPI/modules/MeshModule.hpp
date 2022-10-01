@@ -12,7 +12,7 @@
 #include <memory>
 #include "Polymorph/Types.hpp"
 #include "Config/XmlComponent.hpp"
-#include "GraphicalAPI/Interfaces/IModelModule.hpp"
+#include "GraphicalAPI/GraphicalInterfaces/IModelModule.hpp"
 
 namespace Polymorph
 {
