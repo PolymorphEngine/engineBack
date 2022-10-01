@@ -13,12 +13,15 @@
 namespace Polymorph
 {
     class SpriteRendererComponent;
-    class SpriteRendererInitializer : public AComponentInitializer<SpriteRendererComponent>
+
+    class SpriteRendererInitializer
+            : public AComponentInitializer<SpriteRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            SpriteRendererInitializer(Config::XmlComponent &data, GameObject entity);
+            SpriteRendererInitializer(Config::XmlComponent &data,
+                                      GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

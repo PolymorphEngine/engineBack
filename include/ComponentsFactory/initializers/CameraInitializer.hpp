@@ -13,6 +13,7 @@
 namespace Polymorph
 {
     class CameraComponent;
+
     class CameraInitializer : public AComponentInitializer<CameraComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////

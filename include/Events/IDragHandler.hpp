@@ -16,7 +16,9 @@ namespace Polymorph
     {
         public:
             virtual void onDrag(PointerEvent &event) = 0;
+
             virtual void onDragBegin(PointerEvent &event) = 0;
+
             virtual void onDragEnd(PointerEvent &event) = 0;
     };
 }

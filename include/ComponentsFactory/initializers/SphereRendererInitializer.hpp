@@ -13,12 +13,15 @@
 namespace Polymorph
 {
     class SphereRendererComponent;
-    class SphereRendererInitializer : public AComponentInitializer<SphereRendererComponent>
+
+    class SphereRendererInitializer
+            : public AComponentInitializer<SphereRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            SphereRendererInitializer(Config::XmlComponent &data, GameObject entity);
+            SphereRendererInitializer(Config::XmlComponent &data,
+                                      GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

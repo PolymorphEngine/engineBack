@@ -14,13 +14,16 @@ namespace Polymorph
 {
 
     class SoundPlayerComponent;
-    class SoundPlayerInitializer : public AComponentInitializer<SoundPlayerComponent>
+
+    class SoundPlayerInitializer
+            : public AComponentInitializer<SoundPlayerComponent>
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            SoundPlayerInitializer(Config::XmlComponent &data, GameObject entity);
+            SoundPlayerInitializer(Config::XmlComponent &data,
+                                   GameObject entity);
 
 
 //////////////////////--------------------------/////////////////////////
@@ -42,7 +45,8 @@ namespace Polymorph
         public:
             void build() final;
 
-            void reference() final {};
+            void reference() final
+            {};
 
         private:
 

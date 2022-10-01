@@ -15,7 +15,8 @@ class GraphicalException : public ExceptionLogger
 {
 ///////////////////////////////// Constructors /////////////////////////////////
     public:
-        explicit GraphicalException(const std::string& apiMessage, Logger::severity level = Logger::MAJOR);
+        explicit GraphicalException(const std::string &apiMessage,
+                                    Logger::severity level = Logger::MAJOR);
 ///////////////////////////--------------------------///////////////////////////
 
 };

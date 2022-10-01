@@ -14,8 +14,11 @@
 namespace Polymorph
 {
     class TextModule;
+
     using Text = safe_ptr<TextModule>;
+
     class TextRendererComponent;
+
     using TextRenderer = safe_ptr<TextRendererComponent>;
     using TextRendererBase = std::shared_ptr<TextRendererComponent>;
 
@@ -27,7 +30,6 @@ namespace Polymorph
 
         public:
             std::shared_ptr<TextModule> text;
-
 
 
         public:

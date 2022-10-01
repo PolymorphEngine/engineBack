@@ -25,13 +25,16 @@
 namespace Polymorph
 {
 
-    template <typename T>
+    template<typename T>
     safe_ptr<T> Entity::getComponent()
     {
-        for (auto &ci: _components) {
-            for (auto &c: ci.second) {
+        for (auto &ci: _components)
+        {
+            for (auto &c: ci.second)
+            {
                 auto toAdd = std::dynamic_pointer_cast<T>((*c).get());
-                if (toAdd != nullptr) {
+                if (toAdd != nullptr)
+                {
                     return safe_ptr<T>(toAdd);
                 }
             }
@@ -44,10 +47,13 @@ namespace Polymorph
     {
         std::vector<safe_ptr<T>> toReturn;
 
-        for (auto &ci: _components) {
-            for (auto &c: ci.second) {
+        for (auto &ci: _components)
+        {
+            for (auto &c: ci.second)
+            {
                 auto toAdd = std::dynamic_pointer_cast<T>((*c).get());
-                if (toAdd != nullptr) {
+                if (toAdd != nullptr)
+                {
                     toReturn.push_back(safe_ptr<T>(toAdd));
                 }
             }
@@ -69,18 +75,22 @@ namespace Polymorph
         //TODO: maybe throw/Log ?
         Config::XmlComponent &config = _game.getDefaultConfig(t);
 
-        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t, config, object);
+        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t,
+                                                                            config,
+                                                                            object);
         if (c == nullptr)
             c = ScriptingApi::create(t, config, object);
 
-        if (c == nullptr) {
+        if (c == nullptr)
+        {
             Logger::log("Unknown component to add at runtime: '" + t +
                         "'\n\t(this error maybe occurs because you need to add an initializer for the component in the factory)",
                         Logger::MINOR);
             return safe_ptr<T>(nullptr);
         }
 
-        if (config.getType() != "Empty") {
+        if (config.getType() != "Empty")
+        {
             c->build();
             c->reference();
         }
@@ -95,13 +105,14 @@ namespace Polymorph
         return safe_ptr<T>(std::dynamic_pointer_cast<T>((*c).get()));
     }
 
-    template <typename T>
+    template<typename T>
     bool Entity::componentExist()
     {
-        for (auto &ci: _components) {
+        for (auto &ci: _components)
+        {
             for (auto &c: ci.second)
             {
-                if (std::dynamic_pointer_cast<T>((*c).get() ) != nullptr)
+                if (std::dynamic_pointer_cast<T>((*c).get()) != nullptr)
                     return true;
             }
         }

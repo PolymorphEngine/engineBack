@@ -23,6 +23,7 @@
 #include "../Core/component/base/ADrawable2dComponent.hpp"
 #include "../Core/component/base/ADrawable3dComponent.hpp"
 #include "../Core/component/builtins/drawables/SpriteRendererComponent.hpp"
+#include "../Core/component/builtins/animation/SpriteAnimatorScript.hpp"
 #include "../Core/component/builtins/drawables/TextRendererComponent.hpp"
 #include "../Core/component/builtins/drawables/MeshRendererComponent.hpp"
 #include "../Core/component/builtins/drawables/BoxRendererComponent.hpp"

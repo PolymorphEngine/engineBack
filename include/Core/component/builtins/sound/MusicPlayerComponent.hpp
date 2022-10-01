@@ -14,8 +14,11 @@
 namespace Polymorph
 {
     class MusicModule;
+
     using Music = safe_ptr<MusicModule>;
+
     class MusicPlayerComponent;
+
     using MusicPlayer = safe_ptr<MusicPlayerComponent>;
     using MusicPlayerBase = std::shared_ptr<MusicPlayerComponent>;
 
@@ -48,15 +51,25 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void update() override;
+
             void start() override;
+
             void play();
+
             void stop();
+
             void pause();
+
             void resume();
+
             void setVolume(float volume);
+
             float getVolume();
+
             void setPitch(float pitch);
+
             float getPitch();
+
             void setLoop(bool loop);
 
         private:

@@ -11,8 +11,9 @@
 #include "Core/component/base/ACollider2d.hpp"
 
 namespace Polymorph
- {
+{
     class ColliderCircle2dComponent;
+
     using ColliderCircle2d = safe_ptr<ColliderCircle2dComponent>;
     using ColliderCircle2dBase = std::shared_ptr<ColliderCircle2dComponent>;
 
@@ -43,6 +44,6 @@ namespace Polymorph
 ///////////////////////////--------------------------///////////////////////////
 
     };
- }
+}
 
 #endif //ENGINE_COLLIDER2CIRCLE_HPP

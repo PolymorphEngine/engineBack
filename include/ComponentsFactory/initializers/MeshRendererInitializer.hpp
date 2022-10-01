@@ -13,12 +13,15 @@
 namespace Polymorph
 {
     class MeshRendererComponent;
-    class MeshRendererInitializer : public AComponentInitializer<MeshRendererComponent>
+
+    class MeshRendererInitializer
+            : public AComponentInitializer<MeshRendererComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            MeshRendererInitializer(Config::XmlComponent &data, GameObject entity);
+            MeshRendererInitializer(Config::XmlComponent &data,
+                                    GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

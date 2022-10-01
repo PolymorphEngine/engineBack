@@ -48,7 +48,7 @@ namespace Polymorph
             if (!!onClickHandler)
             {
                 auto handler = onClickHandler->getComponent<IButtonHandler>();
-                if (! ! handler)
+                if (!!handler)
                     handler->onButtonPressed(Target->gameObject);
             }
         }

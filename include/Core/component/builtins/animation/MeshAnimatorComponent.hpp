@@ -15,6 +15,7 @@ namespace Polymorph
 {
 
     class MeshAnimatorComponent;
+
     using MeshAnimator = safe_ptr<MeshAnimatorComponent>;
     using MeshAnimatorBase = std::shared_ptr<MeshAnimatorComponent>;
 
@@ -51,10 +52,17 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void update() override;
+
             void start() override;
-            void addMesh(float time, std::shared_ptr<Polymorph::MeshModule> mesh, std::string &animationName);
+
+            void
+            addMesh(float time, std::shared_ptr<Polymorph::MeshModule> mesh,
+                    std::string &animationName);
+
             void setAnimation(std::string animationName);
-            void addAnimCallBack(MeshAnimation::AnimationCallBack callback, std::string animationName = "");
+
+            void addAnimCallBack(MeshAnimation::AnimationCallBack callback,
+                                 std::string animationName = "");
 
 
         private:

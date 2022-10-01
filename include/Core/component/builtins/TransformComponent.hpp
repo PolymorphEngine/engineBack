@@ -26,8 +26,9 @@ namespace Polymorph
      */
     class TransformComponent : public Component
     {
-        friend class TransformInitializer;
-        using iterator = std::vector<Transform>::iterator;
+            friend class TransformInitializer;
+
+            using iterator = std::vector<Transform>::iterator;
 
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -71,9 +72,9 @@ namespace Polymorph
             bool _smoothMoving = false;
             bool _hasCallback = false;
             Timer _smoothTimer;
-            Vector3 _smoothTarget {0, 0, 0};
-            Vector3 _smoothOrigin {0, 0, 0};
-            std::function<void (GameObject, Vector3, Vector3)> _callback;
+            Vector3 _smoothTarget{0, 0, 0};
+            Vector3 _smoothOrigin{0, 0, 0};
+            std::function<void(GameObject, Vector3, Vector3)> _callback;
 
 
 ///////////////////////////--------------------------///////////////////////////
@@ -132,7 +133,9 @@ namespace Polymorph
 
             void smoothMove(Vector3 destination, float time);
 
-            void smoothMove(Vector3 destination, float time, std::function<void (GameObject, Vector3, Vector3)> callback);
+            void smoothMove(Vector3 destination, float time,
+                            std::function<void(GameObject, Vector3,
+                                               Vector3)> callback);
 
             bool isSmoothMoving();
 
@@ -153,6 +156,7 @@ namespace Polymorph
 
 */
             const Vector3 &getScale() const;
+
 /*
             void setScale(const Vector3 &scale);
 
@@ -168,6 +172,7 @@ namespace Polymorph
             Transform removeChild(Transform child);
 
             void setSiblingIndex(int index);
+
             int getSiblingIndex();
 
             void setLastSibling();
@@ -180,6 +185,7 @@ namespace Polymorph
 
         private:
             void _updateSmoothMove();
+
             void _moveChildren(const Vector3 &delta);
             //TODO implement this
             /*

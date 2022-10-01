@@ -15,11 +15,14 @@ namespace Polymorph
 {
     // COMPONENT TYPES
     class TransformComponent;
+
     using Transform = safe_ptr<TransformComponent>;
 
 
     class Entity;
+
     using GameObject = safe_ptr<Entity>;
+
     /**
      * @class Component a class that is used to define any behavior for an
      * entity in the game
@@ -71,14 +74,14 @@ namespace Polymorph
             /**
              * @details An overridable method that's called once per frame in the game loop.
              */
-            void update()override;
+            void update() override;
 
             /**
              * @details An overridable method that's called once in the lifetime of the component.
              *          It is called before the games start (or upon component creation at runtime).
              * @warning Is called even if the enable state of the component is set to false on creation.
              */
-            void onAwake()override;
+            void onAwake() override;
 
             /**
              * @details An overridable method that's called once in the lifetime of the component,
@@ -87,21 +90,24 @@ namespace Polymorph
              */
             void start() override;
 
+            void setAsStarted() final
+            { started = true; };
 
-            void setAsStarted() final { started = true;};
+            void setAsAwaked() final
+            { awaked = true; };
 
-            void setAsAwaked() final { awaked = true;};
+            bool isAwaked() const final
+            { return awaked; }
 
-            bool isAwaked() const final {return awaked;}
-
-            bool isStarted() const final {return started;}
-
+            bool isStarted() const final
+            { return started; }
 
             /**
              * @details Getter that return's the type of the component.
              * @return the type of the component as std::string.
              */
-            std::string getType() const final {return _type;}
+            std::string getType() const final
+            { return _type; }
 
             /**
              * @details Looks for a component by type
@@ -118,7 +124,7 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A safe pointer to the component 'T'
              */
-            template <typename T>
+            template<typename T>
             safe_ptr<T> getComponentInParent();
 
             /**
@@ -128,7 +134,7 @@ namespace Polymorph
              * @warning The type 'T' must inherit from the Component class to be fetched
              * @returns A safe pointer to the component 'T'
              */
-            template <typename T>
+            template<typename T>
             safe_ptr<T> getComponentInChildren();
 
             /**

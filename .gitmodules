@@ -1,3 +1,7 @@
 [submodule "Engine"]
 	path = Engine
 	url = git@github.com:PolymorphEngine/engine.git
+[submodule "include/GraphicalAPI/GraphicalInterfaces"]
+	path = include/GraphicalAPI/GraphicalInterfaces
+	url = git@github.com:PolymorphEngine/GraphicalInterfaces.git
+	branch = main

@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2020
-** HorizontalGroupLayoutInitializer
+** SpriteAnimatorInitializer
 ** File description:
-** header for HorizontalGroupLayoutInitializer.cpp
+** header for SpriteAnimator.c
 */
 
 
@@ -14,16 +14,16 @@
 
 namespace Polymorph
 {
-    class HorizontalGroupLayoutComponent;
+    class SpriteAnimatorComponent;
 
-    class HorizontalGroupLayoutInitializer
-            : public AComponentInitializer<HorizontalGroupLayoutComponent>
+    class SpriteAnimatorInitializer
+            : public AComponentInitializer<SpriteAnimatorComponent>
     {
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
-            HorizontalGroupLayoutInitializer(Config::XmlComponent &data,
-                                             GameObject entity);
+            SpriteAnimatorInitializer(Config::XmlComponent &data,
+                                      GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

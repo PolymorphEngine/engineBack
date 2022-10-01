@@ -14,8 +14,11 @@
 namespace Polymorph
 {
     class SphereModule;
+
     using Sphere = safe_ptr<SphereModule>;
+
     class SphereRendererComponent;
+
     using SphereRenderer = safe_ptr<SphereRendererComponent>;
     using SphereRendererBase = std::shared_ptr<SphereRendererComponent>;
 

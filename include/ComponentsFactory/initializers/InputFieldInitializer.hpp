@@ -23,7 +23,7 @@ namespace Polymorph
 
         public:
             InputFieldInitializer(Config::XmlComponent &data,
-                                           GameObject entity);
+                                  GameObject entity);
 
 ///////////////////////////--------------------------///////////////////////////
 

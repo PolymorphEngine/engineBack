@@ -9,7 +9,6 @@
 #define ENGINE_CONFIGURATIONEXCEPTION_HPP
 
 
-
 #include "Exceptions/ExceptionLogger.hpp"
 
 class ConfigurationException : public ExceptionLogger
@@ -17,7 +16,8 @@ class ConfigurationException : public ExceptionLogger
 ///////////////////////////////// Constructors /////////////////////////////////
 
     public:
-        explicit ConfigurationException(const std::string& message, Logger::severity level = Logger::severity::MAJOR);
+        explicit ConfigurationException(const std::string &message,
+                                        Logger::severity level = Logger::severity::MAJOR);
 
 ///////////////////////////--------------------------///////////////////////////
 

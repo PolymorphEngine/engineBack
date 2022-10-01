@@ -15,7 +15,7 @@ Polymorph::MusicModule::MusicModule(std::shared_ptr<myxmlpp::Node> &data, Config
     _filePath = "./Game/Assets/" + _filePath;
     manager.setSubProperty("_volume", data, _volume);
     manager.setSubProperty("_pitch", data, _pitch);
-    _music = std::unique_ptr<is::IMusicModule>(_c_music(_filePath));
+    _music = std::unique_ptr<Polymorph::IMusicModule>(_c_music(_filePath));
     _music->setPitch(_pitch);
     _music->setLoop(false);
     _pitch = false;

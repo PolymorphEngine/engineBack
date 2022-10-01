@@ -20,6 +20,7 @@ namespace Polymorph
 {
 
     class CameraComponent;
+
     using Camera = safe_ptr<CameraComponent>;
     using CameraBase = std::shared_ptr<CameraComponent>;
 
@@ -64,14 +65,21 @@ namespace Polymorph
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             bool isTargetingObject();
+
             GameObject getTargetObject();
+
             void setTargetPosition(Vector3 targetPosition);
+
             void setTargetObject(GameObject object);
+
             void setUp(Vector3 up);
+
             void setFov(float fov);
+
             void begin3dMode();
+
             void end3dMode();
-            
+
 
         private:
 

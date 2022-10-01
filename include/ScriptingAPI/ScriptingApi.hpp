@@ -14,12 +14,16 @@
 
 namespace Polymorph
 {
-    namespace Config{class XmlComponent;}
+    namespace Config
+    {
+        class XmlComponent;
+    }
 
     class IScriptFactory;
-    class IComponentInitializer;
-    class Entity;
 
+    class IComponentInitializer;
+
+    class Entity;
 
     class ScriptingApi
     {
@@ -49,7 +53,9 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Initializer create(std::string &type, Config::XmlComponent &data, safe_ptr<Entity> entity);
+            static Initializer
+            create(std::string &type, Config::XmlComponent &data,
+                   safe_ptr<Entity> entity);
 
 
         private:

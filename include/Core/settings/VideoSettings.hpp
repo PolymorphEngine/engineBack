@@ -11,10 +11,12 @@
 #include <myxmlpp.hpp>
 #include "Utilities/types/Vector.hpp"
 
-namespace Polymorph::Settings {
+namespace Polymorph::Settings
+{
     using XmlNode = myxmlpp::Node;
 
-    class VideoSettings {
+    class VideoSettings
+    {
 
 ///////////////////////////////// Constructors /////////////////////////////////
 
@@ -50,7 +52,9 @@ namespace Polymorph::Settings {
 
             Vector2 _initResolution() const;
 
-            static void _saveToAttribute(const std::shared_ptr<XmlNode> &node, const std::string &attrName, float value);
+            static void _saveToAttribute(const std::shared_ptr<XmlNode> &node,
+                                         const std::string &attrName,
+                                         float value);
 
         public:
             bool getDefaultMode() const;

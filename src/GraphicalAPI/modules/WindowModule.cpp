@@ -14,9 +14,9 @@ Polymorph::DisplayModule::DisplayModule(std::shared_ptr<Settings::VideoSettings>
         _settings(std::move(settings)), _title(std::move(title))
 {
     _loadModule();
-    _windowModule = std::unique_ptr<is::IWindowModule>(_c_window(_settings->getResolution().x,
+    _windowModule = std::unique_ptr<Polymorph::IWindowModule>(_c_window(_settings->getResolution().x,
                                                                  _settings->getResolution().y, _title));
-    _drawingModule = std::unique_ptr<is::IDrawingModule>(_c_drawing());
+    _drawingModule = std::unique_ptr<Polymorph::IDrawingModule>(_c_drawing());
     setFullscreen(_settings->getFullscreen());
     setTitle(_title);
     Input::init();
