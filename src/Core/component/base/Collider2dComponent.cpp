@@ -53,11 +53,7 @@ void ACollider2dComponent::update()
         (*c2)->_checkCollisionToBroadCast(*this);
     }
     if (Logger::isDebugBuild())
-    {
-        CameraComponent::Current->begin3dMode();
         debugDraw();
-        CameraComponent::Current->end3dMode();
-    }
 }
 
 
