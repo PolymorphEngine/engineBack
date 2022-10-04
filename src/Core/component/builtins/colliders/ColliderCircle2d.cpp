@@ -9,6 +9,8 @@
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Debug.hpp>
+#include "ColliderCircle2d.hpp"
+
 
 using namespace Polymorph;
 
@@ -30,5 +32,17 @@ bool ColliderCircle2dComponent::checkCollision(ACollider2dComponent &other)
 ColliderCircle2dComponent::ColliderCircle2dComponent(GameObject gameObject)
         : ACollider2dComponent(gameObject, "ColliderCircle2d")
 {
+
+}
+
+void ColliderCircle2dComponent::debugDraw()
+{
+    //TODO: draw fallback texture
+
+}
+
+void ColliderCircle2dComponent::setColliderPosition()
+{
+    //TODO: is it needed ?
 
 }

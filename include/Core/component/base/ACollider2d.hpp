@@ -9,6 +9,7 @@
 #define ENGINE_ACOLLIDER2D_HPP
 
 #include "Core/component/base/Component.hpp"
+#include "InstanceStore.hpp"
 #include <map>
 
 namespace Polymorph
@@ -40,6 +41,9 @@ namespace Polymorph
         public:
             Vector2 offset = {0, 0};
         private:
+            safe_ptr<ACollider2dComponent> _this_safe;
+            static inline InstanceStore<ACollider2dComponent> _instanceStore;
+
             /**
              * @property all colliders encountered at runtime
              */
@@ -53,7 +57,6 @@ namespace Polymorph
             /**
              * @property all colliders instantiated in the game
              */
-            static inline std::vector<ACollider2dComponent *> _allColliders = {};
 ///////////////////////////--------------------------///////////////////////////
 
 
@@ -61,6 +64,7 @@ namespace Polymorph
 ////////////////////////////////// Methods /////////////////////////////////////
         public:
             void update() override;
+            void onAwake() override;
 
         private:
             /**
@@ -69,6 +73,10 @@ namespace Polymorph
              * @return true if collision occurs
              */
             virtual bool checkCollision(ACollider2dComponent &collider) = 0;
+
+            virtual void debugDraw() = 0;
+
+            virtual void setColliderPosition() = 0;
 
             /**
              * @details BroadCasting collision event functions

@@ -9,6 +9,8 @@
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Debug.hpp>
+#include "ColliderRect2d.hpp"
+
 
 using namespace Polymorph;
 
@@ -31,4 +33,14 @@ ColliderRect2dComponent::ColliderRect2dComponent(GameObject entity)
     : ACollider2dComponent(entity, "ColliderRect2d")
 {
 
+}
+
+void ColliderRect2dComponent::debugDraw()
+{
+    //TODO: draw fallback texture
+}
+
+void ColliderRect2dComponent::setColliderPosition()
+{
+    //TODO: is it needed ?
 }

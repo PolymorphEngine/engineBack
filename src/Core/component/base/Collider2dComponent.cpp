@@ -8,6 +8,8 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Events.hpp>
+#include "base/ACollider2d.hpp"
+
 
 using namespace Polymorph;
 
@@ -32,13 +34,29 @@ void ACollider2dComponent::_broadCastCollisionExit(ACollider2dComponent &collide
 
 void ACollider2dComponent::update()
 {
-    for (auto c2 = _allColliders.begin() + _colliderIdx + 1; c2 != _allColliders.end(); ++c2)
+    setColliderPosition();
+    _instanceStore.updateInstances();
+    auto _allColliders = _instanceStore.getInstances();
+
+    auto thisIt = std::find_if(_allColliders.begin(), _allColliders.end(),
+                               [this](Collider2d collider) { return *collider == *_this_safe; });
+
+    if (thisIt == _allColliders.end())
+        return;
+    for (auto c2 = thisIt + 1; c2 != _allColliders.end(); ++c2)
     {
-        for (; !(*c2)->enabled && c2 != _allColliders.end(); ++c2);
+        for (; c2 != _allColliders.end() && (!(*c2) || !(*c2)->enabled || !(*c2)->gameObject->isActive()); ++c2);
         if (c2 == _allColliders.end())
             return;
-        _checkCollisionToBroadCast(**c2);
+        (*c2)->setColliderPosition();
+        _checkCollisionToBroadCast(***c2);
         (*c2)->_checkCollisionToBroadCast(*this);
+    }
+    if (Logger::isDebugBuild())
+    {
+        CameraComponent::Current->begin3dMode();
+        debugDraw();
+        CameraComponent::Current->end3dMode();
     }
 }
 
@@ -74,15 +92,14 @@ void ACollider2dComponent::_checkCollisionToBroadCast(ACollider2dComponent &coll
 ACollider2dComponent::ACollider2dComponent(GameObject gameObject, std::string type)
 :Component(type, gameObject)
 {
-    _allColliders.push_back(this);
-
-    _colliderIdx = _allColliders.end() - _allColliders.begin() - 1;
 }
 
 ACollider2dComponent::~ACollider2dComponent()
 {
-    for (auto it = _allColliders.begin() + _colliderIdx; it != _allColliders.end(); ++it) {
-        (*it)->_colliderIdx--;
-    }
-    _allColliders.erase(_allColliders.begin() + _colliderIdx);
+}
+
+void ACollider2dComponent::onAwake()
+{
+    _this_safe = gameObject->getComponent<ACollider2dComponent>();
+    _instanceStore.registerInstance(_this_safe);
 }
