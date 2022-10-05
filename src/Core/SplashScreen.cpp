@@ -12,12 +12,14 @@
 #include "GraphicalAPI/modules/TextModule.hpp"
 #include "GraphicalAPI/modules/DisplayModule.hpp"
 
-Polymorph::SplashScreen::SplashScreen()
+Polymorph::SplashScreen::SplashScreen(std::string path)
 {
-    _icon = std::make_unique<TextureModule>("./Engine/PolymorphEngineIcon.png");
-    _label = std::make_unique<TextModule>("Made with PolymorphEngine", 40);
-    _icon->setPosition(Vector2(0.42f * GraphicalAPI::CurrentDisplay->getResolution().x,
-                               0.35f * GraphicalAPI::CurrentDisplay->getResolution().y));
+    if (path.ends_with("/Game/Assets"))
+        path = path.substr(0, path.size() - std::string("/Game/Assets").size());
+    if (path.ends_with(R"(\Game\Assets)"))
+        path = path.substr(0, path.size() - std::string(R"(\Game\Assets)").size());
+    _icon = std::make_unique<TextureModule>("./"+path+"/Engine/PolymorphEngineIcon.png");
+                              0.35f * GraphicalAPI::CurrentDisplay->getResolution().y));
     _label->setPosition(Vector2(0.35f * GraphicalAPI::CurrentDisplay->getResolution().x,
                                 0.65f * GraphicalAPI::CurrentDisplay->getResolution().y));
 

@@ -19,7 +19,7 @@ namespace Polymorph
             ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
 
         public:
-            SplashScreen();
+            SplashScreen(std::string path);
 
 
             //////////////////////--------------------------/////////////////////////

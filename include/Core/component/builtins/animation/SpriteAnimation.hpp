@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <functional>
 #include "Core/component/base/ADrawable2dComponent.hpp"
 #include "GraphicalAPI/modules/TextureModule.hpp"
 
