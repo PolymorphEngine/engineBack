@@ -40,7 +40,8 @@ namespace Polymorph
 
         private:
             bool checkCollision(ACollider2dComponent &other) override;
-
+            void debugDraw() final;
+            void setColliderPosition() final;
 ///////////////////////////--------------------------///////////////////////////
 
     };
