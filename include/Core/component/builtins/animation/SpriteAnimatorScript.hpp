@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <functional>
 #include "Polymorph/Components.hpp"
 #include "Polymorph/Types.hpp"
 #include "SpriteAnimation.hpp"

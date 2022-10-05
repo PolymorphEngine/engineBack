@@ -231,7 +231,7 @@ Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
         _graphicalApi->reloadAPI(graphicalLibPath);
         _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
         GraphicalAPI::CurrentDisplay = _display;
-        _splashScreen = std::make_unique<SplashScreen>();
+        _splashScreen = std::make_unique<SplashScreen>(_projectPath);
         if (is_debug_session)
             _display->setLogLevel(0);
         else
