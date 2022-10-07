@@ -33,8 +33,10 @@ namespace Polymorph
 
     void SpriteAnimatorComponent::startAnimation(std::string animationName)
     {
+        if (animations.empty())
+            return;
         //TODO(ERR): possible failure
-        if (!animationName.empty() && !animations.empty() && animations.size() > 1)
+        if (!animationName.empty() && animations.size() > 1)
             _currentAnimation = std::find_if(animations.begin(), animations.end(), [&animationName](std::shared_ptr<SpriteAnimation> x){
                 return x->animationName == animationName;
             }).operator*();
