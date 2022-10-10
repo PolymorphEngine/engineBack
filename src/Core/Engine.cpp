@@ -41,7 +41,7 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
 int Polymorph::Engine::run()
 {
     _time = Time();
-    while (!_splashScreen->isFinished()) {
+    while (!is_windowless_session && !_splashScreen->isFinished()) {
         _time.computeDeltaTime();
         _splashScreen->update();
     }
@@ -49,7 +49,7 @@ int Polymorph::Engine::run()
     while ((!_exit && (!!_display && _display->isOpen()))
     || (!_display && !_exit)) {
         _time.computeDeltaTime();
-        if (!!_display)
+        if (!is_windowless_session && !!_display)
             _display->clearWindow();
         SceneManager::resetLoading();
         SceneManager::Current->updateComponents();
@@ -225,6 +225,8 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(const std::
 void
 Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
 {
+    if (is_windowless_session)
+        return;
     try
     {
         _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
@@ -334,4 +336,14 @@ void Polymorph::Engine::_initTemplates()
     }
 
 
+}
+
+void Polymorph::Engine::setWindowLessMode()
+{
+    is_windowless_session = true;
+}
+
+bool Polymorph::Engine::isWindowLessSession()
+{
+    return is_windowless_session;
 }
