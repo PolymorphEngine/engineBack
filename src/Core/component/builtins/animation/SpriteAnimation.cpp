@@ -55,7 +55,7 @@ void Polymorph::SpriteAnimation::nextFrame()
             _currentFrame.x = _width * (nbFrames - 1);
             sprite->setCrop(_currentFrame);
             invokeCallBacks();
-            currentFrame = nbFrames;
+            currentFrame = nbFrames - 1;
         }
     } else {
         if (currentFrame < nbFrames) {
