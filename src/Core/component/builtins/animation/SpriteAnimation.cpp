@@ -14,12 +14,16 @@ Polymorph::SpriteAnimation::SpriteAnimation(
 {
     manager.setSubProperty("sprite", data, sprite);
     manager.setSubProperty("nbFrames", data, nbFrames);
+    manager.setSubProperty("reversed", data, reversed);
     manager.setSubProperty("frameTime", data, frameTime);
     manager.setSubProperty("yOffset", data, yOffset);
-    
+
     _width = sprite->getTextureWidth() / static_cast<float>(nbFrames);
     _height = sprite->getTextureHeight();
-    _currentFrame = {0, yOffset, _width , _height};
+    if (reversed)
+        _currentFrame = {_width * (nbFrames - 1), yOffset, _width , _height};
+    else
+        _currentFrame = {0, yOffset, _width , _height};
     sprite->setCrop(_currentFrame);
 }
 
@@ -42,16 +46,28 @@ void Polymorph::SpriteAnimation::invokeCallBacks()
 
 void Polymorph::SpriteAnimation::nextFrame()
 {
-    if (currentFrame < nbFrames)
-    {
-        _currentFrame.x += _width;
-        sprite->setCrop(_currentFrame);
-    }
-    else
-    {
-        _currentFrame.x = 0;
-        sprite->setCrop(_currentFrame);
-        invokeCallBacks();
+    if (reversed) {
+        if (currentFrame > 0) {
+            _currentFrame.x -= _width;
+            sprite->setCrop(_currentFrame);
+            currentFrame--;
+        } else {
+            _currentFrame.x = _width * (nbFrames - 1);
+            sprite->setCrop(_currentFrame);
+            invokeCallBacks();
+            currentFrame = nbFrames - 1;
+        }
+    } else {
+        if (currentFrame < nbFrames) {
+            _currentFrame.x += _width;
+            sprite->setCrop(_currentFrame);
+            currentFrame++;
+        } else {
+            _currentFrame.x = 0;
+            sprite->setCrop(_currentFrame);
+            invokeCallBacks();
+            currentFrame = 0;
+        }
     }
 }
 

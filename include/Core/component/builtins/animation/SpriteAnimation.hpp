@@ -40,6 +40,7 @@ namespace Polymorph
             int nbFrames;
             float yOffset;
             float frameTime;
+            bool reversed;
 
 
         private:

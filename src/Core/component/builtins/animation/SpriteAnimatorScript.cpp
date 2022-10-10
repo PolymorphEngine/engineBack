@@ -25,6 +25,7 @@ namespace Polymorph
     // Called every frame by the engine
     void SpriteAnimatorComponent::update()
     {
+        _timer.tick();
         if (animations.empty() || !_currentAnimation)
             return;
         if (_timer.timeIsUp(true))
