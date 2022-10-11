@@ -90,6 +90,7 @@ namespace Polymorph
             std::string _projectPath;
             std::string _projectName;
             bool is_debug_session = false;
+            bool is_windowless_session = false;
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
             Time _time;
@@ -150,6 +151,9 @@ namespace Polymorph
             std::string getProjectPath();
 
             std::vector<std::shared_ptr<Entity>> getPrefabs();
+            
+            void setWindowLessMode();
+            bool isWindowLessSession();
 
             std::vector<Config::XmlComponent> getDefaultConfigs();
 

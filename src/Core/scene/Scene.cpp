@@ -38,19 +38,23 @@ namespace Polymorph
             if (Engine::isExiting() || SceneManager::isSceneUnloaded())
                 return;
         }
-        GraphicalAPI::CurrentDisplay->beginDrawing();
-        CameraComponent::Current->begin3dMode();
-        for (auto &e: _entities)
-            if (e->isActive() && !e->transform->parent() && !e->componentExist<CanvasComponent>())
-                e->draw();
-        CameraComponent::Current->end3dMode();
-        for (auto &e: _entities)
+        if (!_game.isWindowLessSession())
         {
-            auto canvas = e->getComponent<CanvasComponent>();
-            if (e->isActive() && !e->transform->parent())
-                e->draw2d(canvas);
+            GraphicalAPI::CurrentDisplay->beginDrawing();
+            CameraComponent::Current->begin3dMode();
+            for (auto &e: _entities)
+                if (e->isActive() && !e->transform->parent() && !e->componentExist<CanvasComponent>())
+                    e->draw();
+            CameraComponent::Current->end3dMode();
+            for (auto &e: _entities)
+            {
+                auto canvas = e->getComponent<CanvasComponent>();
+                if (e->isActive() && !e->transform->parent())
+                    e->draw2d(canvas);
+            }
+            GraphicalAPI::CurrentDisplay->endDrawing();
         }
-        GraphicalAPI::CurrentDisplay->endDrawing();
+
         if (!_entitiesToAdd.empty()) {
             _entities.insert(_entities.end(), _entitiesToAdd.begin(), _entitiesToAdd.end());
             _entitiesToAdd.clear();
