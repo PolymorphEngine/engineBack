@@ -252,7 +252,7 @@ void Polymorph::Entity::awake(bool recurse)
                 if (c->getType() != "Transform")
                     c->reference();
         _asBeenInit = true;
-    }   
+    }
     for (auto &cl :_components)
         for (auto &c : cl.second) {
             try {
@@ -357,7 +357,7 @@ Polymorph::Entity::findByPrefabId(const std::string &nameToFind, bool _firstCall
             return found;
     }
     auto parent = transform->parent();
-    if (!!parent && (parent->gameObject->getId() == nameToFind 
+    if (!!parent && (parent->gameObject->getId() == nameToFind
     || parent->gameObject->getPrefabId() == nameToFind))
         return parent->gameObject;
     if (_firstCall && !!transform->parent())
@@ -388,4 +388,16 @@ void Polymorph::Entity::initTransform()
             }
         }
     _transformInitialized = true;
+}
+
+std::vector<std::string>
+Polymorph::Entity::getTagsStartingWith(const std::string &begin) const
+{
+    std::vector<std::string> tags;
+
+    for (auto &tag : _tags) {
+        if (tag.starts_with(begin))
+            tags.push_back(tag);
+    }
+    return tags;
 }
