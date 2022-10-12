@@ -120,6 +120,13 @@ namespace Polymorph
             bool hasTag(const std::string &tag) const;
 
             /**
+             * @details Return all the game objects tags that start with the string passed as parameter.
+             * @param tag: The begin of tag to look for.
+             * @returns All matched tags
+             */
+            std::vector<std::string> getTagsStartingWith(const std::string &begin) const;
+
+            /**
              * @details Adds to the game object the tag passed as parameter.
              * @param tag: The tag to add
              */
