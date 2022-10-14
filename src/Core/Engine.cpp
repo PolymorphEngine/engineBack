@@ -240,8 +240,10 @@ Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
             _display->setLogLevel(5);
     } catch (GraphicalException &e) {
         e.what();
+        throw;
     } catch (std::exception &e) {
         Logger::log("[Graphical API] " + std::string(e.what()), Logger::MAJOR);
+        throw;
     }
 
 }
