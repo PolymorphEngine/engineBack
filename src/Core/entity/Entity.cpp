@@ -184,7 +184,7 @@ bool Polymorph::Entity::hasTag(const std::string &tag) const
 
 void Polymorph::Entity::addTag(const std::string &tag)
 {
-    if (!hasTag(tag))
+    if (hasTag(tag))
         return;
     _tags.push_back(tag);
 }
