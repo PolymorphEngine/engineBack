@@ -37,24 +37,40 @@ namespace Polymorph
         if (animations.empty())
             return;
         //TODO(ERR): possible failure
-        if (!animationName.empty() && animations.size() > 1)
-            _currentAnimation = std::find_if(animations.begin(), animations.end(), [&animationName](std::shared_ptr<SpriteAnimation> x){
-                return x->animationName == animationName;
-            }).operator*();
-        else _currentAnimation = animations.front();
-        currentAnimation = animationName;
-        _timer = Timer(_currentAnimation->frameTime);
-        targetGraphics->sprite = _currentAnimation->sprite;
+        if (!animationName.empty() && animations.size() > 1) {
+            auto it = std::find_if(animations.begin(), animations.end(),
+                [&animationName](std::shared_ptr<SpriteAnimation> x) {
+                    return x->animationName == animationName;
+                });
+            if (it != animations.end())
+                _currentAnimation = *it;
+            else
+                throw ExceptionLogger("Cannot find animation to start with name : " + animationName);
+        } else if (animations.size() == 1 && animations.front())
+            _currentAnimation = animations.front();
+        else
+            throw ExceptionLogger("No animation to start");
+        if (_currentAnimation) {
+            currentAnimation = animationName;
+            _timer = Timer(_currentAnimation->frameTime);
+            targetGraphics->sprite = _currentAnimation->sprite;
+        }
     }
 
     void SpriteAnimatorComponent::addAnimCallBack(
             MeshAnimation::AnimationCallBack callback,
             std::string animationName)
     {
-        if (!animationName.empty())
-            std::find_if(animations.begin(), animations.end(), [animationName](const std::shared_ptr<SpriteAnimation> x){
-                return x->animationName == animationName;
-            }).operator*()->addEndAnimCallBack(callback);
+        if (!animationName.empty()) {
+            auto it = std::find_if(animations.begin(), animations.end(),
+                [animationName](const std::shared_ptr<SpriteAnimation> x) {
+                    return x->animationName == animationName;
+                });
+            if (it != animations.end())
+                (*it)->addEndAnimCallBack(callback);
+            else
+                throw ExceptionLogger("Cannot find animation with name: " + animationName);
+        }
     }
 
     void SpriteAnimatorComponent::clearAnimationCallbacks(std::string name)
