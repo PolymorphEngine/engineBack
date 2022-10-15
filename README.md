@@ -2,14 +2,14 @@
 
 PolymorphEngine is a beautiful application/game engine that allows great modularity and all the advantages of an ECS.\
 With this engine you don't need to bother, you have access to an application that allows you to do the most complicated configuration actions, but all simply and quickly!\
-But for this readme, let's consider that the interface doesn't exist to explain how things actually work under the hood.
+But for this readme, let's consider that the interface doesn't exist to explain how actually work under the hood.
 
-## ⚙ How does it work?
+## ⚙ How does it works?
 PolymorphEngine works with scripts, "pieces" of code that are executed during the execution of the program.\
 Each script must be as specialized and stable as possible, in order to eventually build more complex objects.\
-These objects are **entities**, these last ones have their own execution of the scripts which are allotted to them, giving them a great autonomy while being able to take references with other entity and script if necessary.\
+These objects are **entities**, these last ones have their own execution of the scripts which are assigned to them, giving them a great autonomy while being able to take references with other entity and script if necessary.\
 These **entities can become prefabs** if necessary, a representation of the entity that can be easily instantiated several times, while maintaining the advantages of independence allowed by an entity.\
-Well, they are beautiful our entities but we could make something of it that would be good.\
+Well, those entities are actually useless, because we need to use theme in a "context", we want some of them in some scenarios.\
 This is where the **scene** comes into play, the scene allows you to contain your entities, each "screen" of your application/game will probably be a different scene (e.g. Main Menu, Game, Settings, etc...). 
 
 ## 🔨 How to use ?
@@ -61,6 +61,7 @@ int main() {
         std::cerr << e.what() << std::endl;
         return 84;
     }
+}
 ```
 
 This is the basic logic of the engine, as you can see we instantiate the engine and load the graphical API, but you may have noticed that we also load the `YourNameSpace::ScriptFactory`, this Factory is the one that will contain all our initializer.\
@@ -133,7 +134,7 @@ Polymorph::Initializer YourNameSpace::ScriptFactory::create(std::string &type, C
 
 ### ⚗️​ Your first Script !
 
-Now... The scripts ! Scripts need 2 things : an initilizer which derives from "AComponentInitializer" and the actual script that derives from `Polymorph::Component`.
+Now... The scripts ! Scripts need 2 things : an initializer which derives from "Polymorph::AComponentInitializer" and the actual script that derives from `Polymorph::Component`.
 
 Here is an example of an initializer:
 
@@ -171,6 +172,13 @@ namespace YourNameSpace
 
 ///////////////////////////--------------------------///////////////////////////
 
+
+///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
+            // Here add properties you want to initialize with configuration values in the initializer
+            
+        private:
+///////////////////////////--------------------------///////////////////////////
 
 
 ////////////////////////////////// Methods /////////////////////////////////////
