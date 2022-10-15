@@ -16,7 +16,8 @@ Polymorph::TextureModule::TextureModule(const std::string &path)
     _filepath = path;
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     _color = Color{255, 255, 255, 255};
-    _crop = {0, 0, 256, 256};
+    _crop = {0, 0, _image->getWCrop(), _image->getHCrop()};
+    setCrop(_crop);
     _image = nullptr;
 }
 

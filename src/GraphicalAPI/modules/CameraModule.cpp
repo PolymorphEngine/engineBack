@@ -55,12 +55,14 @@ void Polymorph::CameraModule::setFOV(float fov)
 
 void Polymorph::CameraModule::begin3DMode()
 {
-    _camera->begin3DMode();
+    //TODO: warning 3D mode disabled
+    //_camera->begin3DMode();
 }
 
 void Polymorph::CameraModule::end3DMode()
 {
-    _camera->end3DMode();
+    //TODO: warning 3D mode disabled
+    //_camera->end3DMode();
 }
 
 float Polymorph::CameraModule::getFov() const
