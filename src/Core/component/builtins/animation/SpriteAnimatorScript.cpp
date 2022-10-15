@@ -46,10 +46,10 @@ namespace Polymorph
                 _currentAnimation = *it;
             else
                 throw ExceptionLogger("Cannot find animation to start with name : " + animationName);
-        } else if (animations.size() == 1 && animations.front())
+        } else if (animations.size() > 0 && animations.front())
             _currentAnimation = animations.front();
         else
-            throw ExceptionLogger("No animation to start");
+            throw ExceptionLogger("No animation to start for entity named: "+ gameObject->getName());
         if (_currentAnimation) {
             currentAnimation = animationName;
             _timer = Timer(_currentAnimation->frameTime);
