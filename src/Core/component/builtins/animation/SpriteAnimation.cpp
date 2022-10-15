@@ -15,6 +15,7 @@ Polymorph::SpriteAnimation::SpriteAnimation(
     manager.setSubProperty("sprite", data, sprite);
     manager.setSubProperty("nbFrames", data, nbFrames);
     manager.setSubProperty("reversed", data, reversed);
+    manager.setSubProperty("animationName", data, animationName);
     manager.setSubProperty("frameTime", data, frameTime);
     manager.setSubProperty("yOffset", data, yOffset);
 
