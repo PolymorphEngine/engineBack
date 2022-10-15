@@ -1,7 +1,7 @@
 # PolymorphEngine
 
-PolymorphEngine is a beautiful game engine that allows great modularity and all the advantages of an ECS.\
-With this engine you don't need to bother, you have access to an application/game that allows you to do the most complicated configuration actions, but all simply and quickly!\
+PolymorphEngine is a beautiful application/game engine that allows great modularity and all the advantages of an ECS.\
+With this engine you don't need to bother, you have access to an application that allows you to do the most complicated configuration actions, but all simply and quickly!\
 But for this readme, let's consider that the interface doesn't exist to explain how things actually work under the hood.
 
 ## ⚙ How does it work?
