@@ -30,7 +30,7 @@ namespace Polymorph
 ///////////////////////////////// Properties ///////////////////////////////////
 
         public:
-            Vector2 size = {0, 0};
+            Vector2 size;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -40,7 +40,7 @@ namespace Polymorph
 
         private:
             bool checkCollision(ACollider2dComponent &other) override;
-            
+
             void debugDraw() final;
             void setColliderPosition() final;
 ///////////////////////////--------------------------///////////////////////////
