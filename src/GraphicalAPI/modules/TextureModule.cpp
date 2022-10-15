@@ -16,7 +16,7 @@ Polymorph::TextureModule::TextureModule(const std::string &path)
     _filepath = path;
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     _color = Color{255, 255, 255, 255};
-    _crop = {0, 0, _image->getWCrop(), _image->getHCrop()};
+    _crop = {_crop.x, _crop.y, _texture->getTextureWidth(), _texture->getTextureHeight()};
     setCrop(_crop);
     _image = nullptr;
 }
@@ -28,15 +28,12 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
     manager.setSubProperty("_color", data, _color);
     _filepath = "./Game/Assets/" + _filepath;
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
-    _image = std::unique_ptr<Polymorph::IImageModule>(_c_image(_filepath));
     manager.setSubProperty("_crop", data, _crop);
     if (_color.r == 0 && _color.g == 0 && _color.b == 0 && _color.a == 0)
         setColor(Color{255, 255, 255, 255});
     if (_crop.width == 0 && _crop.height == 0)
-        _crop = {_crop.x, _crop.y, _image->getWCrop(), _image->getHCrop()};
-    else
-        setCrop(_crop);
-    _image = nullptr;
+        _crop = {_crop.x, _crop.y, _texture->getTextureWidth(), _texture->getTextureHeight()};
+    setCrop(_crop);
 }
 
 void Polymorph::TextureModule::setPosition(Vector2 position)
