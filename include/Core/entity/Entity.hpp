@@ -70,18 +70,71 @@ namespace Polymorph
             std::string name;
 
         private:
+            /**
+             * @property Is the current entity prefab
+             */
             bool _isPrefab;
+
+            /**
+             * @property Has been a prefab
+             */
             bool _wasPrefab;
+
+            /**
+             * @property Is the entity active
+             */
             bool _active = true;
+
+
+            /**
+             * @property Is the entity previously initialized
+             */
             bool _asBeenInit = false;
+
+            /**
+             * @property Is the entity transform initialized
+             */
             bool _transformInitialized = false;
+
+            /**
+             * @property Represent the entity id
+             */
             std::string _stringId;
+
+            /**
+             * @property Represent the prefab id
+             */
             std::string _prefabId;
+
+            /**
+             * @details Tags are used to store a list of string that can be used to identify an entity or some behavior.
+             * @property Contains the entity's tags
+             */
             std::vector<std::string> _tags;
+
+            /**
+             * @property The entity layer in the scene
+             */
             std::string _layer;
+
+            /**
+             * @property A reference to the engine
+             */
             Engine &_game;
+
+            /**
+             * @property Components of the entity to initialize in the initialization order
+             */
             std::vector<std::string> _order;
+
+            /**
+             * @property Reference to the XmlEntity used to read the entity data and components
+             */
             Config::XmlEntity &_xml_config;
+
+            /**
+             * @property Unordered map of the components of the entity
+             */
             std::unordered_map<std::string, std::vector<std::shared_ptr<IComponentInitializer>>> _components;
 //////////////////////--------------------------/////////////////////////
 
@@ -98,12 +151,28 @@ namespace Polymorph
              */
             bool isActive() const;
 
+            /**
+             * @details Check for prefab value
+             * @returns The prefab value
+             */
             bool isPrefab() const;
 
+            /**
+             * @details Check for was prefab value
+             * @returns The was a prefab value
+             */
             bool wasPrefab() const;
 
+            /**
+             * @details Changes the entity is prefab value
+             * @param value: the new value of the entity is prefab
+             */
             void setIsPrefab(bool value);
 
+            /**
+             * @details Changes the entity was prefab value
+             * @param value: the new value of the entity was prefab
+             */
             void setWasPrefab(bool value);
 
             /**
@@ -316,6 +385,11 @@ namespace Polymorph
             }
 
         private:
+
+            /**
+             * @details Check if component exist in the list of components composing the entity
+             * @returns False if the component don't exist or True if it does
+             */
             bool componentExist(std::string &type);
 //////////////////////--------------------------/////////////////////////
 
