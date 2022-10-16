@@ -62,7 +62,7 @@ namespace Polymorph
         public:
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
             /**
-             * Creates an instance of engine by passing the project path containing all resources needed to load it such as config and assets
+             * @brief Creates an instance of engine by passing the project path containing all resources needed to load it such as config and assets
              * @param projectPath path containing resources to load
              * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
              */
@@ -76,32 +76,109 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         private:
+            /**
+             * @property _scenes list of all of the scenes
+             */
             std::vector<std::shared_ptr<Scene>> _scenes;
+
+            /**
+             * @property _prefabs list of all of the prefabs
+             */
             std::vector<std::shared_ptr<Entity>> _prefabs;
+
+            /**
+             * @property _prefabsConfigs list of all of the configuration of the prefabs
+             */
             std::vector<std::shared_ptr<Config::XmlEntity>> _prefabsConfigs;
+
+            /**
+             * @property _defaultConfigs default configuration for the components
+             */
             std::vector<Config::XmlComponent> _defaultConfigs;
 
+            /**
+             * @property _layers order of entities in the scenes
+             */
             std::vector<std::string> _layers;
+
+            /**
+             * @property _execOrder order of execution of the components
+             */
             std::vector<std::string> _execOrder;
 
+            /**
+             * @property _exit exit or not the program
+             */
             static inline bool _exit = false;
+
+            /**
+             * @property _exitCode exit code of the program
+             */
             static inline ExitCode _exitCode = 0;
 
+            /**
+             * @property _projectPath path to the project
+             */
             std::string _projectPath;
+
+            /**
+             * @property _projectName name of the project
+             */
             std::string _projectName;
+
+            /**
+             * @property is_debug_session set the engine in debug mode or not
+             */
             bool is_debug_session = false;
+
+            /**
+             * @property is_windowless_session set the engine in windowless mode or not
+             */
             bool is_windowless_session = false;
+
+            /**
+             * @property _projectConfig configuration of the project
+             */
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
+            /**
+             * @property _time time class of the engine
+             */
             Time _time;
 
+            /**
+             * @property _physicsSettings physics settings of the engine
+             */
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
+
+            /**
+             * @property _audioSettings audio settings of the engine
+             */
             std::unique_ptr<Settings::AudioSettings> _audioSettings;
+
+            /**
+             * @property _videoSettings video settings of the engine
+             */
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
+
+            /**
+             * @property _display display module of the engine
+             */
             safe_ptr<DisplayModule> _display;
 
+            /**
+             * @property _graphicalApi graphical api linked to the display of the engine
+             */
             std::unique_ptr<GraphicalAPI> _graphicalApi;
+
+            /**
+             * @property _scriptingApi scripting api of the engine to manage scripts of the game
+             */
             std::unique_ptr<ScriptingApi> _scriptingApi;
+
+            /**
+             * @property _splashScreen splash screen of the engine
+             */
             std::unique_ptr<SplashScreen> _splashScreen;
 
 //////////////////////--------------------------/////////////////////////
@@ -124,7 +201,7 @@ namespace Polymorph
             int run();
 
             /**
-             * Loads a script factory from the filepath to an shared library ('.so')
+             * @biref Loads a script factory from the filepath to an shared library ('.so')
              * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
@@ -132,31 +209,64 @@ namespace Polymorph
             loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
 
             /**
-             * Loads a graphical api from the filepath to an shared library ('.so')
+             * @brief Loads a graphical api from the filepath to an shared library ('.so')
              * @param graphicalLibPath the path to the shared library
              * @warning the path must be relative to the executable
              */
             void loadGraphicalAPI(const std::string &graphicalLibPath);
 
             /**
-             * Loads the game configuration and inits all gameObjects/Components/Scenes
+             * @brief Loads the game configuration and inits all gameObjects/Components/Scenes
              */
             void loadEngine();
 
+            /**
+             * @brief Exit the program with a specified exit code
+             * @param code exit code of the program
+             */
             static void exit(ExitCode code);
 
+            /**
+             * @brief Getter to know if we should exit or not
+             * @return exit status of the program
+             */
             static bool isExiting()
             { return _exit; };
 
+            /**
+             * @brief Getter of the project path
+             * @return the project path
+             */
             std::string getProjectPath();
 
+            /**
+             * @brief Getter of prefabs
+             * @return A list of all the prefabs loaded
+             */
             std::vector<std::shared_ptr<Entity>> getPrefabs();
-            
+
+            /**
+             * @brief Change the display of the engine to windowless so no display
+             */
             void setWindowLessMode();
+
+            /**
+             * @brief Check if the display mode is in set to windowless or not
+             * @return true if the engine is in windowless mode
+             */
             bool isWindowLessSession();
 
+            /**
+             * @brief Getter of default configuration of the components
+             * @return the default configuration of the components
+             */
             std::vector<Config::XmlComponent> getDefaultConfigs();
 
+            /**
+             * @brief Getter of default configuration of a specific component
+             * @param type type of the component
+             * @return the default configuration of the component type
+             */
             Config::XmlComponent &getDefaultConfig(const std::string &type);
 
             /**

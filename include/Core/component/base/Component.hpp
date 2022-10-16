@@ -33,6 +33,11 @@ namespace Polymorph
 ///////////////////////////////// Constructors /////////////////////////////////
 
         public:
+            /**
+             * @brief Created a new component from a game object
+             * @param type the type of the component
+             * @param game_object the game oejct that the component will be attached to
+             */
             Component(const std::string &type, GameObject game_object);
 
 ///////////////////////////--------------------------///////////////////////////
@@ -57,12 +62,25 @@ namespace Polymorph
             bool enabled = true;
 
         protected:
+            /**
+             * @property name name of the component
+             */
             std::string name;
-            std::string _type;
-            bool awaked = false;
-            bool started = false;
 
-            //  Entity Re-define
+            /**
+             * @property _type type of the component
+             */
+            std::string _type;
+
+            /**
+             * @property awaked know if the component needs to be updated or not
+             */
+            bool awaked = false;
+
+            /**
+             * @property started know if the component  has been started or not yet
+             */
+            bool started = false;
 
 ///////////////////////////--------------------------///////////////////////////
 
@@ -90,15 +108,29 @@ namespace Polymorph
              */
             void start() override;
 
+            /**
+             * @brief Set the commponent as started after calling start()
+             */
             void setAsStarted() final
             { started = true; };
 
+            /**
+             * @brief Set the commponent as awaked to update it
+             */
             void setAsAwaked() final
             { awaked = true; };
 
+            /**
+             * @brief Get the status of the component
+             * @return true if the component is awaked
+             */
             bool isAwaked() const final
             { return awaked; }
 
+            /**
+             * @brief Get the status of the component
+             * @return true if the component is started
+             */
             bool isStarted() const final
             { return started; }
 

@@ -38,10 +38,24 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public: // Properties
+            /**
+             * @property Current the current scene that's being used in the game
+             */
             static inline std::shared_ptr<Scene> Current = nullptr;
+
+            /**
+             * @property Game the engine instance that's being used to manipulate scenes
+             */
             static inline Engine *Game = nullptr;
+
+            /**
+             * @property KeepOnLoad the entities to keep between the scenes
+             */
             static inline std::vector<std::shared_ptr<Entity>> KeepOnLoad;
         private:
+            /**
+             * @property _sceneLoading know if the scene is loading or not
+             */
             static inline bool _sceneLoading = false;
 //////////////////////--------------------------/////////////////////////
 

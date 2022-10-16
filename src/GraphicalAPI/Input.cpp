@@ -156,10 +156,6 @@ std::string Polymorph::Input::keyToString(Polymorph::Input::KeyCode code)
 {
     switch (code)
     {
-
-        case NONE:
-            return "";
-            break;
         case APOSTROPHE:
             return "'";
         case COMMA:
@@ -377,5 +373,8 @@ std::string Polymorph::Input::keyToString(Polymorph::Input::KeyCode code)
             return "Volume_Up";
         case VOLUME_DOWN:
             return "Volume_Down";
+        case NONE:
+        default:
+            return "";
     }
 }

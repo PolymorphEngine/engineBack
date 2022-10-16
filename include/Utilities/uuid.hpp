@@ -19,6 +19,13 @@ namespace Polymorph
         static inline std::mt19937 gen(rd());
         static inline std::uniform_int_distribution<> dis(0, 15);
 
+
+        /**
+         * @details Generate a random UUID
+         * @returns a random UUID
+         * @warning This function don't store any history of generated UUID.
+                    there is a very very low chance that the same UUID will be generated twice
+         */
         std::string uuid();
     }
 }

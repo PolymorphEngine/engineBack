@@ -43,8 +43,18 @@ namespace Polymorph
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
+            /**
+             * @brief Creates a new scene from the given xml node
+             * @param data the xml node that contains the scene data
+             * @param game the engine instance that will be used to add the scene
+             */
             Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game);
 
+            /**
+             * @brief Creates a new empty scene from a name
+             * @param sceneName the name of the scene
+             * @param game the engine instance that will be used to add the scene
+             */
             explicit Scene(std::string sceneName, Engine &game);
 //////////////////////--------------------------/////////////////////////
 
@@ -52,13 +62,39 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            /**
+             * @property name the name of the scene
+             */
             std::string name;
+
+            /**
+             * @property id the id of the scene
+             */
             std::string id;
         private:
+            /**
+             * @property _entities all the entities in the scene
+             */
             std::vector<std::shared_ptr<Entity>> _entities;
+
+            /**
+             * @property _entitiesToAdd all the entities that will be added to the scene in the next update
+             */
             std::vector<std::shared_ptr<Entity>> _entitiesToAdd;
+
+            /**
+             * @property _destroyQueueList all the entities that will be destroyed in the next update
+             */
             std::map<std::shared_ptr<Timer>, Entity &> _destroyQueueList;
+
+            /**
+             * @property _engine the engine instance that the scene is attached to
+            */
             Engine &_game;
+
+            /**
+             * @property _config_data the xml node that contains the scene data
+             */
             std::shared_ptr<Config::XmlScene> _config_data;
 //////////////////////--------------------------/////////////////////////
 
@@ -220,6 +256,10 @@ namespace Polymorph
               */
             void _erase(std::string &id);
 
+            /**
+              * @brief Erase the children of an entity from scene
+              * @param entity the entity to erase chieldren
+              */
             void _eraseChildren(Entity &entity);
 
 //////////////////////--------------------------/////////////////////////

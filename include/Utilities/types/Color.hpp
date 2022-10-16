@@ -49,6 +49,10 @@ namespace Polymorph
 
     };
 
+    constexpr bool operator==(const Color& lhs, const Color& rhs) {
+        return lhs.a == rhs.a && lhs.r == rhs.r && lhs.g == rhs.g && lhs.b == rhs.b;
+    }
+
 }
 
 #endif //ENGINE_COLOR_HPP

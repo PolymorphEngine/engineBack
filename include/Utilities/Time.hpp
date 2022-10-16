@@ -28,9 +28,15 @@ namespace Polymorph
 ///////////////////////////--------------------------///////////////////////////
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            /**
+             * @property deltaTime the time between the last frame and the current frame
+             */
             static inline double deltaTime = 0.0f;
 
         private:
+            /**
+             * @property _lastTime the time of the last frame
+             */
             Duration _lastTime;
 //////////////////////--------------------------/////////////////////////
 
@@ -38,8 +44,15 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
+            /**
+             * @details Update the deltaTime of the current frame
+             */
             void computeDeltaTime();
 
+            /**
+             * @details Get the current time from minutes to string
+             * @return the current time in a string format
+             */
             static std::string formatToMinutes(float time);
 //////////////////////--------------------------/////////////////////////
 
@@ -51,6 +64,10 @@ namespace Polymorph
         public:
             Timer() = default;
 
+            /**
+             * @brief Created a new timer from a specified delay
+             * @param delay The delay in seconds
+             */
             explicit Timer(double delay);
 //////////////////////--------------------------/////////////////////////
 
@@ -58,7 +75,14 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            /**
+             * @property delay The delay in seconds
+             */
             double delay = 0;
+
+            /**
+             * @property actual The current time of timer in seconds 
+             */
             double actual = 0;
 //////////////////////--------------------------/////////////////////////
 
@@ -66,8 +90,16 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
+            /**
+             * @brief Update the current time of the timer
+             */
             void tick();
 
+            /**
+             * @brief Know if the current time is greater than the delay and may reset the timer
+             * @param isReset If true, the timer will be reset
+             * @return true if the current time is greater than the delay
+             */
             bool timeIsUp(bool isReset = true);;
 //////////////////////--------------------------/////////////////////////
 
