@@ -36,8 +36,13 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
             Logger::log("Missing texture path and unable to load default texture ! A crash can occur!", Logger::MAJOR);
     } else {
         _filepath = "./Game/Assets/" + _filepath;
-        if (!std::filesystem::exists(_filepath))
-            Logger::log("Texture path seems invalid, no file found at this location \"" + _filepath + "\" ! A crash can occur!", Logger::MAJOR);
+        if (!std::filesystem::exists(_filepath)) {
+            if (std::filesystem::exists("./Engine/" + fallBackTexture)) {
+                _filepath = "./Engine/" + fallBackTexture;
+                Logger::log("Texture path seems invalid, using default texture!", Logger::MINOR);
+            } else
+                Logger::log("Texture path seems invalid and unable to load default texture ! A crash can occur!", Logger::MAJOR);
+        }
     }
 
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
