@@ -78,7 +78,7 @@ namespace myxmlpp {
             static bool _isEndOfNode(std::string &str);
 
             void _checkEndOfNode(std::string &str,
-                                 std::string &remaining) noexcept;
+                                 std::string &remaining);
 
             /**
              * Private constructor to create a node by parsing a xml file in string format.
@@ -241,7 +241,7 @@ namespace myxmlpp {
              * @param key key of the attribute to pop
              */
             std::shared_ptr<Attribute>
-            popAttribute(const std::string& key) noexcept;
+            popAttribute(const std::string& key);
 
             using NodeIterator = std::vector<std::shared_ptr<Node>>::iterator;
             /**
