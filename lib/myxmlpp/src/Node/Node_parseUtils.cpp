@@ -25,7 +25,7 @@ bool myxmlpp::Node::_isEndOfNode(std::string &str)
 }
 
 void myxmlpp::Node::_checkEndOfNode(std::string &str,
-                                    std::string &remaining) noexcept
+                                    std::string &remaining)
 {
     std::string rgx("[\r\n\t\f\v ]*</(.*)>");
     std::smatch matches;

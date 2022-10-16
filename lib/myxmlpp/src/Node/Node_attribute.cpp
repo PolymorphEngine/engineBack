@@ -42,7 +42,7 @@ void myxmlpp::Node::rmAttribute(const std::string& key) noexcept
 }
 
 std::shared_ptr<myxmlpp::Attribute>
-myxmlpp::Node::popAttribute(const std::string& key) noexcept
+myxmlpp::Node::popAttribute(const std::string& key)
 {
     std::shared_ptr<Attribute> found;
     for (auto it = _attributes.begin();
