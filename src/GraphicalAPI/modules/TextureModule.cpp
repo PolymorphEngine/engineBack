@@ -9,6 +9,7 @@
 #include "GraphicalAPI/modules/TextureModule.hpp"
 #include "GraphicalAPI/GraphicalAPI.hpp"
 #include "Polymorph/Types.hpp"
+#include <filesystem>
 
 Polymorph::TextureModule::TextureModule(const std::string &path)
 {
@@ -26,7 +27,19 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
     _loadModules();
     manager.setSubProperty("_filepath", data, _filepath);
     manager.setSubProperty("_color", data, _color);
-    _filepath = "./Game/Assets/" + _filepath;
+
+    if (_filepath.empty()) {
+        if (std::filesystem::exists("./Engine/" + fallBackTexture)) {
+            _filepath = "./Engine/" + fallBackTexture;
+            Logger::log("Texture path missing, using default missing texture!", Logger::MINOR);
+        } else
+            Logger::log("Texture path missing, and unable to load default missing texture ! A crash can occur!", Logger::MAJOR);
+    } else {
+        _filepath = "./Game/Assets/" + _filepath;
+        if (!std::filesystem::exists(_filepath))
+            Logger::log("Texture path seems invalid, no file found at this location \"" + _filepath + "\" ! A crash can occur!", Logger::MAJOR);
+    }
+
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     manager.setSubProperty("_crop", data, _crop);
     if (_color.r == 0 && _color.g == 0 && _color.b == 0 && _color.a == 0)
