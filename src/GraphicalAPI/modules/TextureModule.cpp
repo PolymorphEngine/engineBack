@@ -31,9 +31,9 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
     if (_filepath.empty()) {
         if (std::filesystem::exists("./Engine/" + fallBackTexture)) {
             _filepath = "./Engine/" + fallBackTexture;
-            Logger::log("Texture path missing, using default missing texture!", Logger::MINOR);
+            Logger::log("Missing texture path, using default texture!", Logger::MINOR);
         } else
-            Logger::log("Texture path missing, and unable to load default missing texture ! A crash can occur!", Logger::MAJOR);
+            Logger::log("Missing texture path and unable to load default texture ! A crash can occur!", Logger::MAJOR);
     } else {
         _filepath = "./Game/Assets/" + _filepath;
         if (!std::filesystem::exists(_filepath))
