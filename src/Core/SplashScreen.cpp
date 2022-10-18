@@ -31,7 +31,7 @@ Polymorph::SplashScreen::SplashScreen(std::string path)
     if (path.ends_with(R"(\Game\Assets)"))
         path = path.substr(0, path.size() - std::string(R"(\Game\Assets)").size());
 
-    _icon = std::make_unique<TextureModule>("./" + path + "/Engine/PolymorphEngineIcon.png");
+    _icon = std::make_unique<TextureModule>("./" + path + "/Engine/Assets/PolymorphEngineIcon.png");
     _label = std::make_unique<TextModule>("Made with Polymorph Engine", 40);
     _authors.push_back(std::make_unique<TextModule>("By:", 20));
     _authors.push_back(std::make_unique<TextModule>("Alexandre JUBLOT", 20));
@@ -40,7 +40,7 @@ Polymorph::SplashScreen::SplashScreen(std::string path)
     _authors.push_back(std::make_unique<TextModule>("Vincent MARDIROSSIAN", 20));
 
     _icon->setPosition(centerTexture(_icon, Vector2(0, -128)));
-    _label->setPosition(centerText(_label, Vector2(0, 32), .285f));
+    _label->setPosition(centerText(_label, Vector2(0, 32), .32f));
 
     Vector2 pos = Vector2(0, 112);
     for (auto &author : _authors) {
@@ -52,9 +52,8 @@ Polymorph::SplashScreen::SplashScreen(std::string path)
     GraphicalAPI::CurrentDisplay->beginDrawing();
     _icon->draw();
     _label->draw();
-    for (auto &author : _authors) {
+    for (auto &author : _authors)
         author->draw();
-    }
     GraphicalAPI::CurrentDisplay->endDrawing();
 }
 

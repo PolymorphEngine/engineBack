@@ -54,6 +54,8 @@ namespace Polymorph
             float _lineSpacing;
             Color _color;
 
+            const std::string _fallBackFont = "./Engine/Assets/default_font.ttf";
+
             //////////////////////--------------------------/////////////////////////
 
 
@@ -85,6 +87,8 @@ namespace Polymorph
 
         private:
             void _loadModules();
+
+            void _checkFontPath();
 
             //////////////////////--------------------------/////////////////////////
 

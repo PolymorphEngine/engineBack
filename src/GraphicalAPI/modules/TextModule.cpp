@@ -5,10 +5,9 @@
 ** TextModule.cpp
 */
 
-
+#include <filesystem>
 #include "GraphicalAPI/modules/TextModule.hpp"
 #include "GraphicalAPI/GraphicalAPI.hpp"
-
 
 Polymorph::TextModule::TextModule(std::string str, float size)
 {
@@ -17,8 +16,9 @@ Polymorph::TextModule::TextModule(std::string str, float size)
     _lineSpacing = 5;
     _textString = str;
     _fontFilepath = "";
+    _checkFontPath();
     _text = std::unique_ptr<Polymorph::ITextModule>(_c_text(_textString));
-    _font = std::unique_ptr<Polymorph::IFontModule>(_c_font(_fontFilepath));
+    setFont(_fontFilepath);
     setFontSize(_fontSize);
     setSpacing(_lineSpacing);
     setColor(Color(255, 255, 255, 255));
@@ -32,13 +32,14 @@ Polymorph::TextModule::TextModule(std::shared_ptr<myxmlpp::Node> &data, Config::
     manager.setSubProperty("_textString", data, _textString);
     manager.setSubProperty("_fontFilepath", data, _fontFilepath);
     _fontFilepath = "./Game/Assets/" + _fontFilepath;
+    _checkFontPath();
     manager.setSubProperty("_fontSize", data, _fontSize);
     manager.setSubProperty("_lineSpacing", data, _lineSpacing);
     if (_lineSpacing == 0)
         _lineSpacing = 1;
     manager.setSubProperty("_color", data, _color);
     _text = std::unique_ptr<Polymorph::ITextModule>(_c_text(_textString));
-    _font = std::unique_ptr<Polymorph::IFontModule>(_c_font(_fontFilepath));
+    setFont(_fontFilepath);
     setFontSize(_fontSize);
     setSpacing(_lineSpacing);
     setColor(_color);
@@ -108,4 +109,16 @@ void Polymorph::TextModule::_loadModules()
         return;
     _c_text = GraphicalAPI::loadSymbol<TextModuleLoader, GraphicalAPI>("createTextModule");
     _c_font = GraphicalAPI::loadSymbol<FontModuleLoader, GraphicalAPI>("createFontModule");
+}
+
+void Polymorph::TextModule::_checkFontPath()
+{
+    if (std::filesystem::exists(_fontFilepath))
+        return;
+    if (std::filesystem::exists(_fallBackFont)) {
+        _fontFilepath = _fallBackFont;
+        Logger::log("Font path seems invalid, using default texture!", Logger::MINOR);
+        return;
+    }
+    Logger::log("Font path seems invalid and unable to load default texture ! A crash can occur!", Logger::MAJOR);
 }

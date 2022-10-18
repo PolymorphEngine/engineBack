@@ -61,7 +61,7 @@ namespace Polymorph
             std::string _filepath;
             Color _color;
 
-            const std::string fallBackTexture = "missing.png";
+            const std::string _fallBackTexture = "./Engine/Assets/default_texture.png";
 
             //////////////////////--------------------------/////////////////////////
 
@@ -95,6 +95,8 @@ namespace Polymorph
             void _flipImageToTexture();
 
             void _loadModules();
+
+            void _checkTexturePath();
 
             //////////////////////--------------------------/////////////////////////
 

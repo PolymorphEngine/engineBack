@@ -5,16 +5,16 @@
 ** MeshModule.cpp
 */
 
-
+#include <filesystem>
 #include "GraphicalAPI/modules/TextureModule.hpp"
 #include "GraphicalAPI/GraphicalAPI.hpp"
 #include "Polymorph/Types.hpp"
-#include <filesystem>
 
 Polymorph::TextureModule::TextureModule(const std::string &path)
 {
     _loadModules();
     _filepath = path;
+    _checkTexturePath();
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     _color = Color{255, 255, 255, 255};
     _crop = {_crop.x, _crop.y, _texture->getTextureWidth(), _texture->getTextureHeight()};
@@ -27,24 +27,8 @@ Polymorph::TextureModule::TextureModule(std::shared_ptr<myxmlpp::Node> &data, Co
     _loadModules();
     manager.setSubProperty("_filepath", data, _filepath);
     manager.setSubProperty("_color", data, _color);
-
-    if (_filepath.empty()) {
-        if (std::filesystem::exists("./Engine/" + fallBackTexture)) {
-            _filepath = "./Engine/" + fallBackTexture;
-            Logger::log("Missing texture path, using default texture!", Logger::MINOR);
-        } else
-            Logger::log("Missing texture path and unable to load default texture ! A crash can occur!", Logger::MAJOR);
-    } else {
-        _filepath = "./Game/Assets/" + _filepath;
-        if (!std::filesystem::exists(_filepath)) {
-            if (std::filesystem::exists("./Engine/" + fallBackTexture)) {
-                _filepath = "./Engine/" + fallBackTexture;
-                Logger::log("Texture path seems invalid, using default texture!", Logger::MINOR);
-            } else
-                Logger::log("Texture path seems invalid and unable to load default texture ! A crash can occur!", Logger::MAJOR);
-        }
-    }
-
+    _filepath = "./Game/Assets/" + _filepath;
+    _checkTexturePath();
     _texture = std::unique_ptr<Polymorph::ITextureModule>(_c_texture(_filepath));
     manager.setSubProperty("_crop", data, _crop);
     if (_color.r == 0 && _color.g == 0 && _color.b == 0 && _color.a == 0)
@@ -138,6 +122,19 @@ float Polymorph::TextureModule::getTextureHeight()
 {
     return _texture->getTextureHeight();
 }
+
+void Polymorph::TextureModule::_checkTexturePath()
+{
+    if (std::filesystem::exists(_filepath))
+        return;
+    if (std::filesystem::exists(_fallBackTexture)) {
+        _filepath = _fallBackTexture;
+        Logger::log("Texture path seems invalid, using default texture!", Logger::MINOR);
+        return;
+    }
+    Logger::log("Texture path seems invalid and unable to load default texture ! A crash can occur!", Logger::MAJOR);
+}
+
 /*
 Polymorph::Vector2 Polymorph::TextureModule::getSize()
 {
