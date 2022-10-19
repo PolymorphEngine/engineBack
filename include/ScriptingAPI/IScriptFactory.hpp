@@ -40,6 +40,7 @@ namespace Polymorph
             create(std::string &type, Config::XmlComponent &data,
                    safe_ptr<Entity> entity) = 0;
 
+            virtual bool hasType(std::string &type) = 0;
 
         private:
 
