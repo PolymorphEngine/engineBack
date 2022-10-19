@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Core/component/base/Component.hpp"
+#include "Core/Component/base/Component.hpp"
 #include "GraphicalAPI/modules/MusicModule.hpp"
 
 namespace Polymorph

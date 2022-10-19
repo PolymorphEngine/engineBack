@@ -8,7 +8,7 @@
 #include "Polymorph/Core.hpp"
 #include "Polymorph/Components.hpp"
 #include "Polymorph/Events.hpp"
-#include "Core/component/builtins/ui/InputFieldComponent.hpp"
+#include "Core/Component/builtins/ui/InputFieldComponent.hpp"
 
 namespace Polymorph
 {

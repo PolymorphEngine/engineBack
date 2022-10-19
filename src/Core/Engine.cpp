@@ -6,7 +6,6 @@
 */
 
 #include <Polymorph/Core.hpp>
-#include <Polymorph/Components.hpp>
 #include <Polymorph/Settings.hpp>
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Debug.hpp>

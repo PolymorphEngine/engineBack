@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <functional>
 #include "GraphicalAPI/modules/MeshModule.hpp"
-#include "Core/component/builtins/drawables/MeshRendererComponent.hpp"
+#include "Core/Component/builtins/drawables/MeshRendererComponent.hpp"
 
 
 namespace Polymorph

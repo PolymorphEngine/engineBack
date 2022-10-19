@@ -8,11 +8,12 @@
 #ifndef PLUGINMANAGER_HPP
 #define PLUGINMANAGER_HPP
 
-#include "DynamicLoader/DynamicLoader.hpp"
 #include "IPlugin.hpp"
+#include "DynamicLoader.hpp"
 
 namespace Polymorph
 {
+    
     
     class PluginManager
     {

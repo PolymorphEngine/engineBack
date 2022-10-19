@@ -3,10 +3,7 @@ project(Engine)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(
-        lib/myxmlpp/include
-        include
-)
+
 
 add_subdirectory(lib/myxmlpp)
 set_target_properties(myxmlpp PROPERTIES POSITION_INDEPENDENT_CODE ON)
@@ -20,6 +17,11 @@ add_library(PolymorphEngine
         ${ICL}
         ${ICL_HEADERS}
 )
+target_include_directories(PolymorphEngine PUBLIC
+        lib/myxmlpp/include
+        include
+)
+
 target_link_libraries(PolymorphEngine myxmlpp)
 if (UNIX)
     target_link_libraries(PolymorphEngine dl)

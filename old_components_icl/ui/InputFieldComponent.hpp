@@ -9,7 +9,7 @@
 
 #include "Polymorph/Components.hpp"
 #include "Polymorph/Types.hpp"
-#include "Core/component/builtins/drawables/TextRendererComponent.hpp"
+#include "Core/Component/builtins/drawables/TextRendererComponent.hpp"
 
 namespace Polymorph
 {

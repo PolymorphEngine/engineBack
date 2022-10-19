@@ -7,6 +7,6 @@
 
 #pragma once
 
-#include "../Core/settings/AudioSettings.hpp"
-#include "../Core/settings/VideoSettings.hpp"
-#include "../Core/settings/PhysicsSettings.hpp"
+#include "Core/Settings/AudioSettings.hpp"
+#include "Core/Settings/VideoSettings.hpp"
+#include "Core/Settings/PhysicsSettings.hpp"

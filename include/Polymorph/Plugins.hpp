@@ -8,7 +8,8 @@
 #ifndef ENGINE_PLUGINS_HPP
 #define ENGINE_PLUGINS_HPP
 
-#include "../Plugins/PluginManager.hpp"
-#include "../Plugins/Symbols.hpp"
+#include "Plugins/PluginManager.hpp"
+#include "Plugins/Symbols.hpp"
+#include "Plugins/DynamicLoader.hpp"
 
 #endif //ENGINE_PLUGINS_HPP

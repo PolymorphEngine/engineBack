@@ -15,7 +15,7 @@
 #include "Config/XmlComponent.hpp"
 #include "MeshModule.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/IModelAnimationModule.hpp"
-#include "Core/component/builtins/animation/MeshAnimation.hpp"
+#include "Core/Component/builtins/animation/MeshAnimation.hpp"
 
 namespace Polymorph
 {

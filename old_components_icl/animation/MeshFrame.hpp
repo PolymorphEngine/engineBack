@@ -10,7 +10,7 @@
 
 #include <unordered_map>
 #include "GraphicalAPI/modules/MeshModule.hpp"
-#include "Core/component/builtins/drawables/MeshRendererComponent.hpp"
+#include "Core/Component/builtins/drawables/MeshRendererComponent.hpp"
 
 namespace Polymorph
 {

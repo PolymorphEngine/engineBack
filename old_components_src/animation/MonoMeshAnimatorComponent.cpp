@@ -5,9 +5,9 @@
 ** MonoMeshAnimator.cpp
 */
 
-#include "Core/component/builtins/animation/MonoMeshAnimatorComponent.hpp"
-#include "Core/component/builtins/animation/MeshFrame.hpp"
-#include "Core/component/builtins/colliders/ColliderMesh3d.hpp"
+#include "Core/Component/builtins/animation/MonoMeshAnimatorComponent.hpp"
+#include "Core/Component/builtins/animation/MeshFrame.hpp"
+#include "Core/Component/builtins/colliders/ColliderMesh3d.hpp"
 #include <Polymorph/Components.hpp>
 
 

@@ -8,7 +8,7 @@
 #ifndef ENGINE_ACOLLIDER2D_HPP
 #define ENGINE_ACOLLIDER2D_HPP
 
-#include "Core/component/base/Component.hpp"
+#include "Core/Component/base/Component.hpp"
 #include "Utilities/InstanceStore.hpp"
 #include <map>
 

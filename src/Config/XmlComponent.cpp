@@ -7,10 +7,7 @@
 
 
 #include <Polymorph/Core.hpp>
-#include <Polymorph/Factory.hpp>
 #include <Polymorph/Config.hpp>
-#include <Polymorph/Components.hpp>
-#include <Polymorph/Types.hpp>
 
 
 std::string Polymorph::Config::XmlComponent::getType()

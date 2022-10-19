@@ -5,9 +5,9 @@
 ** MeshAnimator.cpp
 */
 
-#include "Core/component/builtins/animation/MeshAnimatorComponent.hpp"
-#include "Core/component/builtins/animation/MeshFrame.hpp"
-#include "Core/component/builtins/animation/MeshAnimatorComponent.hpp"
+#include "Core/Component/builtins/animation/MeshAnimatorComponent.hpp"
+#include "Core/Component/builtins/animation/MeshFrame.hpp"
+#include "Core/Component/builtins/animation/MeshAnimatorComponent.hpp"
 
 
 Polymorph::MeshAnimatorComponent::MeshAnimatorComponent(GameObject gameObject):

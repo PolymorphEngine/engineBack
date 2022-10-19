@@ -15,10 +15,10 @@
 #include <myxmlpp.hpp>
 
 #include "Utilities/safe_ptr.hpp"
-#include "Core/scene/SceneManager.hpp"
-#include "Log/Logger.hpp"
-#include "Core/entity/Entity.hpp"
-#include "Exceptions/ConfigurationException.hpp"
+#include "Core/Scene/SceneManager.hpp"
+#include "Debug/Log/Logger.hpp"
+#include "Core/Entity/Entity.hpp"
+#include "Debug/Exceptions/ConfigurationException.hpp"
 
 namespace Polymorph
 {

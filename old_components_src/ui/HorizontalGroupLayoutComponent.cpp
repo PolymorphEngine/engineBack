@@ -7,7 +7,7 @@
 
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
-#include "Core/component/builtins/ui/HorizontalGroupLayoutComponent.hpp"
+#include "Core/Component/builtins/ui/HorizontalGroupLayoutComponent.hpp"
 
 namespace Polymorph
 {

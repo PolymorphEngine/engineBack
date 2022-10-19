@@ -8,37 +8,37 @@
 #ifndef ENGINE_FACTORY_ICLS_HPP
 #define ENGINE_FACTORY_ICLS_HPP
 
-#include "../Core/component/builtins/CameraComponent.hpp"
+#include "../Core/Component/builtins/CameraComponent.hpp"
 
-#include "../Core/component/builtins/ui/CanvasComponent.hpp"
-#include "../Core/component/builtins/ui/ButtonComponent.hpp"
-#include "../Core/component/builtins/ui/HorizontalGroupLayoutComponent.hpp"
-#include "../Core/component/builtins/ui/InputFieldComponent.hpp"
-#include "../Core/component/builtins/ui/VerticalGroupLayoutComponent.hpp"
+#include "../Core/Component/builtins/ui/CanvasComponent.hpp"
+#include "../Core/Component/builtins/ui/ButtonComponent.hpp"
+#include "../Core/Component/builtins/ui/HorizontalGroupLayoutComponent.hpp"
+#include "../Core/Component/builtins/ui/InputFieldComponent.hpp"
+#include "../Core/Component/builtins/ui/VerticalGroupLayoutComponent.hpp"
 
 //  Drawables
-#include "../Core/component/base/ADrawable2dComponent.hpp"
-#include "../Core/component/base/ADrawable3dComponent.hpp"
-#include "../Core/component/builtins/drawables/SpriteRendererComponent.hpp"
-#include "../Core/component/builtins/animation/SpriteAnimatorScript.hpp"
-#include "../Core/component/builtins/drawables/TextRendererComponent.hpp"
-#include "../Core/component/builtins/drawables/MeshRendererComponent.hpp"
-#include "../Core/component/builtins/drawables/BoxRendererComponent.hpp"
-#include "../Core/component/builtins/drawables/SphereRendererComponent.hpp"
-#include "../Core/component/builtins/animation/MeshAnimatorComponent.hpp"
-#include "../Core/component/builtins/animation/MonoMeshAnimatorComponent.hpp"
+#include "../Core/Component/base/ADrawable2dComponent.hpp"
+#include "../Core/Component/base/ADrawable3dComponent.hpp"
+#include "../Core/Component/builtins/drawables/SpriteRendererComponent.hpp"
+#include "../Core/Component/builtins/animation/SpriteAnimatorScript.hpp"
+#include "../Core/Component/builtins/drawables/TextRendererComponent.hpp"
+#include "../Core/Component/builtins/drawables/MeshRendererComponent.hpp"
+#include "../Core/Component/builtins/drawables/BoxRendererComponent.hpp"
+#include "../Core/Component/builtins/drawables/SphereRendererComponent.hpp"
+#include "../Core/Component/builtins/animation/MeshAnimatorComponent.hpp"
+#include "../Core/Component/builtins/animation/MonoMeshAnimatorComponent.hpp"
 
 //  Colliders
-#include "../Core/component/base/ACollider2d.hpp"
-#include "../Core/component/base/ACollider3d.hpp"
-#include "../Core/component/builtins/colliders/ColliderCircle2d.hpp"
-#include "../Core/component/builtins/colliders/ColliderRect2d.hpp"
-#include "../Core/component/builtins/colliders/ColliderMesh3d.hpp"
-#include "../Core/component/builtins/colliders/ColliderSphere3d.hpp"
-#include "../Core/component/builtins/colliders/BoxCollider.hpp"
+#include "../Core/Component/base/ACollider2d.hpp"
+#include "../Core/Component/base/ACollider3d.hpp"
+#include "../Core/Component/builtins/colliders/ColliderCircle2d.hpp"
+#include "../Core/Component/builtins/colliders/ColliderRect2d.hpp"
+#include "../Core/Component/builtins/colliders/ColliderMesh3d.hpp"
+#include "../Core/Component/builtins/colliders/ColliderSphere3d.hpp"
+#include "../Core/Component/builtins/colliders/BoxCollider.hpp"
 
-#include "Core/component/builtins/sound/SoundPlayerComponent.hpp"
-#include "Core/component/builtins/sound/MusicPlayerComponent.hpp"
+#include "Core/Component/builtins/sound/SoundPlayerComponent.hpp"
+#include "Core/Component/builtins/sound/MusicPlayerComponent.hpp"
 
 
 #include "ComponentsFactory/initializers/MeshAnimatorInitializer.hpp"

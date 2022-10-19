@@ -5,8 +5,8 @@
 ** MeshAnimation.cpp
 */
 
-#include "Core/component/builtins/animation/MeshAnimation.hpp"
-#include "Core/component/builtins/animation/MeshFrame.hpp"
+#include "Core/Component/builtins/animation/MeshAnimation.hpp"
+#include "Core/Component/builtins/animation/MeshFrame.hpp"
 
 Polymorph::MeshAnimation::MeshAnimation(std::shared_ptr<myxmlpp::Node> &data,
                                         Config::XmlComponent &manager)

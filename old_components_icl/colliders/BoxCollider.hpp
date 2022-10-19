@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Core/component/base/ACollider3d.hpp"
+#include "Core/Component/base/ACollider3d.hpp"
 #include "GraphicalAPI/modules/BoxModule.hpp"
 #include "GraphicalAPI/modules/TextureModule.hpp"
 #include "GraphicalAPI/modules/MeshModule.hpp"

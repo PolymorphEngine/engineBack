@@ -6,7 +6,7 @@
 */
 
 
-#include "Core/component/builtins/sound/SoundPlayerComponent.hpp"
+#include "Core/Component/builtins/sound/SoundPlayerComponent.hpp"
 #include "AudioSettings.hpp"
 
 Polymorph::SoundPlayerComponent::SoundPlayerComponent(Polymorph::GameObject gameObject) : Component("SoundPlayer", gameObject)

@@ -9,7 +9,7 @@
 #define ENGINE_SPRITERENDERERCOMPONENT_HPP
 
 
-#include "Core/component/base/ADrawable2dComponent.hpp"
+#include "Core/Component/base/ADrawable2dComponent.hpp"
 #include "GraphicalAPI/modules/TextureModule.hpp"
 #include "GraphicalAPI/modules/MeshModule.hpp"
 

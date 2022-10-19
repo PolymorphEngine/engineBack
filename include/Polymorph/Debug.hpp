@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "../Exceptions/ExceptionLogger.hpp"
-#include "../Exceptions/ConfigurationException.hpp"
-#include "../Exceptions/GraphicalException.hpp"
-#include "../Log/Logger.hpp"
+#include "Debug/Exceptions/ExceptionLogger.hpp"
+#include "Debug/Exceptions/ConfigurationException.hpp"
+#include "Debug/Exceptions/GraphicalException.hpp"
+#include "Debug/Log/Logger.hpp"

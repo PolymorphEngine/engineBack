@@ -7,7 +7,7 @@
 
 #include "Polymorph/Core.hpp"
 #include "Polymorph/Components.hpp"
-#include "Core/component/builtins/ui/CanvasComponent.hpp"
+#include "Core/Component/builtins/ui/CanvasComponent.hpp"
 
 namespace Polymorph
 {

@@ -8,7 +8,7 @@
 
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
-#include "Core/component/builtins/animation/SpriteAnimatorScript.hpp"
+#include "Core/Component/builtins/animation/SpriteAnimatorScript.hpp"
 
 namespace Polymorph
 {

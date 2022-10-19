@@ -8,7 +8,7 @@
 #include "Polymorph/Core.hpp"
 #include "Polymorph/Components.hpp"
 #include "Polymorph/Events.hpp"
-#include "Core/component/builtins/ui/ButtonComponent.hpp"
+#include "Core/Component/builtins/ui/ButtonComponent.hpp"
 
 namespace Polymorph
 {

@@ -6,7 +6,7 @@
 */
 
 
-#include "Core/component/builtins/animation/SpriteAnimation.hpp"
+#include "Core/Component/builtins/animation/SpriteAnimation.hpp"
 
 Polymorph::SpriteAnimation::SpriteAnimation(
         std::shared_ptr<myxmlpp::Node> &data,

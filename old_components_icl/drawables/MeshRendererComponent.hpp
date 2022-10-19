@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Core/component/base/ADrawable3dComponent.hpp"
+#include "Core/Component/base/ADrawable3dComponent.hpp"
 #include "GraphicalAPI/modules/MeshModule.hpp"
 
 namespace Polymorph

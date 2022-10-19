@@ -9,7 +9,7 @@
 
 #include "Polymorph/Types.hpp"
 #include "Polymorph/Components.hpp"
-#include "Core/component/builtins/drawables/SpriteRendererComponent.hpp"
+#include "Core/Component/builtins/drawables/SpriteRendererComponent.hpp"
 
 namespace Polymorph
 {
