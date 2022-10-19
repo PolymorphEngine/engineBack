@@ -23,6 +23,8 @@ namespace Polymorph
             static inline std::vector<std::string> _pluginsPath;
             static inline std::vector<DynamicLibLoader> _pluginsLoaders;
             static inline std::vector<std::shared_ptr<IPlugin>> _plugins;
+            static inline std::vector<std::shared_ptr<Entity>> _prefabs;
+            
             
         public:
             static void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
@@ -41,6 +43,8 @@ namespace Polymorph
             
             
             static std::shared_ptr<IComponentInitializer> tryCreateComponent(std::string &type, Config::XmlComponent &data, GameObject entity);
+            static std::vector<Config::XmlComponent> getTemplates();
+            static GameObject getPrefab(const std::string &id);
             static void startingScripts();
             static void preProcessing();
             static void lateUpdate();

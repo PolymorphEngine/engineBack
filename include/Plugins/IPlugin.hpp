@@ -36,11 +36,11 @@ namespace Polymorph
 
             virtual bool hasComponent(std::string &type) = 0;
             
-            virtual bool hasPrefab(std::string &id) = 0;
+            virtual bool hasPrefab(const std::string &id) = 0;
 
-            virtual std::shared_ptr<Config::XmlEntity> &getPrefabConf(std::string &id) = 0;
+            virtual std::shared_ptr<Config::XmlEntity> &getPrefabConf(const std::string &id) = 0;
     
-            virtual std::vector<std::shared_ptr<Config::XmlComponent>> &getComponentTemplates() = 0;
+            virtual std::vector<Config::XmlComponent> &getComponentTemplates() = 0;
     
             virtual void preUpdateInternalSystems(std::shared_ptr<Scene> &scene) = 0;
             
@@ -62,30 +62,23 @@ namespace Polymorph
 Whats builtin ?:
     - Parsing (Polymorph::Config)
     - E.C.S (Entity, Component, Scene)
-    - i-core
-    - i-render
-    - i-advanced-render
-    - i-physics
-    - i-audio
-    - i-input
-    - i-gui
-    - i-event
-    - i-systems
+
 
 Type of data to have in a Plugin:
     - Prefabs
-    - Components
-    - Modules
-    - Factory
     - Initializers
+    - Components
     - Components Templates
+    - Factory
+    - Modules (classes serializable)
     - Some default assets (Textures/ Fonts / ...)
+    - Some internal plugin updates
 
 
 Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     
      
-    - raylib-core
+    - raylib-core <- render-core
     - raylib-render
     - raylib-advanced-render
     - raylib-gui
@@ -93,11 +86,9 @@ Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     - raylib-audio
     - raylib-input
 
-    - assets-api
- 
-    - render-core : deps [raylib-render]
-    - render-2D : deps [raylib-render]
-    - render-3D : deps [raylib-render]
+    - render-core <- Polymorph::WindowModule, IWindowModule
+    - render-2D
+    - render-3D
     - physics-2D : deps [raylib-physics, render-2D]
     - physics-3D : deps [raylib-physics, render-3D]
     - shader : deps [raylib-advanced-render, render-2D, render-3D]
@@ -106,7 +97,9 @@ Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     - gui : deps [raylib-gui, render-2D, render-3D]
     - audio : [raylib-audio]
     - input : [raylib-input]
-
+    
+    
+    - splash-screen
     - ltunl 
     - event
 
