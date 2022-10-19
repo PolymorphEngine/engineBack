@@ -30,5 +30,7 @@ Polymorph::ScriptingApi::create(std::string &type,
         Logger::log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);
         return nullptr;
     }
-    return _scriptFactory->create(type, data, entity);
+    if (_scriptFactory->hasType(type))
+        return _scriptFactory->create(type, data, entity);
+    return nullptr;
 }
