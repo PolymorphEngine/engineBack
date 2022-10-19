@@ -96,4 +96,32 @@ namespace Polymorph
         }  
         return nullptr;
     }
+
+    std::vector<Config::XmlComponent>
+    PluginManager::getTemplates()
+    {
+        std::vector<Config::XmlComponent> templates;
+        
+        for (auto &plugin : _plugins) {
+            if (plugin->isEnabled())
+            {
+                auto tmp = plugin->getComponentTemplates();
+                templates.insert(templates.end(), tmp.begin(), tmp.end());
+            }
+        }
+        return templates;
+    }
+
+    GameObject PluginManager::getPrefab(const std::string &id)
+    {
+        for (auto &plugin : _plugins) {
+            if (plugin->isEnabled() && plugin->hasPrefab(id))
+            {
+                auto e = plugin->getPrefabConf(id)->makeInstance(true, false);
+                _prefabs.push_back(e);
+                return GameObject(e);
+            }
+            return GameObject(nullptr);
+        }
+    }
 }

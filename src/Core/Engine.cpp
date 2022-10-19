@@ -41,8 +41,8 @@ int Polymorph::Engine::run()
     SceneManager::Current->loadScene();
     while (!_exit) {
         _time.computeDeltaTime();
-        PluginManager::preProcessing();
         SceneManager::resetLoading();
+        PluginManager::preProcessing();
         SceneManager::Current->updateComponents();
         PluginManager::lateUpdate();
         PluginManager::postProcessing();
@@ -308,7 +308,8 @@ void Polymorph::Engine::_initTemplates()
         Logger::log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
                     Logger::MINOR);
     }
-
+    auto tmp = PluginManager::getTemplates();
+    _defaultConfigs.insert(_defaultConfigs.end(), tmp.begin(), tmp.end());
 
 }
 
