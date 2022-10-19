@@ -31,6 +31,8 @@ namespace Polymorph
     
             virtual std::shared_ptr<IComponentInitializer> createComponent(std::string &type,
             Config::XmlComponent &data, GameObject entity) = 0;
+            
+            virtual bool isEnabled() = 0;
 
             virtual bool hasComponent(std::string &type) = 0;
             

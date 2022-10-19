@@ -12,8 +12,8 @@
 #include "ScriptingAPI/ScriptingApi.hpp"
 
 
-Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName)
-: _projectPath(projectPath), _projectName(std::move(projectName))
+Polymorph::Engine::Engine(std::string projectName, const std::string &projectPath, std::string pluginPath)
+: _projectPath(projectPath), _projectName(std::move(projectName)), _pluginsPath(pluginPath)
 {
 #ifdef _WIN32
     Logger::setLogDir(projectPath + "\\Logs");
@@ -222,7 +222,7 @@ void Polymorph::Engine::loadEngine()
     try {
         auto p = _projectConfig->getRoot()->findChild("Plugins");
         if (p)
-            PluginManager::loadPlugins(_projectPath, *p, *this);
+            PluginManager::loadPlugins(_pluginsPath, *p, *this);
         else
             Logger::log("[Plugins] No plugins found in project config.", Logger::MINOR);
     } catch (ExceptionLogger &e) {

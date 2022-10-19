@@ -14,8 +14,8 @@
 namespace Polymorph
 {
     
-    void PluginManager::loadPlugins(const std::string &pluginsPath, Config::XmlNode &list,
-                               Engine &game)
+    void PluginManager::loadPlugins(const std::string &pluginsPath, 
+    Config::XmlNode &list, Engine &game)
     {
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
@@ -44,7 +44,8 @@ namespace Polymorph
     void PluginManager::preProcessing()
     {
         for (auto &plugin : _plugins) {
-            plugin->preUpdateInternalSystems(SceneManager::Current);
+            if (plugin->isEnabled())
+                plugin->preUpdateInternalSystems(SceneManager::Current);
         }
     }
 
@@ -52,29 +53,32 @@ namespace Polymorph
     {
 
         for (auto &plugin : _plugins) {
-            plugin->updateInternalSystems(SceneManager::Current);
+            if (plugin->isEnabled())
+                plugin->updateInternalSystems(SceneManager::Current);
         }
     }
 
     void PluginManager::postProcessing()
     {
         for (auto &plugin : _plugins) {
-            plugin->postUpdateInternalSystems(SceneManager::Current);
+            if (plugin->isEnabled())
+                plugin->postUpdateInternalSystems(SceneManager::Current);
         }
     }
 
     void PluginManager::startingScripts()
     {
         for (auto &plugin : _plugins) {
-            plugin->startScripts(SceneManager::Current);
+            if (plugin->isEnabled())
+                plugin->startScripts(SceneManager::Current);
         }      
     }
 
     void PluginManager::endingScripts()
     {
-
         for (auto &plugin : _plugins) {
-            plugin->endScripts(SceneManager::Current);
+            if (plugin->isEnabled())
+                plugin->endScripts(SceneManager::Current);
         }
     }
 
@@ -84,7 +88,11 @@ namespace Polymorph
     {
         for (auto &plugin : _plugins) {
             if (plugin->hasComponent(type))
-                return plugin->createComponent(type, data, entity);
+                if (!plugin->isEnabled()) {
+                    Logger::log("Plugin " + plugin->getPackageName() + " is disabled, can't create component '" + type +"'", Logger::MINOR);
+                    return nullptr;
+                }
+            return plugin->createComponent(type, data, entity);
         }  
         return nullptr;
     }

@@ -64,8 +64,7 @@ namespace Polymorph
              * @param projectPath path containing resources to load
              * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
              */
-            explicit Engine(const std::string &projectPath,
-                            std::string projectName);
+            explicit Engine(std::string projectName,const std::string &projectPath, std::string pluginPath);
 
             ~Engine();
 //////////////////////--------------------------/////////////////////////
