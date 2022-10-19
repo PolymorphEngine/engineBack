@@ -6,18 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 include_directories(
         lib/myxmlpp/include
         include
-        include/Core
-        include/Exceptions
-        include/Core/component
-        include/Core/component/builtins
-        include/Core/component/builtins/drawables
-        include/Core/component/builtins/colliders
-        include/Core/entity
-        include/Config
-        include/Core/scene
-        include/Core/settings
-        include/Utilities
-        include/Utilities/types
 )
 
 add_subdirectory(lib/myxmlpp)

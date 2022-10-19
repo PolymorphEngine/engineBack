@@ -222,9 +222,9 @@ namespace Polymorph
              * @details Looks for the drawable component of the entity,
              *          then calls draw() of children.
              */
-            void draw();
+           // void draw();
 
-            void draw2d(Canvas canvas = Canvas(nullptr));
+           // void draw2d(Canvas canvas = Canvas(nullptr));
 
             /**
              * @details Draws the children
@@ -252,8 +252,7 @@ namespace Polymorph
              */
             void awake(bool rescurse = false);
 
-            void
-            addComponent(std::string &component, Config::XmlComponent &config,
+            void addComponent(std::string &component, Config::XmlComponent &config,
                          GameObject gameObject);
 
             void initTransform();

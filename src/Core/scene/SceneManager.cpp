@@ -8,7 +8,6 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
-#include "SceneManager.hpp"
 
 
 std::vector<Polymorph::GameObject> Polymorph::SceneManager::getAll()

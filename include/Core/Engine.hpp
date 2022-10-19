@@ -43,8 +43,6 @@ namespace Polymorph
 
     class Time;
 
-    class GraphicalAPI;
-
     class ScriptingApi;
 
     class TextureModule;
@@ -120,6 +118,7 @@ namespace Polymorph
              * @property _projectPath path to the project
              */
             std::string _projectPath;
+            std::string _pluginsPath;
 
             /**
              * @property _projectName name of the project
@@ -129,12 +128,12 @@ namespace Polymorph
             /**
              * @property is_debug_session set the engine in debug mode or not
              */
-            bool is_debug_session = false;
+            bool isDebugSession = false;
 
             /**
              * @property is_windowless_session set the engine in windowless mode or not
              */
-            bool is_windowless_session = false;
+            bool isWindowlessSession = false;
 
             /**
              * @property _projectConfig configuration of the project
@@ -160,26 +159,15 @@ namespace Polymorph
              * @property _videoSettings video settings of the engine
              */
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
-
-            /**
-             * @property _display display module of the engine
-             */
-            safe_ptr<DisplayModule> _display;
-
-            /**
-             * @property _graphicalApi graphical api linked to the display of the engine
-             */
-            std::unique_ptr<GraphicalAPI> _graphicalApi;
-
+           
             /**
              * @property _scriptingApi scripting api of the engine to manage scripts of the game
              */
             std::unique_ptr<ScriptingApi> _scriptingApi;
-
             /**
              * @property _splashScreen splash screen of the engine
              */
-            std::unique_ptr<SplashScreen> _splashScreen;
+   //         std::unique_ptr<SplashScreen> _splashScreen;
 
 //////////////////////--------------------------/////////////////////////
 
@@ -205,15 +193,14 @@ namespace Polymorph
              * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void
-            loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
+            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
 
             /**
              * @brief Loads a graphical api from the filepath to an shared library ('.so')
              * @param graphicalLibPath the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadGraphicalAPI(const std::string &graphicalLibPath);
+            //void loadGraphicalAPI(const std::string &graphicalLibPath);
 
             /**
              * @brief Loads the game configuration and inits all gameObjects/Components/Scenes
@@ -256,6 +243,12 @@ namespace Polymorph
              */
             bool isWindowLessSession();
 
+
+            /**
+             * @brief Check if the engine is in debug mode or not
+             * @return true if debug is on
+             */
+            bool isDebugMode();
             /**
              * @brief Getter of default configuration of the components
              * @return the default configuration of the components

@@ -31,6 +31,7 @@ class DynamicLibLoader
 #else
         void *_handler = nullptr;
 #endif
+        std::string _libPath;
         //   void *_handler = nullptr;
 
     public:
@@ -40,21 +41,17 @@ class DynamicLibLoader
          */
         void loadHandler(const std::string &libPath);
 
-        template<typename T, typename API>
-        static T loadSymbol(std::string name)
+        template<typename T>
+        T loadSymbol(std::string name, bool no_except = false)
         {
 #ifdef _WIN32
             T s = (T) GetProcAddress(API::getHandler(), name.c_str());
-            if (s == nullptr)
-                throw std::runtime_error(
-                        "Failed to find symbol named: " + name);
-            return reinterpret_cast<T>(s);
 #else
-            void *symbol = dlsym(API::getHandler(), name.c_str());
-            if (symbol == nullptr)
-                throw std::runtime_error("Failed to find symbol named: "+ name);
-            return reinterpret_cast<T>(symbol);
+            void *s = dlsym(_handler, name.c_str());
 #endif
+            if (s == nullptr && !no_except)
+                throw std::runtime_error("[DynamicLoader] Failed to find symbol named: " + name + "from lib: " + _libPath + ", type: " + typeid(T).name());
+            return reinterpret_cast<T>(s);
         }
 
     protected:

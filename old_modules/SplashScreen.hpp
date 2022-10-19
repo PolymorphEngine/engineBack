@@ -32,9 +32,9 @@ namespace Polymorph
 
         private:
             Timer _fadeOutTimer = Timer(0.005);
-            std::unique_ptr<TextureModule> _icon;
+         /*   std::unique_ptr<TextureModule> _icon;
             std::unique_ptr<TextModule> _label;
-            std::vector<std::unique_ptr<TextModule>> _authors;
+            std::vector<std::unique_ptr<TextModule>> _authors; */
             bool _done = false;
             unsigned char _currentAlpha = 255;
 

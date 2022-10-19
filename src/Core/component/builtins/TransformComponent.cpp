@@ -7,7 +7,7 @@
 
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
-#include "TransformComponent.hpp"
+#include "Core/component/builtins/TransformComponent.hpp"
 
 
 namespace Polymorph

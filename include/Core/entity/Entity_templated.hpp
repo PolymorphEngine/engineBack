@@ -21,6 +21,7 @@
 #include "Core/entity/Entity.hpp"
 #include "Core/component/base/Component.hpp"
 #include "Config/XmlComponent.hpp"
+#include "Plugins/PluginManager.hpp"
 
 namespace Polymorph
 {
@@ -74,17 +75,18 @@ namespace Polymorph
             return safe_ptr<T>(nullptr);
         //TODO: maybe throw/Log ?
         Config::XmlComponent &config = _game.getDefaultConfig(t);
+        std::shared_ptr<IComponentInitializer> c;
 
-        std::shared_ptr<IComponentInitializer> c = ComponentFactory::create(t,
-                                                                            config,
-                                                                            object);
+        if (t == "Transform")
+            c = std::make_shared<TransformInitializer>(config, object);
         if (c == nullptr)
             c = ScriptingApi::create(t, config, object);
-
+        if (c == nullptr)
+            c = PluginManager::tryCreateComponent(t, config, object);
         if (c == nullptr)
         {
             Logger::log("Unknown component to add at runtime: '" + t +
-                        "'\n\t(this error maybe occurs because you need to add an initializer for the component in the factory)",
+            "'\n\t(this error might be because you need to add Initializer of the component in the Factory)",
                         Logger::MINOR);
             return safe_ptr<T>(nullptr);
         }

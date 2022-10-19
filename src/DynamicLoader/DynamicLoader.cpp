@@ -6,7 +6,7 @@
 */
 
 #include "DynamicLoader/DynamicLoader.hpp"
-#include "GraphicalException.hpp"
+#include "Polymorph/Debug.hpp"
 
 
 DynamicLibLoader::~DynamicLibLoader()
@@ -19,7 +19,6 @@ DynamicLibLoader::~DynamicLibLoader()
 void DynamicLibLoader::loadHandler(const std::string& libPath)
 {
 
-    //TODO: check close error ?
     if (_handler != nullptr)
         closeHandle();
 
@@ -30,7 +29,8 @@ void DynamicLibLoader::loadHandler(const std::string& libPath)
 #endif
 
     if (_handler == nullptr)
-        throw ExceptionLogger("Failed to dl open library at path: " + libPath);
+        throw ExceptionLogger("[DynamicLoader] Failed to dl open library at path: " + libPath);
+    _libPath = libPath;
 }
 
 void DynamicLibLoader::closeHandle() {

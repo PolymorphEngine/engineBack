@@ -7,7 +7,6 @@
 
 #include <Polymorph/Types.hpp>
 #include <Polymorph/Config.hpp>
-#include "Color.hpp"
 
 
 Polymorph::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)

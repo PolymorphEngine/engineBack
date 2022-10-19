@@ -7,7 +7,6 @@
 
 #include "ScriptingAPI/ScriptingApi.hpp"
 #include <Polymorph/Debug.hpp>
-#include "safe_ptr.hpp"
 #include <Polymorph/Core.hpp>
 
 Polymorph::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)

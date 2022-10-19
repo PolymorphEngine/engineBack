@@ -6,7 +6,6 @@
 */
 
 #include <Polymorph/Types.hpp>
-#include "Vector.hpp"
 #include <cmath>
 
 

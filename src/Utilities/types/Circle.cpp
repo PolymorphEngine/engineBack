@@ -7,7 +7,6 @@
 
 #include <Polymorph/Types.hpp>
 #include <cmath>
-#include "Circle.hpp"
 
 
 Polymorph::Circle::Circle(const Polymorph::Vector2 &center, float radius): center(center), radius(radius)

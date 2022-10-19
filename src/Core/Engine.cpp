@@ -8,13 +8,9 @@
 #include <Polymorph/Core.hpp>
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Settings.hpp>
-#include <Polymorph/Types.hpp>
 #include <Polymorph/Config.hpp>
-#include <Polymorph/Factory.hpp>
 #include <Polymorph/Debug.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include "Engine.hpp"
-#include "SplashScreen.hpp"
 
 
 Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName)
@@ -26,14 +22,15 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
     Logger::setLogDir(projectPath + "/Logs");
 #endif
     _openProject();
-    _initDebugSettings();
 
+    _initDebugSettings();
     _initVideoSettings();
     _initAudioSettings();
     _initPhysicSettings();
 
     _initExectutionOrder();
     _initLayers();
+
     _initTemplates();
     SceneManager::Game = this;
 }
@@ -41,21 +38,19 @@ Polymorph::Engine::Engine(const std::string &projectPath, std::string projectNam
 int Polymorph::Engine::run()
 {
     _time = Time();
-    while (!is_windowless_session && !_splashScreen->isFinished()) {
-        _time.computeDeltaTime();
-        _splashScreen->update();
-    }
+    PluginManager::startingScripts();
     SceneManager::Current->loadScene();
-    while ((!_exit && (!!_display && _display->isOpen()))
-    || (!_display && !_exit)) {
+    while (!_exit) {
         _time.computeDeltaTime();
-        if (!is_windowless_session && !!_display)
-            _display->clearWindow();
+        PluginManager::preProcessing();
         SceneManager::resetLoading();
         SceneManager::Current->updateComponents();
+        PluginManager::lateUpdate();
+        PluginManager::postProcessing();
         if (Engine::isExiting() || SceneManager::isSceneUnloaded())
             continue;
     }
+    PluginManager::endingScripts();
     return _exitCode;
 }
 
@@ -126,9 +121,9 @@ void Polymorph::Engine::_initDebugSettings()
 
     try {
         auto debug = settings->findChild("Debug");
-        is_debug_session = debug->findAttribute("enabled")->getValueBool("true", "false");
+        isDebugSession = debug->findAttribute("enabled")->getValueBool("true", "false");
 
-        if (is_debug_session)
+        if (isDebugSession)
             Logger::initLogInstance(Logger::DEBUG_MODE);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);
@@ -222,40 +217,18 @@ Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(const std::
     return *Config::XmlComponent::Empty;
 }
 
-void
-Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
-{
-    if (is_windowless_session)
-        return;
-    try
-    {
-        _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
-        _graphicalApi->reloadAPI(graphicalLibPath);
-        _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
-        GraphicalAPI::CurrentDisplay = _display;
-        _splashScreen = std::make_unique<SplashScreen>(_projectPath);
-        if (is_debug_session)
-            _display->setLogLevel(0);
-        else
-            _display->setLogLevel(5);
-    } catch (GraphicalException &e) {
-        e.what();
-        throw;
-    } catch (std::exception &e) {
-        Logger::log("[Graphical API] " + std::string(e.what()), Logger::MAJOR);
-        throw;
-    }
-
-}
-
-void Polymorph::Engine::loadScriptingAPI(
-        std::unique_ptr<IScriptFactory> scriptFactory)
-{
-    _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
-}
 
 void Polymorph::Engine::loadEngine()
 {
+    try {
+        auto p = _projectConfig->getRoot()->findChild("Plugins");
+        if (p)
+            PluginManager::loadPlugins(_projectPath, *p, *this);
+        else
+            Logger::log("[Plugins] No plugins found in project config.", Logger::MINOR);
+    } catch (ExceptionLogger &e) {
+        e.what();
+    }
     _initPrefabs();
     _initGameData();
 
@@ -342,10 +315,20 @@ void Polymorph::Engine::_initTemplates()
 
 void Polymorph::Engine::setWindowLessMode()
 {
-    is_windowless_session = true;
+    isWindowlessSession = true;
 }
 
 bool Polymorph::Engine::isWindowLessSession()
 {
-    return is_windowless_session;
+    return isWindowlessSession;
+}
+
+bool Polymorph::Engine::isDebugMode()
+{
+    return isDebugSession;
+}
+
+void Polymorph::Engine::loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory)
+{
+    _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
 }

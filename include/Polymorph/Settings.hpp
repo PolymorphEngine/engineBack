@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include "../GraphicalAPI/GraphicalAPI.hpp"
 #include "../Core/settings/AudioSettings.hpp"
 #include "../Core/settings/VideoSettings.hpp"
 #include "../Core/settings/PhysicsSettings.hpp"

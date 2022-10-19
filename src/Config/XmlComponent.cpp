@@ -11,8 +11,6 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 #include <Polymorph/Types.hpp>
-#include "XmlComponent.hpp"
-#include "GraphicalException.hpp"
 
 
 std::string Polymorph::Config::XmlComponent::getType()

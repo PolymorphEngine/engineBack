@@ -10,7 +10,6 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Components.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include "Entity.hpp"
 
 
 Polymorph::Entity::Entity(Config::XmlEntity &data,
@@ -34,17 +33,20 @@ Polymorph::Config::XmlComponent &config, GameObject _this)
     if (componentExist(component))
         return;
     //TODO : throw ?
-    ComponentFactory::Initializer i = ComponentFactory::create(component, config, _this);
-
+    std::shared_ptr<IComponentInitializer> i;
+    if (component == "Transform")
+        i = std::make_shared<TransformInitializer>(config, _this);
     if (i == nullptr)
         i = ScriptingApi::create(component, config, _this);
-
+    if (i == nullptr)
+        i = PluginManager::tryCreateComponent(component, config, _this);
     if (i == nullptr) {
         Logger::log(
-                "Unknown component to load at initialisation: '" + component +
-                "'", Logger::MINOR);
+        "Unknown component to load at initialisation: '" + component +
+        "'", Logger::MINOR);
         return;
     }
+
     _components[i->getType()].push_back(i);
     if (component == "Transform")
         (**i)->transform = getComponent<TransformComponent>();
@@ -130,39 +132,6 @@ void Polymorph::Entity::update()
     }
 }
 
-void Polymorph::Entity::draw()
-{
-    if (!_active || componentExist<CanvasComponent>())
-        return;
-    Drawable2d c = getComponent<ADrawable2dComponent>();
-
-    if (!!c && c->enabled)
-        c->draw();
-    for (auto &c : **transform)
-        c->gameObject->draw();
-    Drawable3d c3 = getComponent<ADrawable3dComponent>();
-
-    if (!!c3 && c3->enabled)
-        c3->draw();
-    for (auto &c3 : **transform)
-        c3->gameObject->draw();
-}
-void Polymorph::Entity::draw2d(Canvas canvas)
-{
-    if (!_active)
-        return;
-    Drawable2d c = getComponent<ADrawable2dComponent>();
-    Canvas tmp = getComponent<CanvasComponent>();
-
-    if (!!c && c->enabled && !!canvas)
-        c->draw(canvas);
-    for (auto &c : **transform) {
-        if (!canvas)
-            c->gameObject->draw2d(tmp);
-        else
-            c->gameObject->draw2d(canvas);
-    }
-}
 
 
 void Polymorph::Entity::setActive(bool active)

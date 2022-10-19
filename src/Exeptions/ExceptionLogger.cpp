@@ -5,7 +5,7 @@
 ** header for ExceptionLogger.c
 */
 
-#include "ExceptionLogger.hpp"
+#include "Exceptions/ExceptionLogger.hpp"
 
 #include <utility>
 

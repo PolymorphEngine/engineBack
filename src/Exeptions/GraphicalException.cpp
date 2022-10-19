@@ -5,7 +5,7 @@
 ** header for GraphicalException.c
 */
 
-#include "GraphicalException.hpp"
+#include "Exceptions/GraphicalException.hpp"
 
 GraphicalException::GraphicalException(const std::string& apiMessage,
 Logger::severity level)

@@ -6,7 +6,6 @@
 */
 
 #include <Polymorph/Types.hpp>
-#include "Rect.hpp"
 
 
 bool Polymorph::Rect::intersect(const Polymorph::Rect &rect1, const Polymorph::Rect &rect2)
