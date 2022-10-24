@@ -10,6 +10,7 @@
 #include <Polymorph/Config.hpp>
 #include <Polymorph/Debug.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
+#include "Core/Engine.hpp"
 
 
 Polymorph::Engine::Engine(std::string projectName, const std::string &projectPath, std::string pluginPath)
@@ -28,6 +29,7 @@ Polymorph::Engine::Engine(std::string projectName, const std::string &projectPat
     _initPhysicSettings();
 
     _initExectutionOrder();
+    _initPluginsExectutionOrder();
     _initLayers();
 
     _initTemplates();
@@ -331,4 +333,20 @@ bool Polymorph::Engine::isDebugMode()
 void Polymorph::Engine::loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory)
 {
     _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
+}
+
+void Polymorph::Engine::_initPluginsExectutionOrder()
+{
+    auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
+
+    try {
+        auto execOrder =settings->findChild("PluginsExecutionOrder");
+
+        for (auto &type : *execOrder) {
+            auto t = type->findAttribute("value")->getValue();
+            _execOrder.push_back(t);
+        }
+    } catch (myxmlpp::Exception &e) {
+        throw ConfigurationException(e.what(), Logger::MAJOR);
+    }
 }
