@@ -350,3 +350,13 @@ void Polymorph::Engine::_initPluginsExectutionOrder()
         throw ConfigurationException(e.what(), Logger::MAJOR);
     }
 }
+
+std::string Polymorph::Engine::getTitle()
+{
+    return _projectName;
+}
+
+std::shared_ptr<Polymorph::Settings::VideoSettings> Polymorph::Engine::getVideoSettings()
+{
+    return _videoSettings;
+}
