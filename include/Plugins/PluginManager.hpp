@@ -18,7 +18,6 @@ namespace Polymorph
     class PluginManager
     {
         public:
-            PluginManager(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
             
         private:
             std::vector<std::string> _pluginsPath;

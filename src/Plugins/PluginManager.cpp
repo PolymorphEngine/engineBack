@@ -20,7 +20,7 @@ namespace Polymorph
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
             try {
-                auto plugin = _loadPlugin(pluginsPath + "/" + name, game, name);
+                auto plugin = _loadPlugin(pluginsPath + name, game, name);
                 _plugins.push_back(plugin);
             } catch (ExceptionLogger &e) {
                 e.what();
@@ -125,9 +125,5 @@ namespace Polymorph
         return GameObject(nullptr);
     }
 
-    PluginManager::PluginManager(const std::string &pluginsPath,
-                                 Config::XmlNode &list, Engine &game)
-    {
-        loadPlugins(pluginsPath, list, game);
-    }
+
 }

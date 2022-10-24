@@ -222,8 +222,9 @@ void Polymorph::Engine::loadEngine()
 {
     try {
         auto p = _projectConfig->getRoot()->findChild("Plugins");
+        _pluginManager = std::make_shared<PluginManager>();
         if (p)
-            _pluginManager = std::make_shared<PluginManager>(_pluginsPath, *p, *this);
+            _pluginManager->loadPlugins(_pluginsPath, *p, *this);
         else
             Logger::log("[Plugins] No plugins found in project config.", Logger::MINOR);
     } catch (ExceptionLogger &e) {
