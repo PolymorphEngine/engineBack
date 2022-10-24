@@ -121,7 +121,7 @@ namespace Polymorph
                 _prefabs.push_back(e);
                 return GameObject(e);
             }
-            return GameObject(nullptr);
         }
+        return GameObject(nullptr);
     }
 }

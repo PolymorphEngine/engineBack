@@ -39,16 +39,29 @@
 #include "../Core/Engine.hpp"
 
 
+#define STR(a) #a
+
 #define SYMBOL_EXPORT(ns, name, ret, def)           \
 namespace ns {                           \
-    extern "C" EXPORT_MODULE ret *name def;     \
+    extern "C" EXPORT_MODULE ret *create##name def;     \
     namespace Symbols {                         \
-        const std::string name = #name;   \
-        using name##DEF = ret *(*)def;          \
+        const std::string create##name = "create" STR(name);   \
+        using create##name##DEF = ret *(*)def;          \
     }                                           \
 }
 
-SYMBOL_EXPORT(Polymorph, loadPlugin, IPlugin, (Config::XmlNode &data, Engine &game, std::string PluginsPath))
+#define SYMBOL_EXPORT_DESTRUCTOR(ns, name, ret)           \
+namespace ns {                           \
+    extern "C" EXPORT_MODULE void destoy##name(ret *name) ;     \
+    namespace Symbols {                         \
+        const std::string destroy##name = "destroy" STR(name);   \
+        using destroy##name##DEF = void (*)(ret *);          \
+    }                                           \
+}
+
+
+
+SYMBOL_EXPORT(Polymorph, Plugin, IPlugin, (Config::XmlNode &data, Engine &game, std::string PluginsPath))
 
 
 #endif //PLUGIN_TEMPLATE_SYMBOLS_HPP
