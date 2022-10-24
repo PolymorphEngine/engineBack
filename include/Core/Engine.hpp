@@ -104,6 +104,10 @@ namespace Polymorph
             std::vector<std::string> _execOrder;
 
             /**
+             * @property _pluginsExecOrder order of execution of the plugins
+             */
+            std::vector<std::string> _pluginsExecOrder;
+            /**
              * @property _exit exit or not the program
              */
             static inline bool _exit = false;
@@ -224,6 +228,18 @@ namespace Polymorph
              * @return the project path
              */
             std::string getProjectPath();
+            
+            /**
+             * @brief Getter of the project title
+             * @return the project title
+             */
+            std::string getTitle();
+
+            /**
+             * @brief Getter of the project video settings
+             * @return the project video settings
+             */
+            std::shared_ptr<Settings::VideoSettings> getVideoSettings();
 
             /**
              * @brief Getter of prefabs
@@ -292,6 +308,8 @@ namespace Polymorph
              * @details Inits the execution order informations of components at runtime
              */
             void _initExectutionOrder();
+            
+            void _initPluginsExectutionOrder();
 
             /**
              * @details Inits the layer types  for game objects
