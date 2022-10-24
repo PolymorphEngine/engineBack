@@ -10,14 +10,14 @@
 
 int main()
 {
-    std::string path = "./build";
+    std::string workDir = "./build";
+    std::string pluginDir = "./Plugins";
     std::string name = "Test";
 
 
     try
     {
-        Polymorph::Engine e = Polymorph::Engine(path, name);
-        e.loadGraphicalAPI("./lib/libarcade_sfml.so");
+        Polymorph::Engine e = Polymorph::Engine(name, workDir, pluginDir);
         //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
