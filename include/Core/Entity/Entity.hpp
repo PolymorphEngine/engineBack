@@ -25,9 +25,9 @@ namespace Polymorph
 
     class TransformComponent;
 
-    class CanvasComponent;
+    //class CanvasComponent;
 
-    using Canvas = safe_ptr<CanvasComponent>;
+    //using Canvas = safe_ptr<CanvasComponent>;
     namespace Config
     {
         class XmlEntity;

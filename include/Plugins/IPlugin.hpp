@@ -79,7 +79,8 @@ Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     
      
     - raylib-core <- render-core
-    - raylib-render
+    - raylib-render-2D
+    - raylib-render-3D
     - raylib-advanced-render
     - raylib-gui
     - raylib-physics
@@ -89,17 +90,17 @@ Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     - render-core <- Polymorph::WindowModule, IWindowModule
     - render-2D
     - render-3D
-    - physics-2D : deps [raylib-physics, render-2D]
-    - physics-3D : deps [raylib-physics, render-3D]
-    - shader : deps [raylib-advanced-render, render-2D, render-3D]
-    - light : deps [raylib-advanced-render, render2D, render-3D]
-    - particles : deps [raylib-advanced-render, render-3D, render-2D]
-    - gui : deps [raylib-gui, render-2D, render-3D]
-    - audio : [raylib-audio]
-    - input : [raylib-input]
+    - physics-2D : deps [render-2D]
+    - physics-3D : deps [render-3D]
+    - shader : deps [render-2D, render-3D]
+    - light : deps [render2D, render-3D]
+    - particles : deps [render-3D, render-2D]
+    - gui : deps [render-2D, render-3D]
+    - audio :
+    - input :
     
     
-    - splash-screen
+    - splash-screen [render-2D]
     - ltunl 
     - event
 
