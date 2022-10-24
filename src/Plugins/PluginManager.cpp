@@ -124,4 +124,10 @@ namespace Polymorph
         }
         return GameObject(nullptr);
     }
+
+    PluginManager::PluginManager(const std::string &pluginsPath,
+                                 Config::XmlNode &list, Engine &game)
+    {
+        loadPlugins(pluginsPath, list, game);
+    }
 }

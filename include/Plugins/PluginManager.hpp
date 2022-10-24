@@ -18,20 +18,21 @@ namespace Polymorph
     class PluginManager
     {
         public:
+            PluginManager(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
             
         private:
-            static inline std::vector<std::string> _pluginsPath;
-            static inline std::vector<DynamicLibLoader> _pluginsLoaders;
-            static inline std::vector<std::shared_ptr<IPlugin>> _plugins;
-            static inline std::vector<std::shared_ptr<Entity>> _prefabs;
+            std::vector<std::string> _pluginsPath;
+            std::vector<DynamicLibLoader> _pluginsLoaders;
+            std::vector<std::shared_ptr<IPlugin>> _plugins;
+            std::vector<std::shared_ptr<Entity>> _prefabs;
             
             
         public:
-            static void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
+            void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
 
 
             template<typename symbol>
-            static inline symbol getSymbol(const std::string &symbolName)
+            inline symbol getSymbol(const std::string &symbolName)
             {
                 for (auto &plugin : _pluginsLoaders) {
                     auto s = plugin.loadSymbol<symbol>(symbolName, true);
@@ -42,17 +43,17 @@ namespace Polymorph
             };
             
             
-            static std::shared_ptr<IComponentInitializer> tryCreateComponent(std::string &type, Config::XmlComponent &data, GameObject entity);
-            static std::vector<Config::XmlComponent> getTemplates();
-            static GameObject getPrefab(const std::string &id);
-            static void startingScripts();
-            static void preProcessing();
-            static void lateUpdate();
-            static void postProcessing();
-            static void endingScripts();
+            std::shared_ptr<IComponentInitializer> tryCreateComponent(std::string &type, Config::XmlComponent &data, GameObject entity);
+            std::vector<Config::XmlComponent> getTemplates();
+            GameObject getPrefab(const std::string &id);
+            void startingScripts();
+            void preProcessing();
+            void lateUpdate();
+            void postProcessing();
+            void endingScripts();
             
         private:
-            static std::shared_ptr<IPlugin>
+            std::shared_ptr<IPlugin>
             _loadPlugin(const std::string &pluginPath,
             Engine &game, const std::string &name);
 

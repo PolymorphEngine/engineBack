@@ -39,19 +39,19 @@ Polymorph::Engine::Engine(std::string projectName, const std::string &projectPat
 int Polymorph::Engine::run()
 {
     _time = Time();
-    PluginManager::startingScripts();
+    _pluginManager->startingScripts();
     SceneManager::Current->loadScene();
     while (!_exit) {
         _time.computeDeltaTime();
         SceneManager::resetLoading();
-        PluginManager::preProcessing();
+        _pluginManager->preProcessing();
         SceneManager::Current->updateComponents();
-        PluginManager::lateUpdate();
-        PluginManager::postProcessing();
+        _pluginManager->lateUpdate();
+        _pluginManager->postProcessing();
         if (Engine::isExiting() || SceneManager::isSceneUnloaded())
             continue;
     }
-    PluginManager::endingScripts();
+    _pluginManager->endingScripts();
     return _exitCode;
 }
 
@@ -224,7 +224,7 @@ void Polymorph::Engine::loadEngine()
     try {
         auto p = _projectConfig->getRoot()->findChild("Plugins");
         if (p)
-            PluginManager::loadPlugins(_pluginsPath, *p, *this);
+            _pluginManager = std::make_shared<PluginManager>(_pluginsPath, *p, *this);
         else
             Logger::log("[Plugins] No plugins found in project config.", Logger::MINOR);
     } catch (ExceptionLogger &e) {
@@ -310,7 +310,7 @@ void Polymorph::Engine::_initTemplates()
         Logger::log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
                     Logger::MINOR);
     }
-    auto tmp = PluginManager::getTemplates();
+    auto tmp = _pluginManager->getTemplates();
     _defaultConfigs.insert(_defaultConfigs.end(), tmp.begin(), tmp.end());
 
 }
@@ -359,4 +359,9 @@ std::string Polymorph::Engine::getTitle()
 std::shared_ptr<Polymorph::Settings::VideoSettings> Polymorph::Engine::getVideoSettings()
 {
     return _videoSettings;
+}
+
+std::shared_ptr<Polymorph::PluginManager> Polymorph::Engine::getPluginManager() const
+{
+    return _pluginManager;
 }

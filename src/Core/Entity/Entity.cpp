@@ -38,7 +38,7 @@ Polymorph::Config::XmlComponent &config, GameObject _this)
     if (i == nullptr)
         i = ScriptingApi::create(component, config, _this);
     if (i == nullptr)
-        i = PluginManager::tryCreateComponent(component, config, _this);
+        i = _game.getPluginManager()->tryCreateComponent(component, config, _this);
     if (i == nullptr) {
         Logger::log(
         "Unknown component to load at initialisation: '" + component +

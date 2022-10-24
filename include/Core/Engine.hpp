@@ -37,6 +37,8 @@ namespace Polymorph
     }
     class DisplayModule;
 
+    class PluginManager;
+    
     class Entity;
 
     class Scene;
@@ -77,6 +79,8 @@ namespace Polymorph
              * @property _scenes list of all of the scenes
              */
             std::vector<std::shared_ptr<Scene>> _scenes;
+            
+            std::shared_ptr<PluginManager> _pluginManager;
 
             /**
              * @property _prefabs list of all of the prefabs
@@ -209,6 +213,8 @@ namespace Polymorph
              * @brief Loads the game configuration and inits all gameObjects/Components/Scenes
              */
             void loadEngine();
+            
+            std::shared_ptr<PluginManager> getPluginManager() const;
 
             /**
              * @brief Exit the program with a specified exit code

@@ -164,7 +164,7 @@ namespace Polymorph
             if (e->getId() == id || e->getPrefabId() == id)
                 return GameObject(e);
         }
-        return GameObject(PluginManager::getPrefab(id));
+        return GameObject(_game.getPluginManager()->getPrefab(id));
     }
 
     EntityIterator Scene::findItById(const std::string &id)

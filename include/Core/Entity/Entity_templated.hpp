@@ -84,7 +84,7 @@ namespace Polymorph
         if (c == nullptr)
             c = ScriptingApi::create(t, config, object);
         if (c == nullptr)
-            c = PluginManager::tryCreateComponent(t, config, object);
+            c = _game.getPluginManager()->tryCreateComponent(t, config, object);
         if (c == nullptr)
         {
             Logger::log("Unknown component to add at runtime: '" + t +
