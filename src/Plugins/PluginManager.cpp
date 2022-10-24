@@ -37,7 +37,7 @@ namespace Polymorph
         _pluginsLoaders.back().loadHandler(pluginPath + "/" + name + ".so");
         auto doc = myxmlpp::Doc(pluginPath + "/" + name + ".pcf.plugin");
       
-        auto loader = getSymbol<Symbols::createPluginDEF>(Symbols::createPlugin);
+        auto loader = _pluginsLoaders.back().loadSymbol<Symbols::createPluginDEF>(Symbols::createPlugin);
         return std::shared_ptr<IPlugin>(loader(*doc.getRoot(), game, pluginPath));
     }
 
