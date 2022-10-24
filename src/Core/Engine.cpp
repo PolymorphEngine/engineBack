@@ -32,7 +32,6 @@ Polymorph::Engine::Engine(std::string projectName, const std::string &projectPat
     _initPluginsExectutionOrder();
     _initLayers();
 
-    _initTemplates();
     SceneManager::Game = this;
 }
 
@@ -230,6 +229,7 @@ void Polymorph::Engine::loadEngine()
     } catch (ExceptionLogger &e) {
         e.what();
     }
+    _initTemplates();
     _initPrefabs();
     _initGameData();
 
