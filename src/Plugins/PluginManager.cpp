@@ -19,6 +19,10 @@ namespace Polymorph
     {
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
+            _game.getAssetManager()->addPath(pluginsPath + "/" + name + "/Assets/");
+        }
+        for (auto &node : list) {
+            auto name = node->findAttribute("name")->getValue();
             try {
                 auto plugin = _loadPlugin(pluginsPath + name, game, name);
                 _plugins.push_back(plugin);
@@ -193,5 +197,11 @@ namespace Polymorph
             if (plugin->getPackageName() == pluginName)
                 return true;
         return false;
+    }
+
+    std::shared_ptr<AssetManager>
+    PluginManager::getAssetManager()
+    {
+        return _game.getAssetManager();
     }
 }

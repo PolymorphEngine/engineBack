@@ -17,6 +17,7 @@
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/Time.hpp"
 #include "ScriptingAPI/IScriptFactory.hpp"
+#include "Plugins/AssetManager.hpp"
 
 
 namespace Polymorph
@@ -166,6 +167,8 @@ namespace Polymorph
              * @property _videoSettings video settings of the engine
              */
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
+            
+            std::shared_ptr<AssetManager> _assetManager;
            
             /**
              * @property _scriptingApi scripting api of the engine to manage scripts of the game
@@ -192,6 +195,8 @@ namespace Polymorph
             
             std::vector<std::string> &getPluginExecOrder()
             { return _pluginsExecOrder; };
+            std::shared_ptr<AssetManager> &getAssetManager()
+            { return _assetManager; };
 
             /**
              * @details Runs the game.

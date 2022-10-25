@@ -31,7 +31,8 @@ Polymorph::Engine::Engine(std::string projectName, const std::string &projectPat
     _initExectutionOrder();
     _initPluginsExectutionOrder();
     _initLayers();
-
+    _assetManager = std::make_shared<AssetManager>();
+    _assetManager->addPath(_projectPath);
     SceneManager::Game = this;
 }
 

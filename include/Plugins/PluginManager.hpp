@@ -10,6 +10,7 @@
 
 #include "IPlugin.hpp"
 #include "DynamicLoader.hpp"
+#include "AssetManager.hpp"
 
 namespace Polymorph
 {
@@ -27,9 +28,10 @@ namespace Polymorph
             std::vector<std::shared_ptr<Entity>> _prefabs;
             std::vector<std::string> _pluginsOrder;
             Engine &_game;
-            
+
         public:
             void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
+            std::shared_ptr<AssetManager> getAssetManager();
 
 
             template<typename symbol>
