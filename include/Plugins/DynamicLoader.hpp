@@ -29,7 +29,7 @@ class DynamicLibLoader
         ~DynamicLibLoader();
 
         DynamicLibLoader(const DynamicLibLoader &) = delete;
-        DynamicLibLoader(DynamicLibLoader &&);
+        DynamicLibLoader(DynamicLibLoader &&) noexcept;
 
     protected:
 #ifdef _WIN32

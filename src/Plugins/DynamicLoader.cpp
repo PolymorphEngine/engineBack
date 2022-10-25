@@ -42,7 +42,7 @@ void DynamicLibLoader::closeHandle() {
 }
 
 DynamicLibLoader::DynamicLibLoader(DynamicLibLoader &&ref)
-        : _handler(ref._handler), _libPath(ref._libPath)
+ noexcept         : _handler(ref._handler), _libPath(ref._libPath)
 {
     ref._handler = nullptr;
 }

@@ -39,13 +39,21 @@ int Polymorph::Engine::run()
 {
     _time = Time();
     _pluginManager->startingScripts();
+    if (Engine::isExiting())
+        return _exitCode;
     SceneManager::Current->loadScene();
     while (!_exit) {
         _time.computeDeltaTime();
         SceneManager::resetLoading();
         _pluginManager->preProcessing();
+        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            continue;
         SceneManager::Current->updateComponents();
+        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            continue;
         _pluginManager->lateUpdate();
+        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            continue;
         _pluginManager->postProcessing();
         if (Engine::isExiting() || SceneManager::isSceneUnloaded())
             continue;

@@ -48,11 +48,15 @@ namespace Polymorph
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
                 (*res)->preUpdateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->preUpdateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
         }
     }
 
@@ -63,11 +67,16 @@ namespace Polymorph
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
                 (*res)->updateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->updateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
+
         }
     }
 
@@ -78,11 +87,15 @@ namespace Polymorph
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
                 (*res)->postUpdateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->postUpdateInternalSystems(SceneManager::Current);
+            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                return;
         }
     }
 
@@ -93,11 +106,15 @@ namespace Polymorph
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
                 (*res)->startScripts(SceneManager::Current);
+            if (Engine::isExiting())
+                return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->startScripts(SceneManager::Current);
+            if (Engine::isExiting())
+                return;
         }
     }
 
@@ -108,11 +125,15 @@ namespace Polymorph
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
                 (*res)->endScripts(SceneManager::Current);
+            if (Engine::isExiting())
+                return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->endScripts(SceneManager::Current);
+            if (Engine::isExiting())
+                return;
         }
     }
 
