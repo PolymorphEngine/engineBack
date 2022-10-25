@@ -193,8 +193,8 @@ namespace Polymorph
 
     bool PluginManager::_isPluginPrioritary(const std::string &pluginName)
     {
-        for (auto &plugin : _plugins)
-            if (plugin->getPackageName() == pluginName)
+        for (auto &plugin : _pluginsOrder)
+            if (plugin == pluginName)
                 return true;
         return false;
     }
