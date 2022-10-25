@@ -9,7 +9,7 @@
 #pragma once
 
 #include <vector>
-#include "Log/Logger.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 namespace Polymorph
 {
