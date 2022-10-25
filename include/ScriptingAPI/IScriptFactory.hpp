@@ -9,6 +9,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 #include "Utilities/safe_ptr.hpp"
 
 namespace Polymorph
