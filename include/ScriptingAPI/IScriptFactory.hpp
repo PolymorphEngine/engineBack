@@ -20,8 +20,7 @@ namespace Polymorph
     class Entity;
 
     class IComponentInitializer;
-
-    using Initializer = std::shared_ptr<IComponentInitializer>;
+    
 
     class IScriptFactory
     {
@@ -36,6 +35,15 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
+            using GameObject = Polymorph::safe_ptr<Polymorph::Entity>;
+            using Initializer = std::shared_ptr<IComponentInitializer>;
+            using FactoryLambda = std::function<Initializer (Config::XmlComponent &data, GameObject entity)>;
+            template<typename T>
+            static inline FactoryLambda _make()
+            {
+                return [](Config::XmlComponent &data, GameObject entity) -> Initializer{ return Initializer(new T(data, entity));};
+            }
+
             virtual Initializer
             create(std::string &type, Config::XmlComponent &data,
                    safe_ptr<Entity> entity) = 0;
@@ -48,6 +56,7 @@ namespace Polymorph
 
     };
 }
+#define SCRIPT(S) {#S, _make<S##Initializer>()},
 
 
 
