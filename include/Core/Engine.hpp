@@ -189,6 +189,9 @@ namespace Polymorph
              */
             std::vector<std::string> &getExecOrder()
             { return _execOrder; };
+            
+            std::vector<std::string> &getPluginExecOrder()
+            { return _pluginsExecOrder; };
 
             /**
              * @details Runs the game.

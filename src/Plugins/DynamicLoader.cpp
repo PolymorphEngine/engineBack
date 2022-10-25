@@ -34,9 +34,15 @@ void DynamicLibLoader::loadHandler(const std::string& libPath)
 }
 
 void DynamicLibLoader::closeHandle() {
-    #if _WIN32
+#if _WIN32
     FreeLibrary((HMODULE)_handler);
 #else
     dlclose(_handler);
 #endif
+}
+
+DynamicLibLoader::DynamicLibLoader(DynamicLibLoader &&ref)
+        : _handler(ref._handler), _libPath(ref._libPath)
+{
+    ref._handler = nullptr;
 }

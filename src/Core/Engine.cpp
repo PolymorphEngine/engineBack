@@ -222,7 +222,7 @@ void Polymorph::Engine::loadEngine()
 {
     try {
         auto p = _projectConfig->getRoot()->findChild("Plugins");
-        _pluginManager = std::make_shared<PluginManager>();
+        _pluginManager = std::make_shared<PluginManager>(*this);
         if (p)
             _pluginManager->loadPlugins(_pluginsPath, *p, *this);
         else

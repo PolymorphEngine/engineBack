@@ -18,13 +18,15 @@ namespace Polymorph
     class PluginManager
     {
         public:
+            explicit PluginManager(Engine &game);
             
         private:
             std::vector<std::string> _pluginsPath;
             std::vector<DynamicLibLoader> _pluginsLoaders;
             std::vector<std::shared_ptr<IPlugin>> _plugins;
             std::vector<std::shared_ptr<Entity>> _prefabs;
-            
+            std::vector<std::string> _pluginsOrder;
+            Engine &_game;
             
         public:
             void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
@@ -52,6 +54,9 @@ namespace Polymorph
             void endingScripts();
             
         private:
+            bool _isPluginPrioritary(const std::string &pluginName);
+            
+            
             std::shared_ptr<IPlugin>
             _loadPlugin(const std::string &pluginPath,
             Engine &game, const std::string &name);

@@ -13,9 +13,9 @@
 
 namespace Polymorph
 {
-    
-    void PluginManager::loadPlugins(const std::string &pluginsPath, 
-    Config::XmlNode &list, Engine &game)
+
+    void PluginManager::loadPlugins(const std::string &pluginsPath,
+                                    Config::XmlNode &list, Engine &game)
     {
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
@@ -27,73 +27,109 @@ namespace Polymorph
             }
         }
     }
-        
-    
+
+
     std::shared_ptr<Polymorph::IPlugin> PluginManager::_loadPlugin(const std::string &pluginPath,
-    Engine &game, const std::string &name)
+                                                                   Engine &game, const std::string &name)
     {
-        _pluginsLoaders.emplace_back(DynamicLibLoader());
+        _pluginsLoaders.emplace_back();
         _pluginsPath.emplace_back(pluginPath);
         _pluginsLoaders.back().loadHandler(pluginPath +"/"+ name + ".so");
         auto doc = myxmlpp::Doc(pluginPath +"/"+ name + ".pcf.plugin");
-      
+
         auto loader = _pluginsLoaders.back().loadSymbol<Symbols::createPluginDEF>(Symbols::createPlugin);
         return std::shared_ptr<IPlugin>(loader(*doc.getRoot(), game, pluginPath));
     }
-
     void PluginManager::preProcessing()
     {
+        
+        for (auto &plugin : _pluginsOrder) {
+            auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
+                return p->getPackageName() == plugin;});
+            if (res != _plugins.end() && (*res)->isEnabled())
+                (*res)->preUpdateInternalSystems(SceneManager::Current);
+        }
+
         for (auto &plugin : _plugins) {
-            if (plugin->isEnabled())
+            if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->preUpdateInternalSystems(SceneManager::Current);
         }
     }
 
     void PluginManager::lateUpdate()
     {
+        for (auto &plugin : _pluginsOrder) {
+            auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
+                return p->getPackageName() == plugin;});
+            if (res != _plugins.end() && (*res)->isEnabled())
+                (*res)->updateInternalSystems(SceneManager::Current);
+        }
 
         for (auto &plugin : _plugins) {
-            if (plugin->isEnabled())
+            if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->updateInternalSystems(SceneManager::Current);
         }
     }
 
     void PluginManager::postProcessing()
     {
+        for (auto &plugin : _pluginsOrder) {
+            auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
+                return p->getPackageName() == plugin;});
+            if (res != _plugins.end() && (*res)->isEnabled())
+                (*res)->postUpdateInternalSystems(SceneManager::Current);
+        }
+
         for (auto &plugin : _plugins) {
-            if (plugin->isEnabled())
+            if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->postUpdateInternalSystems(SceneManager::Current);
         }
     }
 
     void PluginManager::startingScripts()
     {
+        for (auto &plugin : _pluginsOrder) {
+            auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
+                return p->getPackageName() == plugin;});
+            if (res != _plugins.end() && (*res)->isEnabled())
+                (*res)->startScripts(SceneManager::Current);
+        }
+
         for (auto &plugin : _plugins) {
-            if (plugin->isEnabled())
+            if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->startScripts(SceneManager::Current);
-        }      
+        }
     }
 
     void PluginManager::endingScripts()
     {
+        for (auto &plugin : _pluginsOrder) {
+            auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
+                return p->getPackageName() == plugin;});
+            if (res != _plugins.end() && (*res)->isEnabled())
+                (*res)->endScripts(SceneManager::Current);
+        }
+
         for (auto &plugin : _plugins) {
-            if (plugin->isEnabled())
+            if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
                 plugin->endScripts(SceneManager::Current);
         }
     }
 
     std::shared_ptr<IComponentInitializer> PluginManager::tryCreateComponent(std::string &type,
-    Config::XmlComponent &data,
-    GameObject entity)
+                                                                             Config::XmlComponent &data,
+                                                                             GameObject entity)
     {
         for (auto &plugin : _plugins) {
             if (plugin->hasComponent(type))
+            {
                 if (!plugin->isEnabled()) {
                     Logger::log("Plugin " + plugin->getPackageName() + " is disabled, can't create component '" + type +"'", Logger::MINOR);
                     return nullptr;
                 }
-            return plugin->createComponent(type, data, entity);
-        }  
+                return plugin->createComponent(type, data, entity);
+            }
+        }
         return nullptr;
     }
 
@@ -101,7 +137,7 @@ namespace Polymorph
     PluginManager::getTemplates()
     {
         std::vector<Config::XmlComponent> templates;
-        
+
         for (auto &plugin : _plugins) {
             if (plugin->isEnabled())
             {
@@ -125,5 +161,16 @@ namespace Polymorph
         return GameObject(nullptr);
     }
 
+    PluginManager::PluginManager(Engine &game) : _game(game) 
+    {
+        _pluginsOrder = _game.getPluginExecOrder();
+    }
 
+    bool PluginManager::_isPluginPrioritary(const std::string &pluginName)
+    {
+        for (auto &plugin : _plugins)
+            if (plugin->getPackageName() == pluginName)
+                return true;
+        return false;
+    }
 }
