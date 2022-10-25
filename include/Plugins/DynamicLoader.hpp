@@ -54,8 +54,6 @@ class DynamicLibLoader
             T s = (T) GetProcAddress(API::getHandler(), name.c_str());
 #else
             void *s = dlsym(_handler, name.c_str());
-            std::cerr << "Tired fetching symbol in lib: " << _libPath << std::endl;
-            std::cerr << '"'<< name <<'"' <<std::endl;
 #endif
             if (s == nullptr && !no_except)
                 throw std::runtime_error("[DynamicLoader] Failed to find symbol named: " + name + "from lib: " + _libPath + ", type: " + typeid(T).name());
