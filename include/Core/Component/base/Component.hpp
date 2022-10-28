@@ -18,7 +18,11 @@ namespace polymorph::engine
 
     using Transform = safe_ptr<TransformComponent>;
 
-
+    class PluginManager;
+    class SceneManager;
+    class AssetManager;
+    class Logger;
+    class Time;
     class Entity;
 
     using GameObject = safe_ptr<Entity>;
