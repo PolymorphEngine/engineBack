@@ -6,12 +6,12 @@
 */
 
 
-#include <Polymorph/Plugins.hpp>
-#include <Polymorph/Config.hpp>
+#include <polymorph/Plugins.hpp>
+#include <polymorph/Config.hpp>
 #include "Plugins/PluginManager.hpp"
 
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     void PluginManager::loadPlugins(const std::string &pluginsPath,
@@ -19,7 +19,7 @@ namespace Polymorph
     {
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
-            _game.getAssetManager()->addPath(pluginsPath + "/" + name + "/Assets/");
+            _game.getAssetManager().addPath(pluginsPath + "/" + name + "/Assets/");
         }
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
@@ -33,7 +33,7 @@ namespace Polymorph
     }
 
 
-    std::shared_ptr<Polymorph::IPlugin> PluginManager::_loadPlugin(const std::string &pluginPath,
+    std::shared_ptr<polymorph::engine::IPlugin> PluginManager::_loadPlugin(const std::string &pluginPath,
                                                                    Engine &game, const std::string &name)
     {
         _pluginsLoaders.emplace_back();
@@ -46,39 +46,40 @@ namespace Polymorph
     }
     void PluginManager::preProcessing()
     {
-        
+        auto c = _game.getSceneManager().getCurrentScene();
         for (auto &plugin : _pluginsOrder) {
             auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
-                (*res)->preUpdateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                (*res)->preUpdateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
-                plugin->preUpdateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                plugin->preUpdateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
     }
 
     void PluginManager::lateUpdate()
     {
+        auto c = _game.getSceneManager().getCurrentScene();
         for (auto &plugin : _pluginsOrder) {
             auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
-                (*res)->updateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                (*res)->updateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
-                plugin->updateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                plugin->updateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
 
         }
@@ -86,57 +87,60 @@ namespace Polymorph
 
     void PluginManager::postProcessing()
     {
+        auto c = _game.getSceneManager().getCurrentScene();
         for (auto &plugin : _pluginsOrder) {
             auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
-                (*res)->postUpdateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                (*res)->postUpdateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
-                plugin->postUpdateInternalSystems(SceneManager::Current);
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+                plugin->postUpdateInternalSystems(c);
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
     }
 
     void PluginManager::startingScripts()
     {
+        auto c = _game.getSceneManager().getCurrentScene();
         for (auto &plugin : _pluginsOrder) {
             auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
-                (*res)->startScripts(SceneManager::Current);
-            if (Engine::isExiting())
+                (*res)->startScripts(c);
+            if (_game.isExiting())
                 return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
-                plugin->startScripts(SceneManager::Current);
-            if (Engine::isExiting())
+                plugin->startScripts(c);
+            if (_game.isExiting())
                 return;
         }
     }
 
     void PluginManager::endingScripts()
     {
+        auto c = _game.getSceneManager().getCurrentScene();
         for (auto &plugin : _pluginsOrder) {
             auto res = std::find_if(_plugins.begin(), _plugins.end(), [&plugin](const auto &p) {
                 return p->getPackageName() == plugin;});
             if (res != _plugins.end() && (*res)->isEnabled())
-                (*res)->endScripts(SceneManager::Current);
-            if (Engine::isExiting())
+                (*res)->endScripts(c);
+            if (_game.isExiting())
                 return;
         }
 
         for (auto &plugin : _plugins) {
             if (!_isPluginPrioritary(plugin->getPackageName()) && plugin->isEnabled())
-                plugin->endScripts(SceneManager::Current);
-            if (Engine::isExiting())
+                plugin->endScripts(c);
+            if (_game.isExiting())
                 return;
         }
     }
@@ -149,7 +153,7 @@ namespace Polymorph
             if (plugin->hasComponent(type))
             {
                 if (!plugin->isEnabled()) {
-                    Logger::log("Plugin " + plugin->getPackageName() + " is disabled, can't create component '" + type +"'", Logger::MINOR);
+                    entity->Debug.log("Plugin " + plugin->getPackageName() + " is disabled, can't create component '" + type +"'", Logger::MINOR);
                     return nullptr;
                 }
                 return plugin->createComponent(type, data, entity);
@@ -199,7 +203,7 @@ namespace Polymorph
         return false;
     }
 
-    std::shared_ptr<AssetManager>
+    AssetManager &
     PluginManager::getAssetManager()
     {
         return _game.getAssetManager();

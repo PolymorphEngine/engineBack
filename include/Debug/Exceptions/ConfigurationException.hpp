@@ -11,17 +11,20 @@
 
 #include "Debug/Exceptions/ExceptionLogger.hpp"
 
-class ConfigurationException : public ExceptionLogger
+namespace polymorph::engine
 {
-///////////////////////////////// Constructors /////////////////////////////////
-
-    public:
-        explicit ConfigurationException(const std::string &message,
-                                        Logger::severity level = Logger::severity::MAJOR);
-
-///////////////////////////--------------------------///////////////////////////
-
-};
+    class ConfigurationException : public ExceptionLogger
+    {
+    ///////////////////////////////// Constructors /////////////////////////////////
+    
+        public:
+            explicit ConfigurationException(const std::string &message,
+                                            Logger::severity level = Logger::severity::MAJOR);
+    
+    ///////////////////////////--------------------------///////////////////////////
+    
+    };
+}
 
 
 #endif //ENGINE_CONFIGURATIONEXCEPTION_HPP

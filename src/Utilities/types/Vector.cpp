@@ -5,11 +5,11 @@
 ** Vector.cpp.c
 */
 
-#include <Polymorph/Types.hpp>
+#include <polymorph/Types.hpp>
 #include <cmath>
 
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     // VECTOR3

@@ -10,7 +10,7 @@
 
 #include <myxmlpp.hpp>
 
-namespace Polymorph::Settings
+namespace polymorph::engine::Settings
 {
     using XmlNode = myxmlpp::Node;
 

@@ -6,10 +6,10 @@
 */
 
 
-#include <Polymorph/Core.hpp>
+#include <polymorph/Core.hpp>
 #include "Core/Component/transform/TransformInitializer.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     TransformInitializer::TransformInitializer(Config::XmlComponent &data, GameObject entity)
         : AComponentInitializer("Transform", data, entity)
@@ -31,7 +31,7 @@ namespace Polymorph
             if (!ref)
                 continue;
             if (ref->isPrefab())
-                SceneManager::instantiate(ref, component->transform, false);
+                ref->Scene.instantiate(ref, component->transform, false);
             else
                 ref->transform->setParent(Transform(component));
         }

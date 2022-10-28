@@ -11,7 +11,7 @@
 #include <myxmlpp.hpp>
 #include "Utilities/types/Vector.hpp"
 
-namespace Polymorph::Settings
+namespace polymorph::engine::Settings
 {
     using XmlNode = myxmlpp::Node;
 

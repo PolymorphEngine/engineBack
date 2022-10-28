@@ -13,7 +13,7 @@
 #include "myxmlpp.hpp"
 #include "Config/XmlComponent.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Circle;
 

@@ -11,15 +11,19 @@
 
 #include "ExceptionLogger.hpp"
 
-class GraphicalException : public ExceptionLogger
+namespace polymorph::engine
 {
-///////////////////////////////// Constructors /////////////////////////////////
-    public:
-        explicit GraphicalException(const std::string &apiMessage,
-                                    Logger::severity level = Logger::MAJOR);
-///////////////////////////--------------------------///////////////////////////
-
-};
+    
+    class GraphicalException : public ExceptionLogger
+    {
+    ///////////////////////////////// Constructors /////////////////////////////////
+        public:
+            explicit GraphicalException(const std::string &apiMessage,
+                                        Logger::severity level = Logger::MAJOR);
+    ///////////////////////////--------------------------///////////////////////////
+    
+    };
+}
 
 
 #endif //ENGINE_GRAPHICALEXCEPTION_HPP

@@ -25,7 +25,7 @@
 #include "Config/XmlComponent.hpp"
 #include "Plugins/PluginManager.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     template<typename T>
@@ -68,28 +68,30 @@ namespace Polymorph
     template<typename T>
     safe_ptr<T> Entity::addComponent()
     {
-        auto object = SceneManager::findById(_stringId);
+        auto object = Scene.findById(_stringId);
         std::shared_ptr<T> component(new T(object));
 
         std::string t = component->getType();
         component.reset();
         if (componentExist(t))
-            return safe_ptr<T>(nullptr);
-        //TODO: maybe throw/Log ?
-        Config::XmlComponent &config = _game.getDefaultConfig(t);
+        {
+            Debug.log("Component of type " + t + " already exist entity: " + name, Logger::MINOR);
+            return getComponent<T>();
+        }
+        Config::XmlComponent &config = Game.getDefaultConfig(t);
         std::shared_ptr<IComponentInitializer> c;
 
         if (t == "Transform")
             c = std::make_shared<TransformInitializer>(config, object);
         if (c == nullptr)
-            c = ScriptingApi::create(t, config, object);
+            c = Factory.create(t, config, object);
         if (c == nullptr)
-            c = _game.getPluginManager()->tryCreateComponent(t, config, object);
+            c = Plugin.tryCreateComponent(t, config, object);
         if (c == nullptr)
         {
-            Logger::log("Unknown component to add at runtime: '" + t +
-            "'\n\t(this error might be because you need to add Initializer of the component in the Factory)",
-                        Logger::MINOR);
+            Debug.log("Unknown component to add at runtime: '" + t +
+                      "'\n\t(this error might be because you need to add Initializer of the component in the Factory)",
+                      Logger::MINOR);
             return safe_ptr<T>(nullptr);
         }
 

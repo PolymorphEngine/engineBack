@@ -6,28 +6,28 @@
 */
 
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include <Polymorph/Debug.hpp>
-#include <Polymorph/Core.hpp>
+#include <polymorph/Debug.hpp>
+#include <polymorph/Core.hpp>
 
-Polymorph::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)
+polymorph::engine::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)
 {
     if (_scriptFactory != nullptr)
         throw ExceptionLogger("[Scripting API] Tried to create ScriptingAPI where one exist already.", Logger::MAJOR);
     _scriptFactory = std::move(factory);
 }
 
-Polymorph::ScriptingApi::~ScriptingApi()
+polymorph::engine::ScriptingApi::~ScriptingApi()
 {
     _scriptFactory = nullptr;
 }
 
-Polymorph::ScriptingApi::Initializer
-Polymorph::ScriptingApi::create(std::string &type,
-                                Polymorph::Config::XmlComponent &data,
+polymorph::engine::ScriptingApi::Initializer
+polymorph::engine::ScriptingApi::create(std::string &type,
+                                polymorph::engine::Config::XmlComponent &data,
                                safe_ptr<Entity> entity)
 {
     if (!_scriptFactory) {
-        Logger::log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);
+        entity->Debug.log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);
         return nullptr;
     }
     if (_scriptFactory->hasType(type))

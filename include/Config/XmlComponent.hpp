@@ -20,7 +20,7 @@
 #include "Core/Entity/Entity.hpp"
 #include "Debug/Exceptions/ConfigurationException.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Scene;
 
@@ -409,7 +409,7 @@ namespace Polymorph
                 void _setPrimitiveProperty(std::shared_ptr<XmlNode> &data,
                                            int &toSet, Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -417,7 +417,7 @@ namespace Polymorph
                 void _setPrimitiveProperty(std::shared_ptr<XmlNode> &data,
                                            float &toSet, Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -433,7 +433,7 @@ namespace Polymorph
                                            std::string &toSet,
                                            Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -454,7 +454,7 @@ namespace Polymorph
                         if (!gameObject && !!entity)
                             gameObject = entity->findByPrefabId(id);
                         if (!gameObject)
-                            gameObject = SceneManager::findById(id);
+                            gameObject = entity->Scene.findById(id);
                         if (!!gameObject)
                             toSet = gameObject->getComponent<T>();
                         if (!toSet)
@@ -462,7 +462,7 @@ namespace Polymorph
                     } catch (...)
                     {
                         if (level != Logger::MAJOR)
-                            Logger::log("In component '" + node->findAttribute(
+                            entity->Debug.log("In component '" + node->findAttribute(
                                                 "type")->getValue() + "': Ref named '" +
                                         refProp->findAttribute(
                                                 "name")->getValue() +
@@ -495,13 +495,13 @@ namespace Polymorph
                         if (!toSet && !!entity)
                             toSet = entity->findByPrefabId(id);
                         if (!toSet)
-                            toSet = SceneManager::findById(id);
+                            toSet = entity->Scene.findById(id);
                         if (!toSet)
                             throw std::exception();
                     } catch (...)
                     {
                         if (level != Logger::MAJOR)
-                            Logger::log("In component '" + node->findAttribute(
+                            entity->Debug.log("In component '" + node->findAttribute(
                                                 "type")->getValue() + "': Ref named '" +
                                         refProp->findAttribute(
                                                 "name")->getValue() +
@@ -574,9 +574,9 @@ namespace Polymorph
                  * @return the node found (nullptr if not found)
                  */
                 std::shared_ptr<XmlNode> _findProperty(const std::string &name,
-                                                       Logger::severity level = Logger::DEBUG);
+                Logger::severity level = Logger::DEBUG);
 
-                static std::shared_ptr<XmlNode>
+               static std::shared_ptr<XmlNode>
                 _findProperty(const std::string &name,
                               const std::shared_ptr<myxmlpp::Node> &data,
                               Logger::severity level = Logger::DEBUG);

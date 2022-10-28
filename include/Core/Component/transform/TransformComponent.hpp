@@ -15,7 +15,7 @@
 #include "Utilities/types/Vector.hpp"
 #include "Utilities/Time.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     using TransformBase = std::shared_ptr<TransformComponent>;
     using Transform = safe_ptr<TransformComponent>;

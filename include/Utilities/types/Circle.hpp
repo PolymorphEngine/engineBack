@@ -10,7 +10,7 @@
 
 #include "Vector.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Rect;
 

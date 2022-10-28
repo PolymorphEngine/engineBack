@@ -5,11 +5,11 @@
 ** header for Scene.c
 */
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Debug.hpp>
-#include <Polymorph/Config.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Debug.hpp>
+#include <polymorph/Config.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     Scene::Scene(std::shared_ptr<myxmlpp::Node> &data, Engine &game)
@@ -24,7 +24,7 @@ namespace Polymorph
     Scene::Scene(std::string sceneName, Engine &game) : _game(game)
     {
         name = std::move(sceneName);
-        id = Polymorph::uuid::uuid();
+        id = polymorph::engine::uuid::uuid();
     }
 
     void Scene::updateComponents()
@@ -33,7 +33,7 @@ namespace Polymorph
         {
             if (e->isActive() && !e->transform->parent())
                 e->update();
-            if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+            if (_game.isExiting() || _game.getSceneManager().isSceneUnloaded())
                 return;
         }
         if (!_entitiesToAdd.empty()) {
@@ -130,7 +130,7 @@ namespace Polymorph
         if (e == _destroyQueueList.end())
         {
             entity.setActive(false);
-            std::shared_ptr<Timer> timer (new Timer(delayInSeconds));
+            std::shared_ptr<Timer> timer (new Timer(_game, delayInSeconds));
             _destroyQueueList.emplace(timer, entity);
         }
     }
@@ -164,7 +164,7 @@ namespace Polymorph
             if (e->getId() == id || e->getPrefabId() == id)
                 return GameObject(e);
         }
-        return GameObject(_game.getPluginManager()->getPrefab(id));
+        return GameObject(_game.getPluginManager().getPrefab(id));
     }
 
     EntityIterator Scene::findItById(const std::string &id)

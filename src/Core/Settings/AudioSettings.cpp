@@ -6,10 +6,10 @@
 */
 
 
-#include <Polymorph/Settings.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Settings.hpp>
+#include <polymorph/Debug.hpp>
 
-Polymorph::Settings::AudioSettings::AudioSettings(
+polymorph::engine::Settings::AudioSettings::AudioSettings(
         const std::shared_ptr<XmlNode> &node) : _node(node)
 {
     _instance = this;
@@ -19,7 +19,7 @@ Polymorph::Settings::AudioSettings::AudioSettings(
 }
 
 float
-Polymorph::Settings::AudioSettings::_getVolume(const std::string &attrName)
+polymorph::engine::Settings::AudioSettings::_getVolume(const std::string &attrName)
 {
     try {
         int val = _node->findAttribute(attrName)->getValueInt();
@@ -28,28 +28,28 @@ Polymorph::Settings::AudioSettings::_getVolume(const std::string &attrName)
             throw std::runtime_error("Invalid value"); //TODO throw appropriate exception
         return val;
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log("Audio setting is incomplete, cannot find \"" + attrName +
+        Logger::Log("Audio setting is incomplete, cannot find \"" + attrName +
                     "\" attribute", Logger::MINOR);
     } catch (...) {
-        Logger::log("Audio setting is malformated, \"" + attrName +
+        Logger::Log("Audio setting is malformated, \"" + attrName +
                     "\" attribute has bad value", Logger::MINOR); //TODO use appropriate level
     }
     return 100;
 }
 
-float Polymorph::Settings::AudioSettings::getMasterVolume() {
+float polymorph::engine::Settings::AudioSettings::getMasterVolume() {
     return _instance->_masterVolume;
 }
 
-float Polymorph::Settings::AudioSettings::getMusicVolume()  {
+float polymorph::engine::Settings::AudioSettings::getMusicVolume()  {
     return _instance->_musicVolume;
 }
 
-float Polymorph::Settings::AudioSettings::getSfxVolume()  {
+float polymorph::engine::Settings::AudioSettings::getSfxVolume()  {
     return _instance->_sfxVolume;
 }
 
-void Polymorph::Settings::AudioSettings::setMasterVolume(float vol)
+void polymorph::engine::Settings::AudioSettings::setMasterVolume(float vol)
 {
     _instance->_masterVolume = vol;
 /*
@@ -60,7 +60,7 @@ void Polymorph::Settings::AudioSettings::setMasterVolume(float vol)
     }*/
 }
 
-void Polymorph::Settings::AudioSettings::setMusicVolume(float vol)
+void polymorph::engine::Settings::AudioSettings::setMusicVolume(float vol)
 {
     _instance->_musicVolume = vol;
 /*
@@ -72,7 +72,7 @@ void Polymorph::Settings::AudioSettings::setMusicVolume(float vol)
     */
 }
 
-void Polymorph::Settings::AudioSettings::setSfxVolume(float vol)
+void polymorph::engine::Settings::AudioSettings::setSfxVolume(float vol)
 {
     _instance->_sfxVolume = vol;
 /*

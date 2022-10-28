@@ -6,23 +6,25 @@
 */
 
 
-#include <Polymorph/Core.hpp>
+#include <polymorph/Core.hpp>
 
-Polymorph::Component::Component(const std::string &type, GameObject game_object)
-        : _type(type), gameObject(game_object), transform(game_object->transform), name(game_object->name)
+polymorph::engine::Component::Component(const std::string &type, GameObject game_object)
+: _type(type), gameObject(game_object), transform(game_object->transform), name(game_object->name),
+Game(game_object->Game), Debug(game_object->Debug), Scene(game_object->Scene), Asset(game_object->Asset), Plugin(game_object->Plugin),
+time(game_object->time)
 {}
 
-void Polymorph::Component::onAwake()
+void polymorph::engine::Component::onAwake()
 {
 
 }
 
-void Polymorph::Component::update()
+void polymorph::engine::Component::update()
 {
 
 }
 
-void Polymorph::Component::start()
+void polymorph::engine::Component::start()
 {
 
 }

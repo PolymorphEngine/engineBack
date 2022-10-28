@@ -10,7 +10,7 @@
 
 #include "../initializer/AComponentInitializer.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class TransformInitializer
             : public AComponentInitializer<TransformComponent>

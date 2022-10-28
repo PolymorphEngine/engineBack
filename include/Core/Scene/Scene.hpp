@@ -19,7 +19,7 @@
 #include "Core/Entity/Entity.hpp"
 
 
-namespace Polymorph
+namespace polymorph::engine
 {
     namespace Config
     {

@@ -11,7 +11,7 @@
 #include "IComponent.hpp"
 #include "Utilities/safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     // COMPONENT TYPES
     class TransformComponent;
@@ -60,6 +60,19 @@ namespace Polymorph
              * @property The state of the component which defines if the component is updated or not.
              */
             bool enabled = true;
+
+
+            PluginManager &Plugin;
+            SceneManager &Scene;
+            AssetManager &Asset;
+            Logger &Debug;
+            Time &time;
+
+            /**
+             * @property A reference to the engine
+             */
+            Engine &Game;
+
 
         protected:
             /**

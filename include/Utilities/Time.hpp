@@ -10,9 +10,14 @@
 
 #include <iostream>
 #include <chrono>
+#include "safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
+    class Engine;
+    class Component;
+    class Entity;
+    using GameObject = safe_ptr<Entity>;
     class Time
     {
             using Clock = std::chrono::steady_clock;
@@ -31,7 +36,7 @@ namespace Polymorph
             /**
              * @property deltaTime the time between the last frame and the current frame
              */
-            static inline double deltaTime = 0.0f;
+            double deltaTime = 0.0f;
 
         private:
             /**
@@ -53,7 +58,7 @@ namespace Polymorph
              * @details Get the current time from minutes to string
              * @return the current time in a string format
              */
-            static std::string formatToMinutes(float time);
+            std::string formatToMinutes(float time);
 //////////////////////--------------------------/////////////////////////
 
     };
@@ -62,19 +67,32 @@ namespace Polymorph
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-            Timer() = default;
-
             /**
              * @brief Created a new timer from a specified delay
              * @param delay The delay in seconds
              */
-            explicit Timer(double delay);
+            explicit Timer(Time &time, double delay);
+            explicit Timer(Engine &game, double delay);
+            explicit Timer(GameObject &object, double delay);
+            explicit Timer(Component &component, double delay);
+            
+            Timer(Timer &&moved) noexcept : time(moved.time), delay(moved.delay), actual(moved.actual) {};
+            Timer(Timer &copy) = default;
+            
+            Timer &operator=(const Timer &moved) {
+                time = moved.time;
+                delay = moved.delay;
+                actual = moved.actual;
+                return *this;
+            };
+            
 //////////////////////--------------------------/////////////////////////
 
 
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            Time &time;
             /**
              * @property delay The delay in seconds
              */
