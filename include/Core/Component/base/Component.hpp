@@ -24,6 +24,7 @@ namespace polymorph::engine
     class Logger;
     class Time;
     class Entity;
+    class Engine;
 
     using GameObject = safe_ptr<Entity>;
 
