@@ -7,6 +7,9 @@
 
 #include "Debug/Exceptions/ConfigurationException.hpp"
 
-ConfigurationException::ConfigurationException(const std::string& message,
-Logger::severity level) : ExceptionLogger("[Corrupted files] " + message, level)
-{}
+namespace polymorph::engine
+{
+    ConfigurationException::ConfigurationException(const std::string& message,
+    Logger::severity level) : ExceptionLogger("[Corrupted files] " + message, level)
+    {}
+}

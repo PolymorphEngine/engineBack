@@ -5,10 +5,15 @@
 ** Time.cpp
 */
 
-#include <Polymorph/Types.hpp>
+#include <polymorph/Types.hpp>
+#include <Core/Engine.hpp>
+#include <Core/Component/base/Component.hpp>
+#include "Utilities/Time.hpp"
 
 
-namespace Polymorph
+
+
+namespace polymorph::engine
 {
 
 
@@ -37,7 +42,7 @@ namespace Polymorph
 
     void Timer::tick()
     {
-        actual += Time::deltaTime;
+        actual += time.deltaTime;
     }
 
     bool Timer::timeIsUp(bool isReset)
@@ -50,8 +55,23 @@ namespace Polymorph
         return false;
     }
 
-    Timer::Timer(double delay)
+    Timer::Timer(Time &time, double delay) : time(time), delay(delay)
     {
-        this->delay = delay;
+
+    }
+
+    Timer::Timer(Engine &game, double delay) : time(game.getTime()), delay(delay)
+    {
+
+    }
+
+    Timer::Timer(GameObject &object, double delay) : time(object->time), delay(delay)
+    {
+
+    }
+
+    Timer::Timer(Component &component, double delay) : time(component.time), delay(delay)
+    {
+
     }
 }

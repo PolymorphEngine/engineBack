@@ -1,11 +1,11 @@
-# PolymorphEngine
+# polymorphEngine
 
-PolymorphEngine is a beautiful application/game engine that allows great modularity and all the advantages of an ECS.\
+polymorphEngine is a beautiful application/game engine that allows great modularity and all the advantages of an ECS.\
 With this engine you don't need to bother, you have access to an application that allows you to do the most complicated configuration actions, but all simply and quickly!\
 But for this readme, let's consider that the interface doesn't exist to explain how actually work under the hood.
 
 ## ⚙ How does it works?
-PolymorphEngine works with scripts, "pieces" of code that are executed during the execution of the program.\
+polymorphEngine works with scripts, "pieces" of code that are executed during the execution of the program.\
 Each script must be as specialized and stable as possible, in order to eventually build more complex objects.\
 These objects are **entities**, these last ones have their own execution of the scripts which are assigned to them, giving them a great autonomy while being able to take references with other entity and script if necessary.\
 These **entities can become prefabs** if necessary, a representation of the entity that can be easily instantiated several times, while maintaining the advantages of independence allowed by an entity.\
@@ -36,7 +36,7 @@ int main() {
 
     try
     {
-        Polymorph::Engine e = Polymorph::Engine(path, name);
+        polymorph::Engine e = polymorph::Engine(path, name);
 
     /*
         This exemple use Raylib as GraphicalAPI, but you are free to implement
@@ -73,9 +73,9 @@ Here is how to create the ScriptFactory:
 ```cpp
 #pragma once
 
-#include "Polymorph/Factory.hpp"
-#include "Polymorph/Components.hpp"
-#include "Polymorph/Core.hpp"
+#include "polymorph/Factory.hpp"
+#include "polymorph/Components.hpp"
+#include "polymorph/Core.hpp"
 
 //@Future Initalizers
 
@@ -122,7 +122,7 @@ And then `ScriptFactory.cpp`:
 ```cpp
 #include "ScriptFactory.hpp"
 
-Polymorph::Initializer YourNameSpace::ScriptFactory::create(std::string &type, Config::XmlComponent &data,
+polymorph::Initializer YourNameSpace::ScriptFactory::create(std::string &type, Config::XmlComponent &data,
                                  GameObject entity)
 {
     return _buildables.at(type)(data, entity);
@@ -134,7 +134,7 @@ Polymorph::Initializer YourNameSpace::ScriptFactory::create(std::string &type, C
 
 ### ⚗️​ Your first Script !
 
-Now... The scripts ! Scripts need 2 things : an initializer which derives from "Polymorph::AComponentInitializer" and the actual script that derives from `Polymorph::Component`.
+Now... The scripts ! Scripts need 2 things : an initializer which derives from "polymorph::AComponentInitializer" and the actual script that derives from `polymorph::Component`.
 
 Here is an example of an initializer:
 
@@ -142,9 +142,9 @@ Here is an example of an initializer:
 ```cpp
 #pragma once
 
-#include <Polymorph/Components.hpp>
-#include <Polymorph/Types.hpp>
-#include <Polymorph/Factory.hpp>
+#include <polymorph/Components.hpp>
+#include <polymorph/Types.hpp>
+#include <polymorph/Factory.hpp>
 
 namespace YourNameSpace
 {
@@ -194,10 +194,10 @@ namespace YourNameSpace
 
 `YourAwesomeInitializer.cpp`
 ```cpp
-#include "Polymorph/Factory.hpp"
-#include "Polymorph/Core.hpp"
-#include "Polymorph/Types.hpp"
-#include "Polymorph/Components.hpp"
+#include "polymorph/Factory.hpp"
+#include "polymorph/Core.hpp"
+#include "polymorph/Types.hpp"
+#include "polymorph/Components.hpp"
 #include "ScriptFactory.hpp"
 
 namespace YourNameSpace
@@ -210,7 +210,7 @@ namespace YourNameSpace
     // Called at Script creation to set properties from configuration
     // use:  data.setProperty(yourScriptPropertyName, component->yourProperty)
     // optionnaly had a severity as third parameter to log when not found 
-    // (Logger::severity, throw's when Logger::MAJOR)
+    // (Debug::severity, throw's when Debug::MAJOR)
     void YourAwesomeInitializer::build()
     {
     }
@@ -227,8 +227,8 @@ Now we want to implement the actual script `YourAwesomeScript.hpp`
 ```cpp
 #pragma once
 
-#include <Polymorph/Components.hpp>
-#include <Polymorph/Types.hpp>
+#include <polymorph/Components.hpp>
+#include <polymorph/Types.hpp>
 
 namespace YourNameSpace
 {
@@ -262,8 +262,8 @@ namespace YourNameSpace
 
 And of course the `YourAwesomeScript.cpp`
 ```cpp
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Components.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Components.hpp>
 #include "YourAwesomeScript.hpp"
 
 namespace YourNameSpace

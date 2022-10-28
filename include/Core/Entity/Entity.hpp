@@ -15,19 +15,22 @@
 
 #include "Utilities/safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Component;
 
     class IComponentInitializer;
 
     class Engine;
+    class SceneManager;
+    class PluginManager;
+    class AssetManager;
+    class ScriptingApi;
+    class Logger;
+    class Time;
 
     class TransformComponent;
 
-    //class CanvasComponent;
-
-    //using Canvas = safe_ptr<CanvasComponent>;
     namespace Config
     {
         class XmlEntity;
@@ -63,6 +66,18 @@ namespace Polymorph
              *           it's like his identity in the world.
              */
             Transform transform = Transform(nullptr);
+            
+            PluginManager &Plugin;
+            SceneManager &Scene;
+            AssetManager &Asset;
+            Logger &Debug;
+            Time &time;
+            ScriptingApi &Factory;
+
+            /**
+             * @property A reference to the engine
+             */
+            Engine &Game;
 
             /**
              * @property The entity's name (not necessarily unique)
@@ -116,11 +131,6 @@ namespace Polymorph
              * @property The entity layer in the scene
              */
             std::string _layer;
-
-            /**
-             * @property A reference to the engine
-             */
-            Engine &_game;
 
             /**
              * @property Components of the entity to initialize in the initialization order
@@ -200,6 +210,8 @@ namespace Polymorph
              * @param tag: The tag to add
              */
             void addTag(const std::string &tag);
+            
+            
 
             /**
              * @details Deletes from the game object the tag passed as parameter.

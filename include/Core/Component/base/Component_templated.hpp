@@ -13,7 +13,7 @@
 #include "Core/Entity/Entity.hpp"
 #include "../transform/TransformComponent.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     template<typename T>

@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     /**
      * @class IComponent interface class for all components

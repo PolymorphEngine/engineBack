@@ -12,7 +12,7 @@
 #include "DynamicLoader.hpp"
 #include "AssetManager.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     
     
@@ -31,7 +31,7 @@ namespace Polymorph
 
         public:
             void loadPlugins(const std::string &pluginsPath, Config::XmlNode &list, Engine &game);
-            std::shared_ptr<AssetManager> getAssetManager();
+            AssetManager & getAssetManager();
 
 
             template<typename symbol>

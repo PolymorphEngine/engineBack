@@ -5,57 +5,58 @@
 ** SceneManager.cpp
 */
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Config.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Config.hpp>
+#include "Core/Scene/SceneManager.hpp"
 
 
-std::vector<Polymorph::GameObject> Polymorph::SceneManager::getAll()
+std::vector<polymorph::engine::GameObject> polymorph::engine::SceneManager::getAll()
 {
-    return Current->getAll();
+    return _current->getAll();
 }
 
-Polymorph::GameObject Polymorph::SceneManager::find(const std::string& name)
+polymorph::engine::GameObject polymorph::engine::SceneManager::find(const std::string& name)
 {
-    return Current->find(name);
+    return _current->find(name);
 }
 
-std::vector<Polymorph::GameObject>
-Polymorph::SceneManager::findAll(const std::string& name)
+std::vector<polymorph::engine::GameObject>
+polymorph::engine::SceneManager::findAll(const std::string& name)
 {
-    return Current->findAll(name);
+    return _current->findAll(name);
 }
 
-Polymorph::GameObject Polymorph::SceneManager::findById(const std::string& id)
+polymorph::engine::GameObject polymorph::engine::SceneManager::findById(const std::string& id)
 {
-    if (Current == nullptr)
+    if (_current == nullptr)
         return GameObject(nullptr);
-    return Current->findById(id);
+    return _current->findById(id);
 }
 
-Polymorph::GameObject Polymorph::SceneManager::findByTag(const std::string& tag)
+polymorph::engine::GameObject polymorph::engine::SceneManager::findByTag(const std::string& tag)
 {
-    return Current->findByTag(tag);
+    return _current->findByTag(tag);
 }
 
-std::vector<Polymorph::GameObject>
-Polymorph::SceneManager::findAllByTag(const std::string& tag)
+std::vector<polymorph::engine::GameObject>
+polymorph::engine::SceneManager::findAllByTag(const std::string& tag)
 {
-    return Current->findAllByTag(tag);
+    return _current->findAllByTag(tag);
 }
 
-void Polymorph::SceneManager::destroy(Polymorph::GameObject& gameObject)
+void polymorph::engine::SceneManager::destroy(polymorph::engine::GameObject& gameObject)
 {
-    Current->destroy(**gameObject);
+    _current->destroy(**gameObject);
 }
 
-void Polymorph::SceneManager::destroy(Polymorph::GameObject gameObject,
+void polymorph::engine::SceneManager::destroy(polymorph::engine::GameObject gameObject,
                                       float delay)
 {
-    Current->destroy(**gameObject, delay);
+    _current->destroy(**gameObject, delay);
 }
 
-Polymorph::GameObject
-Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject, bool isParent)
+polymorph::engine::GameObject
+polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject& gameObject, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
@@ -63,13 +64,13 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject& gameObject, bool isP
 
     nEntity->setId(nId);
     nEntity->awake();
-    Current->addEntityToAddQueue(nEntity);
+    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
-Polymorph::GameObject
-Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
-                                     const Polymorph::Vector3& position, bool isParent)
+polymorph::engine::GameObject
+polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameObject,
+                                     const polymorph::engine::Vector3& position, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
@@ -79,13 +80,13 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
     nEntity->awake();
     //TODO maybe call transform method
     nEntity->transform->setPosition(position);
-    Current->addEntityToAddQueue(nEntity);
+    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
-Polymorph::GameObject
-Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
-                                     Polymorph::Transform parent, bool isParent)
+polymorph::engine::GameObject
+polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameObject,
+                                     polymorph::engine::Transform parent, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
@@ -94,14 +95,14 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
     nEntity->setId(nId);
     nEntity->transform->setParent(parent);
     nEntity->awake();
-    Current->addEntityToAddQueue(nEntity);
+    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
-Polymorph::GameObject
-Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
-                                     Polymorph::Transform parent,
-                                     Polymorph::Vector3 offset, bool isParent)
+polymorph::engine::GameObject
+polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameObject,
+                                     polymorph::engine::Transform parent,
+                                     polymorph::engine::Vector3 offset, bool isParent)
 {
     auto xml = gameObject->getXmlConfig();
     auto nEntity = xml.makeInstance(gameObject->isPrefab() || gameObject->wasPrefab());
@@ -111,70 +112,90 @@ Polymorph::SceneManager::instantiate(Polymorph::GameObject gameObject,
     nEntity->transform->setParent(parent);
     nEntity->awake();
     nEntity->transform->setPosition(parent->getPosition() + offset);
-    Current->addEntityToAddQueue(nEntity);
+    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
-void Polymorph::SceneManager::loadScene(std::string name)
+void polymorph::engine::SceneManager::loadScene(std::string name)
 {
-    auto scene = Game->findSceneByName(name);
+    auto scene = _game.findSceneByName(name);
 
     if (!scene)
         throw ExceptionLogger("Failed to find scene to load called: " + name, Logger::MAJOR);
 
-    Current->unloadScene();
+    _current->unloadScene();
     _sceneLoading = true;
-    Current = scene;
-    Current->loadScene();
+    _current = scene;
+    _current->loadScene();
     for (auto &e: KeepOnLoad)
-        Current->addEntity(e);
+        _current->addEntity(e);
 }
 
 
 
-void Polymorph::SceneManager::createScene(std::string name)
+void polymorph::engine::SceneManager::createScene(std::string name)
 {
-    Game->addScene(std::make_shared<Scene>(name, *Game));
+    _game.addScene(std::make_shared<Scene>(name, _game));
 }
 
 void
-Polymorph::SceneManager::dontDestroyOnLoad(Polymorph::GameObject gameObject)
+polymorph::engine::SceneManager::dontDestroyOnLoad(polymorph::engine::GameObject gameObject)
 {
     KeepOnLoad.emplace_back(gameObject.lock());
 }
 
-void Polymorph::SceneManager::setAtFront(Polymorph::GameObject gameObject)
+void polymorph::engine::SceneManager::setAtFront(polymorph::engine::GameObject gameObject)
 {
-    auto it = Current->findItById(gameObject->getId());
-    auto entity = Current->pop(it);
+    auto it = _current->findItById(gameObject->getId());
+    auto entity = _current->pop(it);
 
-    Current->addEntityAtIdx(entity, 0);
+    _current->addEntityAtIdx(entity, 0);
 }
 
-void Polymorph::SceneManager::setAtIdx(Polymorph::GameObject gameObject,
+void polymorph::engine::SceneManager::setAtIdx(polymorph::engine::GameObject gameObject,
                                        std::size_t idx)
 {
-    auto it = Current->findItById(gameObject->getId());
-    auto entity = Current->pop(it);
+    auto it = _current->findItById(gameObject->getId());
+    auto entity = _current->pop(it);
 
-    Current->addEntityAtIdx(entity, idx);
+    _current->addEntityAtIdx(entity, idx);
 }
 
-void Polymorph::SceneManager::setAtBack(Polymorph::GameObject gameObject)
+void polymorph::engine::SceneManager::setAtBack(polymorph::engine::GameObject gameObject)
 {
-    auto it = Current->findItById(gameObject->getId());
-    auto entity = Current->pop(it);
-    auto nb = Current->countParents();
+    auto it = _current->findItById(gameObject->getId());
+    auto entity = _current->pop(it);
+    auto nb = _current->countParents();
 
-    Current->addEntityAtIdx(entity, nb);
+    _current->addEntityAtIdx(entity, nb);
 }
 
-bool Polymorph::SceneManager::isSceneUnloaded()
+bool polymorph::engine::SceneManager::isSceneUnloaded() const
 {
     return _sceneLoading;
 }
 
-void Polymorph::SceneManager::resetLoading()
+void polymorph::engine::SceneManager::resetLoading()
 {
     _sceneLoading = false;
+}
+
+polymorph::engine::SceneManager::SceneManager(polymorph::engine::Engine &game) : _game(game)
+{
+    
+}
+
+polymorph::engine::SceneManager::SceneManager(polymorph::engine::Engine &game,
+std::shared_ptr<Scene> current) : _current(current), _game(game)
+{
+}
+
+std::shared_ptr<polymorph::engine::Scene> polymorph::engine::SceneManager::getCurrentScene() const
+{
+    return _current;
+}
+
+void polymorph::engine::SceneManager::setCurrentScene(std::shared_ptr<Scene> scene)
+{
+    _current = scene;
 }

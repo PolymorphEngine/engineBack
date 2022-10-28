@@ -12,35 +12,38 @@
 #include <string>
 #include <vector>
 
-class AssetManager
+namespace polymorph::engine
 {
-
-////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
-    public:
-
-//////////////////////--------------------------/////////////////////////
-
-
-
-///////////////////////////// PROPERTIES ////////////////////////////////
-    public:
-
-
-    private:
-        std::vector<std::string> _assetsFolders;
-
-//////////////////////--------------------------/////////////////////////
-
-
-
-/////////////////////////////// METHODS /////////////////////////////////
-    public:
-        std::string tryResolve(const std::string &resource);
-        void addPath(const std::string &path);
-
-
-    private:
-
-//////////////////////--------------------------/////////////////////////
-
-};
+    class AssetManager
+    {
+    
+    ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+        public:
+    
+    //////////////////////--------------------------/////////////////////////
+    
+    
+    
+    ///////////////////////////// PROPERTIES ////////////////////////////////
+        public:
+    
+    
+        private:
+            std::vector<std::string> _assetsFolders;
+    
+    //////////////////////--------------------------/////////////////////////
+    
+    
+    
+    /////////////////////////////// METHODS /////////////////////////////////
+        public:
+            std::string tryResolve(const std::string &resource);
+            void addPath(const std::string &path);
+    
+    
+        private:
+    
+    //////////////////////--------------------------/////////////////////////
+    
+    };
+}

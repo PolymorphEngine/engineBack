@@ -11,7 +11,7 @@
 #include <vector>
 #include "Utilities/safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     template<class T>
     class InstanceStore
@@ -72,4 +72,4 @@ namespace Polymorph
 
     };
 
-} // Polymorph
+} // polymorph

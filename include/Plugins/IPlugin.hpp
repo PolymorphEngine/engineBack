@@ -7,7 +7,7 @@
 #include "myxmlpp.hpp"
 #include "Utilities/safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class IComponentInitializer;
     class Entity;
@@ -60,7 +60,7 @@ namespace Polymorph
 /*
 
 Whats builtin ?:
-    - Parsing (Polymorph::Config)
+    - Parsing (ppolymorph::engine::Config)
     - E.C.S (Entity, Component, Scene)
 
 
@@ -75,7 +75,7 @@ Type of data to have in a Plugin:
     - Some internal plugin updates
 
 
-Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
+polymorph Plugins (which are namespaced, ex: polymorph_Raylib-Core):
     
      
     - raylib-core <- render-core
@@ -87,7 +87,7 @@ Polymorph Plugins (which are namespaced, ex: Polymorph_Raylib-Core):
     - raylib-audio
     - raylib-input
 
-    - render-core <- Polymorph::WindowModule, IWindowModule
+    - render-core <- polymorph::WindowModule, IWindowModule
     - render-2D
     - render-3D
     - physics-2D : deps [render-2D]

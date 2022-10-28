@@ -9,14 +9,17 @@
 
 #include <utility>
 
-ExceptionLogger::ExceptionLogger(std::string message, Logger::severity level)
+namespace Ex = polymorph::engine;
+
+Ex::ExceptionLogger::ExceptionLogger(std::string message, Logger::severity level)
 {
     _message = std::move(message);
     _level = level;
 }
 
-const char *ExceptionLogger::what() const noexcept
+const char *Ex::ExceptionLogger::what() const noexcept
 {
-    Logger::log(_message, _level);
+    Logger::Log(_message, _level);
+
     return _message.c_str();
 }

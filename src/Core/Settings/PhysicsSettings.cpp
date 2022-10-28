@@ -7,10 +7,10 @@
 
 
 
-#include <Polymorph/Settings.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Settings.hpp>
+#include <polymorph/Debug.hpp>
 
-Polymorph::Settings::PhysicsSettings::PhysicsSettings(
+polymorph::engine::Settings::PhysicsSettings::PhysicsSettings(
         const std::shared_ptr<XmlNode>& node)
         : _node(node)
 {
@@ -18,7 +18,7 @@ Polymorph::Settings::PhysicsSettings::PhysicsSettings(
     _init3DGravity();
 }
 
-void Polymorph::Settings::PhysicsSettings::_init2DGravity()
+void polymorph::engine::Settings::PhysicsSettings::_init2DGravity()
 {
     try {
         auto gravNode = _node->findChild("Gravity2D");
@@ -26,16 +26,16 @@ void Polymorph::Settings::PhysicsSettings::_init2DGravity()
         _2DGravity.x = gravNode->findAttribute("x")->getValueFloat();
         _2DGravity.y = gravNode->findAttribute("y")->getValueFloat();
     } catch (const myxmlpp::NodeNotFoundException &e) {
-        Logger::log("Gravity2D setting not found", Logger::DEBUG);
+        Logger::Log("Gravity2D setting not found", Logger::DEBUG);
         _createDefault2DGrav();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log("Gravity2D setting is incomplete", Logger::MINOR);
+        Logger::Log("Gravity2D setting is incomplete", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Gravity2D setting is malformed");
     }
 }
 
-void Polymorph::Settings::PhysicsSettings::_init3DGravity()
+void polymorph::engine::Settings::PhysicsSettings::_init3DGravity()
 {
     try {
         auto gravNode = _node->findChild("Gravity3D");
@@ -44,25 +44,25 @@ void Polymorph::Settings::PhysicsSettings::_init3DGravity()
         _3DGravity.y = gravNode->findAttribute("y")->getValueFloat();
         _3DGravity.z = gravNode->findAttribute("z")->getValueFloat();
     } catch (const myxmlpp::NodeNotFoundException &e) {
-        Logger::log("Gravity3D setting not found", Logger::DEBUG);
+        Logger::Log("Gravity3D setting not found", Logger::DEBUG);
         _createDefault3DGrav();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log("Gravity3D setting is incomplete", Logger::MINOR);
+        Logger::Log("Gravity3D setting is incomplete", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Gravity3D setting is malformed");
     }
 }
 
-Polymorph::Vector2 Polymorph::Settings::PhysicsSettings::getGravity2D() {
+polymorph::engine::Vector2 polymorph::engine::Settings::PhysicsSettings::getGravity2D() {
     return _2DGravity;
 }
 
-Polymorph::Vector3 Polymorph::Settings::PhysicsSettings::getGravity3D() {
+polymorph::engine::Vector3 polymorph::engine::Settings::PhysicsSettings::getGravity3D() {
     return _3DGravity;
 }
 
 void
-Polymorph::Settings::PhysicsSettings::setGravity2D(Polymorph::Vector2 newGrav)
+polymorph::engine::Settings::PhysicsSettings::setGravity2D(polymorph::engine::Vector2 newGrav)
 {
     _2DGravity = newGrav;
     std::shared_ptr<XmlNode> gravNode;
@@ -76,7 +76,7 @@ Polymorph::Settings::PhysicsSettings::setGravity2D(Polymorph::Vector2 newGrav)
     _saveToAttribute(gravNode, "2D", "y", newGrav.y);
 }
 
-void Polymorph::Settings::PhysicsSettings::setGravity2D(float newYGrav)
+void polymorph::engine::Settings::PhysicsSettings::setGravity2D(float newYGrav)
 {
     _2DGravity.y = newYGrav;
 
@@ -88,7 +88,7 @@ void Polymorph::Settings::PhysicsSettings::setGravity2D(float newYGrav)
 }
 
 void
-Polymorph::Settings::PhysicsSettings::setGravity3D(Polymorph::Vector3 newGrav)
+polymorph::engine::Settings::PhysicsSettings::setGravity3D(polymorph::engine::Vector3 newGrav)
 {
     _3DGravity = newGrav;
     std::shared_ptr<XmlNode> gravNode;
@@ -104,7 +104,7 @@ Polymorph::Settings::PhysicsSettings::setGravity3D(Polymorph::Vector3 newGrav)
 
 }
 
-void Polymorph::Settings::PhysicsSettings::setGravity3D(float newZGrav)
+void polymorph::engine::Settings::PhysicsSettings::setGravity3D(float newZGrav)
 {
     _3DGravity.z = newZGrav;
 
@@ -115,7 +115,7 @@ void Polymorph::Settings::PhysicsSettings::setGravity3D(float newZGrav)
     }
 }
 
-void Polymorph::Settings::PhysicsSettings::_createDefault2DGrav()
+void polymorph::engine::Settings::PhysicsSettings::_createDefault2DGrav()
 {
     auto grav = std::make_shared<XmlNode>(*_node);
     grav->setTag("Gravity2D");
@@ -124,7 +124,7 @@ void Polymorph::Settings::PhysicsSettings::_createDefault2DGrav()
     _node->addChild(grav);
 }
 
-void Polymorph::Settings::PhysicsSettings::_createDefault3DGrav()
+void polymorph::engine::Settings::PhysicsSettings::_createDefault3DGrav()
 {
     auto grav = std::make_shared<XmlNode>(*_node);
     grav->setTag("Gravity3D");
@@ -134,7 +134,7 @@ void Polymorph::Settings::PhysicsSettings::_createDefault3DGrav()
     _node->addChild(grav);
 }
 
-void Polymorph::Settings::PhysicsSettings::_saveToAttribute(
+void polymorph::engine::Settings::PhysicsSettings::_saveToAttribute(
         const std::shared_ptr<XmlNode> &node,
         const std::string &dimension,
         const std::string &attrName,

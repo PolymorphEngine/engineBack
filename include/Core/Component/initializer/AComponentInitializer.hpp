@@ -11,9 +11,9 @@
 #include <iostream>
 #include <memory>
 #include "IComponentInitializer.hpp"
-#include <Polymorph/Config.hpp>
+#include <polymorph/Config.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     namespace Config
     {

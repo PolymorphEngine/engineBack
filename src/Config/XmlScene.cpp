@@ -6,10 +6,10 @@
 */
 
 #include <myxmlpp.hpp>
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Config.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Config.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     Config::XmlScene::XmlScene(std::shared_ptr<myxmlpp::Node> &node,
                                Engine &engine) : _engine(engine)
@@ -66,14 +66,14 @@ namespace Polymorph
                 throw ConfigurationException( "Scene named '"+ _name +"' with id '" +_id+ "' (which is first scene to load) is empty: "
                 + std::string(e.what()), Logger::MAJOR);
             else {
-                Logger::log("Scene named '" + _name + "' with id '" + _id +
+                _engine.getLogger().log("Scene named '" + _name + "' with id '" + _id +
                             "' is empty: ", Logger::MINOR);
                 return;
             }
         }
 
         if (list->empty()) {
-            Logger::log("Scene named '" + _name + "' with id '" + _id +
+            _engine.getLogger().log("Scene named '" + _name + "' with id '" + _id +
                         "' is empty: ", Logger::MINOR);
             return;
         }

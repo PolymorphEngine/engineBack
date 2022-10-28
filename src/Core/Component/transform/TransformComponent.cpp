@@ -5,10 +5,10 @@
 ** Transfoem.cpp.c
 */
 
-#include <Polymorph/Core.hpp>
+#include <polymorph/Core.hpp>
 
 
-namespace Polymorph
+namespace polymorph::engine
 {
 
     Transform TransformComponent::parent() {
@@ -75,7 +75,7 @@ namespace Polymorph
     }
 
     TransformComponent::TransformComponent(GameObject gameObject)
-            : Component("Transform", gameObject)
+            : Component("Transform", gameObject), _smoothTimer(gameObject, 0)
     {
 
     }
@@ -205,7 +205,7 @@ namespace Polymorph
         if (_smoothMoving)
             return;
         _smoothMoving = true;
-        _smoothTimer = Timer(time);
+        _smoothTimer = Timer(this->time, time);
         _smoothTarget = destination;
         _smoothOrigin = _position;
     }
@@ -237,7 +237,7 @@ namespace Polymorph
             return;
         _smoothMoving = true;
         _hasCallback = true;
-        _smoothTimer = Timer(time);
+        _smoothTimer = Timer(this->time, time);
         _smoothTarget = destination;
         _smoothOrigin = _position;
         _callback = std::move(callback);

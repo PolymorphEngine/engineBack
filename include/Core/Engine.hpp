@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2020
-** Polymorph.hpp.h
+** polymorph.hpp.h
 ** File description:
-** header for Polymorph.c
+** header for polymorph.c
 */
 
 #ifndef ENGINE_ENGINE_HPP
@@ -16,11 +16,15 @@
 
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/Time.hpp"
-#include "ScriptingAPI/IScriptFactory.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
+#include "Debug/Log/Logger.hpp"
+#include "Plugins/PluginManager.hpp"
 #include "Plugins/AssetManager.hpp"
+#include "Core/Scene/SceneManager.hpp"
 
 
-namespace Polymorph
+
+namespace polymorph::engine
 {
     namespace Config
     {
@@ -36,9 +40,10 @@ namespace Polymorph
 
         class PhysicsSettings;
     }
-    class DisplayModule;
 
     class PluginManager;
+    class AssetManager;
+    class Logger;
     
     class Entity;
 
@@ -47,10 +52,8 @@ namespace Polymorph
     class Time;
 
     class ScriptingApi;
+    class SceneManager;
 
-    class TextureModule;
-
-    class SplashScreen;
 
     using ExitCode = int;
 
@@ -76,12 +79,30 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         private:
+            Logger _logger;
+
+            PluginManager _pluginManager;
+
+            SceneManager _sceneManager;
+
+            /**
+ * @property _scriptingApi scripting api of the engine to manage scripts of the game
+ */
+            ScriptingApi _scriptingApi;
+
+            AssetManager _assetManager;
+            
+            /**
+             * @property _time time class of the engine
+             */
+            Time _time;
+
             /**
              * @property _scenes list of all of the scenes
              */
             std::vector<std::shared_ptr<Scene>> _scenes;
             
-            std::shared_ptr<PluginManager> _pluginManager;
+            
 
             /**
              * @property _prefabs list of all of the prefabs
@@ -115,12 +136,12 @@ namespace Polymorph
             /**
              * @property _exit exit or not the program
              */
-            static inline bool _exit = false;
+            bool _exit = false;
 
             /**
              * @property _exitCode exit code of the program
              */
-            static inline ExitCode _exitCode = 0;
+            ExitCode _exitCode = 0;
 
             /**
              * @property _projectPath path to the project
@@ -149,11 +170,6 @@ namespace Polymorph
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
 
             /**
-             * @property _time time class of the engine
-             */
-            Time _time;
-
-            /**
              * @property _physicsSettings physics settings of the engine
              */
             std::unique_ptr<Settings::PhysicsSettings> _physicsSettings;
@@ -167,13 +183,7 @@ namespace Polymorph
              * @property _videoSettings video settings of the engine
              */
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
-            
-            std::shared_ptr<AssetManager> _assetManager;
            
-            /**
-             * @property _scriptingApi scripting api of the engine to manage scripts of the game
-             */
-            std::unique_ptr<ScriptingApi> _scriptingApi;
             /**
              * @property _splashScreen splash screen of the engine
              */
@@ -195,8 +205,28 @@ namespace Polymorph
             
             std::vector<std::string> &getPluginExecOrder()
             { return _pluginsExecOrder; };
-            std::shared_ptr<AssetManager> &getAssetManager()
+            
+            AssetManager &getAssetManager()
             { return _assetManager; };
+            
+            SceneManager &getSceneManager()
+            { return _sceneManager; };
+            
+            Logger &getLogger()
+            {
+                return _logger;
+            }
+            ScriptingApi &getScriptingApi()
+            {
+                return _scriptingApi;
+            }
+            
+            Time &getTime()
+            {
+                return _time;
+            };
+            
+            
 
             /**
              * @details Runs the game.
@@ -222,19 +252,19 @@ namespace Polymorph
              */
             void loadEngine();
             
-            std::shared_ptr<PluginManager> getPluginManager() const;
+            PluginManager &getPluginManager();
 
             /**
              * @brief Exit the program with a specified exit code
              * @param code exit code of the program
              */
-            static void exit(ExitCode code);
+            void exit(ExitCode code);
 
             /**
              * @brief Getter to know if we should exit or not
              * @return exit status of the program
              */
-            static bool isExiting()
+            bool isExiting() const
             { return _exit; };
 
             /**

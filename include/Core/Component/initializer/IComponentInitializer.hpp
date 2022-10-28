@@ -11,7 +11,7 @@
 #include <iostream>
 #include "Core/Component/base/IComponent.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Component;
 

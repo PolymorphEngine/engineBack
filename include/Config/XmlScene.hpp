@@ -12,7 +12,7 @@
 #include <vector>
 #include <myxmlpp.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Engine;
 

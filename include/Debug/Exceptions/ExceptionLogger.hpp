@@ -11,37 +11,40 @@
 #include <exception>
 #include "Debug/Log/Logger.hpp"
 
-class ExceptionLogger : public std::exception
+namespace polymorph::engine
 {
-
-///////////////////////////////// Constructors /////////////////////////////////
-
-    public:
-        explicit ExceptionLogger(std::string message,
-                                 Logger::severity level = Logger::severity::MAJOR);
-
-///////////////////////////--------------------------///////////////////////////
-
-
-
-///////////////////////////////// Properties /////////////////////////////////
-
-    private:
-        std::string _message;
-        Logger::severity _level;
-
-///////////////////////////--------------------------///////////////////////////
-
-
-
-///////////////////////////////// Methods /////////////////////////////////
-
-    public:
-        const char *what() const noexcept override;
-
-///////////////////////////--------------------------///////////////////////////
-
-};
+    class ExceptionLogger : public std::exception
+    {
+    
+    ///////////////////////////////// Constructors /////////////////////////////////
+    
+        public:
+            explicit ExceptionLogger(std::string message,
+            Logger::severity level = Logger::severity::MAJOR);
+    
+    ///////////////////////////--------------------------///////////////////////////
+    
+    
+    
+    ///////////////////////////////// Properties /////////////////////////////////
+    
+        private:
+            std::string _message;
+            Logger::severity _level;
+    
+    ///////////////////////////--------------------------///////////////////////////
+    
+    
+    
+    ///////////////////////////////// Methods /////////////////////////////////
+    
+        public:
+            const char *what() const noexcept override;
+    
+    ///////////////////////////--------------------------///////////////////////////
+    
+    };
+}
 
 
 #endif //ENGINE_EXCEPTIONLOGGER_HPP

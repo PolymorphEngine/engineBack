@@ -8,6 +8,8 @@
 #include <filesystem>
 #include "Plugins/AssetManager.hpp"
 
+using namespace polymorph::engine;
+
 std::string AssetManager::tryResolve(const std::string &resource)
 {
     for (auto &folder: _assetsFolders) {

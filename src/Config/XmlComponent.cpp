@@ -6,11 +6,11 @@
 */
 
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Config.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Config.hpp>
 
 
-std::string Polymorph::Config::XmlComponent::getType()
+std::string polymorph::engine::Config::XmlComponent::getType()
 {
     if (this == Empty.get())
         return "Empty";
@@ -22,24 +22,24 @@ std::string Polymorph::Config::XmlComponent::getType()
     }
 }
 
-bool Polymorph::Config::XmlComponent::isEnabled()
+bool polymorph::engine::Config::XmlComponent::isEnabled()
 {
     try {
         return node->findAttribute("enabled")->getValueBool();
     } catch(myxmlpp::Exception &e) {
-        Logger::log("No state property found for component '" + type +
+        entity->Debug.log("No state property found for component '" + type +
                     "': set to false by default", Logger::DEBUG);
         return false;
     }
 }
 
-Polymorph::Config::XmlComponent::XmlComponent(const std::shared_ptr<XmlNode> &node, GameObject entity)
+polymorph::engine::Config::XmlComponent::XmlComponent(const std::shared_ptr<XmlNode> &node, GameObject entity)
 {
     this->node = node;
     this->entity = entity;
 }
 
-std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::_findProperty(const std::string& name, Logger::severity level)
+std::shared_ptr<myxmlpp::Node> polymorph::engine::Config::XmlComponent::_findProperty(const std::string& name, Logger::severity level)
 {
     for (auto &property: *node) {
         try {
@@ -49,14 +49,13 @@ std::shared_ptr<myxmlpp::Node> Polymorph::Config::XmlComponent::_findProperty(co
         } catch (...) {}
     }
     if (level != Logger::MAJOR) {
-        Logger::log("In component '"+node->findAttribute("type")->getValue()+"': property named '" + name + "': not found.", level);
         return nullptr;
     }
     throw ConfigurationException("In component '"+node->findAttribute("type")->getValue()+"': property named '" + name + "': not found.", Logger::MAJOR);
 }
 
 std::shared_ptr<myxmlpp::Node>
-Polymorph::Config::XmlComponent::_findProperty(const std::string& name,
+polymorph::engine::Config::XmlComponent::_findProperty(const std::string& name,
                                                const std::shared_ptr<myxmlpp::Node> &data, Logger::severity level)
 {
     for (auto &property: *data) {
@@ -67,13 +66,12 @@ Polymorph::Config::XmlComponent::_findProperty(const std::string& name,
         } catch (...) {}
     }
     if (level != Logger::MAJOR) {
-        Logger::log("In property'"+data->getTag()+"': sub-property named '" + name + "': not found.", level);
         return nullptr;
     }
     throw ConfigurationException("In property '"+data->getTag()+"': sub-property named '" + name + "': not found.", Logger::MAJOR);
 }
 
-bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+bool polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
                                                            int &toSet,
                                                            myxmlpp::Node &data,
                                                            Logger::severity level)
@@ -83,15 +81,14 @@ bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& na
         return true;
     } catch (const myxmlpp::Exception &e) {
         if (level != Logger::MAJOR)
-            Logger::log(e.what(),
-                        level);
+            e.what();
         else
             throw ConfigurationException(e.what(), Logger::MAJOR);
         return false;
     }
 }
 
-bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+bool polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
                                                            float &toSet,
                                                            myxmlpp::Node &data,
                                                            Logger::severity level)
@@ -101,15 +98,14 @@ bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& na
         return true;
     } catch (const myxmlpp::Exception &e) {
         if (level != Logger::MAJOR)
-            Logger::log(e.what(),
-                        level);
+            e.what();
         else
             throw ConfigurationException(e.what(), Logger::MAJOR);
         return false;
     }
 }
 
-bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+bool polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
                                                            bool &toSet,
                                                            myxmlpp::Node &data,
                                                            Logger::severity level)
@@ -119,26 +115,22 @@ bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& na
         return true;
     } catch (const myxmlpp::Exception &e) {
         if (level != Logger::MAJOR)
-            Logger::log(e.what(),
-                        level);
+            e.what();
         else
             throw ConfigurationException(e.what(), Logger::MAJOR);
         return false;
     }
 }
 
-bool Polymorph::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
-                                                           std::string &toSet,
-                                                           myxmlpp::Node &data,
-                                                           Logger::severity level)
+bool polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(const std::string& name,
+std::string &toSet, myxmlpp::Node &data, Logger::severity level)
 {
     try {
         toSet = data.findAttribute(name)->getValue();
         return true;
     } catch (const myxmlpp::Exception &e) {
         if (level != Logger::MAJOR)
-            Logger::log(e.what(),
-                        level);
+            e.what();
         else
             throw ConfigurationException(e.what(), Logger::MAJOR);
         return false;

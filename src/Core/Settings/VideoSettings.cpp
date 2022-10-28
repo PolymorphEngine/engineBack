@@ -7,10 +7,10 @@
 
 
 
-#include <Polymorph/Settings.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Settings.hpp>
+#include <polymorph/Debug.hpp>
 
-Polymorph::Settings::VideoSettings::VideoSettings(
+polymorph::engine::Settings::VideoSettings::VideoSettings(
         const std::shared_ptr<XmlNode> &node): _node(node)
 {
     _defaultMode = _initBoolVal("defaultmode");
@@ -21,13 +21,13 @@ Polymorph::Settings::VideoSettings::VideoSettings(
     _resolution = _initResolution();
 }
 
-bool Polymorph::Settings::VideoSettings::_initBoolVal(
+bool polymorph::engine::Settings::VideoSettings::_initBoolVal(
         const std::string &attrName)
 {
     try {
         return _node->findAttribute(attrName)->getValueBool("true", "false");
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log("Video setting is incomplete, cannot find \"" + attrName +
+        Logger::Log("Video setting is incomplete, cannot find \"" + attrName +
                     "\" attribute", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Video setting is malformed, \"" + attrName + "\" attribute has bad value");
@@ -35,13 +35,13 @@ bool Polymorph::Settings::VideoSettings::_initBoolVal(
     return {};
 }
 
-int Polymorph::Settings::VideoSettings::_initIntVal(
+int polymorph::engine::Settings::VideoSettings::_initIntVal(
         const std::string &attrName)
 {
     try {
         return _node->findAttribute(attrName)->getValueInt();
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log("Video setting is incomplete, cannot find \"" + attrName +
+        Logger::Log("Video setting is incomplete, cannot find \"" + attrName +
                     "\" attribute", Logger::MINOR);
     } catch (const myxmlpp::IllegalValueException &e) {
         throw ConfigurationException("Video setting is malformed, \"" + attrName + "\" attribute has bad value");
@@ -49,7 +49,7 @@ int Polymorph::Settings::VideoSettings::_initIntVal(
     return {};
 }
 
-Polymorph::Vector2 Polymorph::Settings::VideoSettings::_initResolution() const
+polymorph::engine::Vector2 polymorph::engine::Settings::VideoSettings::_initResolution() const
 {
     try {
         auto res = _node->findChild("Resolution");
@@ -62,7 +62,7 @@ Polymorph::Vector2 Polymorph::Settings::VideoSettings::_initResolution() const
         if (!_fullscreen)
             throw ConfigurationException("Cannot find resolution configuration");
     } catch (const myxmlpp::AttributeNotFoundException &e) {
-        Logger::log(
+        Logger::Log(
                 "Video setting is incomplete, cannot find \"Resolution\" attribute",
                 Logger::MINOR);
         return {};
@@ -73,7 +73,7 @@ Polymorph::Vector2 Polymorph::Settings::VideoSettings::_initResolution() const
     return {};
 }
 
-void Polymorph::Settings::VideoSettings::_saveToAttribute(
+void polymorph::engine::Settings::VideoSettings::_saveToAttribute(
         const std::shared_ptr<XmlNode> &node,
         const std::string &attrName,
         float value)
@@ -85,37 +85,37 @@ void Polymorph::Settings::VideoSettings::_saveToAttribute(
     }
 }
 
-bool Polymorph::Settings::VideoSettings::getDefaultMode() const
+bool polymorph::engine::Settings::VideoSettings::getDefaultMode() const
 {
     return _defaultMode;
 }
 
-int Polymorph::Settings::VideoSettings::getMaxFps() const
+int polymorph::engine::Settings::VideoSettings::getMaxFps() const
 {
     return _maxFps;
 }
 
-bool Polymorph::Settings::VideoSettings::getFullscreen() const
+bool polymorph::engine::Settings::VideoSettings::getFullscreen() const
 {
     return _fullscreen;
 }
 
-bool Polymorph::Settings::VideoSettings::getResizable() const
+bool polymorph::engine::Settings::VideoSettings::getResizable() const
 {
     return _resizable;
 }
 
-int Polymorph::Settings::VideoSettings::getBitsPerPixel() const
+int polymorph::engine::Settings::VideoSettings::getBitsPerPixel() const
 {
     return _bitsPerPixel;
 }
 
-Polymorph::Vector2 Polymorph::Settings::VideoSettings::getResolution() const
+polymorph::engine::Vector2 polymorph::engine::Settings::VideoSettings::getResolution() const
 {
     return _resolution;
 }
 
-void Polymorph::Settings::VideoSettings::setDefaultMode(bool mode)
+void polymorph::engine::Settings::VideoSettings::setDefaultMode(bool mode)
 {
     _defaultMode = mode;
 
@@ -126,7 +126,7 @@ void Polymorph::Settings::VideoSettings::setDefaultMode(bool mode)
     }
 }
 
-void Polymorph::Settings::VideoSettings::setMaxFps(int fps)
+void polymorph::engine::Settings::VideoSettings::setMaxFps(int fps)
 {
     _maxFps = fps;
 
@@ -137,7 +137,7 @@ void Polymorph::Settings::VideoSettings::setMaxFps(int fps)
     }
 }
 
-void Polymorph::Settings::VideoSettings::setFullscreen(bool fullscreen)
+void polymorph::engine::Settings::VideoSettings::setFullscreen(bool fullscreen)
 {
     _fullscreen = fullscreen;
 
@@ -148,7 +148,7 @@ void Polymorph::Settings::VideoSettings::setFullscreen(bool fullscreen)
     }
 }
 
-void Polymorph::Settings::VideoSettings::setResizable(bool resizable)
+void polymorph::engine::Settings::VideoSettings::setResizable(bool resizable)
 {
     _resizable = resizable;
 
@@ -159,7 +159,7 @@ void Polymorph::Settings::VideoSettings::setResizable(bool resizable)
     }
 }
 
-void Polymorph::Settings::VideoSettings::setBitsPerPixel(int bitsPerPixel)
+void polymorph::engine::Settings::VideoSettings::setBitsPerPixel(int bitsPerPixel)
 {
     _bitsPerPixel = bitsPerPixel;
 
@@ -170,8 +170,8 @@ void Polymorph::Settings::VideoSettings::setBitsPerPixel(int bitsPerPixel)
     }
 }
 
-void Polymorph::Settings::VideoSettings::setResolution(
-        Polymorph::Vector2 resolution)
+void polymorph::engine::Settings::VideoSettings::setResolution(
+        polymorph::engine::Vector2 resolution)
 {
     _resolution = resolution;
     std::shared_ptr<XmlNode> res;

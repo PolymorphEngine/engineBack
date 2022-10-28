@@ -5,9 +5,10 @@
 ** header for DynamicLoader.c
 */
 
-#include "Polymorph/Debug.hpp"
+#include "polymorph/Debug.hpp"
 #include "Plugins/DynamicLoader.hpp"
 
+using namespace polymorph::engine;
 
 DynamicLibLoader::~DynamicLibLoader()
 {

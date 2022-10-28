@@ -12,7 +12,7 @@
 #include <functional>
 #include "Utilities/safe_ptr.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     namespace Config
     {
@@ -22,7 +22,7 @@ namespace Polymorph
 
     class IComponentInitializer;
 
-    using GameObject = Polymorph::safe_ptr<Polymorph::Entity>;
+    using GameObject = safe_ptr<Entity>;
     using Initializer = std::shared_ptr<IComponentInitializer>;
     class IScriptFactory
     {

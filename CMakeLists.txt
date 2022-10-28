@@ -10,27 +10,27 @@ set_target_properties(myxmlpp PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 file(GLOB_RECURSE SRC src/*.cpp)
 file(GLOB_RECURSE ICL include/*.hpp)
-file(GLOB_RECURSE ICL_HEADERS include/Polymorph/*.hpp)
+file(GLOB_RECURSE ICL_HEADERS include/polymorph/*.hpp)
 
-add_library(PolymorphEngine
+add_library(polymorphEngine
         ${SRC}
         ${ICL}
         ${ICL_HEADERS}
 )
-target_include_directories(PolymorphEngine PUBLIC
+target_include_directories(polymorphEngine PUBLIC
         lib/myxmlpp/include
         include
 )
 
-target_link_libraries(PolymorphEngine myxmlpp)
+target_link_libraries(polymorphEngine myxmlpp)
 if (UNIX)
-    target_link_libraries(PolymorphEngine dl)
-    target_link_options(PolymorphEngine PUBLIC "-Wl,--no-undefined")
+    target_link_libraries(polymorphEngine dl)
+    target_link_options(polymorphEngine PUBLIC "-Wl,--no-undefined")
 endif()
-set_target_properties(PolymorphEngine PROPERTIES POSITION_INDEPENDENT_CODE ON)
+set_target_properties(polymorphEngine PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_executable(TestMain EXCLUDE_FROM_ALL
         SampleProject/test_main.cpp
 )
 
-target_link_libraries(TestMain PolymorphEngine)
+target_link_libraries(TestMain polymorphEngine)

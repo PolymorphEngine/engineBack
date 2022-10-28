@@ -11,7 +11,7 @@
 #include <memory>
 #include <stdexcept>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     template<typename T>
     class safe_ptr : public std::weak_ptr<T>

@@ -12,7 +12,7 @@
 #include "ScriptingAPI/IScriptFactory.hpp"
 
 
-namespace Polymorph
+namespace polymorph::engine
 {
     namespace Config
     {
@@ -31,8 +31,17 @@ namespace Polymorph
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             explicit ScriptingApi(std::unique_ptr<IScriptFactory> factory);
+            ScriptingApi() = default;
+            ScriptingApi(ScriptingApi &&c) noexcept: _scriptFactory(std::move(c._scriptFactory)) {};
+            ScriptingApi(ScriptingApi &c): _scriptFactory(std::move(c._scriptFactory)) {};
 
             ~ScriptingApi();
+            
+            ScriptingApi &operator=(ScriptingApi &&other) noexcept
+            {
+                this->_scriptFactory = std::move(other._scriptFactory);
+                return *this;
+            }
 
 
 //////////////////////--------------------------/////////////////////////
@@ -44,7 +53,7 @@ namespace Polymorph
             using Initializer = std::shared_ptr<IComponentInitializer>;
 
         private:
-            static inline std::unique_ptr<IScriptFactory> _scriptFactory = nullptr;
+            std::unique_ptr<IScriptFactory> _scriptFactory;
 
 
 //////////////////////--------------------------/////////////////////////
@@ -53,7 +62,7 @@ namespace Polymorph
 
 /////////////////////////////// METHODS /////////////////////////////////
         public:
-            static Initializer
+            Initializer
             create(std::string &type, Config::XmlComponent &data,
                    safe_ptr<Entity> entity);
 

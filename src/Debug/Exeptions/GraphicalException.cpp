@@ -7,9 +7,12 @@
 
 #include "Debug/Exceptions/GraphicalException.hpp"
 
-GraphicalException::GraphicalException(const std::string& apiMessage,
-Logger::severity level)
-: ExceptionLogger("[Graphical issue] " + apiMessage, level)
+namespace polymorph::engine
 {
-
+    GraphicalException::GraphicalException(const std::string& apiMessage,
+    Logger::severity level)
+    : ExceptionLogger("[Graphical issue] " + apiMessage, level)
+    {
+    
+    }
 }

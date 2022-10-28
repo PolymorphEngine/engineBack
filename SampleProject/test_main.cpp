@@ -5,8 +5,8 @@
 ** test_main.cpp
 */
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Debug.hpp>
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
 
     try
     {
-        Polymorph::Engine e = Polymorph::Engine(name, workDir, pluginDir);
+        polymorph::Engine e = polymorph::Engine(name, workDir, pluginDir);
         //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
