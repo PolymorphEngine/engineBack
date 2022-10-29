@@ -53,7 +53,7 @@ namespace polymorph::engine
             T loadSymbol(std::string name, bool no_except = false)
             {
     #ifdef _WIN32
-                T s = (T) GetProcAddress(API::getHandler(), name.c_str());
+                T s = (T) GetProcAddress(_handler, name.c_str());
     #else
                 void *s = dlsym(_handler, name.c_str());
     #endif
