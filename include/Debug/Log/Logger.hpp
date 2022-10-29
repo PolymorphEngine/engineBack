@@ -19,15 +19,15 @@ namespace polymorph::engine
             ~Logger() = default;
     ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            static inline constexpr const char* BLACK = "\033[0;30m";   // BLACK
-            static inline constexpr const char* RED = "\033[0;31m";     // RED
-            static inline constexpr const char* GREEN = "\033[0;32m";   // GREEN
-            static inline constexpr const char* YELLOW = "\033[0;33m";  // YELLOW
-            static inline constexpr const char* BLUE = "\033[0;34m";    // BLUE
-            static inline constexpr const char* PURPLE = "\033[0;35m";  // PURPLE
-            static inline constexpr const char* CYAN = "\033[0;36m";    // CYAN
-            static inline constexpr const char* WHITE = "\033[0;37m";
-            static inline constexpr const char* RESET = "\033[0m";
+            static inline constexpr const char* L_BLACK = "\033[0;30m";   // BLACK
+            static inline constexpr const char* L_RED = "\033[0;31m";     // RED
+            static inline constexpr const char* L_GREEN = "\033[0;32m";   // GREEN
+            static inline constexpr const char* L_YELLOW = "\033[0;33m";  // YELLOW
+            static inline constexpr const char* L_BLUE = "\033[0;34m";    // BLUE
+            static inline constexpr const char* L_PURPLE = "\033[0;35m";  // PURPLE
+            static inline constexpr const char* L_CYAN = "\033[0;36m";    // CYAN
+            static inline constexpr const char* L_WHITE = "\033[0;37m";
+            static inline constexpr const char* L_RESET = "\033[0m";
     
             enum severity {
                 DEBUG,

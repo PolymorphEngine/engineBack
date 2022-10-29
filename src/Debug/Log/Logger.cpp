@@ -108,7 +108,7 @@ namespace polymorph::engine
             return;
     
         std::cout << "[" + getTimeNow("%X") + "] : " + severity_to_color(level) +
-                     severity_to_string(level) + " | " + message + RESET << std::endl;
+                     severity_to_string(level) + " | " + message + L_RESET << std::endl;
     
     }
     
@@ -128,15 +128,15 @@ namespace polymorph::engine
     {
         switch (level) {
             case DEBUG:
-                return GREEN;
+                return L_GREEN;
             case INFO:
-                return WHITE;
+                return L_WHITE;
             case MINOR:
-                return YELLOW;
+                return L_YELLOW;
             case MAJOR:
-                return RED;
+                return L_RED;
             default:
-                return WHITE;
+                return L_WHITE;
         }
     }
     
@@ -148,6 +148,6 @@ namespace polymorph::engine
     void Logger::Log(const std::string &message, Logger::severity level)
     {
         std::cout << "[" + getTimeNow("%X") + "] : " + severity_to_color(level) +
-        severity_to_string(level) + " | " + message + RESET << std::endl;
+                     severity_to_string(level) + " | " + message + L_RESET << std::endl;
     }
 }
