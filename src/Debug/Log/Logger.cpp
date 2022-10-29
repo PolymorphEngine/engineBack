@@ -111,12 +111,16 @@ namespace polymorph::engine
                      severity_to_string(level) + " | " + message + L_RESET << std::endl;
     
     }
-    
+
     void Logger::setLogDir(const std::string& logDir)
     {
         _logDir = logDir;
-        if (!std::filesystem::is_directory(logDir))
-            std::filesystem::create_directory(logDir);
+        try {
+            if (!std::filesystem::is_directory(logDir))
+                std::filesystem::create_directories(logDir);
+        } catch (std::filesystem::filesystem_error& e) {
+            std::cerr << e.what() << std::endl;
+        }
     }
     
     void Logger::setLogInstanceName(const std::string& logInstanceName)
