@@ -19,15 +19,15 @@ namespace polymorph::engine
             ~Logger() = default;
     ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
-            static inline const std::string BLACK = "\033[0;30m";   // BLACK
-            static inline const std::string RED = "\033[0;31m";     // RED
-            static inline const std::string GREEN = "\033[0;32m";   // GREEN
-            static inline const std::string YELLOW = "\033[0;33m";  // YELLOW
-            static inline const std::string BLUE = "\033[0;34m";    // BLUE
-            static inline const std::string PURPLE = "\033[0;35m";  // PURPLE
-            static inline const std::string CYAN = "\033[0;36m";    // CYAN
-            static inline const std::string WHITE = "\033[0;37m";
-            static inline const std::string RESET = "\033[0m";
+            static inline constexpr const char* BLACK = "\033[0;30m";   // BLACK
+            static inline constexpr const char* RED = "\033[0;31m";     // RED
+            static inline constexpr const char* GREEN = "\033[0;32m";   // GREEN
+            static inline constexpr const char* YELLOW = "\033[0;33m";  // YELLOW
+            static inline constexpr const char* BLUE = "\033[0;34m";    // BLUE
+            static inline constexpr const char* PURPLE = "\033[0;35m";  // PURPLE
+            static inline constexpr const char* CYAN = "\033[0;36m";    // CYAN
+            static inline constexpr const char* WHITE = "\033[0;37m";
+            static inline constexpr const char* RESET = "\033[0m";
     
             enum severity {
                 DEBUG,
