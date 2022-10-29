@@ -17,6 +17,7 @@ namespace polymorph::engine
     void PluginManager::loadPlugins(const std::string &pluginsPath,
                                     Config::XmlNode &list, Engine &game)
     {
+        _pluginsOrder = _game.getPluginExecOrder();
         for (auto &node : list) {
             auto name = node->findAttribute("name")->getValue();
             _game.getAssetManager().addPath(pluginsPath + "/" + name + "/Assets/");
@@ -192,7 +193,6 @@ namespace polymorph::engine
 
     PluginManager::PluginManager(Engine &game) : _game(game) 
     {
-        _pluginsOrder = _game.getPluginExecOrder();
     }
 
     bool PluginManager::_isPluginPrioritary(const std::string &pluginName)
