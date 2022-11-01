@@ -43,6 +43,7 @@ namespace polymorph::engine
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             float x;
             float y;
             float z;
@@ -160,6 +161,7 @@ namespace polymorph::engine
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             float x;
             float y;
             static Vector2 Zero;

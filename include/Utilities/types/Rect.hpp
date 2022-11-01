@@ -53,6 +53,7 @@ namespace polymorph::engine
 
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
+            static inline bool builtin_type = true;
             float x;
             float y;
             float width;

@@ -36,6 +36,7 @@ namespace polymorph::engine
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             Vector2 center;
             float radius;
 //////////////////////--------------------------/////////////////////////

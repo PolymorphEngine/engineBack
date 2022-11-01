@@ -35,10 +35,6 @@ namespace polymorph::engine
 
     class Entity;
 
-    class SpriteModule;
-
-    class arcadeTextModule;
-
     namespace Config
     {
         namespace CastHelper
@@ -60,7 +56,26 @@ namespace polymorph::engine
 
             template<class T>
             static constexpr auto is_vector = CastHelper::is_container<T>::value;
+            
+            
+            
+            template<class T, typename U = int>
+            struct is_builtinish : std::false_type
+            {
+            };
 
+            template<class T>
+            struct is_builtinish<T, decltype(T::builtin_type, 0)>
+                    : std::true_type
+            {
+            };
+
+            template<class T>
+            static constexpr auto is_builtin = CastHelper::is_builtinish<T>::value;
+
+            
+            
+            
             template<typename T, typename U = void>
             struct is_mappish_impl : std::false_type
             {
@@ -392,16 +407,8 @@ namespace polymorph::engine
                     static_assert(!CastHelper::is_map<T> &&
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
-                                  !std::is_enum<T>());
-                    auto t = data->findAttribute("type")->getValue();
-                    try
-                    {
-                        toSet = dynamic_cast<T &>((entity->Factory.createObject(t, data, *this)));
-                    }  catch (ExceptionLogger &e)
-                    {
-                        e.what();
-                        toSet = dynamic_cast<T &>(entity->Plugin.tryCreateObject(t, *this, data));
-                    }
+                                  !std::is_enum<T>() && CastHelper::is_builtin<T>);
+                    toSet = T(data, *this);
                 };
 
                 template<typename T, typename T2 = void>
@@ -413,14 +420,19 @@ namespace polymorph::engine
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
                                   !std::is_enum<T>());
-                    auto t = data->findAttribute("type")->getValue();
-                    try
+                    if constexpr (CastHelper::is_builtin<T>)
+                        return std::make_shared<T>(data, *this);
+                    else
                     {
-                        toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSharedObject(t, data, *this));
-                    }  catch (ExceptionLogger &e)
-                    {
-                        e.what();
-                        toSet = std::dynamic_pointer_cast<T>(entity->Plugin.tryCreateSharedObject(t, *this, data));
+                        auto t = data->findAttribute("type")->getValue();
+                        try
+                        {
+                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSharedObject(t, data, *this));
+                        }  catch (ExceptionLogger &e)
+                        {
+                            e.what();
+                            toSet = std::dynamic_pointer_cast<T>(entity->Plugin.tryCreateSharedObject(t, *this, data));
+                        }
                     }
                 };
 

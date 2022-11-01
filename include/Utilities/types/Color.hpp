@@ -31,6 +31,7 @@ namespace polymorph::engine
 
 ///////////////////////////////// Properties ///////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             unsigned char r;
             unsigned char g;
             unsigned char b;
