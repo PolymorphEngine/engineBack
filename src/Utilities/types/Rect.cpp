@@ -166,7 +166,7 @@ bool polymorph::engine::Rect::intersect(const polymorph::engine::Vector2 &center
 }
 
 polymorph::engine::Rect::Rect(std::shared_ptr<myxmlpp::Node> &data,
-                      polymorph::engine::Config::XmlComponent &manager)
+                      polymorph::engine::Config::XmlComponent &manager): ASerializableObject("Rect")
 {
     auto r = *data->begin();
     

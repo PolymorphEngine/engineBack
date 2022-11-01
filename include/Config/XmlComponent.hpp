@@ -18,6 +18,9 @@
 #include "Core/Scene/SceneManager.hpp"
 #include "Debug/Log/Logger.hpp"
 #include "Core/Entity/Entity.hpp"
+#include "Plugins/PluginManager.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
+#include "ScriptingAPI/ISerializableObjectFactory.hpp"
 #include "Debug/Exceptions/ConfigurationException.hpp"
 
 namespace polymorph::engine
@@ -390,7 +393,15 @@ namespace polymorph::engine
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
                                   !std::is_enum<T>());
-                    toSet = T(data, *this);
+                    auto t = data->findAttribute("type")->getValue();
+                    try
+                    {
+                        toSet = dynamic_cast<T &>((entity->Factory.createObject(t, data, *this)));
+                    }  catch (ExceptionLogger &e)
+                    {
+                        e.what();
+                        toSet = dynamic_cast<T &>(entity->Plugin.tryCreateObject(t, *this, data));
+                    }
                 };
 
                 template<typename T, typename T2 = void>
@@ -402,7 +413,15 @@ namespace polymorph::engine
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
                                   !std::is_enum<T>());
-                    toSet = std::make_shared<T>(data, *this);
+                    auto t = data->findAttribute("type")->getValue();
+                    try
+                    {
+                        toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSharedObject(t, data, *this));
+                    }  catch (ExceptionLogger &e)
+                    {
+                        e.what();
+                        toSet = std::dynamic_pointer_cast<T>(entity->Plugin.tryCreateSharedObject(t, *this, data));
+                    }
                 };
 
                 template<typename T2 = void>

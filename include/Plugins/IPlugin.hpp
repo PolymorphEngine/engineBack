@@ -15,6 +15,7 @@ namespace polymorph::engine
 
     class Scene;
     class Engine;
+    class ASerializableObject;
     
     namespace Config
     {
@@ -32,9 +33,16 @@ namespace polymorph::engine
             virtual std::shared_ptr<IComponentInitializer> createComponent(std::string &type,
             Config::XmlComponent &data, GameObject entity) = 0;
             
+            virtual std::shared_ptr<ASerializableObject> createSharedObject(std::string &type,
+            Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node) = 0;
+            
+            virtual ASerializableObject createObject(std::string &type,
+            Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node) = 0;
+            
             virtual bool isEnabled() = 0;
 
             virtual bool hasComponent(std::string &type) = 0;
+            virtual bool hasObject(std::string &type) = 0;
             
             virtual bool hasPrefab(const std::string &id) = 0;
 

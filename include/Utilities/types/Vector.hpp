@@ -19,13 +19,13 @@ namespace polymorph::engine
 
     class Vector3;
 
-    class Vector3
+    class Vector3 : public ASerializableObject
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Vector3();
 
-            ~Vector3() = default;
+            ~Vector3() override = default;
 
             Vector3(float x, float y);
 
@@ -137,7 +137,7 @@ namespace polymorph::engine
 
     };
 
-    class Vector2
+    class Vector2 : ASerializableObject
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
@@ -153,7 +153,7 @@ namespace polymorph::engine
             Vector2(std::shared_ptr<myxmlpp::Node> &data,
                     Config::XmlComponent &manager);
 
-            ~Vector2() = default;
+            ~Vector2() override = default;
 //////////////////////--------------------------/////////////////////////
 
 

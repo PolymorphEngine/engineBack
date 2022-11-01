@@ -336,9 +336,10 @@ bool polymorph::engine::Engine::isDebugMode()
     return isDebugSession;
 }
 
-void polymorph::engine::Engine::loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory)
+void polymorph::engine::Engine::loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory, std::unique_ptr<ISerializableObjectFactory> serializableObjectFactory)
 {
     _scriptingApi = ScriptingApi(std::move(scriptFactory));
+    _scriptingApi.setSerializableObjectFactory(std::move(serializableObjectFactory));
 }
 
 void polymorph::engine::Engine::_initPluginsExectutionOrder()

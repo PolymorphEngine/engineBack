@@ -9,6 +9,7 @@
 #include <polymorph/Plugins.hpp>
 #include <polymorph/Config.hpp>
 #include "Plugins/PluginManager.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
 
 
 namespace polymorph::engine
@@ -207,5 +208,36 @@ namespace polymorph::engine
     PluginManager::getAssetManager()
     {
         return _game.getAssetManager();
+    }
+
+    ASerializableObject PluginManager::tryCreateObject(std::string &type,
+                                                       Config::XmlComponent &manager,
+                                                       std::shared_ptr<Config::XmlNode> &data)
+    {
+        for (auto &plugin : _plugins) {
+            if (plugin->hasObject(type))
+            {
+                if (!plugin->isEnabled())
+                    throw ExceptionLogger("Plugin " + plugin->getPackageName() + " is disabled, can't create object '" + type +"'", Logger::MAJOR);
+                return plugin->createObject(type, manager, data);
+            }
+        }
+        throw ExceptionLogger("No plugin found for object '" + type + "'", Logger::MAJOR);
+    }
+
+    std::shared_ptr<ASerializableObject>
+    PluginManager::tryCreateSharedObject(std::string &type,
+                                         Config::XmlComponent &manager,
+                                         std::shared_ptr<Config::XmlNode> &data)
+    {
+        for (auto &plugin : _plugins) {
+            if (plugin->hasObject(type))
+            {
+                if (!plugin->isEnabled())
+                    throw ExceptionLogger("Plugin " + plugin->getPackageName() + " is disabled, can't create object '" + type +"'", Logger::MAJOR);
+                return plugin->createSharedObject(type, manager, data);
+            }
+        }
+        throw ExceptionLogger("No plugin found for object '" + type + "'", Logger::MAJOR);
     }
 }

@@ -17,12 +17,12 @@ int main()
 
     try
     {
-        polymorph::Engine e = polymorph::Engine(name, workDir, pluginDir);
+        polymorph::engine::Engine e = polymorph::engine::Engine(name, workDir, pluginDir);
         //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
     }
-    catch (ConfigurationException &e)
+    catch (polymorph::engine::ConfigurationException &e)
     {
         e.what();
         return 84;

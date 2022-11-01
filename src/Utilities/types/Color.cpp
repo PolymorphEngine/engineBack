@@ -9,7 +9,7 @@
 #include <polymorph/Config.hpp>
 
 
-polymorph::engine::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager)
+polymorph::engine::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager) : ASerializableObject("Color")
 {
     int tmp = 0;
     manager.setSubProperty("r", data, tmp);
@@ -23,7 +23,7 @@ polymorph::engine::Color::Color(std::shared_ptr<myxmlpp::Node> &data, Config::Xm
 }
 
 polymorph::engine::Color::Color(unsigned char r, unsigned char g,
-                        unsigned char b, unsigned char a)
+                        unsigned char b, unsigned char a): ASerializableObject("Color")
 {
     this->r = r;
     this->g = g;

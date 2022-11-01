@@ -238,7 +238,7 @@ namespace polymorph::engine
              * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
+            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory, std::unique_ptr<ISerializableObjectFactory> serializableObjectFactory);
 
             /**
              * @brief Loads a graphical api from the filepath to an shared library ('.so')

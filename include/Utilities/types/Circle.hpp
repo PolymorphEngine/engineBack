@@ -14,7 +14,7 @@ namespace polymorph::engine
 {
     class Rect;
 
-    class Circle
+    class Circle : ASerializableObject
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
@@ -29,7 +29,7 @@ namespace polymorph::engine
             Circle(std::shared_ptr<myxmlpp::Node> &data,
                    Config::XmlComponent &manager);
 
-            ~Circle() = default;
+            ~Circle() override = default;
 //////////////////////--------------------------/////////////////////////
 
 

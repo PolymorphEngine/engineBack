@@ -14,24 +14,24 @@ namespace polymorph::engine
 
     // VECTOR3
 
-    Vector3::Vector3(const Vector2 &copy)
+    Vector3::Vector3(const Vector2 &copy): ASerializableObject("Vector3")
     {
         x = copy.x;
         y = copy.y;
         z = 0;
     }
 
-    Vector3::Vector3()
+    Vector3::Vector3(): ASerializableObject("Vector3")
     {
         x = 0;
         y = 0;
         z = 0;
     }
 
-    Vector3::Vector3(float x, float y, float z): x(x), y(y), z(z)
+    Vector3::Vector3(float x, float y, float z): x(x), y(y), z(z), ASerializableObject("Vector3")
     {}
 
-    Vector3::Vector3(float x, float y) : x(x), y(y), z(0)
+    Vector3::Vector3(float x, float y) : x(x), y(y), z(0), ASerializableObject("Vector3")
     {}
 
     Vector3 Vector3::operator+(const Vector3 &other) const {
@@ -278,7 +278,7 @@ namespace polymorph::engine
     }
 
     Vector3::Vector3(std::shared_ptr<myxmlpp::Node> &data,
-                     Config::XmlComponent &manager)
+                     Config::XmlComponent &manager) : ASerializableObject("Vector3")
     {
         auto r = *data->begin();
 
@@ -292,16 +292,16 @@ namespace polymorph::engine
 
     // VECTOR2
 
-    Vector2::Vector2(const Vector3 &copy)
+    Vector2::Vector2(const Vector3 &copy) : ASerializableObject("Vector2")
     {
         x = copy.x;
         y = copy.y;
     }
 
-    Vector2::Vector2(float x, float y): x(x), y(y)
+    Vector2::Vector2(float x, float y): x(x), y(y), ASerializableObject("Vector2")
     {}
 
-    Vector2::Vector2()
+    Vector2::Vector2() : ASerializableObject("Vector2")
     {
         x = 0;
         y = 0;
@@ -388,7 +388,7 @@ namespace polymorph::engine
 
     Vector2 Vector2::operator-(const Vector3 &other) const
     {
-        return {x - other.x, y - other.y};
+        return Vector2{x - other.x, y - other.y};
     }
 
     Vector2 &Vector2::operator-=(const Vector3 &other)
@@ -540,7 +540,7 @@ namespace polymorph::engine
     }
 
     Vector2::Vector2(std::shared_ptr<myxmlpp::Node> &data,
-                     Config::XmlComponent &manager)
+                     Config::XmlComponent &manager): ASerializableObject("Vector2")
     {
         auto r = *data->begin();
 

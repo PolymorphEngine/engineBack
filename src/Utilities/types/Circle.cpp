@@ -9,15 +9,15 @@
 #include <cmath>
 
 
-polymorph::engine::Circle::Circle(const polymorph::engine::Vector2 &center, float radius): center(center), radius(radius)
+polymorph::engine::Circle::Circle(const polymorph::engine::Vector2 &center, float radius): center(center), radius(radius), ASerializableObject("Circle")
 {
 }
 
-polymorph::engine::Circle::Circle(const polymorph::engine::Circle &circle): center(circle.center), radius(circle.radius)
+polymorph::engine::Circle::Circle(const polymorph::engine::Circle &circle): center(circle.center), radius(circle.radius), ASerializableObject("Circle")
 {
 }
 
-polymorph::engine::Circle::Circle(float x, float y, float radius): center(x, y), radius(radius)
+polymorph::engine::Circle::Circle(float x, float y, float radius): center(x, y), radius(radius), ASerializableObject("Circle")
 {
 }
 
@@ -176,7 +176,7 @@ bool polymorph::engine::Circle::intersect(const polymorph::engine::Vector2 &cent
 }
 
 polymorph::engine::Circle::Circle(std::shared_ptr<myxmlpp::Node> &data,
-                          polymorph::engine::Config::XmlComponent &manager)
+                          polymorph::engine::Config::XmlComponent &manager): ASerializableObject("Circle")
 {
     manager.setSubProperty("center", data, center);
     manager.setSubProperty("radius", data, radius);

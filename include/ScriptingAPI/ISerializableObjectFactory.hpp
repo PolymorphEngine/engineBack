@@ -9,10 +9,15 @@
 #pragma once
 
 #include "ASerializableObject.hpp"
-#include "Config/XmlComponent.hpp"
+#include "myxmlpp.hpp"
 
 namespace polymorph::engine
 {
+    class ASerializableObject;
+    namespace Config
+    {
+        class XmlComponent;
+    }
 
     class ISerializableObjectFactory
     {
@@ -38,7 +43,7 @@ namespace polymorph::engine
             }
 
             virtual ASerializableObject
-            createC(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
+            createC(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
          
             using FactoryLambdaS = std::function<std::shared_ptr<ASerializableObject>(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
             template<typename T>
@@ -46,8 +51,8 @@ namespace polymorph::engine
             {
                 return [](Config::XmlComponent &data, GameObject entity) -> std::shared_ptr<ASerializableObject>{ return std::make_shared<T>(data, entity);};
             }
-            virtual ASerializableObject
-            createS(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
+            virtual std::shared_ptr<ASerializableObject>
+            createS(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
 
             virtual bool hasType(std::string &type) = 0;
 

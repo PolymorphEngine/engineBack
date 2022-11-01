@@ -17,33 +17,33 @@ namespace polymorph::engine
 {
     class Circle;
 
-    class Rect
+    class Rect : ASerializableObject
     {
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
             Rect(float x, float y, float w, float h)
-                    : x(x), y(y), width(w), height(h)
+                    : x(x), y(y), width(w), height(h), ASerializableObject("Rect")
             {};
 
             Rect(Vector2 &position, float w, float h)
-                    : x(position.x), y(position.y), width(w), height(h)
+                    : x(position.x), y(position.y), width(w), height(h), ASerializableObject("Rect")
             {};
 
             Rect(Vector2 &position, Vector2 &size)
                     : x(position.x), y(position.y), width(size.x),
-                      height(size.y)
+                      height(size.y), ASerializableObject("Rect")
             {};
 
             Rect(float x, float y, Vector2 &size)
-                    : x(x), y(y), width(size.x), height(size.y)
+                    : x(x), y(y), width(size.x), height(size.y),ASerializableObject("Rect")
             {};
 
-            ~Rect() = default;
+            ~Rect() override = default;
 
             Rect(const Rect &copy) = default;
 
             Rect()
-                    : x(0), y(0), width(0), height(0)
+                    : x(0), y(0), width(0), height(0), ASerializableObject("Rect")
             {};
 
             Rect(std::shared_ptr<myxmlpp::Node> &data,

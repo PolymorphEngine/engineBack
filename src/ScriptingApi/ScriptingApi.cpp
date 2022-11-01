@@ -34,3 +34,9 @@ polymorph::engine::ScriptingApi::create(std::string &type,
         return _scriptFactory->create(type, data, entity);
     return nullptr;
 }
+
+void polymorph::engine::ScriptingApi::setSerializableObjectFactory(
+        std::unique_ptr<ISerializableObjectFactory> factory)
+{
+    _objectFactory = std::move(factory);
+}
