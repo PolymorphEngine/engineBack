@@ -427,7 +427,7 @@ namespace polymorph::engine
                         auto t = data->findAttribute("type")->getValue();
                         try
                         {
-                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSharedObject(t, data, *this));
+                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this));
                         }  catch (ExceptionLogger &e)
                         {
                             e.what();

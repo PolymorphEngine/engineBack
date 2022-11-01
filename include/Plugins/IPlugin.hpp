@@ -36,9 +36,6 @@ namespace polymorph::engine
             virtual std::shared_ptr<ASerializableObject> createSharedObject(std::string &type,
             Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node) = 0;
             
-            virtual ASerializableObject createObject(std::string &type,
-            Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node) = 0;
-            
             virtual bool isEnabled() = 0;
 
             virtual bool hasComponent(std::string &type) = 0;

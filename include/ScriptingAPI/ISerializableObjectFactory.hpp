@@ -23,10 +23,10 @@ namespace polymorph::engine
     using GameObject = safe_ptr<Entity>;
     class ISerializableObjectFactory
     {
-    
-    ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
+
+            ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
         public:
-    
+
             virtual ~ISerializableObjectFactory() = default;
 
 
@@ -37,32 +37,22 @@ namespace polymorph::engine
 /////////////////////////////// METHODS /////////////////////////////////
         public:
 
-            using FactoryLambdaC = std::function<ASerializableObject(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
-            template<typename T>
-            static inline FactoryLambdaC _makeC()
-            {
-                return [](Config::XmlComponent &data, GameObject entity) -> ASerializableObject{ return T(data, entity);};
-            }
-
-            virtual ASerializableObject
-            createC(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
-         
-            using FactoryLambdaS = std::function<std::shared_ptr<ASerializableObject>(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
-            template<typename T>
-            static inline FactoryLambdaS _makeS()
-            {
-                return [](Config::XmlComponent &data, GameObject entity) -> std::shared_ptr<ASerializableObject>{ return std::make_shared<T>(data, entity);};
-            }
             virtual std::shared_ptr<ASerializableObject>
             createS(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager) = 0;
 
             virtual bool hasType(std::string &type) = 0;
 
-    
+        private:
+            using FactoryLambdaS = std::function<std::shared_ptr<ASerializableObject>(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
+            template<typename T>
+            static inline FactoryLambdaS _make()
+            {
+                return [](Config::XmlComponent &manager, std::shared_ptr<myxmlpp::Node> &data) -> std::shared_ptr<ASerializableObject>{ return std::make_shared<T>(data, manager);};
+            }
+
     };
 
 }
 
-#define MAKE_SERIALIZABLE(S) {#S, _makeC<S>()},
-#define MAKE_SERIALIZABLE_S(S) {#S, _makeS<S>()},
+#define MAKE_SERIALIZABLE(ns, S) {#S, _make<ns::S>()},
 

@@ -74,19 +74,8 @@ namespace polymorph::engine
                    safe_ptr<Entity> entity);
 
 
-            ASerializableObject createObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)
-            {
-                if (!_objectFactory->hasType(type))
-                    throw ExceptionLogger("[Scripting API] Tried to create object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
-                return _objectFactory->createC(type, data, manager);
-            }
             
-            std::shared_ptr<ASerializableObject> createSharedObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)
-            {
-                if (!_objectFactory->hasType(type))
-                    throw ExceptionLogger("[Scripting API] Tried to create shared object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
-                return _objectFactory->createS(type, data, manager);
-            }
+            std::shared_ptr<ASerializableObject> createSerializableObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager);
             
 
 
