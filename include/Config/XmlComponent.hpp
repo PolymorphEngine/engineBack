@@ -424,7 +424,7 @@ namespace polymorph::engine
                         return std::make_shared<T>(data, *this);
                     else
                     {
-                        auto t = data->findAttribute("type")->getValue();
+                        auto t = data->findAttribute("subtype")->getValue();
                         try
                         {
                             toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this));
