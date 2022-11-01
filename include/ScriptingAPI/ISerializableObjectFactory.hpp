@@ -10,6 +10,7 @@
 
 #include "ASerializableObject.hpp"
 #include "myxmlpp.hpp"
+#include "Utilities/safe_ptr.hpp"
 
 namespace polymorph::engine
 {
@@ -18,7 +19,8 @@ namespace polymorph::engine
     {
         class XmlComponent;
     }
-
+    class Entity;
+    using GameObject = safe_ptr<Entity>;
     class ISerializableObjectFactory
     {
     
