@@ -47,7 +47,7 @@ namespace polymorph::engine
             template<typename T>
             static inline FactoryLambdaS _make()
             {
-                return [](Config::XmlComponent &manager, std::shared_ptr<myxmlpp::Node> &data) -> std::shared_ptr<ASerializableObject>{ return std::make_shared<T>(data, manager);};
+                return [](std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager) -> std::shared_ptr<ASerializableObject>{ return std::shared_ptr<ASerializableObject>(new T(data, manager));};
             }
 
     };
