@@ -35,7 +35,7 @@ namespace polymorph::engine
 /////////////////////////////// METHODS /////////////////////////////////
         public:
 
-            using FactoryLambdaC = std::function<std::shared_ptr<ASerializableObject>(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
+            using FactoryLambdaC = std::function<ASerializableObject(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager)>;
             template<typename T>
             static inline FactoryLambdaC _makeC()
             {
