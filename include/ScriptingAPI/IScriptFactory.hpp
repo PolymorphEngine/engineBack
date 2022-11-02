@@ -57,7 +57,6 @@ namespace polymorph::engine
 
     };
 }
-#define SCRIPT(S) {#S, _make<S##Initializer>()},
 
 
 

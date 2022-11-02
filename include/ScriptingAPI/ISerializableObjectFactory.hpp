@@ -54,6 +54,5 @@ namespace polymorph::engine
 
 }
 
-#define MAKE_SERIALIZABLE(ns, S) {#S, _make<ns::S##Impl>()},
 
 
