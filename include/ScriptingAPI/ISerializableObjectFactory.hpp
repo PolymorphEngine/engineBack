@@ -53,7 +53,7 @@ namespace polymorph::engine
             {
                 return [](std::shared_ptr<myxmlpp::Node> &data, Config::XmlComponent &manager, PluginManager &Plugins) -> std::shared_ptr<ASerializableObject>{ return std::shared_ptr<ASerializableObject>(new T(data, manager, Plugins));};
             }
-            using FactoryLambdaE = std::function<std::shared_ptr<ASerializableObject>(std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager, PluginManager &Plugins)>;
+            using FactoryLambdaE = std::function<std::shared_ptr<ASerializableObject>(PluginManager &Plugins)>;
             template<typename T>
             static inline FactoryLambdaE _makeE()
             {
