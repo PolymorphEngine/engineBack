@@ -250,6 +250,7 @@ class ObjectFactory : public ISerializableObjectFactory\
 
 #define MAKE_COMPONENT(ns, S) {#S, _make<ns::S##Initializer>()},
 #define MAKE_SERIALIZABLE(ns, S) {#S, _make<ns::S##Impl>()},
+#define MAKE_EMPTY_SERIALIZABLE(ns, S) {#S, _makeE<ns::S##Impl>()},
 
 
 
