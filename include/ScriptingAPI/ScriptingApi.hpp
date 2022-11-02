@@ -233,9 +233,15 @@ class ObjectFactory : public ISerializableObjectFactory\
         ~ObjectFactory() override = default;\
         std::shared_ptr<ASerializableObject>\
         createS(std::string type, std::shared_ptr<myxmlpp::Node> &data,\
-                Config::XmlComponent &manager) override;\
-        bool hasType(std::string &type) override;\
+                Config::XmlComponent &manager, PluginManager &Plugins) override;\
+        std::shared_ptr<ASerializableObject>\
+        createEmpty(std::string type, PluginManager &Plugins) override;\
+        bool hasType(std::string &type) override;      
+#define OBJECT_FACTORY_MAP() \
         std::unordered_map<std::string, FactoryLambdaS> _factoriesS = \
+      
+#define OBJECT_FACTORY_EMPTY_MAP() \
+        std::unordered_map<std::string, FactoryLambdaE> _factoriesE = \
 
 #define OBJECT_FACTORY_END()\
         ;\
