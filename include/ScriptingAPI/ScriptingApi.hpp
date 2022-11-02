@@ -10,12 +10,14 @@
 
 #include "Utilities/safe_ptr.hpp"
 #include "ScriptingAPI/IScriptFactory.hpp"
-#include "Core/Component/initializer/AComponentInitializer.hpp"
 #include "ISerializableObjectFactory.hpp"
-#include "ASerializableObject.hpp"
 #include "Node.hpp"
+/*
+#include "Core/Component/initializer/AComponentInitializer.hpp"
+#include "ASerializableObject.hpp"
 #include "Debug/Log/Logger.hpp"
-#include "Debug/Exceptions/ExceptionLogger.hpp"
+#include "Debug/Exceptions/ExceptionLogger.hpp" 
+ */
 
 
 namespace polymorph::engine
@@ -25,9 +27,10 @@ namespace polymorph::engine
         class XmlComponent;
     }
 
-    class IScriptFactory;
-
     class IComponentInitializer;
+    class ASerializableObject;
+    class ISerializableObjectFactory;
+    class PluginManager;
 
     class Entity;
 
@@ -42,7 +45,7 @@ namespace polymorph::engine
             ScriptingApi(ScriptingApi &c): _scriptFactory(std::move(c._scriptFactory)), _objectFactory(std::move(c._objectFactory)) {};
 
             ~ScriptingApi();
-            
+
             ScriptingApi &operator=(ScriptingApi &&other) noexcept
             {
                 this->_scriptFactory = std::move(other._scriptFactory);
@@ -77,7 +80,9 @@ namespace polymorph::engine
 
 
             
-            std::shared_ptr<ASerializableObject> createSerializableObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager);
+            std::shared_ptr<ASerializableObject> createSerializableObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager, PluginManager &Plugins);
+            
+            std::shared_ptr<ASerializableObject> createEmptySerializableObject(std::string type, PluginManager &Plugins);
             
 
 
@@ -105,7 +110,8 @@ class name##Impl : public ns::Serializable##name\
 #define PSERIALIZABLE_IMPL_CTOR(name) \
     public:\
         explicit name##Impl(std::shared_ptr<myxmlpp::Node> &data, \
-        engine::Config::XmlComponent &manager);\
+        engine::Config::XmlComponent &manager, polymorph::engine::PluginManager &Plugins);\
+        explicit name##Impl(polymorph::engine::PluginManager &Plugins);\
         ~name##Impl() override = default;\
 
 
@@ -139,8 +145,8 @@ class A##name##Component : public polymorph::engine::Component\
 
 #define ACOMPONENT_CTOR(name) \
     public:\
-        explicit name##Component(std::string type, engine::GameObject gameObject) : polymorph::engine::Component(std::move(type), std::move(gameObject)){};\
-        virtual ~name##Component() = default;\
+        explicit A##name##Component(std::string type, polymorph::engine::GameObject gameObject) : polymorph::engine::Component(std::move(type), std::move(gameObject)){};\
+        virtual ~A##name##Componentt() = default;\
 
 
 #define COMPONENT_FROMA(ns, name, a) \
@@ -150,7 +156,7 @@ class name##Component : public ns::A##a##Component\
 
 #define COMPONENT_FROMA_CTOR(ns, name, a) \
     public:\
-        explicit name##Component(engine::GameObject gameObject) : ns::A##a##Component(#name, std::move(gameObject)){};\
+        explicit name##Component(polymorph::engine::GameObject gameObject) : ns::A##a##Component(#name, std::move(gameObject)){};\
         virtual ~name##Component() = default;\
 
 

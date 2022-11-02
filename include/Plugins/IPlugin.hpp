@@ -16,6 +16,7 @@ namespace polymorph::engine
     class Scene;
     class Engine;
     class ASerializableObject;
+    class PluginManager;
     
     namespace Config
     {
@@ -34,7 +35,9 @@ namespace polymorph::engine
             Config::XmlComponent &data, GameObject entity) = 0;
             
             virtual std::shared_ptr<ASerializableObject> createSharedObject(std::string &type,
-            Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node) = 0;
+            Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node, PluginManager &Plugins) = 0;
+            
+            virtual std::shared_ptr<ASerializableObject> createEmptySharedObject(std::string &type, PluginManager &Plugins) = 0;
             
             virtual bool isEnabled() = 0;
 

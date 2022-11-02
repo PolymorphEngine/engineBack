@@ -43,11 +43,19 @@ void polymorph::engine::ScriptingApi::setSerializableObjectFactory(
 
 std::shared_ptr<polymorph::engine::ASerializableObject>
 polymorph::engine::ScriptingApi::createSerializableObject(std::string type,
-                                                          std::shared_ptr<myxmlpp::Node> &data,
-                                                          polymorph::engine::Config::XmlComponent &manager)
+std::shared_ptr<myxmlpp::Node> &data, polymorph::engine::Config::XmlComponent &manager, PluginManager &Plugins)
 {
     if (!_objectFactory->hasType(type))
         throw ExceptionLogger("[Scripting API] Tried to create shared object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
-    return _objectFactory->createS(type, data, manager);
+    return _objectFactory->createS(type, data, manager, Plugins);
 
+}
+
+std::shared_ptr<polymorph::engine::ASerializableObject>
+polymorph::engine::ScriptingApi::createEmptySerializableObject(std::string type,
+polymorph::engine::PluginManager &Plugins)
+{
+    if (!_objectFactory->hasType(type))
+        throw ExceptionLogger("[Scripting API] Tried to create shared object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
+    return _objectFactory->createEmpty(type, Plugins);
 }

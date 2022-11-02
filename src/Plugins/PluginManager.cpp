@@ -213,14 +213,30 @@ namespace polymorph::engine
     std::shared_ptr<ASerializableObject>
     PluginManager::tryCreateSharedObject(std::string &type,
                                          Config::XmlComponent &manager,
-                                         std::shared_ptr<Config::XmlNode> &data)
+                                         std::shared_ptr<Config::XmlNode> &data,
+                                         PluginManager &Plugins)
     {
         for (auto &plugin : _plugins) {
             if (plugin->hasObject(type))
             {
                 if (!plugin->isEnabled())
                     throw ExceptionLogger("Plugin " + plugin->getPackageName() + " is disabled, can't create object '" + type +"'", Logger::MAJOR);
-                return plugin->createSharedObject(type, manager, data);
+                return plugin->createSharedObject(type, manager, data, Plugins);
+            }
+        }
+        throw ExceptionLogger("No plugin found for object '" + type + "'", Logger::MAJOR);
+    }
+
+    std::shared_ptr<ASerializableObject>
+    PluginManager::tryEmptyCreateSharedObject(std::string &type,
+                                              PluginManager &Plugins)
+    {
+        for (auto &plugin : _plugins) {
+            if (plugin->hasObject(type))
+            {
+                if (!plugin->isEnabled())
+                    throw ExceptionLogger("Plugin " + plugin->getPackageName() + " is disabled, can't create object '" + type +"'", Logger::MAJOR);
+                return plugin->createEmptySharedObject(type, Plugins);
             }
         }
         throw ExceptionLogger("No plugin found for object '" + type + "'", Logger::MAJOR);

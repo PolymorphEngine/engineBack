@@ -15,28 +15,24 @@
 #include <myxmlpp.hpp>
 
 #include "Utilities/safe_ptr.hpp"
+
 #include "Core/Scene/SceneManager.hpp"
-#include "Debug/Log/Logger.hpp"
 #include "Core/Entity/Entity.hpp"
-#include "Plugins/PluginManager.hpp"
-#include "ScriptingAPI/ScriptingApi.hpp"
-#include "ScriptingAPI/ISerializableObjectFactory.hpp"
+
+#include "Debug/Log/Logger.hpp"
 #include "Debug/Exceptions/ConfigurationException.hpp"
 
-namespace polymorph::engine
+#include "ScriptingAPI/ScriptingApi.hpp"
+#include "ScriptingAPI/ISerializableObjectFactory.hpp"
+
+#include "Plugins/PluginManager.hpp"
+
+namespace polymorph::engine {
+    
+}
+
+namespace polymorph::engine::Config
 {
-    class Scene;
-
-    class Rect;
-
-    class Vector2;
-
-    class Vector3;
-
-    class Entity;
-
-    namespace Config
-    {
         namespace CastHelper
         {
             template<class ...>
@@ -427,11 +423,13 @@ namespace polymorph::engine
                         auto t = data->findAttribute("subtype")->getValue();
                         try
                         {
-                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this));
+                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this, entity->Plugin));
                         }  catch (ExceptionLogger &e)
                         {
                             e.what();
-                            toSet = std::dynamic_pointer_cast<T>(entity->Plugin.tryCreateSharedObject(t, *this, data));
+                            toSet = std::dynamic_pointer_cast<T>(
+                                    entity->Plugin.tryCreateSharedObject(
+                                            t, *this, data, entity->Plugin));
                         }
                     }
                 };
@@ -634,7 +632,6 @@ namespace polymorph::engine
 //////////////////////--------------------------/////////////////////////
 
         };
-    }
 }
 
 #endif //ENGINE_XMLCOMPONENT_HPP

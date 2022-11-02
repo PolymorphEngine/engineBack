@@ -48,7 +48,14 @@ namespace polymorph::engine
             
             std::shared_ptr<IComponentInitializer> tryCreateComponent(std::string &type, Config::XmlComponent &data, GameObject entity);
             
-            std::shared_ptr<ASerializableObject> tryCreateSharedObject(std::string &type, Config::XmlComponent &manager, std::shared_ptr<Config::XmlNode> &data);
+            std::shared_ptr<ASerializableObject>
+            tryCreateSharedObject(std::string &type,
+                                  Config::XmlComponent &manager,
+                                  std::shared_ptr<Config::XmlNode> &data,
+                                  PluginManager &Plugins);
+            
+            std::shared_ptr<ASerializableObject>
+            tryEmptyCreateSharedObject(std::string &type, PluginManager &Plugins);
 
             std::vector<Config::XmlComponent> getTemplates();
             GameObject getPrefab(const std::string &id);
