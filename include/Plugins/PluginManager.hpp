@@ -57,6 +57,24 @@ namespace polymorph::engine
             std::shared_ptr<ASerializableObject>
             tryEmptyCreateSharedObject(std::string &type, PluginManager &Plugins);
 
+            template<class T>
+            std::shared_ptr<T> createObject()
+            {
+                auto obj = T();
+                auto type = obj.getType();
+                for (auto &plugin : _plugins) {
+                    if (plugin->hasObject(type))
+                    {
+                        if (!plugin->isEnabled())
+                            throw ExceptionLogger("Plugin " + plugin->getPackageName() + " is disabled, can't create object '" + type +"'", Logger::MAJOR);
+                        return plugin->createEmptySharedObject(type, *this);
+                    }
+                }
+                throw ExceptionLogger("No plugin found for object '" + type + "'", Logger::MAJOR);
+            }
+            
+            
+
             std::vector<Config::XmlComponent> getTemplates();
             GameObject getPrefab(const std::string &id);
             void startingScripts();
