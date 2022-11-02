@@ -11,6 +11,7 @@
 #include "IPlugin.hpp"
 #include "DynamicLoader.hpp"
 #include "AssetManager.hpp"
+#include "Debug/Log/Logger.hpp"
 
 namespace polymorph::engine
 {
