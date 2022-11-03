@@ -146,7 +146,7 @@ class A##name##Component : public polymorph::engine::Component\
 #define ACOMPONENT_CTOR(name) \
     public:\
         explicit A##name##Component(std::string type, polymorph::engine::GameObject gameObject) : polymorph::engine::Component(std::move(type), std::move(gameObject)){};\
-        virtual ~A##name##Componentt() = default;\
+        virtual ~A##name##Component() = default;\
 
 
 #define COMPONENT_FROMA(ns, name, a) \
@@ -184,6 +184,11 @@ data.setProperty(#d, component->d);\
 void ns::name##Initializer::build()\
 {                                      \
     FOR_EACH(MAKE_BUILD_LINE, __VA_ARGS__)\
+}
+
+#define MAKE_INIT_BUILD_(ns, name, ...) \
+void ns::name##Initializer::build()\
+{                                      \
 }                                      \
 
 #define MAKE_INIT_REF(ns, name, ...) \
