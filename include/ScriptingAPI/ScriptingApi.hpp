@@ -169,7 +169,7 @@ class name##Script : public polymorph::engine::Component\
 
 #define SCRIPT_CTOR(name) \
     public:\
-        explicit name##Script(polymorph::engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
+        explicit name##Script(polymorph::engine::GameObject gameObject);\
         virtual ~name##Script() = default;\
 
 
@@ -194,7 +194,7 @@ class name##Script : public ns::A##a##Script\
 
 #define SCRIPT_FROMA_CTOR(ns, name, a) \
     public:\
-        explicit name##Script(polymorph::engine::GameObject gameObject) : ns::A##a##Script(#name, std::move(gameObject)){};\
+        explicit name##Script(polymorph::engine::GameObject gameObject);\
         virtual ~name##Script() = default;\
         
         
