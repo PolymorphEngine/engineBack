@@ -123,7 +123,7 @@ class name##Component : public polymorph::engine::Component\
 
 #define COMPONENT_CTOR(name) \
     public:\
-        explicit name##Component(engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
+        explicit name##Component(polymorph::engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
         virtual ~name##Component() = default;\
 
 
@@ -133,7 +133,7 @@ class name##Impl : public ns::name##Component\
 
 #define COMPONENT_IMPL_CTOR(name) \
     public:\
-        explicit name##Impl(engine::GameObject gameObject);\
+        explicit name##Impl(polymorph::engine::GameObject gameObject);\
         ~name##Impl() override = default;\
 
 
@@ -169,7 +169,7 @@ class name##Script : public polymorph::engine::Component\
 
 #define SCRIPT_CTOR(name) \
     public:\
-        explicit name##Script(engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
+        explicit name##Script(polymorph::engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
         virtual ~name##Script() = default;\
 
 
