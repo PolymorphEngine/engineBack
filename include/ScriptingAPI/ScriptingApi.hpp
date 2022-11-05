@@ -127,6 +127,7 @@ class name##Component : public polymorph::engine::Component\
         virtual ~name##Component() = default;\
 
 
+
 #define COMPONENT_IMPL(ns, name)\
 class name##Impl : public ns::name##Component\
 
@@ -149,6 +150,7 @@ class A##name##Component : public polymorph::engine::Component\
         virtual ~A##name##Component() = default;\
 
 
+
 #define COMPONENT_FROMA(ns, name, a) \
 class name##Component; \
 using name = polymorph::engine::safe_ptr<name##Component>;\
@@ -160,11 +162,62 @@ class name##Component : public ns::A##a##Component\
         virtual ~name##Component() = default;\
 
 
+#define SCRIPT(name) \
+class name##Script; \
+using name = polymorph::engine::safe_ptr<name##Script>;\
+class name##Script : public polymorph::engine::Component\
+
+#define SCRIPT_CTOR(name) \
+    public:\
+        explicit name##Script(engine::GameObject gameObject) : polymorph::engine::Component(#name, std::move(gameObject)){};\
+        virtual ~name##Script() = default;\
+
+
+        
+        
+#define ASCRIPT(name) \
+class A##name##Script; \
+using name = polymorph::engine::safe_ptr<A##name##Script>;\
+class A##name##Script : public polymorph::engine::Component\
+
+#define ASCRIPT_CTOR(name) \
+    public:\
+        explicit A##name##Script(std::string type, polymorph::engine::GameObject gameObject) : polymorph::engine::Component(std::move(type), std::move(gameObject)){};\
+        virtual ~A##name##Script() = default;\
+
+
+
+#define SCRIPT_FROMA(ns, name, a) \
+class name##Script; \
+using name = polymorph::engine::safe_ptr<name##Script>;\
+class name##Script : public ns::A##a##Script\
+
+#define SCRIPT_FROMA_CTOR(ns, name, a) \
+    public:\
+        explicit name##Script(polymorph::engine::GameObject gameObject) : ns::A##a##Script(#name, std::move(gameObject)){};\
+        virtual ~name##Script() = default;\
+        
+        
 #define MAKE_INITIALIZER(ns, name)\
 namespace ns\
 {\
     class name##Initializer\
     : public polymorph::engine::AComponentInitializer<ns::name##Impl>\
+    {\
+        public:\
+            name##Initializer(polymorph::engine::Config::XmlComponent &data,\
+                                   polymorph::engine::GameObject entity) : AComponentInitializer(#name, data, std::move(entity)){}\
+        public:\
+            void build() final;\
+            void reference() final;\
+    };\
+}\
+        
+#define MAKE_SCRIPT_INITIALIZER(ns, name)\
+namespace ns\
+{\
+    class name##Initializer\
+    : public polymorph::engine::AComponentInitializer<ns::name##Script>\
     {\
         public:\
             name##Initializer(polymorph::engine::Config::XmlComponent &data,\
