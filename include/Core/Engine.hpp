@@ -13,6 +13,7 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include <vector>
+#include <atomic>
 
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/Time.hpp"
@@ -44,7 +45,7 @@ namespace polymorph::engine
     class PluginManager;
     class AssetManager;
     class Logger;
-    
+
     class Entity;
 
     class Scene;
@@ -91,7 +92,7 @@ namespace polymorph::engine
             ScriptingApi _scriptingApi;
 
             AssetManager _assetManager;
-            
+
             /**
              * @property _time time class of the engine
              */
@@ -101,8 +102,8 @@ namespace polymorph::engine
              * @property _scenes list of all of the scenes
              */
             std::vector<std::shared_ptr<Scene>> _scenes;
-            
-            
+
+
 
             /**
              * @property _prefabs list of all of the prefabs
@@ -136,12 +137,12 @@ namespace polymorph::engine
             /**
              * @property _exit exit or not the program
              */
-            bool _exit = false;
+            std::atomic<bool> _exit = false;
 
             /**
              * @property _exitCode exit code of the program
              */
-            ExitCode _exitCode = 0;
+            std::atomic<ExitCode> _exitCode = 0;
 
             /**
              * @property _projectPath path to the project
@@ -183,7 +184,7 @@ namespace polymorph::engine
              * @property _videoSettings video settings of the engine
              */
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
-           
+
             /**
              * @property _splashScreen splash screen of the engine
              */
@@ -202,16 +203,16 @@ namespace polymorph::engine
              */
             std::vector<std::string> &getExecOrder()
             { return _execOrder; };
-            
+
             std::vector<std::string> &getPluginExecOrder()
             { return _pluginsExecOrder; };
-            
+
             AssetManager &getAssetManager()
             { return _assetManager; };
-            
+
             SceneManager &getSceneManager()
             { return _sceneManager; };
-            
+
             Logger &getLogger()
             {
                 return _logger;
@@ -220,13 +221,13 @@ namespace polymorph::engine
             {
                 return _scriptingApi;
             }
-            
+
             Time &getTime()
             {
                 return _time;
             };
-            
-            
+
+
 
             /**
              * @details Runs the game.
@@ -251,7 +252,7 @@ namespace polymorph::engine
              * @brief Loads the game configuration and inits all gameObjects/Components/Scenes
              */
             void loadEngine();
-            
+
             PluginManager &getPluginManager();
 
             /**
@@ -272,7 +273,7 @@ namespace polymorph::engine
              * @return the project path
              */
             std::string getProjectPath();
-            
+
             /**
              * @brief Getter of the project title
              * @return the project title
@@ -352,7 +353,7 @@ namespace polymorph::engine
              * @details Inits the execution order informations of components at runtime
              */
             void _initExectutionOrder();
-            
+
             void _initPluginsExectutionOrder();
 
             /**
