@@ -14,6 +14,7 @@
 
 #ifdef _WIN32
 
+#define MMNOSOUND
 #define NOGDICAPMASKS     // CC_*, LC_*, PC_*, CP_*, TC_*, RC_
 #define NOVIRTUALKEYCODES // VK_*
 #define NOWINMESSAGES     // WM_*, EM_*, LB_*, CB_*
