@@ -40,7 +40,11 @@ namespace polymorph::engine
     {
         _pluginsLoaders.emplace_back();
         _pluginsPath.emplace_back(pluginPath);
+#ifdef _WIN32
+        _pluginsLoaders.back().loadHandler(pluginPath +"/"+ name + ".dll");
+#else
         _pluginsLoaders.back().loadHandler(pluginPath +"/"+ name + ".so");
+#endif
         auto doc = myxmlpp::Doc(pluginPath +"/"+ name + ".pcf.plugin");
 
         auto loader = _pluginsLoaders.back().loadSymbol<Symbols::createPluginDEF>(Symbols::createPlugin);
