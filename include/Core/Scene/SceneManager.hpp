@@ -218,6 +218,8 @@ namespace polymorph::engine
              * @param gameObject: The game object to keep upon loading
              */
             void dontDestroyOnLoad(GameObject gameObject);
+            
+            std::vector<std::shared_ptr<Entity>> &getKeepedEntities();
 
             //  End of Scene Section
 //////////////////////--------------------------/////////////////////////

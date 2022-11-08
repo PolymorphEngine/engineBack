@@ -127,8 +127,6 @@ void polymorph::engine::SceneManager::loadScene(std::string name)
     _sceneLoading = true;
     _current = scene;
     _current->loadScene();
-    for (auto &e: KeepOnLoad)
-        _current->addEntity(e);
 }
 
 
@@ -198,4 +196,10 @@ std::shared_ptr<polymorph::engine::Scene> polymorph::engine::SceneManager::getCu
 void polymorph::engine::SceneManager::setCurrentScene(std::shared_ptr<Scene> scene)
 {
     _current = scene;
+}
+
+std::vector<std::shared_ptr<polymorph::engine::Entity>> &
+polymorph::engine::SceneManager::getKeepedEntities()
+{
+    return KeepOnLoad;
 }

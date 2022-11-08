@@ -139,13 +139,18 @@ namespace polymorph::engine
     {
         _destroyQueueList.clear();
         _entities.clear();
-
+        
         _entities = _config_data->getEntities();
-
+        auto &KeepOnLoad = _game.getSceneManager().getKeepedEntities();
+        for (auto &e: KeepOnLoad)
+            addEntity(e);
+        KeepOnLoad.clear();
+        
         for (auto &e : _entities)
             e->awake();
         for (auto &e: _entities)
-            e->start();
+            if (e->isActive())
+                e->start();
     }
 
     void Scene::unloadScene()
