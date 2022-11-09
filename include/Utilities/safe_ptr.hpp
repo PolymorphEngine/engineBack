@@ -31,7 +31,7 @@ namespace polymorph::engine
                 return *this;
             }
 
-            std::shared_ptr<T> operator*()
+            std::shared_ptr<T> operator*() const
             {
                 return this->lock();
             }
@@ -44,17 +44,17 @@ namespace polymorph::engine
                 return this->lock().get();
             }
 
-            bool operator==(std::shared_ptr<T> &t)
+            bool operator==(std::shared_ptr<T> &t) const
             {
                 return this->lock() == t;
             }
 
-            bool operator==(safe_ptr<T> &t)
+            bool operator==(safe_ptr<T> &t) const
             {
                 return this->lock() == t.lock();
             }
 
-            bool operator!()
+            bool operator!() const
             {
                 return this->expired();
             }
