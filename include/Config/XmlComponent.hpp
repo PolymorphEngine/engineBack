@@ -426,7 +426,8 @@ namespace polymorph::engine::Config
                             toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this, entity->Plugin));
                         }  catch (ExceptionLogger &e)
                         {
-                            e.what();
+                            if (level == Logger::MAJOR)
+                                e.what();
                             toSet = std::dynamic_pointer_cast<T>(
                                     entity->Plugin.tryCreateSharedObject(
                                             t, *this, data, entity->Plugin));
