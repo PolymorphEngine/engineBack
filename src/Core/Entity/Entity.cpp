@@ -14,7 +14,7 @@
 polymorph::engine::Entity::Entity(Config::XmlEntity &data,
 Engine &game) : Game(game), _xml_config(data), _stringId(data.getId()),
                 _prefabId(data.getPrefabId()), _wasPrefab(data.wasPrefab()), time(game.getTime()), Asset(game.getAssetManager()),
-                Debug(game.getLogger()), Plugin(game.getPluginManager()), Scene(game.getSceneManager()), Factory(game.getScriptingApi()) 
+                Debug(game.getLogger()), Plugin(game.getPluginManager()), Scene(game.getSceneManager()), Factory(game.getScriptingApi())
 {
     name = data.getName();
     _active = data.isActive();
@@ -47,7 +47,10 @@ polymorph::engine::Config::XmlComponent &config, GameObject _this)
         return;
     }
 
-    _components[i->getType()].push_back(i);
+    if (_components.contains(i->getType()))
+        _components[i->getType()].push_back(i);
+    else
+        _components["Default"].push_back(i);
     if (component == "Transform")
         (**i)->transform = getComponent<TransformComponent>();
     i->build();
