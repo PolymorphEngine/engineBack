@@ -36,7 +36,7 @@ namespace polymorph::engine
                 return this->lock();
             }
 
-            T *operator->()
+            T *operator->() const
             {
                 if (this->expired())
                     throw std::runtime_error(
