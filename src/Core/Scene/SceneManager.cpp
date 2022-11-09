@@ -63,8 +63,8 @@ polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject& game
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
-    nEntity->awake();
     _current->addEntityToAddQueue(nEntity);
+    nEntity->awake();
     return GameObject(nEntity);
 }
 
@@ -77,10 +77,10 @@ polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameO
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
+    _current->addEntityToAddQueue(nEntity);
     nEntity->awake();
     //TODO maybe call transform method
     nEntity->transform->setPosition(position);
-    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
@@ -94,8 +94,8 @@ polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameO
 
     nEntity->setId(nId);
     nEntity->transform->setParent(parent);
-    nEntity->awake();
     _current->addEntityToAddQueue(nEntity);
+    nEntity->awake();
     return GameObject(nEntity);
 }
 
@@ -109,10 +109,9 @@ polymorph::engine::SceneManager::instantiate(polymorph::engine::GameObject gameO
     auto nId = uuid::uuid();
 
     nEntity->setId(nId);
-    nEntity->transform->setParent(parent);
+    _current->addEntityToAddQueue(nEntity);
     nEntity->awake();
     nEntity->transform->setPosition(parent->getPosition() + offset);
-    _current->addEntityToAddQueue(nEntity);
     return GameObject(nEntity);
 }
 
