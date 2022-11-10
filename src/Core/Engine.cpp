@@ -47,6 +47,7 @@ int polymorph::engine::Engine::run()
     _sceneManager.getCurrentScene()->loadScene();
     while (!_exit) {
         _time.computeDeltaTime();
+        _sceneManager.checkQueuedScene();
         _sceneManager.resetLoading();
         _pluginManager.preProcessing();
         if (isExiting() || _sceneManager.isSceneUnloaded())

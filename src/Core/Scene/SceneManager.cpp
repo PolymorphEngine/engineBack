@@ -121,11 +121,8 @@ void polymorph::engine::SceneManager::loadScene(std::string name)
 
     if (!scene)
         throw ExceptionLogger("Failed to find scene to load called: " + name, Logger::MAJOR);
-
-    _current->unloadScene();
+    _toLoad = scene;
     _sceneLoading = true;
-    _current = scene;
-    _current->loadScene();
 }
 
 
@@ -201,4 +198,15 @@ std::vector<std::shared_ptr<polymorph::engine::Entity>> &
 polymorph::engine::SceneManager::getKeepedEntities()
 {
     return KeepOnLoad;
+}
+
+void polymorph::engine::SceneManager::checkQueuedScene()
+{
+    if (_toLoad)
+    {
+        _current->unloadScene();
+        _current = _toLoad;
+        _current->loadScene();
+        _toLoad = nullptr;
+    }
 }

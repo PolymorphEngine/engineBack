@@ -43,7 +43,7 @@ namespace polymorph::engine
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public: // Properties
         private:
-
+            std::shared_ptr<Scene> _toLoad;
             /**
              * @property KeepOnLoad the entities to keep between the scenes
              */
@@ -202,6 +202,8 @@ namespace polymorph::engine
             void loadScene(std::string name);
 
             bool isSceneUnloaded() const;
+            
+            void checkQueuedScene();
 
             void resetLoading();
 
