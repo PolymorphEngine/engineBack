@@ -10,11 +10,11 @@
 
 #include "Vector.hpp"
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Rect;
 
-    class Circle
+    class Circle : ASerializableObject
     {
 
 ////////////////////// CONSTRUCTORS/DESTRUCTORS /////////////////////////
@@ -29,13 +29,14 @@ namespace Polymorph
             Circle(std::shared_ptr<myxmlpp::Node> &data,
                    Config::XmlComponent &manager);
 
-            ~Circle() = default;
+            ~Circle() override = default;
 //////////////////////--------------------------/////////////////////////
 
 
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             Vector2 center;
             float radius;
 //////////////////////--------------------------/////////////////////////

@@ -15,29 +15,24 @@
 #include <myxmlpp.hpp>
 
 #include "Utilities/safe_ptr.hpp"
-#include "Core/scene/SceneManager.hpp"
-#include "Log/Logger.hpp"
-#include "Core/entity/Entity.hpp"
-#include "Exceptions/ConfigurationException.hpp"
 
-namespace Polymorph
+#include "Core/Scene/SceneManager.hpp"
+#include "Core/Entity/Entity.hpp"
+
+#include "Debug/Log/Logger.hpp"
+#include "Debug/Exceptions/ConfigurationException.hpp"
+
+#include "ScriptingAPI/ScriptingApi.hpp"
+#include "ScriptingAPI/ISerializableObjectFactory.hpp"
+
+#include "Plugins/PluginManager.hpp"
+
+namespace polymorph::engine {
+    
+}
+
+namespace polymorph::engine::Config
 {
-    class Scene;
-
-    class Rect;
-
-    class Vector2;
-
-    class Vector3;
-
-    class Entity;
-
-    class SpriteModule;
-
-    class arcadeTextModule;
-
-    namespace Config
-    {
         namespace CastHelper
         {
             template<class ...>
@@ -57,7 +52,26 @@ namespace Polymorph
 
             template<class T>
             static constexpr auto is_vector = CastHelper::is_container<T>::value;
+            
+            
+            
+            template<class T, typename U = int>
+            struct is_builtinish : std::false_type
+            {
+            };
 
+            template<class T>
+            struct is_builtinish<T, decltype(T::builtin_type, 0)>
+                    : std::true_type
+            {
+            };
+
+            template<class T>
+            static constexpr auto is_builtin = CastHelper::is_builtinish<T>::value;
+
+            
+            
+            
             template<typename T, typename U = void>
             struct is_mappish_impl : std::false_type
             {
@@ -389,7 +403,7 @@ namespace Polymorph
                     static_assert(!CastHelper::is_map<T> &&
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
-                                  !std::is_enum<T>());
+                                  !std::is_enum<T>() && CastHelper::is_builtin<T>);
                     toSet = T(data, *this);
                 };
 
@@ -402,14 +416,30 @@ namespace Polymorph
                                   !CastHelper::is_vector<T>
                                   && !CastHelper::is_safeptr<T> &&
                                   !std::is_enum<T>());
-                    toSet = std::make_shared<T>(data, *this);
+                    if constexpr (CastHelper::is_builtin<T>)
+                        return std::make_shared<T>(data, *this);
+                    else
+                    {
+                        auto t = data->findAttribute("subtype")->getValue();
+                        try
+                        {
+                            toSet = std::dynamic_pointer_cast<T>(entity->Factory.createSerializableObject(t, data, *this, entity->Plugin));
+                        }  catch (ExceptionLogger &e)
+                        {
+                            if (level == Logger::MAJOR)
+                                e.what();
+                            toSet = std::dynamic_pointer_cast<T>(
+                                    entity->Plugin.tryCreateSharedObject(
+                                            t, *this, data, entity->Plugin));
+                        }
+                    }
                 };
 
                 template<typename T2 = void>
                 void _setPrimitiveProperty(std::shared_ptr<XmlNode> &data,
                                            int &toSet, Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -417,7 +447,7 @@ namespace Polymorph
                 void _setPrimitiveProperty(std::shared_ptr<XmlNode> &data,
                                            float &toSet, Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -433,7 +463,7 @@ namespace Polymorph
                                            std::string &toSet,
                                            Logger::severity level)
                 {
-                    Polymorph::Config::XmlComponent::_setPropertyFromAttr(
+                    polymorph::engine::Config::XmlComponent::_setPropertyFromAttr(
                             "value", toSet, *data, level);
                 }
 
@@ -454,7 +484,7 @@ namespace Polymorph
                         if (!gameObject && !!entity)
                             gameObject = entity->findByPrefabId(id);
                         if (!gameObject)
-                            gameObject = SceneManager::findById(id);
+                            gameObject = entity->Scene.findById(id);
                         if (!!gameObject)
                             toSet = gameObject->getComponent<T>();
                         if (!toSet)
@@ -462,7 +492,7 @@ namespace Polymorph
                     } catch (...)
                     {
                         if (level != Logger::MAJOR)
-                            Logger::log("In component '" + node->findAttribute(
+                            entity->Debug.log("In component '" + node->findAttribute(
                                                 "type")->getValue() + "': Ref named '" +
                                         refProp->findAttribute(
                                                 "name")->getValue() +
@@ -495,13 +525,13 @@ namespace Polymorph
                         if (!toSet && !!entity)
                             toSet = entity->findByPrefabId(id);
                         if (!toSet)
-                            toSet = SceneManager::findById(id);
+                            toSet = entity->Scene.findById(id);
                         if (!toSet)
                             throw std::exception();
                     } catch (...)
                     {
                         if (level != Logger::MAJOR)
-                            Logger::log("In component '" + node->findAttribute(
+                            entity->Debug.log("In component '" + node->findAttribute(
                                                 "type")->getValue() + "': Ref named '" +
                                         refProp->findAttribute(
                                                 "name")->getValue() +
@@ -574,9 +604,9 @@ namespace Polymorph
                  * @return the node found (nullptr if not found)
                  */
                 std::shared_ptr<XmlNode> _findProperty(const std::string &name,
-                                                       Logger::severity level = Logger::DEBUG);
+                Logger::severity level = Logger::DEBUG);
 
-                static std::shared_ptr<XmlNode>
+               static std::shared_ptr<XmlNode>
                 _findProperty(const std::string &name,
                               const std::shared_ptr<myxmlpp::Node> &data,
                               Logger::severity level = Logger::DEBUG);
@@ -603,7 +633,6 @@ namespace Polymorph
 //////////////////////--------------------------/////////////////////////
 
         };
-    }
 }
 
 #endif //ENGINE_XMLCOMPONENT_HPP

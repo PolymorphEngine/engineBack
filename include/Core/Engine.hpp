@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2020
-** Polymorph.hpp.h
+** polymorph.hpp.h
 ** File description:
-** header for Polymorph.c
+** header for polymorph.c
 */
 
 #ifndef ENGINE_ENGINE_HPP
@@ -13,13 +13,19 @@
 #include <myxmlpp.hpp>
 #include <memory>
 #include <vector>
+#include <atomic>
 
 #include "Utilities/safe_ptr.hpp"
 #include "Utilities/Time.hpp"
-#include "ScriptingAPI/IScriptFactory.hpp"
+#include "ScriptingAPI/ScriptingApi.hpp"
+#include "Debug/Log/Logger.hpp"
+#include "Plugins/PluginManager.hpp"
+#include "Plugins/AssetManager.hpp"
+#include "Core/Scene/SceneManager.hpp"
 
 
-namespace Polymorph
+
+namespace polymorph::engine
 {
     namespace Config
     {
@@ -35,7 +41,10 @@ namespace Polymorph
 
         class PhysicsSettings;
     }
-    class DisplayModule;
+
+    class PluginManager;
+    class AssetManager;
+    class Logger;
 
     class Entity;
 
@@ -43,13 +52,9 @@ namespace Polymorph
 
     class Time;
 
-    class GraphicalAPI;
-
     class ScriptingApi;
+    class SceneManager;
 
-    class TextureModule;
-
-    class SplashScreen;
 
     using ExitCode = int;
 
@@ -66,8 +71,7 @@ namespace Polymorph
              * @param projectPath path containing resources to load
              * @param projectName name of the main config file in the projectPath (do not include extension cause it's also the window title / project name)
              */
-            explicit Engine(const std::string &projectPath,
-                            std::string projectName);
+            explicit Engine(std::string projectName,const std::string &projectPath, std::string pluginPath);
 
             ~Engine();
 //////////////////////--------------------------/////////////////////////
@@ -76,10 +80,30 @@ namespace Polymorph
 
 ///////////////////////////// PROPERTIES ////////////////////////////////
         private:
+            Logger _logger;
+
+            PluginManager _pluginManager;
+
+            SceneManager _sceneManager;
+
+            /**
+ * @property _scriptingApi scripting api of the engine to manage scripts of the game
+ */
+            ScriptingApi _scriptingApi;
+
+            AssetManager _assetManager;
+
+            /**
+             * @property _time time class of the engine
+             */
+            Time _time;
+
             /**
              * @property _scenes list of all of the scenes
              */
             std::vector<std::shared_ptr<Scene>> _scenes;
+
+
 
             /**
              * @property _prefabs list of all of the prefabs
@@ -107,19 +131,24 @@ namespace Polymorph
             std::vector<std::string> _execOrder;
 
             /**
+             * @property _pluginsExecOrder order of execution of the plugins
+             */
+            std::vector<std::string> _pluginsExecOrder;
+            /**
              * @property _exit exit or not the program
              */
-            static inline bool _exit = false;
+            std::atomic<bool> _exit = false;
 
             /**
              * @property _exitCode exit code of the program
              */
-            static inline ExitCode _exitCode = 0;
+            std::atomic<ExitCode> _exitCode = 0;
 
             /**
              * @property _projectPath path to the project
              */
             std::string _projectPath;
+            std::string _pluginsPath;
 
             /**
              * @property _projectName name of the project
@@ -129,22 +158,17 @@ namespace Polymorph
             /**
              * @property is_debug_session set the engine in debug mode or not
              */
-            bool is_debug_session = false;
+            bool isDebugSession = false;
 
             /**
              * @property is_windowless_session set the engine in windowless mode or not
              */
-            bool is_windowless_session = false;
+            bool isWindowlessSession = false;
 
             /**
              * @property _projectConfig configuration of the project
              */
             std::unique_ptr<myxmlpp::Doc> _projectConfig;
-
-            /**
-             * @property _time time class of the engine
-             */
-            Time _time;
 
             /**
              * @property _physicsSettings physics settings of the engine
@@ -162,24 +186,9 @@ namespace Polymorph
             std::shared_ptr<Settings::VideoSettings> _videoSettings;
 
             /**
-             * @property _display display module of the engine
-             */
-            safe_ptr<DisplayModule> _display;
-
-            /**
-             * @property _graphicalApi graphical api linked to the display of the engine
-             */
-            std::unique_ptr<GraphicalAPI> _graphicalApi;
-
-            /**
-             * @property _scriptingApi scripting api of the engine to manage scripts of the game
-             */
-            std::unique_ptr<ScriptingApi> _scriptingApi;
-
-            /**
              * @property _splashScreen splash screen of the engine
              */
-            std::unique_ptr<SplashScreen> _splashScreen;
+   //         std::unique_ptr<SplashScreen> _splashScreen;
 
 //////////////////////--------------------------/////////////////////////
 
@@ -195,6 +204,31 @@ namespace Polymorph
             std::vector<std::string> &getExecOrder()
             { return _execOrder; };
 
+            std::vector<std::string> &getPluginExecOrder()
+            { return _pluginsExecOrder; };
+
+            AssetManager &getAssetManager()
+            { return _assetManager; };
+
+            SceneManager &getSceneManager()
+            { return _sceneManager; };
+
+            Logger &getLogger()
+            {
+                return _logger;
+            }
+            ScriptingApi &getScriptingApi()
+            {
+                return _scriptingApi;
+            }
+
+            Time &getTime()
+            {
+                return _time;
+            };
+
+
+
             /**
              * @details Runs the game.
              */
@@ -205,32 +239,33 @@ namespace Polymorph
              * @param scriptFactory the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void
-            loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory);
+            void loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory, std::unique_ptr<ISerializableObjectFactory> serializableObjectFactory);
 
             /**
              * @brief Loads a graphical api from the filepath to an shared library ('.so')
              * @param graphicalLibPath the path to the shared library
              * @warning the path must be relative to the executable
              */
-            void loadGraphicalAPI(const std::string &graphicalLibPath);
+            //void loadGraphicalAPI(const std::string &graphicalLibPath);
 
             /**
              * @brief Loads the game configuration and inits all gameObjects/Components/Scenes
              */
             void loadEngine();
 
+            PluginManager &getPluginManager();
+
             /**
              * @brief Exit the program with a specified exit code
              * @param code exit code of the program
              */
-            static void exit(ExitCode code);
+            void exit(ExitCode code);
 
             /**
              * @brief Getter to know if we should exit or not
              * @return exit status of the program
              */
-            static bool isExiting()
+            bool isExiting() const
             { return _exit; };
 
             /**
@@ -238,6 +273,18 @@ namespace Polymorph
              * @return the project path
              */
             std::string getProjectPath();
+
+            /**
+             * @brief Getter of the project title
+             * @return the project title
+             */
+            std::string getTitle();
+
+            /**
+             * @brief Getter of the project video settings
+             * @return the project video settings
+             */
+            std::shared_ptr<Settings::VideoSettings> getVideoSettings();
 
             /**
              * @brief Getter of prefabs
@@ -256,6 +303,12 @@ namespace Polymorph
              */
             bool isWindowLessSession();
 
+
+            /**
+             * @brief Check if the engine is in debug mode or not
+             * @return true if debug is on
+             */
+            bool isDebugMode();
             /**
              * @brief Getter of default configuration of the components
              * @return the default configuration of the components
@@ -300,6 +353,8 @@ namespace Polymorph
              * @details Inits the execution order informations of components at runtime
              */
             void _initExectutionOrder();
+
+            void _initPluginsExectutionOrder();
 
             /**
              * @details Inits the layer types  for game objects

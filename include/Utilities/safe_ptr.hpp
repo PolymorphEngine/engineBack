@@ -11,7 +11,7 @@
 #include <memory>
 #include <stdexcept>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     template<typename T>
     class safe_ptr : public std::weak_ptr<T>
@@ -31,12 +31,12 @@ namespace Polymorph
                 return *this;
             }
 
-            std::shared_ptr<T> operator*()
+            std::shared_ptr<T> operator*() const
             {
                 return this->lock();
             }
 
-            T *operator->()
+            T *operator->() const
             {
                 if (this->expired())
                     throw std::runtime_error(
@@ -44,17 +44,17 @@ namespace Polymorph
                 return this->lock().get();
             }
 
-            bool operator==(std::shared_ptr<T> &t)
+            bool operator==(std::shared_ptr<T> &t) const
             {
                 return this->lock() == t;
             }
 
-            bool operator==(safe_ptr<T> &t)
+            bool operator==(safe_ptr<T> &t) const
             {
                 return this->lock() == t.lock();
             }
 
-            bool operator!()
+            bool operator!() const
             {
                 return this->expired();
             }

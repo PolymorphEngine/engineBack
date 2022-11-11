@@ -5,24 +5,24 @@
 ** test_main.cpp
 */
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Debug.hpp>
 
 int main()
 {
-    std::string path = "./build";
+    std::string workDir = "./build";
+    std::string pluginDir = "./Plugins";
     std::string name = "Test";
 
 
     try
     {
-        Polymorph::Engine e = Polymorph::Engine(path, name);
-        e.loadGraphicalAPI("./lib/libarcade_sfml.so");
+        polymorph::engine::Engine e = polymorph::engine::Engine(name, workDir, pluginDir);
         //e.loadScriptingAPI(path + "/" +name + ".so");
         e.loadEngine();
         e.run();
     }
-    catch (ConfigurationException &e)
+    catch (polymorph::engine::ConfigurationException &e)
     {
         e.what();
         return 84;
