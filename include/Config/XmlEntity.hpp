@@ -11,7 +11,7 @@
 #include <memory>
 #include <myxmlpp.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
     class Engine;
 

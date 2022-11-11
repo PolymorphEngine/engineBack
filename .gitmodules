@@ -1,4 +1,0 @@
-[submodule "include/GraphicalAPI/GraphicalInterfaces"]
-	path = include/GraphicalAPI/GraphicalInterfaces
-	url = git@github.com:PolymorphEngine/GraphicalInterfaces.git
-	branch = main

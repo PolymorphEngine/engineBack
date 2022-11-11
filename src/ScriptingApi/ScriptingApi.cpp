@@ -6,30 +6,56 @@
 */
 
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include <Polymorph/Debug.hpp>
-#include "safe_ptr.hpp"
-#include <Polymorph/Core.hpp>
+#include <polymorph/Debug.hpp>
+#include <polymorph/Core.hpp>
 
-Polymorph::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)
+polymorph::engine::ScriptingApi::ScriptingApi(std::unique_ptr<IScriptFactory> factory)
 {
     if (_scriptFactory != nullptr)
         throw ExceptionLogger("[Scripting API] Tried to create ScriptingAPI where one exist already.", Logger::MAJOR);
     _scriptFactory = std::move(factory);
 }
 
-Polymorph::ScriptingApi::~ScriptingApi()
+polymorph::engine::ScriptingApi::~ScriptingApi()
 {
     _scriptFactory = nullptr;
 }
 
-Polymorph::ScriptingApi::Initializer
-Polymorph::ScriptingApi::create(std::string &type,
-                                Polymorph::Config::XmlComponent &data,
+polymorph::engine::ScriptingApi::Initializer
+polymorph::engine::ScriptingApi::create(std::string &type,
+                                polymorph::engine::Config::XmlComponent &data,
                                safe_ptr<Entity> entity)
 {
     if (!_scriptFactory) {
-        Logger::log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);
+        entity->Debug.log("[Scripting API] No Script factory loaded to try load component type: '" + type + "'.", Logger::DEBUG);
         return nullptr;
     }
-    return _scriptFactory->create(type, data, entity);
+    if (_scriptFactory->hasType(type))
+        return _scriptFactory->create(type, data, entity);
+    return nullptr;
+}
+
+void polymorph::engine::ScriptingApi::setSerializableObjectFactory(
+        std::unique_ptr<ISerializableObjectFactory> factory)
+{
+    _objectFactory = std::move(factory);
+}
+
+std::shared_ptr<polymorph::engine::ASerializableObject>
+polymorph::engine::ScriptingApi::createSerializableObject(std::string type,
+std::shared_ptr<myxmlpp::Node> &data, polymorph::engine::Config::XmlComponent &manager, PluginManager &Plugins)
+{
+    if (!_objectFactory->hasType(type))
+        throw ExceptionLogger("[Scripting API] Tried to create shared object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
+    return _objectFactory->createS(type, data, manager, Plugins);
+
+}
+
+std::shared_ptr<polymorph::engine::ASerializableObject>
+polymorph::engine::ScriptingApi::createEmptySerializableObject(std::string type,
+polymorph::engine::PluginManager &Plugins)
+{
+    if (!_objectFactory->hasType(type))
+        throw ExceptionLogger("[Scripting API] Tried to create shared object of type '" + type + "' but no factory for this type exist in project, trying in plugins ...", Logger::INFO);
+    return _objectFactory->createEmpty(type, Plugins);
 }

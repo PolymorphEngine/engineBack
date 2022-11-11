@@ -1,0 +1,11 @@
+/*
+** EPITECH PROJECT, 2020
+** IKeyBoardModule.hpp
+** File description:
+** header for IKeyBoardModule.c
+*/
+
+#ifndef PLUGIN_TEMPLATE_IKEYBOARDMODULE_HPP
+#define PLUGIN_TEMPLATE_IKEYBOARDMODULE_HPP
+
+#endif //PLUGIN_TEMPLATE_IKEYBOARDMODULE_HPP

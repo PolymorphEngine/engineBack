@@ -10,13 +10,13 @@
 
 #include <myxmlpp.hpp>
 
-namespace Polymorph
+namespace polymorph::engine
 {
-    class Color
+    class Color : ASerializableObject
     {
 ///////////////////////////////// Constructors /////////////////////////////////
         public:
-            Color() = default;
+            Color() : ASerializableObject("Color") {};
 
             explicit Color(unsigned char r, unsigned char g, unsigned char b,
                            unsigned char a = 255);
@@ -24,13 +24,14 @@ namespace Polymorph
             explicit Color(std::shared_ptr<myxmlpp::Node> &data,
                            Config::XmlComponent &manager);
 
-            ~Color() = default;
+            ~Color() override = default;
 ///////////////////////////--------------------------///////////////////////////
 
 
 
 ///////////////////////////////// Properties ///////////////////////////////////
         public:
+            static inline bool builtin_type = true;
             unsigned char r;
             unsigned char g;
             unsigned char b;

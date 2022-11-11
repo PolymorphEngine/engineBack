@@ -1,71 +1,78 @@
 /*
 ** EPITECH PROJECT, 2020
-** Polymorph.cpp.cc
+** polymorph.cpp.cc
 ** File description:
-** header for Polymorph.c
+** header for polymorph.c
 */
 
-#include <Polymorph/Core.hpp>
-#include <Polymorph/Components.hpp>
-#include <Polymorph/Settings.hpp>
-#include <Polymorph/Types.hpp>
-#include <Polymorph/Config.hpp>
-#include <Polymorph/Factory.hpp>
-#include <Polymorph/Debug.hpp>
+#include <polymorph/Core.hpp>
+#include <polymorph/Settings.hpp>
+#include <polymorph/Config.hpp>
+#include <polymorph/Debug.hpp>
 #include "ScriptingAPI/ScriptingApi.hpp"
-#include "Engine.hpp"
-#include "SplashScreen.hpp"
+#include "Core/Engine.hpp"
 
 
-Polymorph::Engine::Engine(const std::string &projectPath, std::string projectName)
-: _projectPath(projectPath), _projectName(std::move(projectName))
+polymorph::engine::Engine::Engine(std::string projectName, const std::string &projectPath, std::string pluginPath)
+: _projectPath(projectPath), _projectName(std::move(projectName)), _pluginsPath(pluginPath),
+  _pluginManager(*this), _sceneManager(*this)
 {
+    _assetManager = AssetManager();
+    _assetManager.addPath(_projectPath);
+    _logger = Logger();
+    
 #ifdef _WIN32
-    Logger::setLogDir(projectPath + "\\Logs");
+    _logger.setLogDir(projectPath + "\\Logs");
 #else
-    Logger::setLogDir(projectPath + "/Logs");
+    _logger.setLogDir(projectPath + "/Logs");
 #endif
     _openProject();
-    _initDebugSettings();
 
+    _initDebugSettings();
     _initVideoSettings();
     _initAudioSettings();
     _initPhysicSettings();
 
     _initExectutionOrder();
+    _initPluginsExectutionOrder();
     _initLayers();
-    _initTemplates();
-    SceneManager::Game = this;
 }
 
-int Polymorph::Engine::run()
+int polymorph::engine::Engine::run()
 {
     _time = Time();
-    while (!is_windowless_session && !_splashScreen->isFinished()) {
+    _pluginManager.startingScripts();
+    if (isExiting())
+        return _exitCode;
+    _sceneManager.getCurrentScene()->loadScene();
+    while (!_exit) {
         _time.computeDeltaTime();
-        _splashScreen->update();
-    }
-    SceneManager::Current->loadScene();
-    while ((!_exit && (!!_display && _display->isOpen()))
-    || (!_display && !_exit)) {
-        _time.computeDeltaTime();
-        if (!is_windowless_session && !!_display)
-            _display->clearWindow();
-        SceneManager::resetLoading();
-        SceneManager::Current->updateComponents();
-        if (Engine::isExiting() || SceneManager::isSceneUnloaded())
+        _sceneManager.checkQueuedScene();
+        _sceneManager.resetLoading();
+        _pluginManager.preProcessing();
+        if (isExiting() || _sceneManager.isSceneUnloaded())
+            continue;
+        _sceneManager.getCurrentScene()->updateComponents();
+        if (isExiting() || _sceneManager.isSceneUnloaded())
+            continue;
+        _pluginManager.lateUpdate();
+        if (isExiting() || _sceneManager.isSceneUnloaded())
+            continue;
+        _pluginManager.postProcessing();
+        if (isExiting() || _sceneManager.isSceneUnloaded())
             continue;
     }
+    _pluginManager.endingScripts();
     return _exitCode;
 }
 
-void Polymorph::Engine::exit(ExitCode code = 0)
+void polymorph::engine::Engine::exit(ExitCode code = 0)
 {
     _exitCode = code;
     _exit = true;
 }
 
-void Polymorph::Engine::_openProject()
+void polymorph::engine::Engine::_openProject()
 {
     try {
         _projectConfig = std::make_unique<myxmlpp::Doc>(_projectPath + "/" + _projectName + ".pcf.engine");
@@ -81,7 +88,7 @@ void Polymorph::Engine::_openProject()
     }
 }
 
-void Polymorph::Engine::_initExectutionOrder()
+void polymorph::engine::Engine::_initExectutionOrder()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
@@ -103,7 +110,7 @@ void Polymorph::Engine::_initExectutionOrder()
 }
 
 
-void Polymorph::Engine::_initLayers()
+void polymorph::engine::Engine::_initLayers()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
@@ -120,22 +127,22 @@ void Polymorph::Engine::_initLayers()
 }
 
 
-void Polymorph::Engine::_initDebugSettings()
+void polymorph::engine::Engine::_initDebugSettings()
 {
     auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
 
     try {
         auto debug = settings->findChild("Debug");
-        is_debug_session = debug->findAttribute("enabled")->getValueBool("true", "false");
+        isDebugSession = debug->findAttribute("enabled")->getValueBool("true", "false");
 
-        if (is_debug_session)
-            Logger::initLogInstance(Logger::DEBUG_MODE);
+        if (isDebugSession)
+            _logger.initLogInstance(Logger::DEBUG_MODE);
     } catch (myxmlpp::Exception &e) {
         throw ConfigurationException(e.what(), Logger::MINOR);
     }
 }
 
-void Polymorph::Engine::_initGameData()
+void polymorph::engine::Engine::_initGameData()
 {
 
     std::shared_ptr<myxmlpp::Node> scenes = _projectConfig->getRoot()->findChild("Scenes");
@@ -144,19 +151,19 @@ void Polymorph::Engine::_initGameData()
         throw ConfigurationException("No scenes found to build", Logger::MAJOR);
 
     for (auto &scene : *scenes)
-        _scenes.push_back(std::make_shared<Polymorph::Scene>(scene, *this));
+        _scenes.push_back(std::make_shared<polymorph::engine::Scene>(scene, *this));
 
 }
 
-std::string Polymorph::Engine::getProjectPath()
+std::string polymorph::engine::Engine::getProjectPath()
 {
     return _projectPath;
 }
 
-Polymorph::Engine::~Engine() = default;
+polymorph::engine::Engine::~Engine() = default;
 
-std::shared_ptr<Polymorph::Scene>
-Polymorph::Engine::findSceneByName(const std::string& name)
+std::shared_ptr<polymorph::engine::Scene>
+polymorph::engine::Engine::findSceneByName(const std::string& name)
 {
     for (auto & _scene : _scenes) {
         if (_scene->name == name)
@@ -165,8 +172,8 @@ Polymorph::Engine::findSceneByName(const std::string& name)
     return nullptr;
 }
 
-std::shared_ptr<Polymorph::Scene>
-Polymorph::Engine::findSceneById(const std::string& id)
+std::shared_ptr<polymorph::engine::Scene>
+polymorph::engine::Engine::findSceneById(const std::string& id)
 {
     for (auto & _scene : _scenes) {
         if (_scene->id == id)
@@ -175,26 +182,26 @@ Polymorph::Engine::findSceneById(const std::string& id)
     return nullptr;
 }
 
-void Polymorph::Engine::addScene(const std::shared_ptr<Scene>& scene)
+void polymorph::engine::Engine::addScene(const std::shared_ptr<Scene>& scene)
 {
     _scenes.push_back(scene);
 }
 
-void Polymorph::Engine::_initPhysicSettings()
+void polymorph::engine::Engine::_initPhysicSettings()
 {
     auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/PhysicsSettings");
 
     _physicsSettings = std::make_unique<Settings::PhysicsSettings>(node);
 }
 
-void Polymorph::Engine::_initAudioSettings()
+void polymorph::engine::Engine::_initAudioSettings()
 {
     auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/AudioSettings");
 
     _audioSettings = std::make_unique<Settings::AudioSettings>(node);
 }
 
-void Polymorph::Engine::_initVideoSettings()
+void polymorph::engine::Engine::_initVideoSettings()
 {
     auto node = _projectConfig->getRoot()->findChildBySPath("EngineSettings/VideoSettings");
 
@@ -202,69 +209,48 @@ void Polymorph::Engine::_initVideoSettings()
 }
 
 
-std::vector<std::shared_ptr<Polymorph::Entity>> Polymorph::Engine::getPrefabs()
+std::vector<std::shared_ptr<polymorph::engine::Entity>> polymorph::engine::Engine::getPrefabs()
 {
     return _prefabs;
 }
 
-std::vector<Polymorph::Config::XmlComponent> Polymorph::Engine::getDefaultConfigs()
+std::vector<polymorph::engine::Config::XmlComponent> polymorph::engine::Engine::getDefaultConfigs()
 {
     return _defaultConfigs;
 }
 
-Polymorph::Config::XmlComponent &Polymorph::Engine::getDefaultConfig(const std::string& type)
+polymorph::engine::Config::XmlComponent &polymorph::engine::Engine::getDefaultConfig(const std::string& type)
 {
     for (auto &c: _defaultConfigs) {
         if (c.getType() == type)
             return c;
     }
-    Logger::log("No default config available for type '"+type+"'.", Logger::DEBUG);
+    _logger.log("No default config available for type '"+type+"'.", Logger::DEBUG);
     return *Config::XmlComponent::Empty;
 }
 
-void
-Polymorph::Engine::loadGraphicalAPI(const std::string &graphicalLibPath)
+
+void polymorph::engine::Engine::loadEngine()
 {
-    if (is_windowless_session)
-        return;
-    try
-    {
-        _graphicalApi = std::make_unique<GraphicalAPI>(graphicalLibPath);
-        _graphicalApi->reloadAPI(graphicalLibPath);
-        _display = _graphicalApi->createDisplay(_videoSettings, _projectName);
-        GraphicalAPI::CurrentDisplay = _display;
-        _splashScreen = std::make_unique<SplashScreen>(_projectPath);
-        if (is_debug_session)
-            _display->setLogLevel(0);
+    try {
+        auto p = _projectConfig->getRoot()->findChild("Plugins");
+        if (p)
+            _pluginManager.loadPlugins(_pluginsPath, *p, *this);
         else
-            _display->setLogLevel(5);
-    } catch (GraphicalException &e) {
+            _logger.log("[Plugins] No plugins found in project config.", Logger::MINOR);
+    } catch (ExceptionLogger &e) {
         e.what();
-        throw;
-    } catch (std::exception &e) {
-        Logger::log("[Graphical API] " + std::string(e.what()), Logger::MAJOR);
-        throw;
     }
-
-}
-
-void Polymorph::Engine::loadScriptingAPI(
-        std::unique_ptr<IScriptFactory> scriptFactory)
-{
-    _scriptingApi = std::make_unique<ScriptingApi>(std::move(scriptFactory));
-}
-
-void Polymorph::Engine::loadEngine()
-{
+    _initTemplates();
     _initPrefabs();
     _initGameData();
 
     if (_scenes.empty())
         throw std::runtime_error("No scenes built");
-    SceneManager::Current = *_scenes.begin();
+    _sceneManager.setCurrentScene(*_scenes.begin());
 }
 
-void Polymorph::Engine::_initPrefabs()
+void polymorph::engine::Engine::_initPrefabs()
 {
 
     try {
@@ -275,29 +261,24 @@ void Polymorph::Engine::_initPrefabs()
                 _prefabsConfigs.push_back(std::make_shared<Config::XmlEntity>(prefab, *this, _projectPath));
                 _prefabs.push_back(_prefabsConfigs.back()->makeInstance(false, true));
             } catch (myxmlpp::Exception &e) {
-                Logger::log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
+                _logger.log("[Configuration] Error loading prefab." + e.baseWhat(), Logger::MINOR);
             } catch (ExceptionLogger &e) {
                 e.what();
-            } catch (std::exception &e) {
-                Logger::log("[Unknown] Error loading prefab\n" + std::string(e.what()), Logger::MINOR);
             }
         }
     } catch (myxmlpp::NodeNotFoundException &e) {
-        Logger::log("[Configuration] Error loading prefabs: no prefabs to load." + e.baseWhat(),
+        _logger.log("[Configuration] Error loading prefabs: no prefabs to load." + e.baseWhat(),
                     Logger::MINOR);
     }catch (myxmlpp::Exception &e) {
-        Logger::log("[Configuration] Error loading prefabs: " + e.baseWhat(),
+        _logger.log("[Configuration] Error loading prefabs: " + e.baseWhat(),
                     Logger::MINOR);
     } catch (ExceptionLogger &e) {
         e.what();
-    } catch (std::exception &e) {
-        Logger::log("[Unknown] Error loading prefabs data in main config file.\n" + std::string(e.what()),
-                    Logger::MINOR);
     }
 
 }
 
-void Polymorph::Engine::_initTemplates()
+void polymorph::engine::Engine::_initTemplates()
 {
 
     try {
@@ -315,37 +296,80 @@ void Polymorph::Engine::_initTemplates()
                 _defaultConfigs.emplace_back(
                         Config::XmlComponent(templateDoc.getRoot()));
                 } catch (myxmlpp::Exception &e) {
-                    Logger::log("[Configuration] Error template: " + e.baseWhat(),
+                    _logger.log("[Configuration] Error template: " + e.baseWhat(),
                                 Logger::MINOR);
                 } catch (ExceptionLogger &e) {
                     e.what();
                 } catch (std::exception &e) {
-                    Logger::log("[Unknown] Error loading template: \n" + std::string(e.what()),
+                    _logger.log("[Unknown] Error loading template: \n" + std::string(e.what()),
                                 Logger::MINOR);
                 }
         }
     } catch (myxmlpp::NodeNotFoundException &e) {
-        Logger::log("[Configuration] Error loading components templates: no templates to load." + e.baseWhat(),
+        _logger.log("[Configuration] Error loading components templates: no templates to load." + e.baseWhat(),
                     Logger::MINOR);
     } catch (myxmlpp::Exception &e) {
-        Logger::log("[Configuration] Error loading components templates: " + e.baseWhat(),
+        _logger.log("[Configuration] Error loading components templates: " + e.baseWhat(),
                     Logger::MINOR);
     } catch (ExceptionLogger &e) {
         e.what();
     } catch (std::exception &e) {
-        Logger::log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
+        _logger.log("[Unknown] Error loading components templates: \n" + std::string(e.what()),
                     Logger::MINOR);
     }
-
+    auto tmp = _pluginManager.getTemplates();
+    _defaultConfigs.insert(_defaultConfigs.end(), tmp.begin(), tmp.end());
 
 }
 
-void Polymorph::Engine::setWindowLessMode()
+void polymorph::engine::Engine::setWindowLessMode()
 {
-    is_windowless_session = true;
+    isWindowlessSession = true;
 }
 
-bool Polymorph::Engine::isWindowLessSession()
+bool polymorph::engine::Engine::isWindowLessSession()
 {
-    return is_windowless_session;
+    return isWindowlessSession;
+}
+
+bool polymorph::engine::Engine::isDebugMode()
+{
+    return isDebugSession;
+}
+
+void polymorph::engine::Engine::loadScriptingAPI(std::unique_ptr<IScriptFactory> scriptFactory, std::unique_ptr<ISerializableObjectFactory> serializableObjectFactory)
+{
+    _scriptingApi = ScriptingApi(std::move(scriptFactory));
+    _scriptingApi.setSerializableObjectFactory(std::move(serializableObjectFactory));
+}
+
+void polymorph::engine::Engine::_initPluginsExectutionOrder()
+{
+    auto settings = _projectConfig->getRoot()->findChild("EngineSettings");
+
+    try {
+        auto execOrder =settings->findChild("PluginsExecutionOrder");
+
+        for (auto &type : *execOrder) {
+            auto t = type->findAttribute("value")->getValue();
+            _pluginsExecOrder.push_back(t);
+        }
+    } catch (myxmlpp::Exception &e) {
+        throw ConfigurationException(e.what(), Logger::MAJOR);
+    }
+}
+
+std::string polymorph::engine::Engine::getTitle()
+{
+    return _projectName;
+}
+
+std::shared_ptr<polymorph::engine::Settings::VideoSettings> polymorph::engine::Engine::getVideoSettings()
+{
+    return _videoSettings;
+}
+
+polymorph::engine::PluginManager &polymorph::engine::Engine::getPluginManager()
+{
+    return _pluginManager;
 }
