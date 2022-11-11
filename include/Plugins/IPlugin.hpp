@@ -28,6 +28,7 @@ namespace polymorph::engine
     class IPlugin 
     {
         public:
+            virtual ~IPlugin() = default;
             
             virtual std::string getPackageName() = 0;
     
