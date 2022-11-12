@@ -14,7 +14,7 @@
 #include <map>
 #include <unordered_map>
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include "Utilities/safe_ptr.hpp"
 #include "Core/Entity/Entity.hpp"
 

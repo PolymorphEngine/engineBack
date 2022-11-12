@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include <GraphicalAPI/modules/TextureModule.hpp>
 
 #include "Utilities/safe_ptr.hpp"
@@ -62,7 +62,7 @@ namespace Polymorph
 #ifdef _WIN32
             static HINSTANCE getHandler();
 #else
-
+            
             static void *getHandler();
 #endif
 

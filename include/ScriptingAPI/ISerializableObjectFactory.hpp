@@ -9,7 +9,7 @@
 #pragma once
 
 #include "ASerializableObject.hpp"
-#include "myxmlpp/myxmlpp.hpp"
+#include "myxmlpp.hpp"
 #include "Utilities/safe_ptr.hpp"
 
 namespace polymorph::engine

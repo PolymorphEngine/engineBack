@@ -4,7 +4,7 @@
 
 
 #pragma once
-#include "myxmlpp/myxmlpp.hpp"
+#include "myxmlpp.hpp"
 #include "Utilities/safe_ptr.hpp"
 
 namespace polymorph::engine
@@ -17,48 +17,48 @@ namespace polymorph::engine
     class Engine;
     class ASerializableObject;
     class PluginManager;
-
+    
     namespace Config
     {
         class XmlComponent;
         class XmlEntity;
         using XmlNode = myxmlpp::Node;
     }
-
-    class IPlugin
+    
+    class IPlugin 
     {
         public:
             virtual ~IPlugin() = default;
-
+            
             virtual std::string getPackageName() = 0;
-
+    
             virtual std::shared_ptr<IComponentInitializer> createComponent(std::string &type,
             Config::XmlComponent &data, GameObject entity) = 0;
-
+            
             virtual std::shared_ptr<ASerializableObject> createSharedObject(std::string &type,
             Config::XmlComponent &data, std::shared_ptr<Config::XmlNode> &node, PluginManager &Plugins) = 0;
-
+            
             virtual std::shared_ptr<ASerializableObject> createEmptySharedObject(std::string &type, PluginManager &Plugins) = 0;
-
+            
             virtual bool isEnabled() = 0;
 
             virtual bool hasComponent(std::string &type) = 0;
             virtual bool hasObject(std::string &type) = 0;
-
+            
             virtual bool hasPrefab(const std::string &id) = 0;
 
             virtual std::shared_ptr<Config::XmlEntity> &getPrefabConf(const std::string &id) = 0;
-
+    
             virtual std::vector<Config::XmlComponent> &getComponentTemplates() = 0;
-
+    
             virtual void preUpdateInternalSystems(std::shared_ptr<Scene> &scene) = 0;
-
+            
             virtual void updateInternalSystems(std::shared_ptr<Scene> &scene) = 0;
-
+            
             virtual void postUpdateInternalSystems(std::shared_ptr<Scene> &scene) = 0;
-
+            
             virtual void startScripts(std::shared_ptr<Scene> &scene) = 0;
-
+            
             virtual void endScripts(std::shared_ptr<Scene> &scene) = 0;
 
     };
@@ -85,8 +85,8 @@ Type of data to have in a Plugin:
 
 
 polymorph Plugins (which are namespaced, ex: polymorph_Raylib-Core):
-
-
+    
+     
     - raylib-core <- render-core
     - raylib-render-2D
     - raylib-render-3D
@@ -107,10 +107,10 @@ polymorph Plugins (which are namespaced, ex: polymorph_Raylib-Core):
     - gui : deps [render-2D, render-3D]
     - audio :
     - input :
-
-
+    
+    
     - splash-screen [render-2D]
-    - ltunl
+    - ltunl 
     - event
 
 

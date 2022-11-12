@@ -9,7 +9,7 @@
 
 #include <string>
 #include <memory>
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include "GraphicalAPI/GraphicalInterfaces/IMusicModule.hpp"
 #include "Config/XmlComponent.hpp"
 

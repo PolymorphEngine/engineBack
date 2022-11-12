@@ -8,7 +8,7 @@
 #ifndef ENGINE_VIDEOSETTINGS_HPP
 #define ENGINE_VIDEOSETTINGS_HPP
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include "Utilities/types/Vector.hpp"
 
 namespace polymorph::engine::Settings

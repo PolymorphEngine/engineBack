@@ -6,7 +6,7 @@
 */
 
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include <polymorph/Core.hpp>
 #include <polymorph/Config.hpp>
 #include <utility>
@@ -19,7 +19,7 @@ namespace polymorph::engine
     {
         _loadComponents(isPrefab);
         std::shared_ptr<Entity> e = instance;
-
+        
         if (isPrefab)
         {
             instance = nullptr;

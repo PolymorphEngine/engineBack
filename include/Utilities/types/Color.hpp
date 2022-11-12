@@ -8,7 +8,7 @@
 #ifndef ENGINE_COLOR_HPP
 #define ENGINE_COLOR_HPP
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 
 namespace polymorph::engine
 {

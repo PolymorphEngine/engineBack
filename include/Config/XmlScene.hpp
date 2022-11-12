@@ -10,7 +10,7 @@
 
 #include <memory>
 #include <vector>
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 
 namespace polymorph::engine
 {

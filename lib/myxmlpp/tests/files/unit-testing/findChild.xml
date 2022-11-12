@@ -1,0 +1,63 @@
+<root attr="issou" attr2="iss/>ou2">
+	<Head/>
+	<DepthTest d="0"/>
+	<Blocks>
+		<Block1/>
+		<Block2/>
+		<Block3/>
+		<DepthTest d="1"/>
+	</Blocks>
+	<EmptyBlock/>
+	<EmptyNode/>
+	<MiddleBlock>
+		<MiddleSubBlock1/>
+		<MiddleSubBlock2>
+			<MiddleSub2Block1>
+				<MiddleSub3Block1/>
+				<MiddleSub3Block2>
+					<MiddleSub4Block1/>
+					<MiddleSub4Block2/>
+					<MiddleSub4Block3/>
+					<MiddleSub4Block4/>
+					<DepthTest d="last"/>
+				</MiddleSub3Block2>
+				<MiddleSub3Block3/>
+			</MiddleSub2Block1>
+			<MiddleSub2Block2/>
+			<MiddleSub2Block3/>
+		</MiddleSubBlock2>
+		<MiddleSubBlock3/>
+	</MiddleBlock>
+	<TailBlock>
+		<SubBlock1>
+			<Sub2Block1/>
+			<Sub2Block2/>
+			<Sub2Block3/>
+			<Sub2Block4>
+				<Sub3Block1/>
+				<Sub3Block2/>
+				<Sub3Block3/>
+				<Sub3Block4/>
+				<DepthTest d="last"/>
+			</Sub2Block4>
+			<DepthTest d="last"/>
+		</SubBlock1>
+		<SubBlock2>
+			<Sub2Block1>
+				<Sub3Block1/>
+				<Sub3Block2>
+					<Sub4Block1/>
+					<Sub4Block2/>
+					<Sub4Block3/>
+					<Sub4Block4/>
+					<DepthTest d="Last"/>
+				</Sub3Block2>
+			</Sub2Block1>
+			<Sub2Block2/>
+			<Sub2Block3/>
+		</SubBlock2>
+		<SubBlock3/>
+	</TailBlock>
+	<EmptyNode2/>
+	<Tail/>
+</root>

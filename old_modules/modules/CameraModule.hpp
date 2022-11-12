@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "myxmlpp/myxmlpp.hpp"
+#include "myxmlpp.hpp"
 #include "Polymorph/Types.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/ICameraModule.hpp"
 #include "Config/XmlComponent.hpp"

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <myxmlpp/myxmlpp.hpp>
+#include <myxmlpp.hpp>
 #include <memory>
 #include "Polymorph/Types.hpp"
 #include "Config/XmlComponent.hpp"
