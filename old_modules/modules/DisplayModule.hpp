@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "myxmlpp.hpp"
+#include "myxmlpp/myxmlpp.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/IWindowModule.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/ICursorModule.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/IDrawingModule.hpp"

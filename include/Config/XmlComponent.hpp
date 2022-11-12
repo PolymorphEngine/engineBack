@@ -12,7 +12,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 
 #include "Utilities/safe_ptr.hpp"
 
@@ -28,7 +28,7 @@
 #include "Plugins/PluginManager.hpp"
 
 namespace polymorph::engine {
-    
+
 }
 
 namespace polymorph::engine::Config
@@ -52,9 +52,9 @@ namespace polymorph::engine::Config
 
             template<class T>
             static constexpr auto is_vector = CastHelper::is_container<T>::value;
-            
-            
-            
+
+
+
             template<class T, typename U = int>
             struct is_builtinish : std::false_type
             {
@@ -69,9 +69,9 @@ namespace polymorph::engine::Config
             template<class T>
             static constexpr auto is_builtin = CastHelper::is_builtinish<T>::value;
 
-            
-            
-            
+
+
+
             template<typename T, typename U = void>
             struct is_mappish_impl : std::false_type
             {

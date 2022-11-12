@@ -5,7 +5,7 @@
 ** header for XmlScene.c
 */
 
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 #include <polymorph/Core.hpp>
 #include <polymorph/Config.hpp>
 

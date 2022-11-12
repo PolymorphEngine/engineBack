@@ -9,7 +9,7 @@
 #define ENGINE_XMLENTITY_HPP
 
 #include <memory>
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 
 namespace polymorph::engine
 {
