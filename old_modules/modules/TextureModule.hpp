@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 #include <memory>
 #include "Polymorph/Types.hpp"
 #include "GraphicalAPI/GraphicalInterfaces/ITextureModule.hpp"

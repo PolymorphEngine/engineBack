@@ -10,7 +10,7 @@
 
 #include <string>
 #include <memory>
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 #include "GraphicalAPI/GraphicalInterfaces/ISoundModule.hpp"
 #include "Config/XmlComponent.hpp"
 

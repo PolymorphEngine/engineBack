@@ -10,7 +10,7 @@
 
 #include <map>
 #include <iostream>
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 #include <memory>
 #include <vector>
 #include <atomic>

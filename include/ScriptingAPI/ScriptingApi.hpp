@@ -11,12 +11,12 @@
 #include "Utilities/safe_ptr.hpp"
 #include "ScriptingAPI/IScriptFactory.hpp"
 #include "ISerializableObjectFactory.hpp"
-#include "Node.hpp"
+#include "myxmlpp/Node.hpp"
 /*
 #include "Core/Component/initializer/AComponentInitializer.hpp"
 #include "ASerializableObject.hpp"
 #include "Debug/Log/Logger.hpp"
-#include "Debug/Exceptions/ExceptionLogger.hpp" 
+#include "Debug/Exceptions/ExceptionLogger.hpp"
  */
 
 
@@ -73,17 +73,17 @@ namespace polymorph::engine
 /////////////////////////////// METHODS /////////////////////////////////
         public:
             void setSerializableObjectFactory(std::unique_ptr<ISerializableObjectFactory> factory);
-            
+
             Initializer
             create(std::string &type, Config::XmlComponent &data,
                    safe_ptr<Entity> entity);
 
 
-            
+
             std::shared_ptr<ASerializableObject> createSerializableObject(std::string type, std::shared_ptr<myxmlpp::Node> &data, engine::Config::XmlComponent &manager, PluginManager &Plugins);
-            
+
             std::shared_ptr<ASerializableObject> createEmptySerializableObject(std::string type, PluginManager &Plugins);
-            
+
 
 
         private:
@@ -173,8 +173,8 @@ class name##Script : public polymorph::engine::Component\
         virtual ~name##Script() = default;\
 
 
-        
-        
+
+
 #define ASCRIPT(name) \
 class A##name##Script; \
 using name = polymorph::engine::safe_ptr<A##name##Script>;\
@@ -196,8 +196,8 @@ class name##Script : public ns::A##a##Script\
     public:\
         explicit name##Script(polymorph::engine::GameObject gameObject);\
         virtual ~name##Script() = default;\
-        
-        
+
+
 #define MAKE_INITIALIZER(ns, name)\
 namespace ns\
 {\
@@ -212,7 +212,7 @@ namespace ns\
             void reference() final;\
     };\
 }\
-        
+
 #define MAKE_SCRIPT_INITIALIZER(ns, name)\
 namespace ns\
 {\
@@ -294,10 +294,10 @@ class ObjectFactory : public ISerializableObjectFactory\
                 Config::XmlComponent &manager, PluginManager &Plugins) override;\
         std::shared_ptr<ASerializableObject>\
         createEmpty(std::string type, PluginManager &Plugins) override;\
-        bool hasType(std::string &type) override;      
+        bool hasType(std::string &type) override;
 #define OBJECT_FACTORY_MAP() \
         std::unordered_map<std::string, FactoryLambdaS> _factoriesS = \
-      
+
 #define OBJECT_FACTORY_EMPTY_MAP() \
         std::unordered_map<std::string, FactoryLambdaE> _factoriesE = \
 

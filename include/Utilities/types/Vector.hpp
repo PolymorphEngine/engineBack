@@ -10,7 +10,7 @@
 
 
 #include <memory>
-#include "myxmlpp.hpp"
+#include "myxmlpp/myxmlpp.hpp"
 #include "Config/XmlComponent.hpp"
 
 namespace polymorph::engine

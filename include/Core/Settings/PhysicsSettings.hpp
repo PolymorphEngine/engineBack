@@ -8,7 +8,7 @@
 #ifndef ENGINE_PHYSICSSETTINGS_HPP
 #define ENGINE_PHYSICSSETTINGS_HPP
 
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 #include "Utilities/types/Vector.hpp"
 
 namespace polymorph::engine::Settings
