@@ -8,7 +8,7 @@
 #ifndef ENGINE_AUDIOSETTINGS_HPP
 #define ENGINE_AUDIOSETTINGS_HPP
 
-#include <myxmlpp.hpp>
+#include <myxmlpp/myxmlpp.hpp>
 
 namespace polymorph::engine::Settings
 {

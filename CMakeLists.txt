@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 
 
-add_subdirectory(lib/myxmlpp)
+include(cmake/FindMyxmlpp.cmake)
 set_target_properties(myxmlpp PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 file(GLOB_RECURSE SRC src/*.cpp)
