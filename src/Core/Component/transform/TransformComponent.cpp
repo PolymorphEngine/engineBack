@@ -6,6 +6,7 @@
 */
 
 #include <polymorph/Core.hpp>
+#include "Core/Component/transform/TransformComponent.hpp"
 
 
 namespace polymorph::engine
@@ -271,6 +272,11 @@ namespace polymorph::engine
             ++idx;
         }
         return idx;            
+    }
+
+    void TransformComponent::removeAllChildren()
+    {
+        _children.clear();
     }
 
     /*Todo: later
