@@ -170,6 +170,7 @@ namespace polymorph::engine
             void setParent(Transform parent_ref);
 
             Transform removeChild(Transform child);
+            void removeAllChildren();
 
             void setSiblingIndex(int index);
 
