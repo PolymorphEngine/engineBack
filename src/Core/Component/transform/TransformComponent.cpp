@@ -273,6 +273,13 @@ namespace polymorph::engine
         return idx;            
     }
 
+    void TransformComponent::removeAllChildren()
+    {
+        for (auto &child : _children)
+            child->_parent = Transform(nullptr);
+        _children.clear();
+    }
+
     /*Todo: later
     void TransformComponent::_rotateChildren(const Vector2 &delta)
     {

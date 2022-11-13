@@ -171,6 +171,8 @@ namespace polymorph::engine
 
             Transform removeChild(Transform child);
 
+            void removeAllChildren();
+
             void setSiblingIndex(int index);
 
             int getSiblingIndex();
