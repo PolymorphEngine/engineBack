@@ -120,7 +120,7 @@ namespace YourNameSpace
 
 And then `ScriptFactory.cpp`:
 ```cpp
-#include "ScriptFactory.hpp"
+#include "MyScriptFactory.hpp"
 
 polymorph::Initializer YourNameSpace::ScriptFactory::create(std::string &type, Config::XmlComponent &data,
                                  GameObject entity)
